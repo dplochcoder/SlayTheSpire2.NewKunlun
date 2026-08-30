@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     "Smolder",
-    "Take {ExhaustDamage} damage. Exhaust. If this is in your hand at the end of your turn, lose {EndTurnDamage:inverseDiff()} and add 1 [gold]Smolder[/gold] to your discard pile."
+    "Take {ExhaustDamage} damage. If this is in your hand at the end of your turn, lose {EndTurnDamage:inverseDiff()} and add 1 [gold]Smolder[/gold] to your discard pile."
 )]
 public partial class SmolderCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.None)

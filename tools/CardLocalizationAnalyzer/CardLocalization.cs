@@ -4,31 +4,81 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CardLocalizationAnalyzer;
 
+public enum LocalizedModelKind
+{
+    Card,
+    Power,
+}
+
 public static class CardLocalization
 {
-    public static AttributeSyntax? FindLocalizationAttribute(ClassDeclarationSyntax clazz) =>
+    public static bool TryGetModelKind(INamedTypeSymbol symbol, out LocalizedModelKind kind)
+    {
+        for (var current = symbol.BaseType; current is not null; current = current.BaseType)
+        {
+            if (current.Name == "NewKunlunCard")
+            {
+                kind = LocalizedModelKind.Card;
+                return true;
+            }
+
+            if (current.Name == "NewKunlunPower")
+            {
+                kind = LocalizedModelKind.Power;
+                return true;
+            }
+        }
+
+        kind = default;
+        return false;
+    }
+
+    public static AttributeSyntax? FindLocalizationAttribute(
+        ClassDeclarationSyntax clazz,
+        LocalizedModelKind kind
+    ) =>
         clazz
             .AttributeLists.SelectMany(list => list.Attributes)
             .FirstOrDefault(attribute =>
-                attribute.Name.ToString() is "CardLocalization" or "CardLocalizationAttribute"
-                || attribute.Name.ToString().EndsWith(".CardLocalization")
-                || attribute.Name.ToString().EndsWith(".CardLocalizationAttribute")
+                IsAttribute(
+                    attribute,
+                    kind == LocalizedModelKind.Card ? "CardLocalization" : "PowerLocalization"
+                )
             );
 
-    public static bool GetTitleAndDescription(
+    public static bool GetLocalizationStrings(
         AttributeSyntax attr,
-        out string title,
-        out string description
+        LocalizedModelKind kind,
+        out IReadOnlyList<string> values
     )
     {
-        title = "";
-        description = "";
+        var expectedCount = kind == LocalizedModelKind.Card ? 2 : 3;
+        if (attr.ArgumentList?.Arguments.Count != expectedCount)
+        {
+            values = Array.Empty<string>();
+            return false;
+        }
 
-        return attr.ArgumentList?.Arguments
-                is SeparatedSyntaxList<AttributeArgumentSyntax> { Count: 2 } args
-            && TryReadString(args[0].Expression, out title)
-            && TryReadString(args[1].Expression, out description);
+        var result = new List<string>(expectedCount);
+        foreach (var argument in attr.ArgumentList.Arguments)
+        {
+            if (!TryReadString(argument.Expression, out var value))
+            {
+                values = Array.Empty<string>();
+                return false;
+            }
+            result.Add(value);
+        }
+
+        values = result;
+        return true;
     }
+
+    private static bool IsAttribute(AttributeSyntax attribute, string name) =>
+        attribute.Name.ToString() == name
+        || attribute.Name.ToString() == $"{name}Attribute"
+        || attribute.Name.ToString().EndsWith($".{name}")
+        || attribute.Name.ToString().EndsWith($".{name}Attribute");
 
     private static bool TryReadString(ExpressionSyntax expression, out string value)
     {

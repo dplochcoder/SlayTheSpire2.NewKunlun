@@ -82,14 +82,15 @@
   <PropertyGroup>
     <CardLocalizationToolDll>$(MSBuildProjectDirectory)\..\tools\CardLocalizationTool\bin\$(Configuration)\net9.0\CardLocalizationTool.dll</CardLocalizationToolDll>
     <CardsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\cards.json</CardsLocalizationJson>
+    <PowersLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\powers.json</PowersLocalizationJson>
   </PropertyGroup>
 
   <Target
-    Name="GenerateCardLocalization"
+    Name="GenerateLocalization"
     AfterTargets="CoreCompile"
     Condition="'$(DesignTimeBuild)' != 'true'"
   >
-    <Exec Command="dotnet &quot;$(CardLocalizationToolDll)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --json &quot;$(CardsLocalizationJson)&quot; --prefix NEWKUNLUN" />
+    <Exec Command="dotnet &quot;$(CardLocalizationToolDll)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --prefix NEWKUNLUN" />
   </Target>
 
   <ItemGroup>

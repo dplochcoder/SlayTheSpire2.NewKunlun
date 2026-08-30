@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
 )]
 public partial class TripleSlashCard()
-    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy),
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
         ILateModifyResultLocation
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>

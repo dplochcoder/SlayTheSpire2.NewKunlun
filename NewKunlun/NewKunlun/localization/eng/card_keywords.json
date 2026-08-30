@@ -1,4 +1,6 @@
 {
   "NEWKUNLUN-INTERNAL_DAMAGE.description": "Unresolved damage. Reduces by 1 at start of turn. If the bearer takes any unblocked damage, all Internal Damage becomes real damage.",
-  "NEWKUNLUN-INTERNAL_DAMAGE.title": "Internal Damage"
+  "NEWKUNLUN-INTERNAL_DAMAGE.title": "Internal Damage",
+  "NEWKUNLUN-QI_CHARGE.description": "Energy gained through parry and deflection. Spend to increase attack damage.",
+  "NEWKUNLUN-QI_CHARGE.title": "Qi Charge"
 }

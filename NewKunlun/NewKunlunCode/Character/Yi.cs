@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Relics;
 
 namespace NewKunlun.NewKunlunCode.Character;
 
@@ -30,11 +31,11 @@ public class Yi : PlaceholderCharacterModel
             ModelDb.Card<DefendYi>(),
             ModelDb.Card<DefendYi>(),
             ModelDb.Card<DefendYi>(),
-            ModelDb.Card<TripleSlashCard>(),
-            ModelDb.Card<SurgeCard>(),
+            ModelDb.Card<ParryCard>(),
+            ModelDb.Card<TalismanDashCard>(),
         ];
 
-    public override IReadOnlyList<RelicModel> StartingRelics => [ModelDb.Relic<BurningBlood>()];
+    public override IReadOnlyList<RelicModel> StartingRelics => [ModelDb.Relic<JadeSystemRelic>()];
 
     public override CardPoolModel CardPool => ModelDb.CardPool<YiCardPool>();
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<YiRelicPool>();

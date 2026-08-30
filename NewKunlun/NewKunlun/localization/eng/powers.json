@@ -1,5 +1,14 @@
 {
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.description": "",
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.smartDescription": "",
-  "NEWKUNLUN-INTERNAL_DAMAGE_POWER.title": "Internal Damage"
+  "NEWKUNLUN-INTERNAL_DAMAGE_POWER.title": "Internal Damage",
+  "NEWKUNLUN-PARRY_POWER.description": "If you are hit by the enemy this turn, {InternalDamage:cond:\u003E0?take {InternalDamage} [gold]Internal Damage[/gold] and |}gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
+  "NEWKUNLUN-PARRY_POWER.smartDescription": "",
+  "NEWKUNLUN-PARRY_POWER.title": "Parry",
+  "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.description": "INTERNAL",
+  "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.smartDescription": "INTERNAL",
+  "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.title": "Qi Charge Capacity",
+  "NEWKUNLUN-QI_CHARGE_POWER.description": "",
+  "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "",
+  "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges"
 }

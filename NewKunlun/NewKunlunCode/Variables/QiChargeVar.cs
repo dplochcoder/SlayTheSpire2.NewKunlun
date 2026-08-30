@@ -5,12 +5,12 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
-public class InternalDamageVar(string name, decimal damage) : DynamicVar(name, damage)
+public class QiChargeVar(string name, decimal charges) : DynamicVar(name, charges)
 {
-    public const string DefaultName = "InternalDamage";
+    public const string DefaultName = "QiCharge";
 
-    public InternalDamageVar(decimal damage)
-        : this(DefaultName, damage) { }
+    public QiChargeVar(decimal charges)
+        : this(DefaultName, charges) { }
 
     public override void UpdateCardPreview(
         CardModel card,

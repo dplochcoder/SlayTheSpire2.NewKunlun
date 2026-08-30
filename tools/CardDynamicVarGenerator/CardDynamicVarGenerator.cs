@@ -12,8 +12,8 @@ public sealed class CardDynamicVarGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor ClassMustBePartial = new(
         "NKVAR001",
-        "Card class must be partial",
-        "Card class '{0}' declares CanonicalVars and must be partial so variable properties can be generated",
+        "Localized model class must be partial",
+        "Localized model class '{0}' declares CanonicalVars and must be partial so variable properties can be generated",
         "CodeGeneration",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true
@@ -71,6 +71,12 @@ public sealed class CardDynamicVarGenerator : IIncrementalGenerator
             .Members.OfType<PropertyDeclarationSyntax>()
             .First(property => property.Identifier.ValueText == "CanonicalVars");
 
+        var semanticModel = compilation.GetSemanticModel(clazz.SyntaxTree);
+        if (semanticModel.GetDeclaredSymbol(clazz) is not { } classSymbol)
+            return;
+        if (!IsLocalizedModel(classSymbol))
+            return;
+
         if (!clazz.Modifiers.Any(SyntaxKind.PartialKeyword))
         {
             context.ReportDiagnostic(
@@ -82,10 +88,6 @@ public sealed class CardDynamicVarGenerator : IIncrementalGenerator
             );
             return;
         }
-
-        var semanticModel = compilation.GetSemanticModel(clazz.SyntaxTree);
-        if (semanticModel.GetDeclaredSymbol(clazz) is not { } classSymbol)
-            return;
 
         Dictionary<string, VariableProperty> variables = [];
         foreach (
@@ -145,6 +147,16 @@ public sealed class CardDynamicVarGenerator : IIncrementalGenerator
                 when literal.IsKind(SyntaxKind.StringLiteralExpression) => literal.Token.ValueText,
             _ => null,
         };
+    }
+
+    private static bool IsLocalizedModel(INamedTypeSymbol symbol)
+    {
+        for (var current = symbol.BaseType; current is not null; current = current.BaseType)
+        {
+            if (current.Name is "NewKunlunCard" or "NewKunlunPower")
+                return true;
+        }
+        return false;
     }
 
     private static string RenderClass(

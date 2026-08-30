@@ -14,8 +14,8 @@ public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
 
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
-        "Invalid card localization",
-        "CardLocalization title and description must be string literals",
+        "Invalid model localization",
+        "Localization title and description fields must be string literals",
         "Localization",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true,
@@ -24,12 +24,12 @@ public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
 
     private static readonly DiagnosticDescriptor UnknownVariable = new(
         UnknownVariableId,
-        "Unknown card description variable",
+        "Unknown model description variable",
         "Description for '{0}' references unknown dynamic variable '{1}'; valid names: {2}{3}",
         "Localization",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "Variables referenced by a card description must be declared in CanonicalVars."
+        description: "Variables referenced by a model description must be declared in CanonicalVars."
     );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
@@ -45,45 +45,68 @@ public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeClass(SyntaxNodeAnalysisContext context)
     {
         var clazz = (ClassDeclarationSyntax)context.Node;
-        var attr = CardLocalization.FindLocalizationAttribute(clazz);
+        if (context.SemanticModel.GetDeclaredSymbol(clazz) is not { } classSymbol)
+            return;
+        if (!CardLocalization.TryGetModelKind(classSymbol, out var kind))
+            return;
+
+        var attr = CardLocalization.FindLocalizationAttribute(clazz, kind);
         if (attr is null)
             return;
 
-        if (!CardLocalization.GetTitleAndDescription(attr, out _, out var description))
+        if (!CardLocalization.GetLocalizationStrings(attr, kind, out var localizationStrings))
         {
             context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
             return;
         }
 
         var validVariables = DynamicVariables.FindDynamicVariables(clazz);
-        var descriptionLocation = attr.ArgumentList!.Arguments[1].Expression.GetLocation();
-        foreach (var variableName in DynamicVariables.ParseReferencedVariables(description))
+        for (var index = 1; index < localizationStrings.Count; index++)
         {
-            if (validVariables.Contains(variableName))
-                continue;
+            HashSet<string> allowedVariables = [.. validVariables];
+            switch (kind)
+            {
+                case LocalizedModelKind.Card:
+                    allowedVariables.Add("IfUpgraded");
+                    break;
+                case LocalizedModelKind.Power:
+                    allowedVariables.Add("Amount");
+                    break;
+            }
 
-            var suggestion = EditDistance.FindClosest(
-                variableName,
-                validVariables,
-                out var bestMatch
-            )
-                ? $"; suggested correction: '{bestMatch}'"
-                : string.Empty;
-            var validNames =
-                validVariables.Count == 0
-                    ? "(none)"
-                    : string.Join(", ", validVariables.OrderBy(name => name));
-
-            context.ReportDiagnostic(
-                Diagnostic.Create(
-                    UnknownVariable,
-                    descriptionLocation,
-                    clazz.Identifier.ValueText,
-                    variableName,
-                    validNames,
-                    suggestion
+            var descriptionLocation = attr.ArgumentList!.Arguments[index].Expression.GetLocation();
+            foreach (
+                var variableName in DynamicVariables.ParseReferencedVariables(
+                    localizationStrings[index]
                 )
-            );
+            )
+            {
+                if (allowedVariables.Contains(variableName))
+                    continue;
+
+                var suggestion = EditDistance.FindClosest(
+                    variableName,
+                    allowedVariables,
+                    out var bestMatch
+                )
+                    ? $"; suggested correction: '{bestMatch}'"
+                    : string.Empty;
+                var validNames =
+                    allowedVariables.Count == 0
+                        ? "(none)"
+                        : string.Join(", ", allowedVariables.OrderBy(name => name));
+
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        UnknownVariable,
+                        descriptionLocation,
+                        clazz.Identifier.ValueText,
+                        variableName,
+                        validNames,
+                        suggestion
+                    )
+                );
+            }
         }
     }
 }

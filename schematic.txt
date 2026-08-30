@@ -11,12 +11,11 @@ Speed: Stackable buff. At the start of your turn, draw 1 card, lose 1 dex, and d
 Starter deck:
   Strike x4
   Defend x4
-  Parry 1: Block 10(14). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
-  Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 3 Qi Charges, inflict 1 Talisman per charge. Place a Talisman Detonate(+) on top of your deck.
-  Talisman Detonate 1 -> Ethereal. Inflict 1(2) Vulnerable to all Talisman targets. Deal 16(21) damage per charge. Exhaust.
+  Parry 1: Block 10(16). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
   Orobas:
-    Water Flow 1 ->
-	  Inflict 3(4) Weak. Spend up to 3 Qi Charges, inflict 1 Water Flow Talisman per charge.
+    Perfect Parry 0: Block 18(28). If you are hit by the enemy this turn, gain 2(3) Qi Charge(s).
+  Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 3 Qi Charges, inflict 1 Talisman per charge. Next turn, add a Talisman Detonate(+) into your hand.
+  Talisman Detonate 2 -> Ethereal. Inflict 1(2) Vulnerable to all Talisman targets. Deal 16(21) damage per charge. Exhaust.
 
 Status:
   Smolder 1: If this is in your hand at the end of your turn, lose 1 HP and add 1 Smolder to your discard pile. If played, take 1 damage and Exhaust.

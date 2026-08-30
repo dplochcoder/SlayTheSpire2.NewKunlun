@@ -9,9 +9,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
+[PowerLocalization("Internal Damage", "", "")]
 public class InternalDamagePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Debuff;
@@ -22,26 +24,6 @@ public class InternalDamagePower : NewKunlunPower
             new LocString("card_keywords", "NEWKUNLUN-INTERNAL_DAMAGE.title"),
             new LocString("card_keywords", "NEWKUNLUN-INTERNAL_DAMAGE.description")
         );
-
-    public static async Task Apply(
-        PlayerChoiceContext choiceContext,
-        Creature target,
-        Decimal amount,
-        Creature? applier,
-        CardModel? cardSource,
-        bool silent = false
-    )
-    {
-        // TODO: Hook modifiers.
-        await PowerCmd.Apply<InternalDamagePower>(
-            choiceContext,
-            target,
-            amount,
-            applier,
-            cardSource,
-            silent
-        );
-    }
 
     public override async Task AfterSideTurnStart(
         CombatSide side,
