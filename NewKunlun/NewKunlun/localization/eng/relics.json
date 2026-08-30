@@ -1,5 +1,5 @@
 {
-  "NEWKUNLUN-JADE_SYSTEM.description": "",
-  "NEWKUNLUN-JADE_SYSTEM.flavor": "",
-  "NEWKUNLUN-JADE_SYSTEM.title": "JadeSystem"
+  "NEWKUNLUN-JADE_SYSTEM_RELIC.description": "At the start of combat, gain {QiCharge:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}",
+  "NEWKUNLUN-JADE_SYSTEM_RELIC.flavor": "",
+  "NEWKUNLUN-JADE_SYSTEM_RELIC.title": "JadeSystem"
 }

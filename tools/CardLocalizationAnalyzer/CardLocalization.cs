@@ -8,6 +8,7 @@ public enum LocalizedModelKind
 {
     Card,
     Power,
+    Relic,
 }
 
 public static class CardLocalization
@@ -27,6 +28,12 @@ public static class CardLocalization
                 kind = LocalizedModelKind.Power;
                 return true;
             }
+
+            if (current.Name == "NewKunlunRelic")
+            {
+                kind = LocalizedModelKind.Relic;
+                return true;
+            }
         }
 
         kind = default;
@@ -42,7 +49,13 @@ public static class CardLocalization
             .FirstOrDefault(attribute =>
                 IsAttribute(
                     attribute,
-                    kind == LocalizedModelKind.Card ? "CardLocalization" : "PowerLocalization"
+                    kind switch
+                    {
+                        LocalizedModelKind.Card => "CardLocalization",
+                        LocalizedModelKind.Power => "PowerLocalization",
+                        LocalizedModelKind.Relic => "RelicLocalization",
+                        _ => throw new ArgumentOutOfRangeException(nameof(kind)),
+                    }
                 )
             );
 
@@ -52,15 +65,23 @@ public static class CardLocalization
         out IReadOnlyList<string> values
     )
     {
-        var expectedCount = kind == LocalizedModelKind.Card ? 2 : 3;
-        if (attr.ArgumentList?.Arguments.Count != expectedCount)
+        var minimumCount = kind == LocalizedModelKind.Card ? 2 : 3;
+        var maximumCount = kind == LocalizedModelKind.Power ? 4 : minimumCount;
+        if (attr.ArgumentList is not { } argumentList)
         {
             values = Array.Empty<string>();
             return false;
         }
 
-        var result = new List<string>(expectedCount);
-        foreach (var argument in attr.ArgumentList.Arguments)
+        var argumentCount = argumentList.Arguments.Count;
+        if (argumentCount < minimumCount || argumentCount > maximumCount)
+        {
+            values = Array.Empty<string>();
+            return false;
+        }
+
+        var result = new List<string>(argumentCount);
+        foreach (var argument in argumentList.Arguments)
         {
             if (!TryReadString(argument.Expression, out var value))
             {

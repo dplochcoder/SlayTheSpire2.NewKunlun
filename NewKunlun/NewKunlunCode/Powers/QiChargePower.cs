@@ -5,7 +5,7 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
-[PowerLocalization("Qi Charges", "", "")]
+[PowerLocalization(title: "Qi Charges", description: "", smartDescription: "")]
 public class QiChargePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Buff;

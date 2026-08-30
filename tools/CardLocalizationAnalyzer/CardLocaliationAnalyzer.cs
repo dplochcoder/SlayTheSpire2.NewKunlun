@@ -15,11 +15,11 @@ public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
         "Invalid model localization",
-        "Localization title and description fields must be string literals",
+        "Localization fields must be string literals",
         "Localization",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true,
-        description: "Card localization is generated at build time and requires constant string literals."
+        description: "Localization is generated at build time and requires constant string literals."
     );
 
     private static readonly DiagnosticDescriptor UnknownVariable = new(

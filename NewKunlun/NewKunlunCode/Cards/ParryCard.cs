@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
@@ -27,7 +26,10 @@ public partial class ParryCard()
         [new BlockVar(10M, ValueProp.Move), new InternalDamageVar(3M), new QiChargeVar(1M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [InternalDamagePower.HoverTip(), QiChargePower.HoverTip()];
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromPower<QiChargePower>(),
+        ];
 
     protected override void OnUpgrade()
     {

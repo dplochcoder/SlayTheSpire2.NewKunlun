@@ -7,23 +7,39 @@ if (!TryReadArguments(args, out var options))
 {
     Console.Error.WriteLine(
         "Usage: CardLocalizationTool --cards <directory> --cards-json <cards.json> "
-            + "--powers <directory> --powers-json <powers.json> --prefix <localization prefix>"
+            + "--powers <directory> --powers-json <powers.json> "
+            + "--relics <directory> --relics-json <relics.json> --prefix <localization prefix>"
     );
     return 2;
 }
 
 var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization", 2);
-var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization", 3);
+var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization", 3, 4);
+var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization", 3);
 
-UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
-UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
+UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card", ["title", "description"]);
+UpdateJson(
+    options.PowersJsonPath,
+    options.IdPrefix,
+    powers,
+    "power",
+    ["title", "description", "smartDescription", "remoteDescription"]
+);
+UpdateJson(
+    options.RelicsJsonPath,
+    options.IdPrefix,
+    relics,
+    "relic",
+    ["title", "description", "flavor"]
+);
 return 0;
 
 static IReadOnlyList<LocalizedModel> ReadModels(
     string sourceDirectory,
     string baseTypeName,
     string attributeName,
-    int valueCount
+    int minimumValueCount,
+    int? maximumValueCount = null
 )
 {
     List<LocalizedModel> models = [];
@@ -42,11 +58,18 @@ static IReadOnlyList<LocalizedModel> ReadModels(
                 continue;
 
             var attr = FindLocalizationAttribute(clazz, attributeName);
-            if (attr?.ArgumentList?.Arguments.Count != valueCount)
+            if (attr?.ArgumentList is not { } argumentList)
                 continue;
 
-            var values = attr
-                .ArgumentList.Arguments.Select(argument =>
+            var argumentCount = argumentList.Arguments.Count;
+            if (
+                argumentCount < minimumValueCount
+                || argumentCount > (maximumValueCount ?? minimumValueCount)
+            )
+                continue;
+
+            var values = argumentList
+                .Arguments.Select(argument =>
                     ((LiteralExpressionSyntax)argument.Expression).Token.ValueText
                 )
                 .ToArray();
@@ -60,17 +83,16 @@ static void UpdateJson(
     string jsonPath,
     string idPrefix,
     IReadOnlyList<LocalizedModel> models,
-    string modelKind
+    string modelKind,
+    IReadOnlyList<string> fieldNames
 )
 {
     SortedDictionary<string, string> generatedJson = [];
     foreach (var model in models)
     {
         var modelId = $"{idPrefix}-{ToUpperSnakeCase(model.ClassName)}";
-        generatedJson[$"{modelId}.description"] = model.Values[1];
-        if (model.Values.Count == 3)
-            generatedJson[$"{modelId}.smartDescription"] = model.Values[2];
-        generatedJson[$"{modelId}.title"] = model.Values[0];
+        for (var index = 0; index < model.Values.Count; index++)
+            generatedJson[$"{modelId}.{fieldNames[index]}"] = model.Values[index];
     }
 
     var existingText = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : null;
@@ -112,12 +134,16 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values.GetValueOrDefault("--cards-json") ?? "",
         values.GetValueOrDefault("--powers") ?? "",
         values.GetValueOrDefault("--powers-json") ?? "",
+        values.GetValueOrDefault("--relics") ?? "",
+        values.GetValueOrDefault("--relics-json") ?? "",
         values.GetValueOrDefault("--prefix") ?? ""
     );
     return Directory.Exists(options.CardsDirectory)
         && Directory.Exists(options.PowersDirectory)
+        && Directory.Exists(options.RelicsDirectory)
         && !string.IsNullOrWhiteSpace(options.CardsJsonPath)
         && !string.IsNullOrWhiteSpace(options.PowersJsonPath)
+        && !string.IsNullOrWhiteSpace(options.RelicsJsonPath)
         && !string.IsNullOrWhiteSpace(options.IdPrefix);
 }
 
@@ -146,6 +172,8 @@ internal sealed record ToolOptions(
     string CardsJsonPath,
     string PowersDirectory,
     string PowersJsonPath,
+    string RelicsDirectory,
+    string RelicsJsonPath,
     string IdPrefix
 );
 

@@ -12,7 +12,7 @@ public static class QiChargeCmd
     public static async Task AddQiCharges(
         PlayerChoiceContext choiceContext,
         Creature target,
-        int amount,
+        decimal amount,
         Creature? applier,
         CardModel? cardSource
     )
@@ -48,18 +48,20 @@ public static class QiChargeCmd
             target.GetPower<QiChargePower>()?.Flash();
     }
 
-    public static async Task<int> ConsumeQiCharges(
+    public static async Task<decimal> ConsumeQiCharges(
         PlayerChoiceContext choiceContext,
         Creature target,
-        int maximum,
+        decimal maximum,
         Creature? applier,
         CardModel? cardSource
     )
     {
+        if (CombatManager.Instance.IsOverOrEnding || maximum <= 0)
+            return 0;
         if (target.GetPower<QiChargePower>() is not { } qiChargePower)
             return 0;
 
-        int toConsume = Math.Min(maximum, qiChargePower.Amount);
+        var toConsume = Math.Min(maximum, qiChargePower.Amount);
         if (toConsume <= 0)
             return 0;
 

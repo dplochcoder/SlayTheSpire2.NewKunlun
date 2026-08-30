@@ -1,0 +1,87 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+
+namespace NewKunlun.NewKunlunCode.Cards;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    "Talisman Detonate",
+    "Inflict {Vulnerable} [gold]Vulnerable[/gold] to all [gold]Talisman[/gold] targets. Targets take {Damage} unblockable damage per spent [gold]Qi Charge[/gold]."
+)]
+public partial class TalismanDetonateCard()
+    : NewKunlunCard(2, CardType.Skill, CardRarity.Basic, TargetType.None)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new DamageVar(18M, ValueProp.Unblockable | ValueProp.Unpowered),
+            new DynamicVar(nameof(Vulnerable), 2M),
+        ];
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [CardKeyword.Ethereal, CardKeyword.Exhaust];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.FromPower<TalismanPower>(),
+            HoverTipFactory.FromPower<QiChargePower>(),
+        ];
+
+    protected override void OnUpgrade()
+    {
+        Damage.UpgradeValueBy(7M);
+        Vulnerable.UpgradeValueBy(1M);
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        var player = cardPlay.Player.Creature;
+        IReadOnlyList<Creature> eligibleCreatures =
+        [
+            .. CombatState!.HittableEnemies.Where(c =>
+                c.GetPowerInstances<TalismanPower>().Any(p => p.Applier == player)
+            ),
+        ];
+        if (eligibleCreatures.Count == 0)
+            return;
+
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext,
+            eligibleCreatures,
+            Vulnerable.BaseValue,
+            cardPlay.Player.Creature,
+            null
+        );
+        eligibleCreatures = [.. eligibleCreatures.Where(c => c.IsHittable)];
+
+        foreach (var creature in eligibleCreatures)
+        {
+            IReadOnlyList<TalismanPower> powers =
+            [
+                .. creature.GetPowerInstances<TalismanPower>().Where(p => p.Applier == player),
+            ];
+            int charges = powers.Select(p => p.Amount).Sum();
+            await DamageCmd
+                .Attack(charges * Damage.BaseValue)
+                .FromCard(this, cardPlay)
+                .Targeting(creature)
+                .Execute(choiceContext);
+
+            foreach (var power in powers)
+            {
+                await PowerCmd.Remove(power);
+                power.Flash();
+            }
+        }
+    }
+}

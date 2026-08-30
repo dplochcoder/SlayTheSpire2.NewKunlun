@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     "Malfunction",
-    "Take {ExhaustDamage:diff()} [gold]Internal Damage[/gold]. If this is in your hand at the end of your turn, take {EndTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
+    "Take {OnExhaustDamage:diff()} [gold]Internal Damage[/gold]. Draw 1 card. If this is in your hand at the end of your turn, take {EndOfTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
 )]
 public partial class MalfunctionCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.Self)
@@ -24,28 +24,42 @@ public partial class MalfunctionCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(EndTurnDamage), 4M),
-            new InternalDamageVar(nameof(ExhaustDamage), 8M),
+            new InternalDamageVar(nameof(EndOfTurnDamage), 4M),
+            new InternalDamageVar(nameof(OnExhaustDamage), 8M),
             new DynamicVar(nameof(DamageIncrement), 4M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [InternalDamagePower.HoverTip()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     public override bool HasTurnEndInHandEffect => true;
 
     protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
     {
-        await InternalDamageCmd.Apply(choiceContext, Owner.Creature, EndTurnDamage, null, this);
+        await InternalDamageCmd.Apply(
+            choiceContext,
+            Owner.Creature,
+            EndOfTurnDamage.BaseValue,
+            null,
+            this
+        );
 
-        EndTurnDamage.BaseValue += DamageIncrement.BaseValue;
-        ExhaustDamage.BaseValue += DamageIncrement.BaseValue;
+        EndOfTurnDamage.BaseValue += DamageIncrement.BaseValue;
+        OnExhaustDamage.BaseValue += DamageIncrement.BaseValue;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await InternalDamageCmd.Apply(choiceContext, Owner.Creature, ExhaustDamage, null, this);
+        await InternalDamageCmd.Apply(
+            choiceContext,
+            Owner.Creature,
+            OnExhaustDamage.BaseValue,
+            null,
+            this
+        );
+        await CardPileCmd.Draw(choiceContext, Owner);
         await CardCmd.Exhaust(choiceContext, this);
     }
 }

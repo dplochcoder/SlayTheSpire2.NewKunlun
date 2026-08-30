@@ -3,7 +3,11 @@
 namespace NewKunlun.NewKunlunCode.Powers;
 
 // Invisible power to track Qi Charge capacity.
-[Localization.PowerLocalization("Qi Charge Capacity", "INTERNAL", "INTERNAL")]
+[Localization.PowerLocalization(
+    title: "Qi Charge Capacity",
+    description: "INTERNAL",
+    smartDescription: "INTERNAL"
+)]
 public class QiChargeCapacityPower : NewKunlunPower
 {
     public override PowerType Type => PowerType.None;

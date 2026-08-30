@@ -153,7 +153,7 @@ public sealed class CardDynamicVarGenerator : IIncrementalGenerator
     {
         for (var current = symbol.BaseType; current is not null; current = current.BaseType)
         {
-            if (current.Name is "NewKunlunCard" or "NewKunlunPower")
+            if (current.Name is "NewKunlunCard" or "NewKunlunPower" or "NewKunlunRelic")
                 return true;
         }
         return false;

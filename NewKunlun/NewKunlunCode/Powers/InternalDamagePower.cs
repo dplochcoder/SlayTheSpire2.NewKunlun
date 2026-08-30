@@ -5,25 +5,17 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
-[PowerLocalization("Internal Damage", "", "")]
+[PowerLocalization(title: "Internal Damage", description: "", smartDescription: "")]
 public class InternalDamagePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    public static IHoverTip HoverTip() =>
-        new HoverTip(
-            new LocString("card_keywords", "NEWKUNLUN-INTERNAL_DAMAGE.title"),
-            new LocString("card_keywords", "NEWKUNLUN-INTERNAL_DAMAGE.description")
-        );
 
     public override async Task AfterSideTurnStart(
         CombatSide side,

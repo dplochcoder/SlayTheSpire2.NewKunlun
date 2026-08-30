@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
@@ -15,9 +14,9 @@ using NewKunlun.NewKunlunCode.Variables;
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
-    "Parry",
-    "If you are hit by the enemy this turn, {InternalDamage:cond:>0?take {InternalDamage} [gold]Internal Damage[/gold] and |}gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
-    ""
+    title: "Parry",
+    description: "If you are hit by the enemy this turn, {InternalDamage:cond:>0?take {InternalDamage} [gold]Internal Damage[/gold] and |}gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
+    smartDescription: ""
 )]
 public partial class ParryPower : NewKunlunPower
 {
@@ -31,8 +30,8 @@ public partial class ParryPower : NewKunlunPower
         get
         {
             if (InternalDamage.BaseValue > 0)
-                yield return InternalDamagePower.HoverTip();
-            yield return QiChargePower.HoverTip();
+                yield return HoverTipFactory.FromPower<InternalDamagePower>();
+            yield return HoverTipFactory.FromPower<QiChargePower>();
         }
     }
 
@@ -48,7 +47,7 @@ public partial class ParryPower : NewKunlunPower
         if (target != Owner || !props.IsPoweredAttack())
             return;
 
-        await InternalDamageCmd.Apply(choiceContext, target, InternalDamage, Owner, null);
+        await InternalDamageCmd.Apply(choiceContext, target, InternalDamage.BaseValue, Owner, null);
         await QiChargeCmd.AddQiCharges(choiceContext, target, Amount, Owner, null);
         await PowerCmd.Remove(this);
         Flash();
