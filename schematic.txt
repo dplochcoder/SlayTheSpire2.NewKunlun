@@ -23,7 +23,6 @@ Status:
   Malfunction 1: If this is in your hand at the end of your turn, take 4 Internal Damage and increase all damage on this card by 4. If played, take 8 Internal Damage and Exhaust.
 
 Attacks:
- (C) Triple Slash 1: Deal 8(11) damage, return to your hand the first two times played this turn. On the third play, deal 17(23) damage.
  (C) Charge Strike 2(1): Deal 12 damage. Your next attack this turn deals double damage. Spend 1 Qi Charge for triple damage.
  (C) Pressure Point 2: Deal 10 damage. Deal 12(18) Internal Damage.
  (C) Surge 1: Deal 15(22) damage. Add 1 Malfunction to your discard pile.
@@ -32,7 +31,8 @@ Attacks:
  (C) Unbalanced Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
  (C) Skull Kick 1: Deal 9(13) damage. Gain 4(6) Block. Gain 1 Qi Charge.
  (C) Sabotage 1: Deal 12(19) Internal Damage. Take 4 Internal Damage.
- (U) Shadow Strike 2: Deal 14(19) damage. Double if the enemy is not attacking this turn.
+ (U) Triple Slash 1: Deal 9(13) damage, return to your hand the first two times played this turn. On the third play, deal 19(27) damage.
+ (U) Shadow Strike 2: Deal 14(19) damage. Attack twice if the enemy is not attacking this turn.
  (U) Flaming Strike 1: Deal 18(22) damage. Add 1 Smolder to your draw pile.
  (U) Flurry 0: Spend X Qi Charges. Deal 11(17) damage to a random enemy per charge.
  (U) Oppress 1: Deal 9(13) damage. Gain 1 Strength. Take 5 Internal Damage.
