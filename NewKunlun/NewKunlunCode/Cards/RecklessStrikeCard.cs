@@ -28,12 +28,12 @@ public partial class RecklessStrikeCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<InternalDamagePower>()];
 
-    protected override void OnUpgrade() => DynamicVarExtensions.UpgradeValueTo(Damage, 21M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(21M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await DamageCmd
-            .Attack((decimal)Damage.BaseValue)
+            .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
