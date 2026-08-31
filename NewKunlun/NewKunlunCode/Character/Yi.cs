@@ -18,7 +18,7 @@ public class Yi : PlaceholderCharacterModel
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Masculine;
     public override int StartingHp => 63;
-    public override int StartingGold => 130;
+    public override int StartingGold => 99;
 
     public override IEnumerable<CardModel> StartingDeck =>
         [
