@@ -4,6 +4,6 @@ namespace NewKunlun.NewKunlunCode.Extensions;
 
 public static class AttackCommandExtensions
 {
-    public static AttackCommand WithSlashFx(this AttackCommand self) =>
+    public static AttackCommand WithSlashVfx(this AttackCommand self) =>
         self.WithHitFx("vfx/vfx_attack_slash");
 }

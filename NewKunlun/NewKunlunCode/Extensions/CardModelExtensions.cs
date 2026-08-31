@@ -1,6 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 
 namespace NewKunlun.NewKunlunCode.Extensions;
 
@@ -19,6 +20,5 @@ public static class CardModelExtensions
                 self.Owner
             )
         );
-        await Cmd.Wait(0.5f);
     }
 }

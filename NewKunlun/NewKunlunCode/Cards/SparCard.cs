@@ -30,7 +30,7 @@ public partial class SparCard()
             new DamageVar(8M, ValueProp.Move),
             new BlockVar(1M, ValueProp.Move),
             new DynamicVar(nameof(Strength), 1M),
-            new InternalDamageVar(5M),
+            new InternalDamageVar(4M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -50,7 +50,7 @@ public partial class SparCard()
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .WithSlashFx()
+            .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);

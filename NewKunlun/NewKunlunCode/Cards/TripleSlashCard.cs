@@ -46,7 +46,7 @@ public partial class TripleSlashCard()
 
     protected override void OnUpgrade()
     {
-        SmallHitDamage.UpgradeValueTo(10M);
+        SmallHitDamage.UpgradeValueTo(9M);
         BigHitDamage.UpgradeValueTo(19M);
         UpdateDamage();
     }

@@ -27,8 +27,8 @@ public partial class TalismanDetonateCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(18M, ValueProp.Unblockable | ValueProp.Unpowered),
-            new DynamicVar(nameof(Vulnerable), 2M),
+            new DamageVar(13M, ValueProp.Unblockable | ValueProp.Unpowered),
+            new DynamicVar(nameof(Vulnerable), 1M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -50,8 +50,8 @@ public partial class TalismanDetonateCard()
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(25M);
-        Vulnerable.UpgradeValueTo(3M);
+        Damage.UpgradeValueTo(18M);
+        Vulnerable.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

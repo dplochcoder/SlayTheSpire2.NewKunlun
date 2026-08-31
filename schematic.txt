@@ -13,9 +13,9 @@ Starter deck:
  *Defend x4
  *Parry 1: Block 9(13). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
   Orobas:
-    Perfect Parry 0: Block 18(28). If you are hit by the enemy this turn, gain 2(3) Qi Charge(s).
+    Perfect Parry 1: (Retain) Block 18(25). If you are hit by the enemy this turn, gain 2(3) Qi Charge(s).
  *Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 2(3) Qi Charges, inflict 1 Talisman per charge. Next turn, add a Talisman Detonate(+) into your hand.
- *Talisman Detonate 2 -> Ethereal. Inflict 2(3) Vulnerable to all Talisman targets. Deal 18(25) unblockable damage per charge. Exhaust.
+ *Talisman Detonate 2 -> Ethereal. Inflict 1(2) Vulnerable to all Talisman targets. Deal 13(18) unblockable damage per charge. Exhaust.
 
 Status:
  *Smolder 1: If this is in your hand at the end of your turn, lose 1 HP and add 1 Smolder to your discard pile. If played, take 1 damage and Exhaust.
@@ -30,11 +30,11 @@ Attacks:
  (C) Unbalanced Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
  (C) Skull Kick 1: Deal 9(13) damage. Gain 4(6) Block. Gain 1 Qi Charge.
 *(C) Sabotage 1: Deal 11(17) Internal Damage. Take 4 Internal Damage.
-*(U) Triple Slash 1: Deal 7(10) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.
- (U) Shadow Strike 2: Deal 14(19) damage. Attack twice if the enemy is not attacking this turn.
- (U) Flaming Strike 1: Deal 18(22) damage. Add 1 Smolder to your draw pile.
+*(U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.
+ (U) Shadow Strike 2: Deal 13(18) damage. Hits twice if the enemy is not attacking this turn. Hits thrice if the enemy is stunned.
+*(U) Unbounded Strike 1: Deal 18(23) damage. Add 2 Smolders to your draw pile.
  (U) Flurry 0: Spend X Qi Charges. Deal 11(17) damage to a random enemy per charge.
-*(U) Spar 1: Deal 8(12) damage. Gain 1(2) Block. Gain 1 Strength. Take 5 Internal Damage.
+*(U) Spar 1: Deal 8(12) damage. Gain 1(2) Block. Gain 1 Strength. Take 4 Internal Damage.
  (U) Short-circuit 2(1): Deal 15 damage. If the target is afflicted with Talisman, play Talisman Detonate.
  (R) Azure Bow 1: Collect 1 Azure Sand. If you have 3 or more Azure Sand, spend them to deal 65(90) damage to all enemies.
  (R) Destabilize 2: Deal 28(38) Internal Damage. Take 6 Internal Damage.
@@ -43,7 +43,7 @@ Attacks:
 
 Skills:
 *(C) Swift Dash 1: Gain 2 Block 3(4) times.
- (C) Immortal Dash 1: Gain 1 Dex. Gain 7(10) Block.
+ (C) Immortal Dash 1: Gain 6(9) Block. Gain 1 Dex.
  (C) Deflect 1: Gain 12(17) Block. Take 8 Internal Damage.
  (C) Qi Reserve 0: Gain 2(3) Qi Charges. Exhaust.
  (C) Chase 1: Gain 4(7) Block. Draw 2(3) cards. Exhaust 1 card.
@@ -58,7 +58,7 @@ Skills:
  (U) Cooldown 1: (Retain) Pull your Talisman Dash into your hand. It costs 0 this turn. Exhaust.
  (U) Invigorate 1: Gain 4(6) strength. Take 18 Internal Damage. Exhaust.
  (U) Incisive Drain 1: (Retain) Gain 1 Qi Charge each time you deal unblocked damage this turn.
- (R) Scrounge 1: (Retain) Discard your hand. Draw 10 cards. Keep 2(3) cards and discard the rest. Exhaust.
+*(R) Scrounge 1(0): Discard your hand. Draw 7(8) cards. Keep 2(3) cards and discard the rest. Exhaust.
  (R) Meditate 2: Gain 6 Block. Gain 3(5) Qi Charges.
  (R) Unbounded Counter 2: At the end of your turn, if you played no attacks this turn, gain 37(52) block and 2(3) Qi Charges.
  (R) Medicine Pipe 1: Heal 10(16) HP. Heal all Internal Damage. Exhaust. After 3(4) uses, this card is removed from your deck.
@@ -69,6 +69,7 @@ Powers:
  (U) Qi Swipe Jade 2(1): Increase Qi Charge Capacity by 2. Gain 2 Qi Charges.
  (U) Breather Jade 1: Heal 3(5) Internal Damage every time you deal unblocked damage.
  (U) Ricochet Jade 1: Every time you fully block an attack, inflict 4(7) Internal Damage on the attacker.
+*(U) Like Water 2(1): Talisman Detonate(+) costs 1 less energy.
  (U) Stasis Jade 2(1): Enemies with the Talisman debuff deal half damage.
  (U) Qi Boost 2: (Innate) At the end of your turn, gain 1 Qi Charge.
  (U) Arson 2: At the start of your turn, deal 12(17) Internal Damage to all enemies and add 1 Smolder to your hand.
