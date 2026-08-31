@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 if (!TryReadArguments(args, out var options))
 {
     Console.Error.WriteLine(
-        "Usage: CardLocalizationTool --cards <directory> --cards-json <cards.json> "
+        "Usage: LocalizationTool --cards <directory> --cards-json <cards.json> "
             + "--powers <directory> --powers-json <powers.json> "
             + "--relics <directory> --relics-json <relics.json> --prefix <localization prefix>"
     );

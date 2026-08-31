@@ -11,7 +11,7 @@ public enum LocalizedModelKind
     Relic,
 }
 
-public static class CardLocalization
+public static class Localization
 {
     public static bool TryGetModelKind(INamedTypeSymbol symbol, out LocalizedModelKind kind)
     {

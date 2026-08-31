@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Text;
 namespace CardDynamicVarGenerator;
 
 [Generator]
-public sealed class CardDynamicVarGenerator : IIncrementalGenerator
+public sealed class DynamicVarGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor ClassMustBePartial = new(
         "NKVAR001",

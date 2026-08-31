@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace CardLocalizationAnalyzer;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
+public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
 {
     public const string InvalidLocalizationId = "NKLOC001";
     public const string UnknownVariableId = "NKLOC002";
@@ -47,14 +47,14 @@ public sealed class CardLocaliationAnalyzer : DiagnosticAnalyzer
         var clazz = (ClassDeclarationSyntax)context.Node;
         if (context.SemanticModel.GetDeclaredSymbol(clazz) is not { } classSymbol)
             return;
-        if (!CardLocalization.TryGetModelKind(classSymbol, out var kind))
+        if (!Localization.TryGetModelKind(classSymbol, out var kind))
             return;
 
-        var attr = CardLocalization.FindLocalizationAttribute(clazz, kind);
+        var attr = Localization.FindLocalizationAttribute(clazz, kind);
         if (attr is null)
             return;
 
-        if (!CardLocalization.GetLocalizationStrings(attr, kind, out var localizationStrings))
+        if (!Localization.GetLocalizationStrings(attr, kind, out var localizationStrings))
         {
             context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
             return;
