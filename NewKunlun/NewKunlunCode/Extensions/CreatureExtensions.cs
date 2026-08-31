@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Extensions;
