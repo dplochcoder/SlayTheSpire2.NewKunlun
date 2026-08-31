@@ -23,8 +23,7 @@ public partial class StaggerCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(8M, ValueProp.Move), new DynamicVar(nameof(Repeat), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<TalismanPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<TalismanPower>()];
 
     protected override void OnUpgrade()
     {

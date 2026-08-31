@@ -26,8 +26,7 @@ public partial class SabotageCard()
             new InternalDamageVar(nameof(InternalDamageSelf), 4),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade() => InternalDamageEnemy.UpgradeValueTo(17M);
 

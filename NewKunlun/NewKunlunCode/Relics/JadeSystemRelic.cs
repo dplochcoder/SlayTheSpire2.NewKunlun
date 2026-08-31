@@ -24,8 +24,7 @@ public partial class JadeSystemRelic : NewKunlunRelic
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new QiChargeVar(1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,

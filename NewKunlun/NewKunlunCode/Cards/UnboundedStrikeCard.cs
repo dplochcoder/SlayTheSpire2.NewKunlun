@@ -24,8 +24,7 @@ public partial class UnboundedStrikeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(18M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<SmolderCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<SmolderCard>()];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(23M);
 

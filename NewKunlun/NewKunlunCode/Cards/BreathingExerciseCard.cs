@@ -22,8 +22,7 @@ public partial class BreathingExerciseCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageVar(12M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(18M);
 

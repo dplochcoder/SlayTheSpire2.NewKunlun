@@ -42,9 +42,9 @@ public partial class RootNodeCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<InternalDamagePower>(),
-            HoverTipFactory.FromPower<StrengthPower>(),
-            HoverTipFactory.FromPower<DexterityPower>(),
+            Tips.Power<InternalDamagePower>(),
+            Tips.Power<StrengthPower>(),
+            Tips.Power<DexterityPower>(),
         ];
 
     protected override void OnUpgrade()

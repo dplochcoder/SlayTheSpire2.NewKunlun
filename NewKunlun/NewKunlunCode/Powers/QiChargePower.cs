@@ -15,6 +15,5 @@ public class QiChargePower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<TalismanDashCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<TalismanDashCard>()];
 }

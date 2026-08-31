@@ -25,8 +25,7 @@ public partial class TaiChiKickCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(4M, ValueProp.Move), new BlockVar(6M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.IsHittable && (e.Monster?.IntendsToAttack ?? false))

@@ -34,10 +34,7 @@ public partial class SparCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<StrengthPower>(),
-            HoverTipFactory.FromPower<InternalDamagePower>(),
-        ];
+        [Tips.Power<StrengthPower>(), Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade()
     {

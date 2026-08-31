@@ -32,8 +32,7 @@ public partial class SmolderCard()
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<SmolderCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<SmolderCard>()];
 
     public override bool HasTurnEndInHandEffect => true;
 

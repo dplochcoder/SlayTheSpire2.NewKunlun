@@ -34,7 +34,7 @@ public partial class ParryCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<ParryPower>(), HoverTipFactory.FromPower<ImperfectPower>()];
+        [Tips.Power<ParryPower>(), Tips.Power<ImperfectPower>()];
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.IsAlive && (e.Monster?.IntendsToAttack ?? false)) ?? false;

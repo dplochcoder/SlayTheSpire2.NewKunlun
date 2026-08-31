@@ -27,8 +27,7 @@ public partial class BraceCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(28M, ValueProp.Move), new InternalDamageVar(12M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(38M);
 

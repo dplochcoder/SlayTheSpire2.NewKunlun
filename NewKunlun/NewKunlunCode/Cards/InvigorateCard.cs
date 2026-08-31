@@ -27,10 +27,7 @@ public partial class InvigorateCard()
         [new DynamicVar(nameof(Strength), 4M), new InternalDamageVar(18M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<StrengthPower>(),
-            HoverTipFactory.FromPower<InternalDamagePower>(),
-        ];
+        [Tips.Power<StrengthPower>(), Tips.Power<InternalDamagePower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -27,8 +27,8 @@ public partial class TalismanPower : NewKunlunPower
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromCard<TalismanDetonateCard>(
-                upgrade: TalismanDashCard.IsUpgradedAnywhere(Applier?.Player)
+            Tips.Card<TalismanDetonateCard>(
+                upgraded: TalismanDashCard.IsUpgradedAnywhere(Applier?.Player)
             ),
         ];
 

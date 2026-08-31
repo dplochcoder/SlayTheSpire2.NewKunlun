@@ -20,8 +20,7 @@ public partial class ParryPower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,

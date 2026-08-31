@@ -18,11 +18,7 @@ public partial class LikeWaterCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromCard<TalismanDetonateCard>(
-                upgrade: TalismanDashCard.IsUpgradedAnywhere(Owner)
-            ),
-        ];
+        [Tips.Card<TalismanDetonateCard>(upgraded: TalismanDashCard.IsUpgradedAnywhere(Owner))];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

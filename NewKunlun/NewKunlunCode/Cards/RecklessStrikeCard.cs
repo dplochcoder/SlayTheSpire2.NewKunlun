@@ -25,8 +25,7 @@ public partial class RecklessStrikeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(16M, ValueProp.Move), new InternalDamageVar(8M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(21M);
 

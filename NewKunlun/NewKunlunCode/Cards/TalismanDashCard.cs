@@ -28,9 +28,9 @@ public partial class TalismanDashCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<WeakPower>(),
-            HoverTipFactory.FromPower<TalismanPower>(),
-            HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgraded),
+            Tips.Power<WeakPower>(),
+            Tips.Power<TalismanPower>(),
+            Tips.Card<TalismanDetonateCard>(upgraded: IsUpgraded),
         ];
 
     public static bool IsUpgradedAnywhere(Player? player) =>

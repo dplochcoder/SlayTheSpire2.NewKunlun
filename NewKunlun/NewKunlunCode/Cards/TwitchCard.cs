@@ -26,8 +26,7 @@ public partial class TwitchCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(Parry), 1M), new DynamicVar(nameof(DrawCards), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<ParryPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ParryPower>()];
 
     protected override void OnUpgrade() => DrawCards.UpgradeValueTo(1M);
 

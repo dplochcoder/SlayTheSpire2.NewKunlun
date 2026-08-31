@@ -37,11 +37,7 @@ public partial class TalismanDetonateCard()
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<QiChargePower>(),
-            HoverTipFactory.FromPower<VulnerablePower>(),
-            HoverTipFactory.FromPower<TalismanPower>(),
-        ];
+        [Tips.Power<QiChargePower>(), Tips.Power<VulnerablePower>(), Tips.Power<TalismanPower>()];
 
     protected override bool IsPlayable =>
         Owner.Creature.GetPowerAmount<QiChargePower>() > 0
