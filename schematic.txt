@@ -31,7 +31,7 @@ Attacks:
 *(C) Reckless Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
  (C) Skull Kick 1: Deal 9(13) damage. Gain 4(6) Block. Gain 1 Qi Charge.
 *(C) Sabotage 1: Deal 11(17) Internal Damage. Take 4 Internal Damage.
-*(U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.
+*(U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage, spending 1 Qi Charge to deal double.
  (U) Shadow Strike 2: Deal 13(18) damage. Hits twice if the enemy is not attacking this turn. Hits thrice if the enemy is stunned.
 *(U) Unbounded Strike 1: Deal 18(23) damage. Add 2 Smolders to your draw pile.
 *(U) Spar 1: Deal 8(12) damage. Gain 1(2) Block. Gain 1 Strength. Take 4 Internal Damage.

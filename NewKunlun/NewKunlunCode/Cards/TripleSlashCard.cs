@@ -4,19 +4,21 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Triple Slash",
-    description: "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
+    description: "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage, spending 1 [gold]Qi Charge[/gold] to deal double."
 )]
 public partial class TripleSlashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
@@ -24,36 +26,25 @@ public partial class TripleSlashCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(7M, ValueProp.Move),
             new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
             new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
 
-    protected override bool ShouldGlowGoldInternal => PlaysThisTurn % 3 == 2;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
-    private void UpdateDamage() =>
-        Damage.BaseValue = (PlaysThisTurn % 3 == 2 ? BigHitDamage : SmallHitDamage).BaseValue;
+    private bool IsBigHitTurn => _playsThisTurn % 3 == 2;
 
-    private int PlaysThisTurn
-    {
-        get;
-        set
-        {
-            field = value;
-            UpdateDamage();
-        }
-    } = 0;
+    protected override bool ShouldGlowGoldInternal => IsBigHitTurn;
+
+    private int _playsThisTurn;
 
     protected override void OnUpgrade()
     {
         SmallHitDamage.UpgradeValueTo(9M);
         BigHitDamage.UpgradeValueTo(19M);
-        UpdateDamage();
     }
 
-    protected override void AfterDowngraded() => UpdateDamage();
-
-    protected override void AfterCloned() => PlaysThisTurn = 0;
+    protected override void AfterCloned() => _playsThisTurn = 0;
 
     public override Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,
@@ -61,36 +52,42 @@ public partial class TripleSlashCard()
         IEnumerable<Creature> participants
     )
     {
-        PlaysThisTurn = 0;
+        _playsThisTurn = 0;
         return Task.CompletedTask;
     }
 
     protected override CardLocation GetResultLocationForCardPlay()
     {
         var loc = base.GetResultLocationForCardPlay();
-        if (PlaysThisTurn < 2 && loc.pileType == PileType.Discard)
+        if (_playsThisTurn < 2 && loc.pileType == PileType.Discard)
             loc.pileType = PileType.Hand;
         return loc;
     }
 
     public void LateModifyResultLocation(ref CardLocation resultLocation)
     {
-        if (PlaysThisTurn > 2 && resultLocation.pileType == PileType.Hand)
+        if (_playsThisTurn > 2 && resultLocation.pileType == PileType.Hand)
             resultLocation.pileType = PileType.Discard;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        var charges = await QiChargeCmd.ConsumeQiCharges(
+            choiceContext,
+            Owner.Creature,
+            1M,
+            Owner.Creature,
+            this
+        );
         var attack = DamageCmd
-            .Attack(Damage.BaseValue)
+            .Attack(
+                IsBigHitTurn ? BigHitDamage.BaseValue * (1 + charges) : SmallHitDamage.BaseValue
+            )
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target!);
-        attack =
-            Damage.BaseValue == BigHitDamage.BaseValue
-                ? attack.WithHitFx("vfx/vfx_heavy_blunt", tmpSfx: "heavy_attack.mp3")
-                : attack.WithHitFx("vfx/vfx_attack_slash");
+        attack = IsBigHitTurn ? attack.WithHeavySlashVfx() : attack.WithSlashVfx();
         await attack.Execute(choiceContext);
 
-        ++PlaysThisTurn;
+        ++_playsThisTurn;
     }
 }

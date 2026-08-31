@@ -32,7 +32,7 @@ public partial class SurgeCard()
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target!)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHeavySlashVfx()
             .Execute(choiceContext);
         await this.AddGeneratedStatusToPile<MalfunctionCard>();
     }

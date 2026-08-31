@@ -59,7 +59,7 @@
   "NEWKUNLUN-TALISMAN_DASH_CARD.title": "Talisman Dash",
   "NEWKUNLUN-TALISMAN_DETONATE_CARD.description": "Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold] to inflict {Damage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold].",
   "NEWKUNLUN-TALISMAN_DETONATE_CARD.title": "Talisman Detonate",
-  "NEWKUNLUN-TRIPLE_SLASH_CARD.description": "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage.",
+  "NEWKUNLUN-TRIPLE_SLASH_CARD.description": "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage, spending 1 [gold]Qi Charge[/gold] to deal double.",
   "NEWKUNLUN-TRIPLE_SLASH_CARD.title": "Triple Slash",
   "NEWKUNLUN-TWITCH_CARD.description": "Gain {Parry:diff()} [gold]Parry[/gold].{IfUpgraded:show: Draw {DrawCards:plural:card|cards}.|}",
   "NEWKUNLUN-TWITCH_CARD.title": "Twitch",

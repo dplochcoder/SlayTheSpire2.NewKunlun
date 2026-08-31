@@ -1,5 +1,5 @@
 {
-  "NEWKUNLUN-IMPERFECT_POWER.description": "If attacked this turn, gain {Amount} [glow]Internal Damage[/glow].",
+  "NEWKUNLUN-IMPERFECT_POWER.description": "If attacked this turn, take {Amount} [glow]Internal Damage[/glow].",
   "NEWKUNLUN-IMPERFECT_POWER.smartDescription": "",
   "NEWKUNLUN-IMPERFECT_POWER.title": "Imperfect",
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.description": "{Amount:cond:>0?{Amount} u|U}nresolved damage. If the bearer receives unblocked damage, immediately resolves to real damage. Reduces by 1 at start of turn.",
