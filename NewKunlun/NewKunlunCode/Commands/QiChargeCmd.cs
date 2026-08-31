@@ -3,13 +3,14 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Powers;
 
 public static class QiChargeCmd
 {
     private const int DefaultMaxCharges = 3;
 
-    public static async Task AddQiCharges(
+    public static async Task GainQiCharges(
         PlayerChoiceContext choiceContext,
         Creature target,
         decimal amount,

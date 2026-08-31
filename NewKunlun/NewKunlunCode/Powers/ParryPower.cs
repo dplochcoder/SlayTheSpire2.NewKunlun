@@ -48,7 +48,7 @@ public partial class ParryPower : NewKunlunPower
             return;
 
         await InternalDamageCmd.Apply(choiceContext, target, InternalDamage.BaseValue, Owner, null);
-        await QiChargeCmd.AddQiCharges(choiceContext, target, Amount, Owner, null);
+        await QiChargeCmd.GainQiCharges(choiceContext, target, Amount, Owner, null);
         await PowerCmd.Remove(this);
         Flash();
     }

@@ -13,16 +13,16 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    "Surge",
-    "Deal {Damage:diff()} damage. Add 1 [gold]Malfunction[/gold] to your discard pile."
+    title: "Surge",
+    description: "Deal {Damage:diff()} damage. Add 1 [gold]Malfunction[/gold] to your discard pile."
 )]
 public partial class SurgeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(15M, ValueProp.Move)];
+        [new DamageVar(13M, ValueProp.Move)];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueBy(7);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromCard<MalfunctionCard>()];

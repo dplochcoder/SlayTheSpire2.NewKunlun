@@ -14,8 +14,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    "Malfunction",
-    "Take {OnExhaustDamage:diff()} [gold]Internal Damage[/gold]. Draw 1 card. If this is in your hand at the end of your turn, take {EndOfTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
+    title: "Malfunction",
+    description: "Take {OnExhaustDamage:diff()} [gold]Internal Damage[/gold]. If this is in your hand at the end of your turn, take {EndOfTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
 )]
 public partial class MalfunctionCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.Self)
@@ -24,9 +24,9 @@ public partial class MalfunctionCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(EndOfTurnDamage), 4M),
-            new InternalDamageVar(nameof(OnExhaustDamage), 8M),
-            new DynamicVar(nameof(DamageIncrement), 4M),
+            new InternalDamageVar(nameof(EndOfTurnDamage), 3M),
+            new InternalDamageVar(nameof(OnExhaustDamage), 6M),
+            new DynamicVar(nameof(DamageIncrement), 3M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

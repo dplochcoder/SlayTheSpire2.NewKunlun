@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -15,43 +16,31 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Parry",
-    description: "Block {Block:diff()}. If you are hit by the enemy this turn, take {InternalDamage} [gold]Internal Damage[/gold] and gain {QiCharge:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
+    title: "Brace",
+    description: "Gain {Block:diff()} block. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
 )]
-public partial class ParryCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
+public partial class BraceCard()
+    : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(9M, ValueProp.Move), new InternalDamageVar(3M), new QiChargeVar(1M)];
+        [new BlockVar(28M, ValueProp.Move), new InternalDamageVar(12M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<InternalDamagePower>(),
-            HoverTipFactory.FromPower<QiChargePower>(),
-        ];
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
-    protected override bool ShouldGlowGoldInternal =>
-        CombatState?.Enemies.Any(e => e.IsAlive && (e.Monster?.IntendsToAttack ?? false)) ?? false;
-
-    protected override void OnUpgrade()
-    {
-        Block.UpgradeValueTo(13M);
-        QiCharge.UpgradeValueTo(2M);
-    }
+    protected override void OnUpgrade() => Block.UpgradeValueTo(38M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
-
-        var power = await PowerCmd.Apply<ParryPower>(
+        await InternalDamageCmd.Apply(
             choiceContext,
             Owner.Creature,
-            QiCharge.BaseValue,
+            InternalDamage.BaseValue,
             Owner.Creature,
-            cardPlay.Card
+            this
         );
-        power?.InternalDamage.BaseValue += InternalDamage.BaseValue;
     }
 }

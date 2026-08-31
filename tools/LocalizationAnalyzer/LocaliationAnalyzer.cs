@@ -11,6 +11,7 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
 {
     public const string InvalidLocalizationId = "NKLOC001";
     public const string UnknownVariableId = "NKLOC002";
+    public const string UnnamedArgumentId = "NKLOC003";
 
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
@@ -32,8 +33,18 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         description: "Variables referenced by a model description must be declared in CanonicalVars."
     );
 
+    private static readonly DiagnosticDescriptor UnnamedArgument = new(
+        UnnamedArgumentId,
+        "Localization argument must be named",
+        "Localization arguments must use named-argument syntax",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Named arguments keep localization fields independent of constructor parameter order."
+    );
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(InvalidLocalization, UnknownVariable);
+        ImmutableArray.Create(InvalidLocalization, UnknownVariable, UnnamedArgument);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -54,6 +65,16 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         if (attr is null)
             return;
 
+        var unnamedArguments =
+            attr.ArgumentList?.Arguments.Where(argument => argument.NameColon is null).ToArray()
+            ?? [];
+        foreach (var argument in unnamedArguments)
+            context.ReportDiagnostic(
+                Diagnostic.Create(UnnamedArgument, argument.Expression.GetLocation())
+            );
+        if (unnamedArguments.Length > 0)
+            return;
+
         if (!Localization.GetLocalizationStrings(attr, kind, out var localizationStrings))
         {
             context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
@@ -61,7 +82,11 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         }
 
         var validVariables = DynamicVariables.FindDynamicVariables(clazz);
-        for (var index = 1; index < localizationStrings.Count; index++)
+        foreach (
+            var localizationString in localizationStrings.Where(localization =>
+                localization.Name != "title"
+            )
+        )
         {
             HashSet<string> allowedVariables = [.. validVariables];
             switch (kind)
@@ -74,10 +99,10 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
                     break;
             }
 
-            var descriptionLocation = attr.ArgumentList!.Arguments[index].Expression.GetLocation();
+            var descriptionLocation = localizationString.Expression.GetLocation();
             foreach (
                 var variableName in DynamicVariables.ParseReferencedVariables(
-                    localizationStrings[index]
+                    localizationString.Value
                 )
             )
             {

@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 
@@ -18,8 +19,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    "Talisman Detonate",
-    "Inflict {Vulnerable} [gold]Vulnerable[/gold] to all [gold]Talisman[/gold] targets. Targets take {Damage} unblockable damage per spent [gold]Qi Charge[/gold]."
+    title: "Talisman Detonate",
+    description: "Inflict {Vulnerable} [gold]Vulnerable[/gold] to all [gold]Talisman[/gold] targets. Targets take {Damage} unblockable damage per spent [gold]Qi Charge[/gold]."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Basic, TargetType.None)
@@ -40,10 +41,17 @@ public partial class TalismanDetonateCard()
             HoverTipFactory.FromPower<QiChargePower>(),
         ];
 
+    protected override bool ShouldGlowGoldInternal =>
+        CombatState?.Enemies.Any(e =>
+            e.IsHittable
+            && e.GetPowerInstances<TalismanPower>().Any(p => p.Applier == Owner.Creature)
+        )
+        ?? false;
+
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueBy(7M);
-        Vulnerable.UpgradeValueBy(1M);
+        Damage.UpgradeValueTo(25M);
+        Vulnerable.UpgradeValueTo(3M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -30,4 +30,25 @@ public static class InternalDamageCmd
             silent
         );
     }
+
+    // Returns the amount of internal damage healed.
+    public static async Task<decimal> Heal(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        decimal maxAmount,
+        Creature? applier,
+        CardModel? cardSource,
+        bool silent = false
+    )
+    {
+        if (target.GetPower<InternalDamagePower>() is not { } power)
+            return 0;
+
+        var toHeal = Math.Min(power.Amount, maxAmount);
+        if (toHeal <= 0)
+            return 0;
+
+        await PowerCmd.ModifyAmount(choiceContext, power, -toHeal, applier, cardSource, silent);
+        return toHeal;
+    }
 }

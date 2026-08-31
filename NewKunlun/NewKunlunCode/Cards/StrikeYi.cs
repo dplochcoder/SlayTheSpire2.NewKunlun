@@ -5,12 +5,13 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[CardLocalization("Strike", "Deal {Damage:diff()} damage.")]
+[CardLocalization(title: "Strike", description: "Deal {Damage:diff()} damage.")]
 public partial class StrikeYi()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
@@ -28,5 +29,5 @@ public partial class StrikeYi()
             .Execute(choiceContext);
     }
 
-    protected override void OnUpgrade() => Damage.UpgradeValueBy(3M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(9M);
 }

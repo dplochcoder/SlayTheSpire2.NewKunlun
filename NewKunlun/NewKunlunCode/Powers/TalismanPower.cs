@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
     title: "Talisman",
     description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
     smartDescription: "",
-    remoteDescription: "Another player can activate Talisman Detonate on this enemy."
+    remoteDescription: "Another player can activate [gold]Talisman Detonate[/gold] on this enemy."
 )]
 public partial class TalismanPower : NewKunlunPower
 {
@@ -28,9 +28,7 @@ public partial class TalismanPower : NewKunlunPower
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             HoverTipFactory.FromCard<TalismanDetonateCard>(
-                upgrade: Applier?.Player?.PlayerCombatState?.AllCards.Any(c =>
-                    c is TalismanDashCard or TalismanDetonateCard && c.IsUpgraded
-                ) ?? false
+                upgrade: TalismanDashCard.IsUpgradedAnywhere(Applier?.Player)
             ),
         ];
 

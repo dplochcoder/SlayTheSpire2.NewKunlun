@@ -9,32 +9,32 @@ Water Flow Talisman: Debuff which automatically detonates after 2 turns. Inflict
 Speed: Stackable buff. At the start of your turn, draw 1 card, lose 1 dex, and decrement.
 
 Starter deck:
-  Strike x4
-  Defend x4
-  Parry 1: Block 10(16). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
+ *Strike x4
+ *Defend x4
+ *Parry 1: Block 9(13). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
   Orobas:
     Perfect Parry 0: Block 18(28). If you are hit by the enemy this turn, gain 2(3) Qi Charge(s).
-  Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 2(3) Qi Charges, inflict 1 Talisman per charge. Next turn, add a Talisman Detonate(+) into your hand.
-  Talisman Detonate 2 -> Ethereal. Inflict 2(3) Vulnerable to all Talisman targets. Deal 18(25) unblockable damage per charge. Exhaust.
+ *Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 2(3) Qi Charges, inflict 1 Talisman per charge. Next turn, add a Talisman Detonate(+) into your hand.
+ *Talisman Detonate 2 -> Ethereal. Inflict 2(3) Vulnerable to all Talisman targets. Deal 18(25) unblockable damage per charge. Exhaust.
 
 Status:
-  Smolder 1: If this is in your hand at the end of your turn, lose 1 HP and add 1 Smolder to your discard pile. If played, take 1 damage and Exhaust.
-  Malfunction 1: If this is in your hand at the end of your turn, take 4 Internal Damage and increase all damage on this card by 4. If played, take 8 Internal Damage and Exhaust.
+ *Smolder 1: If this is in your hand at the end of your turn, lose 1 HP and add 1 Smolder to your discard pile. If played, take 1 damage and Exhaust.
+ *Malfunction 1: If this is in your hand at the end of your turn, take 3 Internal Damage and increase all damage on this card by 3. If played, take 6 Internal Damage and Exhaust.
 
 Attacks:
  (C) Charge Strike 2(1): Deal 12 damage. Your next attack this turn deals double damage. Spend 1 Qi Charge for triple damage.
  (C) Pressure Point 2: Deal 10 damage. Deal 12(18) Internal Damage.
- (C) Surge 1: Deal 15(22) damage. Add 1 Malfunction to your discard pile.
- (C) Stagger 1: Deal 8(12) damage. If the target is afflicted with Talisman, attack twice.
- (C) Tai-Chi Kick 1: Deal 4(6) damage. Gain 4(6) block. Deal 4(6) Internal Damage.
+*(C) Surge 1: Deal 13(19) damage. Add 1 Malfunction to your discard pile.
+ (C) Stagger 1: Deal 8(11) damage. If the target is afflicted with Talisman, attack twice.
+*(C) Tai-Chi Kick 1: Deal 4(6) damage. Gain 6(9) block. If the enemy intends to attack, gain 1 Qi Charge.
  (C) Unbalanced Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
  (C) Skull Kick 1: Deal 9(13) damage. Gain 4(6) Block. Gain 1 Qi Charge.
- (C) Sabotage 1: Deal 12(19) Internal Damage. Take 4 Internal Damage.
- (U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 15(21) damage.
+*(C) Sabotage 1: Deal 11(17) Internal Damage. Take 4 Internal Damage.
+*(U) Triple Slash 1: Deal 7(10) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.
  (U) Shadow Strike 2: Deal 14(19) damage. Attack twice if the enemy is not attacking this turn.
  (U) Flaming Strike 1: Deal 18(22) damage. Add 1 Smolder to your draw pile.
  (U) Flurry 0: Spend X Qi Charges. Deal 11(17) damage to a random enemy per charge.
- (U) Oppress 1: Deal 9(13) damage. Gain 1 Strength. Take 5 Internal Damage.
+*(U) Spar 1: Deal 8(12) damage. Gain 1(2) Block. Gain 1 Strength. Take 5 Internal Damage.
  (U) Short-circuit 2(1): Deal 15 damage. If the target is afflicted with Talisman, play Talisman Detonate.
  (R) Azure Bow 1: Collect 1 Azure Sand. If you have 3 or more Azure Sand, spend them to deal 65(90) damage to all enemies.
  (R) Destabilize 2: Deal 28(38) Internal Damage. Take 6 Internal Damage.
@@ -42,23 +42,23 @@ Attacks:
  (R) Infect 2: Whenever Internal Damage procs on enemies this turn, immediately reapply it. Deal 5(11) damage to all enemies.
 
 Skills:
- (C) Swift Dash 2: Gain 2(3) Dex. Gain 7(10) Block. Gain 2(3) Speed.
+*(C) Swift Dash 1: Gain 2 Block 3(4) times.
  (C) Immortal Dash 1: Gain 1 Dex. Gain 7(10) Block.
- (C) Parry 1: Gain 8(12) Block. If any enemy intends to attack, gain 1 Qi Charge.
  (C) Deflect 1: Gain 12(17) Block. Take 8 Internal Damage.
  (C) Qi Reserve 0: Gain 2(3) Qi Charges. Exhaust.
  (C) Chase 1: Gain 4(7) Block. Draw 2(3) cards. Exhaust 1 card.
  (C) Hack 1: Apply 4 Internal Damage, then double(triple) it. Exhaust.
- (U) Brace 2: Gain 26(38) Block. Take 12 internal damage.
+ (C) Flow 0: Draw 1 card. Spend 1 Qi Charge to gain 1(2) energy.
+*(U) Brace 2: Gain 26(38) Block. Take 12 internal damage.
  (U) Air Dash 1: Gain 7(10) Block. Draw 1(2) cards. Gain 1 Qi Charge.
  (U) Qi Surge 0: Gain 1(2) Energy. Spent up to 2 Qi Charges, gain 1 energy each. Exhaust.
- (U) Breathing Exercise 1: Heal 12(17) Internal Damage.
+*(U) Breathing Exercise 1: Heal 12(18) Internal Damage.
  (U) Cleanse 1: At the end of your next 2(3) turns, heal 3(4) Internal Damage and exhaust 1 card from your hand.
  (U) Retreat 2: (Retain) Gain 16 Block. Discard up to 2 cards. Exhaust up to 1 card.
- (U) Cooldown 1: (Retain) Pull your Talisman into your hand. It costs 0 this turn. Exhaust.
+ (U) Cooldown 1: (Retain) Pull your Talisman Dash into your hand. It costs 0 this turn. Exhaust.
  (U) Invigorate 1: Gain 4(6) strength. Take 18 Internal Damage. Exhaust.
  (U) Incisive Drain 1: (Retain) Gain 1 Qi Charge each time you deal unblocked damage this turn.
- (R) Scrounge 1(0): Discard your hand. Draw 10 cards. Keep 2 cards and discard the rest. Exhaust.
+ (R) Scrounge 1: (Retain) Discard your hand. Draw 10 cards. Keep 2(3) cards and discard the rest. Exhaust.
  (R) Meditate 2: Gain 6 Block. Gain 3(5) Qi Charges.
  (R) Unbounded Counter 2: At the end of your turn, if you played no attacks this turn, gain 37(52) block and 2(3) Qi Charges.
  (R) Medicine Pipe 1: Heal 10(16) HP. Heal all Internal Damage. Exhaust. After 3(4) uses, this card is removed from your deck.
@@ -70,15 +70,13 @@ Powers:
  (U) Breather Jade 1: Heal 3(5) Internal Damage every time you deal unblocked damage.
  (U) Ricochet Jade 1: Every time you fully block an attack, inflict 4(7) Internal Damage on the attacker.
  (U) Stasis Jade 2(1): Enemies with the Talisman debuff deal half damage.
- (U) Like Water 1: (Innate) Once per turn, when you play Talisman Dash, put Talisman Detonate into your hand instead of your deck.
- (U) Steely Jade 1: Talisman Detonate plays from anywhere automatically after 3 turns. Gain 8(12) Block whenever playing Talisman Detonate.
  (U) Qi Boost 2: (Innate) At the end of your turn, gain 1 Qi Charge.
- (U) Arson 2: At the start of your turn, deal 12(15) Internal Damage to all enemies and add 1 Smolder to your hand.
+ (U) Arson 2: At the start of your turn, deal 12(17) Internal Damage to all enemies and add 1 Smolder to your hand.
  (U) Iron Skin Jade 2: When receiving unblocked damage, convert up to 4(7) to Internal Damage.
  (U) Full Control 1: Your Talisman can now consume up to 5 Qi Charges. Gain 1 Qi Charge when using Talisman Dash. (Gain 2 Qi Charges).
  (U) Soul Reaper Jade 1: Talisman Dash transfers 25(50)% of your Internal Damage onto targets.
  (R) Avarice Jade 1: Gain 10(15) gold whenever a fatal blow is dealt.
- (R) Root Node 3: (Retain) Heal 10(14) HP. Heal all Internal Damage. Gain 1 STR and 1 DEX. Choose 1 card from your deck to add to your hand.
+*(R) Root Node 3: Heal 6(8) HP. Heal all Internal Damage. Gain 2(3) STR and 2(3) DEX. Choose 1(2) cards from your deck and place it(them) on top.
  (R) Mob Quell Jade 2(1): Talisman Dash targets all enemies.
  (R) Contingency 1: All Internal Damage inflicted on enemies is increased by 50(100)%.
  (R) Reciprocation Jade 2: When blocking attack damage, transfer Internal Damage equal to the blocked damage to the enemy.

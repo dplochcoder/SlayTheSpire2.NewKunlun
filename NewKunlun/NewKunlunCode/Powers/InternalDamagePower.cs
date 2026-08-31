@@ -11,7 +11,11 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
-[PowerLocalization(title: "Internal Damage", description: "", smartDescription: "")]
+[PowerLocalization(
+    title: "Internal Damage",
+    description: "{Amount:cond:>0?{Amount} u|U}nresolved damage. If the bearer receives unblocked damage, immediately resolves to real damage. Reduces by 1 at start of turn.",
+    smartDescription: ""
+)]
 public class InternalDamagePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Debuff;
@@ -63,7 +67,7 @@ public class InternalDamagePower : NewKunlunPower
             new HealthBarForecastSegment()
             {
                 Amount = Amount,
-                Color = new Color(0.6f, 0.1f, 0.1f),
+                Color = new Color(0.45f, 0.1f, 0.05f),
                 AffectsHpLabel = true,
                 Direction = HealthBarForecastDirection.FromRight,
                 LeftOriginLayout = HealthBarForecastLeftOriginLayout.Chained,

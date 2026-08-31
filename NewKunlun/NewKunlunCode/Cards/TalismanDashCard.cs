@@ -1,12 +1,14 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
@@ -15,8 +17,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    "Talisman Dash",
-    "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold], inflict one [gold]Talisman[/gold] per change. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
+    title: "Talisman Dash",
+    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold], inflict one [gold]Talisman[/gold] per change. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
@@ -32,10 +34,19 @@ public partial class TalismanDashCard()
             HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgraded),
         ];
 
+    protected override bool ShouldGlowGoldInternal =>
+        Owner.Creature.GetPowerAmount<QiChargePower>() > 0;
+
+    public static bool IsUpgradedAnywhere(Player? player) =>
+        player != null
+        && (player.PlayerCombatState?.AllCards ?? player.Deck.Cards).Any(c =>
+            c is TalismanDashCard or TalismanDetonateCard && c.IsUpgraded
+        );
+
     protected override void OnUpgrade()
     {
-        Weak.UpgradeValueBy(1M);
-        QiCharge.UpgradeValueBy(1M);
+        Weak.UpgradeValueTo(2M);
+        QiCharge.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

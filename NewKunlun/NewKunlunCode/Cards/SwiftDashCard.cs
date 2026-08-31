@@ -11,20 +11,23 @@ using NewKunlun.NewKunlunCode.Localization;
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[CardLocalization(title: "Defend", description: "Gain {Block:diff()} block.")]
-public partial class DefendYi()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
+[CardLocalization(
+    title: "Swift Dash",
+    description: "Gain {Block:diff()} block {Times:diff()} times."
+)]
+public partial class SwiftDashCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     public override bool GainsBlock => true;
 
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new BlockVar(2M, ValueProp.Move), new DynamicVar(nameof(Times), 3)];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5M, ValueProp.Move)];
+    protected override void OnUpgrade() => Times.UpgradeValueTo(4M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
+        for (var i = 0; i < Times.BaseValue; i++)
+            await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay, fast: true);
     }
-
-    protected override void OnUpgrade() => Block.UpgradeValueTo(8M);
 }

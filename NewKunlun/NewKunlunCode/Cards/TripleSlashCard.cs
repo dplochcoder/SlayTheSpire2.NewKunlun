@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -14,8 +15,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    "Triple Slash",
-    "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
+    title: "Triple Slash",
+    description: "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
 )]
 public partial class TripleSlashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
@@ -25,8 +26,10 @@ public partial class TripleSlashCard()
         [
             new DamageVar(7M, ValueProp.Move),
             new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
-            new DamageVar(nameof(BigHitDamage), 15M, ValueProp.Move),
+            new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
+
+    protected override bool ShouldGlowGoldInternal => PlaysThisTurn % 3 == 2;
 
     private void UpdateDamage() =>
         Damage.BaseValue = (PlaysThisTurn % 3 == 2 ? BigHitDamage : SmallHitDamage).BaseValue;
@@ -43,8 +46,8 @@ public partial class TripleSlashCard()
 
     protected override void OnUpgrade()
     {
-        SmallHitDamage.UpgradeValueBy(2M);
-        BigHitDamage.UpgradeValueBy(6M);
+        SmallHitDamage.UpgradeValueTo(10M);
+        BigHitDamage.UpgradeValueTo(19M);
         UpdateDamage();
     }
 

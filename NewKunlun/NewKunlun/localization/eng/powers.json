@@ -1,5 +1,5 @@
 {
-  "NEWKUNLUN-INTERNAL_DAMAGE_POWER.description": "",
+  "NEWKUNLUN-INTERNAL_DAMAGE_POWER.description": "{Amount:cond:\u003E0?{Amount} u|U}nresolved damage. If the bearer receives unblocked damage, immediately resolves to real damage. Reduces by 1 at start of turn.",
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.smartDescription": "",
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.title": "Internal Damage",
   "NEWKUNLUN-PARRY_POWER.description": "If you are hit by the enemy this turn, {InternalDamage:cond:\u003E0?take {InternalDamage} [gold]Internal Damage[/gold] and |}gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
@@ -8,14 +8,14 @@
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.description": "INTERNAL",
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.smartDescription": "INTERNAL",
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.title": "Qi Charge Capacity",
-  "NEWKUNLUN-QI_CHARGE_POWER.description": "",
+  "NEWKUNLUN-QI_CHARGE_POWER.description": "Energy used to accelerate damage. Primarily used with [gold]Talisman Dash[/gold].",
   "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "",
   "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:\u003E0:(\u002B)|}[/gold] to your hand.",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.smartDescription": "",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.title": "Talisman Detonate",
   "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
-  "NEWKUNLUN-TALISMAN_POWER.remoteDescription": "Another player can activate Talisman Detonate on this enemy.",
+  "NEWKUNLUN-TALISMAN_POWER.remoteDescription": "Another player can activate [gold]Talisman Detonate[/gold] on this enemy.",
   "NEWKUNLUN-TALISMAN_POWER.smartDescription": "",
   "NEWKUNLUN-TALISMAN_POWER.title": "Talisman"
 }

@@ -13,33 +13,19 @@ if (!TryReadArguments(args, out var options))
     return 2;
 }
 
-var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization", 2);
-var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization", 3, 4);
-var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization", 3);
+var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization");
+var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization");
+var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization");
 
-UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card", ["title", "description"]);
-UpdateJson(
-    options.PowersJsonPath,
-    options.IdPrefix,
-    powers,
-    "power",
-    ["title", "description", "smartDescription", "remoteDescription"]
-);
-UpdateJson(
-    options.RelicsJsonPath,
-    options.IdPrefix,
-    relics,
-    "relic",
-    ["title", "description", "flavor"]
-);
+UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
+UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
+UpdateJson(options.RelicsJsonPath, options.IdPrefix, relics, "relic");
 return 0;
 
 static IReadOnlyList<LocalizedModel> ReadModels(
     string sourceDirectory,
     string baseTypeName,
-    string attributeName,
-    int minimumValueCount,
-    int? maximumValueCount = null
+    string attributeName
 )
 {
     List<LocalizedModel> models = [];
@@ -61,16 +47,13 @@ static IReadOnlyList<LocalizedModel> ReadModels(
             if (attr?.ArgumentList is not { } argumentList)
                 continue;
 
-            var argumentCount = argumentList.Arguments.Count;
-            if (
-                argumentCount < minimumValueCount
-                || argumentCount > (maximumValueCount ?? minimumValueCount)
-            )
-                continue;
-
             var values = argumentList
-                .Arguments.Select(argument =>
-                    ((LiteralExpressionSyntax)argument.Expression).Token.ValueText
+                .Arguments.Select(
+                    (argument, index) =>
+                        new LocalizationValue(
+                            argument.NameColon!.Name.Identifier.ValueText,
+                            ((LiteralExpressionSyntax)argument.Expression).Token.ValueText
+                        )
                 )
                 .ToArray();
             models.Add(new LocalizedModel(clazz.Identifier.ValueText, values));
@@ -83,16 +66,15 @@ static void UpdateJson(
     string jsonPath,
     string idPrefix,
     IReadOnlyList<LocalizedModel> models,
-    string modelKind,
-    IReadOnlyList<string> fieldNames
+    string modelKind
 )
 {
     SortedDictionary<string, string> generatedJson = [];
     foreach (var model in models)
     {
         var modelId = $"{idPrefix}-{ToUpperSnakeCase(model.ClassName)}";
-        for (var index = 0; index < model.Values.Count; index++)
-            generatedJson[$"{modelId}.{fieldNames[index]}"] = model.Values[index];
+        foreach (var value in model.Values)
+            generatedJson[$"{modelId}.{value.Name}"] = value.Value;
     }
 
     var existingText = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : null;
@@ -177,4 +159,6 @@ internal sealed record ToolOptions(
     string IdPrefix
 );
 
-internal sealed record LocalizedModel(string ClassName, IReadOnlyList<string> Values);
+internal sealed record LocalizedModel(string ClassName, IReadOnlyList<LocalizationValue> Values);
+
+internal sealed record LocalizationValue(string Name, string Value);

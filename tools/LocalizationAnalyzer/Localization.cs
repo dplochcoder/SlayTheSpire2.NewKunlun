@@ -62,33 +62,52 @@ public static class Localization
     public static bool GetLocalizationStrings(
         AttributeSyntax attr,
         LocalizedModelKind kind,
-        out IReadOnlyList<string> values
+        out IReadOnlyList<LocalizationString> values
     )
     {
-        var minimumCount = kind == LocalizedModelKind.Card ? 2 : 3;
-        var maximumCount = kind == LocalizedModelKind.Power ? 4 : minimumCount;
+        IReadOnlyList<string> requiredParameterNames = kind switch
+        {
+            LocalizedModelKind.Card => ["title", "description"],
+            LocalizedModelKind.Power => ["title", "description", "smartDescription"],
+            LocalizedModelKind.Relic => ["title", "description", "flavor"],
+            _ => throw new ArgumentOutOfRangeException(nameof(kind)),
+        };
         if (attr.ArgumentList is not { } argumentList)
         {
-            values = Array.Empty<string>();
+            values = Array.Empty<LocalizationString>();
             return false;
         }
 
-        var argumentCount = argumentList.Arguments.Count;
-        if (argumentCount < minimumCount || argumentCount > maximumCount)
+        var result = new List<LocalizationString>(argumentList.Arguments.Count);
+        for (var index = 0; index < argumentList.Arguments.Count; index++)
         {
-            values = Array.Empty<string>();
-            return false;
-        }
-
-        var result = new List<string>(argumentCount);
-        foreach (var argument in argumentList.Arguments)
-        {
+            var argument = argumentList.Arguments[index];
+            var parameterName = argument.NameColon?.Name.Identifier.ValueText;
             if (!TryReadString(argument.Expression, out var value))
             {
-                values = Array.Empty<string>();
+                values = Array.Empty<LocalizationString>();
                 return false;
             }
-            result.Add(value);
+            if (
+                parameterName is null
+                || result.Any(localization => localization.Name == parameterName)
+            )
+            {
+                values = Array.Empty<LocalizationString>();
+                return false;
+            }
+
+            result.Add(new LocalizationString(parameterName, value, argument.Expression));
+        }
+
+        if (
+            requiredParameterNames.Any(required =>
+                result.All(localization => localization.Name != required)
+            )
+        )
+        {
+            values = Array.Empty<LocalizationString>();
+            return false;
         }
 
         values = result;
@@ -115,4 +134,11 @@ public static class Localization
         value = "";
         return false;
     }
+}
+
+public sealed class LocalizationString(string name, string value, ExpressionSyntax expression)
+{
+    public string Name { get; } = name;
+    public string Value { get; } = value;
+    public ExpressionSyntax Expression { get; } = expression;
 }
