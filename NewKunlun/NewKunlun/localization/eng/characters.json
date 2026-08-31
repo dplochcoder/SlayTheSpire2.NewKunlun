@@ -1,16 +1,16 @@
 ﻿{
   "NEWKUNLUN-YI.aromaPrinciple": "Lore",
-  "NEWKUNLUN-YI.banter.alive.endTurnPing": "Co-op hurry up end turn ping message",
+  "NEWKUNLUN-YI.banter.alive.endTurnPing": "We're falling behind.",
   "NEWKUNLUN-YI.banter.dead.endTurnPing": "...",
-  "NEWKUNLUN-YI.cardsModifierDescription": "__ cards will now appear in rewards and shops.",
-  "NEWKUNLUN-YI.cardsModifierTitle": "__ Cards",
+  "NEWKUNLUN-YI.cardsModifierDescription": "Yi's cards will now appear in rewards and shops.",
+  "NEWKUNLUN-YI.cardsModifierTitle": "Yi's Cards",
   "NEWKUNLUN-YI.description": "Character Selection\nScreen Description",
-  "NEWKUNLUN-YI.eventDeathPrevention": "Co-op survival line",
-  "NEWKUNLUN-YI.goldMonologue": "Line spoken when obtaining a large amount of gold",
-  "NEWKUNLUN-YI.possessiveAdjective": "his/her/its",
-  "NEWKUNLUN-YI.pronounObject": "him/her/it",
-  "NEWKUNLUN-YI.pronounPossessive": "his/hers/its",
-  "NEWKUNLUN-YI.pronounSubject": "he/she/it",
-  "NEWKUNLUN-YI.title": "The Yi",
-  "NEWKUNLUN-YI.titleObject": "The Yi"
+  "NEWKUNLUN-YI.eventDeathPrevention": "Narrower margins than I planned for.",
+  "NEWKUNLUN-YI.goldMonologue": "So much wasted Jin...",
+  "NEWKUNLUN-YI.possessiveAdjective": "his",
+  "NEWKUNLUN-YI.pronounObject": "him",
+  "NEWKUNLUN-YI.pronounPossessive": "his",
+  "NEWKUNLUN-YI.pronounSubject": "he",
+  "NEWKUNLUN-YI.title": "Yi",
+  "NEWKUNLUN-YI.titleObject": "Yi"
 }

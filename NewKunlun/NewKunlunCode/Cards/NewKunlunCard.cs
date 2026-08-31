@@ -14,6 +14,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, TargetType target)
     : CustomCardModel(cost, type, rarity, target)
 {
+    public virtual bool IsParryCard => false;
+
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
     //Full art: 606x852

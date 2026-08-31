@@ -43,7 +43,7 @@ public partial class TalismanDetonateCard()
             HoverTipFactory.FromPower<TalismanPower>(),
         ];
 
-    protected override bool ShouldGlowGoldInternal =>
+    protected override bool IsPlayable =>
         Owner.Creature.GetPowerAmount<QiChargePower>() > 0
         && (
             CombatState?.Enemies.Any(e =>
@@ -52,6 +52,8 @@ public partial class TalismanDetonateCard()
             )
             ?? false
         );
+
+    protected override bool ShouldGlowGoldInternal => IsPlayable;
 
     protected override void OnUpgrade()
     {

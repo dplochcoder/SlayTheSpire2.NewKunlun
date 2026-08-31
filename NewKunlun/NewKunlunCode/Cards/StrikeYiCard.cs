@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(title: "Strike", description: "Deal {Damage:diff()} damage.")]
-public partial class StrikeYi()
+public partial class StrikeYiCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];

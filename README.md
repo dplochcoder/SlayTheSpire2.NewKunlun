@@ -7,8 +7,8 @@ Put each English card title and description on its `CardModel` class:
 
 ```csharp
 [CardLocalization(
-    "Example Card",
-    "Deal {Damage:diff()} damage and gain {Block} block."
+    title: "Example Card",
+    description: "Deal {Damage:diff()} damage and gain {Block} block."
 )]
 public partial class ExampleCard : NewKunlunCard
 {
@@ -17,14 +17,10 @@ public partial class ExampleCard : NewKunlunCard
 }
 ```
 
-Every normal build regenerates `NewKunlun/localization/eng/cards.json`. Placeholder names
-inside `{...}` must match a dynamic variable declared by the card. A typo fails the build
-with error `NKLOC002` and, when possible, a suggested correction. The same diagnostic is
-provided by a Roslyn analyzer, so Rider underlines invalid description strings without
-waiting for the JSON-generation build step.
-
-Validation belongs to `CardLocalizationAnalyzer`. The separate `CardLocalizationTool` runs
-after successful compilation and only synchronizes valid annotations into `cards.json`.
+Placeholder names inside `{...}` must match a dynamic variable declared by the card. A typo
+fails the build with error `NKLOC002` and, when possible, a suggested correction. If the JSON
+does not match the attribute, `NKLOC004` provides an IDE quick fix that immediately updates
+the corresponding `cards.json`, `powers.json`, or `relics.json` file.
 
 Named variables use `nameof(GeneratedProperty)`, which is shared by localization linting and
 the generated strongly typed getter.

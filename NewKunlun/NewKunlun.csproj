@@ -18,7 +18,7 @@
   <PropertyGroup>
     <!-- Diasble architecture mismatch warning; mods are ideally built for all platforms (MSIL)
              while your local StS2 version will be for your specific platform. -->
-    <NoWarn>$(NoWarn);MSB3270</NoWarn>
+    <NoWarn>$(NoWarn);MSB3270;STS001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="Exists('$(Sts2DataDir)')">
@@ -52,12 +52,13 @@
 
   <ItemGroup>
     <ProjectReference
-      Include="..\tools\LocalizationTool\LocalizationTool.csproj"
+      Include="..\tools\LocalizationAnalyzer\LocalizationAnalyzer.csproj"
+      OutputItemType="Analyzer"
       ReferenceOutputAssembly="false"
       PrivateAssets="all"
     />
     <ProjectReference
-      Include="..\tools\LocalizationAnalyzer\LocalizationAnalyzer.csproj"
+      Include="..\tools\LocalizationCodeFix\LocalizationCodeFix.csproj"
       OutputItemType="Analyzer"
       ReferenceOutputAssembly="false"
       PrivateAssets="all"
@@ -79,19 +80,13 @@
     </ItemGroup>
   </Target>
 
-  <PropertyGroup>
-    <LocalizationToolDll>$(MSBuildProjectDirectory)\..\tools\LocalizationTool\bin\$(Configuration)\net9.0\LocalizationTool.dll</LocalizationToolDll>
-    <CardsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\cards.json</CardsLocalizationJson>
-    <PowersLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\powers.json</PowersLocalizationJson>
-    <RelicsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\relics.json</RelicsLocalizationJson>
-  </PropertyGroup>
-
-  <Target
-    Name="GenerateLocalization"
-    AfterTargets="CoreCompile"
-    Condition="'$(DesignTimeBuild)' != 'true'"
-  >
-    <Exec Command="dotnet &quot;$(LocalizationToolDll)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --relics &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Relics&quot; --relics-json &quot;$(RelicsLocalizationJson)&quot; --prefix NEWKUNLUN" />
+  <Target Name="AddLocalizationAnalyzerDependencies" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Analyzer
+        Include="..\tools\LocalizationAnalyzer\bin\$(Configuration)\netstandard2.0\Newtonsoft.Json.dll"
+        Condition="Exists('..\tools\LocalizationAnalyzer\bin\$(Configuration)\netstandard2.0\Newtonsoft.Json.dll')"
+      />
+    </ItemGroup>
   </Target>
 
   <ItemGroup>

@@ -60,6 +60,5 @@ public partial class MalfunctionCard()
             this
         );
         await CardPileCmd.Draw(choiceContext, Owner);
-        await CardCmd.Exhaust(choiceContext, this);
     }
 }

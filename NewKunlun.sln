@@ -2,9 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewKunlun", "NewKunlun\NewKunlun.csproj", "{3C3B2001-EA78-49F6-A143-B6D22119D6D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationTool", "tools\LocalizationTool\LocalizationTool.csproj", "{9812F945-8974-4699-AD38-AEE8FC6C3619}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationAnalyzer", "tools\LocalizationAnalyzer\LocalizationAnalyzer.csproj", "{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationCodeFix", "tools\LocalizationCodeFix\LocalizationCodeFix.csproj", "{BC8345B8-283C-4373-875F-0D4F27807A29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicVarGenerator", "tools\DynamicVarGenerator\DynamicVarGenerator.csproj", "{A2F04D7E-C1AE-4878-B734-19EB91953D9F}"
 EndProject
@@ -21,18 +21,18 @@ Global
 		{3C3B2001-EA78-49F6-A143-B6D22119D6D4}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{3C3B2001-EA78-49F6-A143-B6D22119D6D4}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{3C3B2001-EA78-49F6-A143-B6D22119D6D4}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{9812F945-8974-4699-AD38-AEE8FC6C3619}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{D5140F6A-54DE-4C57-9E1C-5B870A80B20E}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{BC8345B8-283C-4373-875F-0D4F27807A29}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 		{A2F04D7E-C1AE-4878-B734-19EB91953D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2F04D7E-C1AE-4878-B734-19EB91953D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2F04D7E-C1AE-4878-B734-19EB91953D9F}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU

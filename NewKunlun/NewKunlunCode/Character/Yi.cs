@@ -22,14 +22,14 @@ public class Yi : PlaceholderCharacterModel
 
     public override IEnumerable<CardModel> StartingDeck =>
         [
-            ModelDb.Card<StrikeYi>(),
-            ModelDb.Card<StrikeYi>(),
-            ModelDb.Card<StrikeYi>(),
-            ModelDb.Card<StrikeYi>(),
-            ModelDb.Card<DefendYi>(),
-            ModelDb.Card<DefendYi>(),
-            ModelDb.Card<DefendYi>(),
-            ModelDb.Card<DefendYi>(),
+            ModelDb.Card<StrikeYiCard>(),
+            ModelDb.Card<StrikeYiCard>(),
+            ModelDb.Card<StrikeYiCard>(),
+            ModelDb.Card<StrikeYiCard>(),
+            ModelDb.Card<DefendYiCard>(),
+            ModelDb.Card<DefendYiCard>(),
+            ModelDb.Card<DefendYiCard>(),
+            ModelDb.Card<DefendYiCard>(),
             ModelDb.Card<ParryCard>(),
             ModelDb.Card<TalismanDashCard>(),
         ];

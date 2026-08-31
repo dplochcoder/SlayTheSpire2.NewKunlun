@@ -1,26 +1,26 @@
-﻿using System.Reflection;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Parry",
-    description: "Block {Block:diff()}. Gain {Parry:diff()} [gold]Parry[/gold]. Take {Imperfect:diff()} [gold]Imperfect[/gold]."
+    title: "Imperfect Parry",
+    description: "Gain {Block:diff()} block. Gain {Parry:diff()} [gold]Parry[/gold]. Take {Imperfect:diff()} [gold]Imperfect[/gold]."
 )]
-public partial class ParryCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
+public partial class ImperfectParryCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     public override bool IsParryCard => true;
 
@@ -28,18 +28,19 @@ public partial class ParryCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(8M, ValueProp.Move),
+            new BlockVar(13M, ValueProp.Move),
             new DynamicVar(nameof(Parry), 1M),
-            new DynamicVar(nameof(Imperfect), 3M),
+            new DynamicVar(nameof(Imperfect), 8M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<ParryPower>(), HoverTipFactory.FromPower<ImperfectPower>()];
 
-    protected override bool ShouldGlowGoldInternal =>
-        CombatState?.Enemies.Any(e => e.IsAlive && (e.Monster?.IntendsToAttack ?? false)) ?? false;
-
-    protected override void OnUpgrade() => Block.UpgradeValueTo(12M);
+    protected override void OnUpgrade()
+    {
+        Block.UpgradeValueTo(16M);
+        Imperfect.UpgradeValueTo(6M);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -49,14 +50,14 @@ public partial class ParryCard()
             Owner.Creature,
             Parry.BaseValue,
             Owner.Creature,
-            cardPlay.Card
+            this
         );
         await PowerCmd.Apply<ImperfectPower>(
             choiceContext,
             Owner.Creature,
             Imperfect.BaseValue,
             Owner.Creature,
-            cardPlay.Card
+            this
         );
     }
 }

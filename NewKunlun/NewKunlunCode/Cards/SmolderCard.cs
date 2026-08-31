@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Smolder",
-    description: "Take {ExhaustDamage} damage. If this is in your hand at the end of your turn, lose {EndTurnDamage:inverseDiff()} and add 1 [gold]Smolder[/gold] to your discard pile."
+    description: "Take {OnExhaustDamage} damage. If this is in your hand at the end of your turn, lose {EndOfTurnDamage:inverseDiff()} and add 1 [gold]Smolder[/gold] to your discard pile."
 )]
 public partial class SmolderCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.None)
@@ -26,8 +26,8 @@ public partial class SmolderCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(nameof(EndTurnDamage), 1, ValueProp.Unblockable | ValueProp.Unpowered),
-            new DamageVar(nameof(ExhaustDamage), 1, ValueProp.Unpowered | ValueProp.Move),
+            new DamageVar(nameof(EndOfTurnDamage), 1, ValueProp.Unblockable | ValueProp.Unpowered),
+            new DamageVar(nameof(OnExhaustDamage), 1, ValueProp.Unpowered | ValueProp.Move),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -49,14 +49,13 @@ public partial class SmolderCard()
     protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
     {
         SpawnFire();
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, EndTurnDamage, this, null);
+        await CreatureCmd.Damage(choiceContext, Owner.Creature, EndOfTurnDamage, this, null);
         await this.AddGeneratedStatusToPile<SmolderCard>();
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         SpawnFire();
-        await CardCmd.Exhaust(choiceContext, this);
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, ExhaustDamage, this, cardPlay);
+        await CreatureCmd.Damage(choiceContext, Owner.Creature, OnExhaustDamage, this, cardPlay);
     }
 }

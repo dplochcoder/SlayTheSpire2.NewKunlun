@@ -20,23 +20,23 @@ public partial class ScroungeCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(DrawCards), 7M), new DynamicVar(nameof(KeepCards), 2M)];
+        [new DynamicVar(nameof(DrawCards), 8M), new DynamicVar(nameof(KeepCards), 2M)];
 
-    protected override void OnUpgrade()
-    {
-        DrawCards.UpgradeValueTo(8M);
-        KeepCards.UpgradeValueTo(3M);
-    }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardCmd.Discard(choiceContext, PileType.Hand.GetPile(Owner).Cards);
-        await CardPileCmd.Draw(choiceContext, 10M, Owner);
+        await CardPileCmd.Draw(choiceContext, DrawCards.BaseValue, Owner);
         var keep = await CardSelectCmd.FromCombatPile(
             choiceContext,
             PileType.Hand.GetPile(Owner),
             cardPlay.Player,
-            new CardSelectorPrefs(SelectionScreenPrompt, 0, (int)KeepCards.BaseValue)
+            new CardSelectorPrefs(
+                SelectionScreenPrompt,
+                (int)KeepCards.BaseValue,
+                (int)KeepCards.BaseValue
+            )
         );
         await CardCmd.Discard(
             choiceContext,

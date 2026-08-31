@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(title: "Defend", description: "Gain {Block:diff()} block.")]
-public partial class DefendYi()
+public partial class DefendYiCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {
     public override bool GainsBlock => true;
