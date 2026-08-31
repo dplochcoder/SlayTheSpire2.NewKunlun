@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Relics;
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     "JadeSystem",
-    "At the start of combat, gain {QiCharge:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}",
+    "At the start of combat, gain {QiCharge:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}",
     ""
 )]
 public partial class JadeSystemRelic : NewKunlunRelic
@@ -35,6 +35,6 @@ public partial class JadeSystemRelic : NewKunlunRelic
     {
         if (!participants.Contains(Owner.Creature) || Owner.PlayerCombatState!.TurnNumber > 1)
             return;
-        await QiChargeCmd.AddQiCharges(choiceContext, Owner.Creature, 1, Owner.Creature, null);
+        await QiChargeCmd.AddQiCharges(choiceContext, Owner.Creature, 1M, Owner.Creature, null);
     }
 }

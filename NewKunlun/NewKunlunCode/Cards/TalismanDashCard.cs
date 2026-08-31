@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     "Talisman Dash",
-    "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Spend 1 to {QiCharge:diff()} [gold]Qi Charges[/gold], inflict one [gold]Talisman[/gold] per change. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
+    "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold], inflict one [gold]Talisman[/gold] per change. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
@@ -45,9 +45,6 @@ public partial class TalismanDashCard()
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        if (cardPlay.Target!.IsAlive)
-            return;
-
         await PowerCmd.Apply<WeakPower>(
             choiceContext,
             cardPlay.Target!,
@@ -77,8 +74,7 @@ public partial class TalismanDashCard()
             Owner.Creature,
             1M,
             Owner.Creature,
-            this,
-            silent: true
+            this
         );
         power?.Upgraded = IsUpgraded;
     }

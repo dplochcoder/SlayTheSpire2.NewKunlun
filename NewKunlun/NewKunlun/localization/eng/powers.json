@@ -14,7 +14,7 @@
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:\u003E0:(\u002B)|}[/gold] to your hand.",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.smartDescription": "",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.title": "Talisman Detonate",
-  "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns:turn} or on detonate.",
+  "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
   "NEWKUNLUN-TALISMAN_POWER.remoteDescription": "Another player can activate Talisman Detonate on this enemy.",
   "NEWKUNLUN-TALISMAN_POWER.smartDescription": "",
   "NEWKUNLUN-TALISMAN_POWER.title": "Talisman"

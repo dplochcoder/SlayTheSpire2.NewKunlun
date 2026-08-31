@@ -3,9 +3,12 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
@@ -65,17 +68,24 @@ public partial class TalismanDetonateCard()
         eligibleCreatures = [.. eligibleCreatures.Where(c => c.IsHittable)];
 
         foreach (var creature in eligibleCreatures)
+            NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(
+                NFireSmokePuffVfx.Create(creature)
+            );
+
+        foreach (var creature in eligibleCreatures)
         {
             IReadOnlyList<TalismanPower> powers =
             [
                 .. creature.GetPowerInstances<TalismanPower>().Where(p => p.Applier == player),
             ];
             int charges = powers.Select(p => p.Amount).Sum();
-            await DamageCmd
-                .Attack(charges * Damage.BaseValue)
-                .FromCard(this, cardPlay)
-                .Targeting(creature)
-                .Execute(choiceContext);
+            await CreatureCmd.Damage(
+                choiceContext,
+                creature,
+                new DamageVar(charges * Damage.BaseValue, Damage.Props),
+                this,
+                cardPlay
+            );
 
             foreach (var power in powers)
             {

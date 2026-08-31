@@ -23,9 +23,9 @@ public partial class TripleSlashCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9M, ValueProp.Move),
-            new DamageVar(nameof(SmallHitDamage), 9M, ValueProp.Move),
-            new DamageVar(nameof(BigHitDamage), 19M, ValueProp.Move),
+            new DamageVar(7M, ValueProp.Move),
+            new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
+            new DamageVar(nameof(BigHitDamage), 15M, ValueProp.Move),
         ];
 
     private void UpdateDamage() =>
@@ -43,8 +43,8 @@ public partial class TripleSlashCard()
 
     protected override void OnUpgrade()
     {
-        SmallHitDamage.UpgradeValueBy(4M);
-        BigHitDamage.UpgradeValueBy(8M);
+        SmallHitDamage.UpgradeValueBy(2M);
+        BigHitDamage.UpgradeValueBy(6M);
         UpdateDamage();
     }
 

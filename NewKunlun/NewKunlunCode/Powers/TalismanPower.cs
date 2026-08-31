@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Talisman",
-    description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns:turn} or on detonate.",
+    description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
     smartDescription: "",
     remoteDescription: "Another player can activate Talisman Detonate on this enemy."
 )]

@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     "Parry",
-    "Block {Block:diff()}. If you are hit by the enemy this turn, take {InternalDamage} [gold]Internal Damage[/gold] and gain {QiCharge:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}."
+    "Block {Block:diff()}. If you are hit by the enemy this turn, take {InternalDamage} [gold]Internal Damage[/gold] and gain {QiCharge:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
 )]
 public partial class ParryCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
