@@ -14,8 +14,8 @@ Starter deck:
  *Parry 1: Block 9(13). If you are hit by the enemy this turn, take 3 Internal Damage and gain 1(2) Qi Charge(s).
   Orobas:
     Perfect Parry 1: (Retain) Block 18(25). If you are hit by the enemy this turn, gain 2(3) Qi Charge(s).
- *Talisman Dash 1 -> Deal 1 damage. Inflict 1(2) Weak. Spend up to 2(3) Qi Charges, inflict 1 Talisman per charge. Next turn, add a Talisman Detonate(+) into your hand.
- *Talisman Detonate 2 -> Ethereal. Inflict 1(2) Vulnerable to all Talisman targets. Deal 13(18) unblockable damage per charge. Exhaust.
+ *Talisman Dash 1 -> Deal 1(3) damage. Inflict 1(2) Weak. Inflict Talisman. Next turn, add a Talisman Detonate(+) into your hand.
+ *Talisman Detonate 2 -> Ethereal. Inflict 1(2) Vulnerable to all Talisman targets. Spend up to 2(3) Qi Charges to inflict 15(19) unblockable damage per charge. Exhaust.
 
 Status:
  *Smolder 1: If this is in your hand at the end of your turn, lose 1 HP and add 1 Smolder to your discard pile. If played, take 1 damage and Exhaust.
@@ -27,7 +27,7 @@ Attacks:
 *(C) Surge 1: Deal 13(19) damage. Add 1 Malfunction to your discard pile.
  (C) Stagger 1: Deal 8(11) damage. If the target is afflicted with Talisman, attack twice.
 *(C) Tai-Chi Kick 1: Deal 4(6) damage. Gain 6(9) block. If the enemy intends to attack, gain 1 Qi Charge.
- (C) Unbalanced Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
+ (C) Reckless Strike 1: Deal 16(21) damage. Take 8 Internal Damage.
  (C) Skull Kick 1: Deal 9(13) damage. Gain 4(6) Block. Gain 1 Qi Charge.
 *(C) Sabotage 1: Deal 11(17) Internal Damage. Take 4 Internal Damage.
 *(U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.

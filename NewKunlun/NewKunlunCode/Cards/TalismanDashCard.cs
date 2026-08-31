@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Dash",
-    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold], inflict one [gold]Talisman[/gold] per change. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
+    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Inflict [gold]Talisman[/gold]. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]:[gold]Talisman Detonate[/gold]} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
@@ -29,13 +29,9 @@ public partial class TalismanDashCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             HoverTipFactory.FromPower<WeakPower>(),
-            HoverTipFactory.FromPower<QiChargePower>(),
             HoverTipFactory.FromPower<TalismanPower>(),
             HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgraded),
         ];
-
-    protected override bool ShouldGlowGoldInternal =>
-        Owner.Creature.GetPowerAmount<QiChargePower>() > 0;
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null
@@ -45,8 +41,8 @@ public partial class TalismanDashCard()
 
     protected override void OnUpgrade()
     {
+        Damage.UpgradeValueTo(3M);
         Weak.UpgradeValueTo(2M);
-        QiCharge.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -63,30 +59,20 @@ public partial class TalismanDashCard()
             Owner.Creature,
             this
         );
-        var charges = await QiChargeCmd.ConsumeQiCharges(
-            choiceContext,
-            Owner.Creature,
-            QiCharge.BaseValue,
-            Owner.Creature,
-            this
-        );
-        if (charges == 0)
-            return;
-
         await PowerCmd.Apply<TalismanPower>(
             choiceContext,
             cardPlay.Target!,
-            charges,
+            1M,
             Owner.Creature,
             this
         );
-        var power = await PowerCmd.Apply<TalismanDetonatePower>(
+        var detonatePower = await PowerCmd.Apply<TalismanDetonatePower>(
             choiceContext,
             Owner.Creature,
             1M,
             Owner.Creature,
             this
         );
-        power?.Upgraded = IsUpgraded;
+        detonatePower?.Upgraded = IsUpgraded;
     }
 }

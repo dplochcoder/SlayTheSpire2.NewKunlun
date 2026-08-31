@@ -19,8 +19,8 @@ namespace NewKunlun.NewKunlunCode.Powers;
 public partial class TalismanPower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Debuff;
-    public override PowerStackType StackType => PowerStackType.Counter;
-    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(TurnsRemaining), 2M)];
