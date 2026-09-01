@@ -28,8 +28,8 @@ public partial class TalismanDetonateCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new QiChargeVar(2M),
-            new DynamicVar(nameof(Vulnerable), 1M),
-            new TalismanDetonateDamageVar(11M),
+            new DynamicVar(nameof(Vulnerable), 2M),
+            new TalismanDetonateDamageVar(13M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -46,9 +46,8 @@ public partial class TalismanDetonateCard()
 
     protected override void OnUpgrade()
     {
-        Vulnerable.UpgradeValueTo(2M);
         QiCharge.UpgradeValueTo(3M);
-        TalismanDetonateDamage.UpgradeValueTo(17M);
+        TalismanDetonateDamage.UpgradeValueTo(20M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -110,12 +109,15 @@ public partial class TalismanDetonateCard()
 
         async Task ClearPowers()
         {
-            foreach (
-                var power in CombatState?.Enemies.SelectMany(e =>
+            IReadOnlyList<TalismanPower> powers =
+            [
+                .. CombatState?.Enemies.SelectMany(e =>
                     e.GetPowerInstances<TalismanPower>().Where(p => p.Applier == player)
                 )
-                    ?? []
-            )
+                    ?? [],
+            ];
+
+            foreach (var power in powers)
                 await PowerCmd.Remove(power);
         }
     }

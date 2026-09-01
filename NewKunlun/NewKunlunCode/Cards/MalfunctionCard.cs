@@ -24,9 +24,9 @@ public partial class MalfunctionCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(EndOfTurnDamage), 3M),
-            new InternalDamageVar(nameof(OnExhaustDamage), 6M),
-            new DynamicVar(nameof(DamageIncrement), 3M),
+            new InternalDamageVar(nameof(EndOfTurnDamage), 2M),
+            new InternalDamageVar(nameof(OnExhaustDamage), 5M),
+            new DynamicVar(nameof(DamageIncrement), 2M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

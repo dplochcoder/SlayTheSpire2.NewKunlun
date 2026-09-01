@@ -14,7 +14,7 @@
   "NEWKUNLUN-PARRY_NEXT_TURN_POWER.description": "Gain {Amount} [gold]Parry[/gold] at the end {TurnsRemaining:cond:>1?your next|this} turn.",
   "NEWKUNLUN-PARRY_NEXT_TURN_POWER.smartDescription": "",
   "NEWKUNLUN-PARRY_NEXT_TURN_POWER.title": "Parry Next Turn",
-  "NEWKUNLUN-PARRY_POWER.description": "If you are hit by the enemy this turn, gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
+  "NEWKUNLUN-PARRY_POWER.description": "If you are hit by the enemy this turn, gain {Amount:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}.",
   "NEWKUNLUN-PARRY_POWER.smartDescription": "",
   "NEWKUNLUN-PARRY_POWER.title": "Parry",
   "NEWKUNLUN-PARRYING_STRIKE_POWER.description": "The next {Amount:cond:>1?{Amount} [gold]Parry Cards[/gold]|[gold]Parry Card[/gold]} you play {Amount:cond:>1?are|is} free.",
@@ -29,8 +29,8 @@
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:>0:(+)|}[/gold] to your hand.",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.smartDescription": "",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.title": "Talisman Detonate",
-  "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
+  "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after 2 turns or on detonate.",
   "NEWKUNLUN-TALISMAN_POWER.remoteDescription": "Another player can activate [gold]Talisman Detonate[/gold] on this enemy.",
-  "NEWKUNLUN-TALISMAN_POWER.smartDescription": "",
+  "NEWKUNLUN-TALISMAN_POWER.smartDescription": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after {TurnsRemaining:plural:turns|turn} or on detonate.",
   "NEWKUNLUN-TALISMAN_POWER.title": "Talisman"
 }

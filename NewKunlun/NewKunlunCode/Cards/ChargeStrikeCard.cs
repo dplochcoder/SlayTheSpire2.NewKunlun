@@ -18,14 +18,14 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Deal {BaseDamage:diff()} damage. Spend 1 [gold]Qi Charge[/gold] to deal {ChargeDamage:diff()} instead."
 )]
 public partial class ChargeStrikeCard()
-    : NewKunlunCard(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
-            new DamageVar(nameof(ChargeDamage), 18M, ValueProp.Move),
+            new DamageVar(nameof(ChargeDamage), 21M, ValueProp.Move),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
@@ -33,7 +33,7 @@ public partial class ChargeStrikeCard()
     protected override void OnUpgrade()
     {
         BaseDamage.UpgradeValueTo(11M);
-        ChargeDamage.UpgradeValueTo(24M);
+        ChargeDamage.UpgradeValueTo(29M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

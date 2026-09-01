@@ -42,6 +42,7 @@ public partial class StaggerCard()
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .WithHitCount(times)
+            .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
     }
 }

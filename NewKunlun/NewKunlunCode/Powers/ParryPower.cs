@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Parry",
-    description: "If you are hit by the enemy this turn, gain {Amount:plural:[gold]Qi Charge[/gold]:[gold]Qi Charges[/gold]}.",
+    description: "If you are hit by the enemy this turn, gain {Amount:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}.",
     smartDescription: ""
 )]
 public partial class ParryPower : NewKunlunPower

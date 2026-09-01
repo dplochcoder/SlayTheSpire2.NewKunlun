@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Chase",
-    description: "Deal {Damage:diff()} damage. Gain {Energy:energyOrbs()}. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage. Gain {Energy:energyIcons()}. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class ChaseCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

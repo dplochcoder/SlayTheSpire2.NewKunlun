@@ -28,7 +28,7 @@ public partial class ParryCard()
         [
             new BlockVar(8M, ValueProp.Move),
             new DynamicVar(nameof(Parry), 1M),
-            new DynamicVar(nameof(Imperfect), 3M),
+            new DynamicVar(nameof(Imperfect), 2M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
