@@ -5,11 +5,11 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
+// TODO: Card formatting.
 [PowerLocalization(
     title: "Talisman",
     description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after 2 turns or on detonate.",
@@ -26,11 +26,7 @@ public partial class TalismanPower : NewKunlunPower
         [new DynamicVar(nameof(TurnsRemaining), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            Tips.Card<TalismanDetonateCard>(
-                upgraded: TalismanDashCard.IsUpgradedAnywhere(Applier?.Player)
-            ),
-        ];
+        [Tips.TalismanDetonateCard(Applier?.Player)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

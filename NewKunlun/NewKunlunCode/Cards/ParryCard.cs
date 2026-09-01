@@ -26,15 +26,15 @@ public partial class ParryCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(8M, ValueProp.Move),
+            new BlockVar(10M, ValueProp.Move),
             new DynamicVar(nameof(Parry), 1M),
-            new DynamicVar(nameof(Imperfect), 2M),
+            new DynamicVar(nameof(Imperfect), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tips.Power<ParryPower>(), Tips.Power<ImperfectPower>()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(12M);
+    protected override void OnUpgrade() => Block.UpgradeValueTo(14M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

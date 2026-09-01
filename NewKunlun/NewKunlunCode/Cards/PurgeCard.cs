@@ -32,7 +32,7 @@ public partial class PurgeCard()
         var exhausts = await CardSelectCmd.FromHand(
             choiceContext,
             Owner,
-            new CardSelectorPrefs(this.SelectionScreenPrompt, 0, 1),
+            new CardSelectorPrefs(SelectionScreenPrompt, 0, 1),
             card => card.Type is CardType.Status or CardType.Curse,
             this
         );

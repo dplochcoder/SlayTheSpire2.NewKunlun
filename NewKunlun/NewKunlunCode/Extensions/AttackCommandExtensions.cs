@@ -4,9 +4,13 @@ namespace NewKunlun.NewKunlunCode.Extensions;
 
 public static class AttackCommandExtensions
 {
-    public static AttackCommand WithHeavySlashVfx(this AttackCommand self) =>
-        self.WithHitFx("vfx/vfx_heavy_blunt", tmpSfx: "heavy_attack.mp3");
+    extension(AttackCommand self)
+    {
+        public AttackCommand WithHeavySlashVfx() => self.WithSlashVfx(heavy: true);
 
-    public static AttackCommand WithSlashVfx(this AttackCommand self) =>
-        self.WithHitFx("vfx/vfx_attack_slash");
+        public AttackCommand WithSlashVfx(bool heavy = false) =>
+            heavy
+                ? self.WithHitFx("vfx/vfx_heavy_blunt", tmpSfx: "heavy_attack.mp3")
+                : self.WithHitFx("vfx/vfx_attack_slash");
+    }
 }

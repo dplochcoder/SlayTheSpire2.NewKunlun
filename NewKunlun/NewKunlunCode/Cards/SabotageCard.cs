@@ -22,13 +22,13 @@ public partial class SabotageCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(InternalDamageEnemy), 11M),
-            new InternalDamageVar(nameof(InternalDamageSelf), 4),
+            new InternalDamageVar(nameof(InternalDamageEnemy), 13M),
+            new InternalDamageVar(nameof(InternalDamageSelf), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
-    protected override void OnUpgrade() => InternalDamageEnemy.UpgradeValueTo(17M);
+    protected override void OnUpgrade() => InternalDamageEnemy.UpgradeValueTo(19M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

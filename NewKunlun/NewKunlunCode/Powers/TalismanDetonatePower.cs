@@ -11,10 +11,11 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
+// TODO: Formatter.
 [PowerLocalization(
     title: "Talisman Detonate",
-    description: "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:>0:(+)|}[/gold] to your hand.",
-    smartDescription: ""
+    description: "Next turn, add one [gold]Talisman Detonate[/gold] to your hand.",
+    smartDescription: "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:>0:(+)|}[/gold] to your hand."
 )]
 public partial class TalismanDetonatePower : NewKunlunPower
 {

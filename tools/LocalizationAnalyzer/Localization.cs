@@ -68,7 +68,7 @@ public static class Localization
         IReadOnlyList<string> requiredParameterNames = kind switch
         {
             LocalizedModelKind.Card => ["title", "description"],
-            LocalizedModelKind.Power => ["title", "description", "smartDescription"],
+            LocalizedModelKind.Power => ["title", "description"],
             LocalizedModelKind.Relic => ["title", "description", "flavor"],
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),
         };
@@ -99,6 +99,20 @@ public static class Localization
 
             result.Add(new LocalizationString(parameterName, value, argument.Expression));
         }
+
+        // smartDescription is required but often can be copied.
+        if (
+            kind == LocalizedModelKind.Power
+            && result.All(l => l.Name != "smartDescription")
+            && result.FirstOrDefault(l => l.Name == "description") is { } description
+        )
+            result.Add(
+                new LocalizationString(
+                    "smartDescription",
+                    description.Value,
+                    description.Expression
+                )
+            );
 
         if (
             requiredParameterNames.Any(required =>

@@ -23,7 +23,7 @@ public partial class ChaseCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(10M, ValueProp.Move), new EnergyVar(1), new InternalDamageVar(7M)];
+        [new DamageVar(10M, ValueProp.Move), new EnergyVar(1), new InternalDamageVar(4M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 

@@ -8,8 +8,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Like Water",
-    description: "[gold]Talisman Detonate[/gold] costs {Amount} less energy.",
-    smartDescription: ""
+    description: "[gold]Talisman Detonate[/gold] costs {Amount} less energy."
 )]
 public class LikeWaterPower : NewKunlunPower
 {

@@ -10,8 +10,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Parrying Strike",
-    description: "The next {Amount:cond:>1?{Amount} [gold]Parry Cards[/gold]|[gold]Parry Card[/gold]} you play {Amount:cond:>1?are|is} free.",
-    smartDescription: ""
+    description: "The next {Amount:cond:>1?{Amount} [gold]Parry Cards[/gold]|[gold]Parry Card[/gold]} you play {Amount:cond:>1?are|is} free."
 )]
 public class ParryingStrikePower : NewKunlunPower
 {

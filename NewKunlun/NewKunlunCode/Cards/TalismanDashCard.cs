@@ -36,7 +36,7 @@ public partial class TalismanDashCard()
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null
         && (player.PlayerCombatState?.AllCards ?? player.Deck.Cards).Any(c =>
-            c is TalismanDashCard or TalismanDetonateCard && c.IsUpgraded
+            c is TalismanDashCard { IsUpgraded: true }
         );
 
     protected override void OnUpgrade()

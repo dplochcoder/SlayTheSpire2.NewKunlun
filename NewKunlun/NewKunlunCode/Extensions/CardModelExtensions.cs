@@ -16,7 +16,7 @@ public static class CardModelExtensions
         public CardKeywordList BuildKeywords(IEnumerable<CardKeyword> keywords) =>
             new(self, keywords);
 
-        public async Task AddGeneratedStatusToPile<T>(PileType pileType = PileType.Discard)
+        public async Task AddGeneratedStatusToPile<T>(PileType pileType)
             where T : CardModel
         {
             CardCmd.PreviewCardPileAdd(

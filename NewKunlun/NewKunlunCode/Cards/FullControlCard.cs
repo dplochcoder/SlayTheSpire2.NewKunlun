@@ -24,10 +24,7 @@ public partial class FullControlCard()
         [new DamageVar(3M, ValueProp.Unpowered)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            Tips.Card<TalismanDetonateCard>(TalismanDashCard.IsUpgradedAnywhere(Owner)),
-            Tips.Power<QiChargePower>(),
-        ];
+        [Tips.TalismanDetonateCard(Owner), Tips.Power<QiChargePower>()];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(7M);
 

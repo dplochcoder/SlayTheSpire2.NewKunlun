@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Commands;
@@ -17,10 +18,16 @@ public static class InternalDamageCmd
         bool silent = false
     )
     {
+        amount = IInternalDamageModifier.ModifyInternalDamage(
+            target.CombatState!,
+            target,
+            amount,
+            applier,
+            cardSource
+        );
         if (amount <= 0)
             return;
 
-        // TODO: Hook modifiers.
         await PowerCmd.Apply<InternalDamagePower>(
             choiceContext,
             target,

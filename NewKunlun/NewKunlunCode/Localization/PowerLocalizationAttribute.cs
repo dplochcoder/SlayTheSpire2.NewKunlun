@@ -4,7 +4,7 @@ namespace NewKunlun.NewKunlunCode.Localization;
 public sealed class PowerLocalizationAttribute(
     string title,
     string description,
-    string smartDescription,
+    string? smartDescription = null,
     string? remoteDescription = null,
     string? customPromptA = null,
     string? customPromptB = null,
@@ -20,6 +20,6 @@ public sealed class PowerLocalizationAttribute(
         customPromptD
     )
 {
-    public string SmartDescription { get; } = smartDescription;
+    public string SmartDescription { get; } = smartDescription ?? description;
     public string? RemoteDescription { get; } = remoteDescription;
 }

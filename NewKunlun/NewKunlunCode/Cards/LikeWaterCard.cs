@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 
@@ -24,10 +23,7 @@ public partial class LikeWaterCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         IsUpgraded ? [CardKeyword.Innate] : [];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Card<TalismanDetonateCard>(upgraded: TalismanDashCard.IsUpgradedAnywhere(Owner))];
-
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.TalismanDetonateCard(Owner)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

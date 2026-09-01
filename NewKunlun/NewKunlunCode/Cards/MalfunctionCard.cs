@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -26,7 +25,7 @@ public partial class MalfunctionCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new InternalDamageVar(nameof(EndOfTurnDamage), 2M),
-            new InternalDamageVar(nameof(OnExhaustDamage), 5M),
+            new InternalDamageVar(nameof(OnExhaustDamage), 4M),
             new DynamicVar(nameof(DamageIncrement), 2M),
         ];
 

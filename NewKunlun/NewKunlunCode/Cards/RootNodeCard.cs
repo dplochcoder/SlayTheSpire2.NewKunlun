@@ -107,6 +107,6 @@ public partial class RootNodeCard()
             new CardSelectorPrefs(SelectionScreenPrompt, 0, (int)TopDeckCards.BaseValue)
         );
         foreach (var card in cards)
-            await CardPileCmd.Add(card, PileType.Deck, CardPilePosition.Top);
+            await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);
     }
 }

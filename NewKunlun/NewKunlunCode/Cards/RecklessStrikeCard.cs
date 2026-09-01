@@ -25,7 +25,7 @@ public partial class RecklessStrikeCard()
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(16M, ValueProp.Move), new InternalDamageVar(8M)];
+        [new DamageVar(16M, ValueProp.Move), new InternalDamageVar(6M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 

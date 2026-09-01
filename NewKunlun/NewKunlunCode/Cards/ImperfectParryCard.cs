@@ -28,7 +28,7 @@ public partial class ImperfectParryCard()
         [
             new BlockVar(13M, ValueProp.Move),
             new DynamicVar(nameof(Parry), 1M),
-            new DynamicVar(nameof(Imperfect), 8M),
+            new DynamicVar(nameof(Imperfect), 6M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -37,7 +37,7 @@ public partial class ImperfectParryCard()
     protected override void OnUpgrade()
     {
         Block.UpgradeValueTo(16M);
-        Imperfect.UpgradeValueTo(6M);
+        Imperfect.UpgradeValueTo(4M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

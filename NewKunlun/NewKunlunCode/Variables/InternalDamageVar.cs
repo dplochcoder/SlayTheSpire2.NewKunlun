@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using NewKunlun.NewKunlunCode.Hooks;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
@@ -17,10 +18,12 @@ public class InternalDamageVar(string name, decimal damage) : DynamicVar(name, d
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks
-    )
-    {
-        // TODO: Hook modifiers.
-        var value = BaseValue;
-        PreviewValue = value;
-    }
+    ) =>
+        PreviewValue = IInternalDamageModifier.ModifyInternalDamage(
+            card.CombatState!,
+            target,
+            BaseValue,
+            card.Owner.Creature,
+            card
+        );
 }

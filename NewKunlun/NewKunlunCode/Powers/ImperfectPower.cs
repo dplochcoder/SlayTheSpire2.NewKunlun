@@ -13,8 +13,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Imperfect",
-    description: "If attacked this turn, take {Amount} [glow]Internal Damage[/glow].",
-    smartDescription: ""
+    description: "If attacked this turn, take {Amount} [glow]Internal Damage[/glow]."
 )]
 public class ImperfectPower : NewKunlunPower
 {

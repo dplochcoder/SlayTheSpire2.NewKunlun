@@ -13,8 +13,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Internal Damage",
-    description: "{Amount:cond:>0?{Amount} u|U}nresolved damage. If the bearer receives unblocked damage, immediately resolves to real damage. Reduces by 1 at start of turn.",
-    smartDescription: ""
+    description: "{Amount:cond:>0?{Amount} u|U}nresolved damage. If the bearer receives unblocked damage, immediately resolves to real damage. Reduces by 1 at start of turn."
 )]
 public class InternalDamagePower : NewKunlunPower
 {
