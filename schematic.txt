@@ -68,8 +68,8 @@ Powers:
  (U) Qi Swipe Jade 2(1): Increase Qi Charge Capacity by 2. Gain 2 Qi Charges.
  (U) Breather Jade 1: Heal 2(4) Internal Damage every time you deal unblocked damage.
  (U) Ricochet Jade 1: Every time you fully block an attack, inflict 4(7) Internal Damage on the attacker.
-*(U) Like Water 2(1): Talisman Detonate costs 1 less energy.
-*(U) Full Control 1: Talisman Detonate deals 3(7) additional damage per Qi Charge. You can now choose how many Qi Charges to spend on detonation, and can spend any number.
+*(U) Like Water 1: (Innate) Talisman Detonate costs 1 less energy.
+*(U) Full Control 1: Talisman Detonate deals 3(7) additional damage per Qi Charge. You can choose how many Qi Charges to spend on detonation, and can spend any number.
  (U) Stasis Jade 2(1): Enemies with the Talisman debuff deal half damage.
  (U) Qi Boost 2: (Innate) At the end of your turn, gain 1 Qi Charge.
  (U) Arson 2: At the start of your turn, deal 12(17) Internal Damage to all enemies and add 1 Smolder to your hand.

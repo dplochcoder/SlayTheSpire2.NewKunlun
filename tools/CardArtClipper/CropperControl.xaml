@@ -1,0 +1,95 @@
+<UserControl
+  x:Class="CardArtClipper.CropperControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Focusable="True"
+  Background="#202020"
+>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid
+      x:Name="Viewport"
+      Background="#181818"
+      ClipToBounds="True"
+      SizeChanged="Viewport_OnSizeChanged"
+      MouseWheel="Viewport_OnMouseWheel"
+      MouseLeftButtonDown="Viewport_OnMouseLeftButtonDown"
+      MouseLeftButtonUp="Viewport_OnMouseLeftButtonUp"
+      MouseMove="Viewport_OnMouseMove"
+    >
+      <Canvas x:Name="MediaCanvas" IsHitTestVisible="False">
+        <Image x:Name="SourceImage" Stretch="Fill" Visibility="Collapsed" />
+        <MediaElement
+          x:Name="SourceVideo"
+          LoadedBehavior="Manual"
+          UnloadedBehavior="Manual"
+          ScrubbingEnabled="True"
+          IsMuted="True"
+          Volume="0"
+          Stretch="Fill"
+          Visibility="Collapsed"
+          MediaOpened="SourceVideo_OnMediaOpened"
+          MediaFailed="SourceVideo_OnMediaFailed"
+        />
+      </Canvas>
+      <Border
+        x:Name="CropFrame"
+        BorderBrush="#F8F8F8"
+        BorderThickness="2"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        IsHitTestVisible="False"
+      >
+        <Border BorderBrush="#88000000" BorderThickness="1" />
+      </Border>
+      <TextBlock
+        x:Name="EmptyMessage"
+        Text="Select an image or video from the gallery"
+        Foreground="#BBBBBB"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        TextWrapping="Wrap"
+        TextAlignment="Center"
+        Margin="20"
+      />
+    </Grid>
+
+    <Grid x:Name="VideoControls" Grid.Row="1" Margin="8,6" Visibility="Collapsed">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock x:Name="CurrentTimeText" Text="0:00" VerticalAlignment="Center" />
+      <Slider
+        x:Name="VideoSlider"
+        Grid.Column="1"
+        Margin="8,0"
+        Minimum="0"
+        ValueChanged="VideoSlider_OnValueChanged"
+      />
+      <TextBlock x:Name="DurationText" Grid.Column="2" Text="0:00" VerticalAlignment="Center" />
+    </Grid>
+
+    <DockPanel Grid.Row="2" Margin="8">
+      <TextBlock
+        Text="Wheel: zoom   Drag: pan   Video: ←/→ 1 sec, ,/. 1 frame"
+        Foreground="#BBBBBB"
+        VerticalAlignment="Center"
+      />
+      <Button
+        x:Name="SaveButton"
+        Content="Save"
+        DockPanel.Dock="Right"
+        Width="100"
+        Padding="10,5"
+        Click="SaveButton_OnClick"
+      />
+    </DockPanel>
+  </Grid>
+</UserControl>

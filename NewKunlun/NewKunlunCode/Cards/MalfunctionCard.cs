@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
@@ -12,7 +13,7 @@ using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
-[Pool(typeof(YiCardPool))]
+[Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Malfunction",
     description: "Take {OnExhaustDamage:diff()} [gold]Internal Damage[/gold]. If this is in your hand at the end of your turn, take {EndOfTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
