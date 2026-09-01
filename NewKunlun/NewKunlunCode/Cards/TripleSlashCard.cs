@@ -4,21 +4,19 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Triple Slash",
-    description: "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage, spending 1 [gold]Qi Charge[/gold] to deal double."
+    description: "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
 )]
 public partial class TripleSlashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
@@ -29,8 +27,6 @@ public partial class TripleSlashCard()
             new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
             new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
     private bool IsBigHitTurn => _playsThisTurn % 3 == 2;
 
@@ -72,17 +68,8 @@ public partial class TripleSlashCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var charges = await QiChargeCmd.ConsumeQiCharges(
-            choiceContext,
-            Owner.Creature,
-            1M,
-            Owner.Creature,
-            this
-        );
         var attack = DamageCmd
-            .Attack(
-                IsBigHitTurn ? BigHitDamage.BaseValue * (1 + charges) : SmallHitDamage.BaseValue
-            )
+            .Attack(IsBigHitTurn ? BigHitDamage.BaseValue : SmallHitDamage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target!);
         attack = IsBigHitTurn ? attack.WithHeavySlashVfx() : attack.WithSlashVfx();

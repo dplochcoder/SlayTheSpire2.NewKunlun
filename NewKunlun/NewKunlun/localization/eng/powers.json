@@ -1,4 +1,7 @@
 {
+  "NEWKUNLUN-FULL_CONTROL_POWER.description": "[gold]Talisman Detonate[/gold] deals {Amount} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, and can spend any number.",
+  "NEWKUNLUN-FULL_CONTROL_POWER.smartDescription": "",
+  "NEWKUNLUN-FULL_CONTROL_POWER.title": "Full Control",
   "NEWKUNLUN-IMPERFECT_POWER.description": "If attacked this turn, take {Amount} [glow]Internal Damage[/glow].",
   "NEWKUNLUN-IMPERFECT_POWER.smartDescription": "",
   "NEWKUNLUN-IMPERFECT_POWER.title": "Imperfect",
@@ -20,7 +23,7 @@
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.description": "INTERNAL",
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.smartDescription": "INTERNAL",
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.title": "Qi Charge Capacity",
-  "NEWKUNLUN-QI_CHARGE_POWER.description": "Energy used to accelerate damage. Primarily used with [gold]Talisman Dash[/gold].",
+  "NEWKUNLUN-QI_CHARGE_POWER.description": "Energy used to accelerate damage. Primarily used with [gold]Talisman Dash[/gold]. Qi Charges are spent automatically by cards that request them.",
   "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "",
   "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:>0:(+)|}[/gold] to your hand.",

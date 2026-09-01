@@ -16,20 +16,18 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Reckless Strike",
-    description: "Deal {Damage:diff()} damage. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
+    title: "Chase",
+    description: "Deal {Damage:diff()} damage. Gain {Energy:energyOrbs()}. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
 )]
-public partial class RecklessStrikeCard()
-    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public partial class ChaseCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(16M, ValueProp.Move), new InternalDamageVar(8M)];
+        [new DamageVar(10M, ValueProp.Move), new EnergyVar(1), new InternalDamageVar(7M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(21M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(14M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -39,6 +37,7 @@ public partial class RecklessStrikeCard()
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
+        await PlayerCmd.GainEnergy(Energy.BaseValue, Owner);
         await InternalDamageCmd.Apply(
             choiceContext,
             Owner.Creature,

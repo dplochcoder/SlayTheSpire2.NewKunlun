@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
@@ -21,7 +20,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Detonate",
-    description: "Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold] to inflict {Damage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
+    description: "Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold] to inflict {TalismanDetonateDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Basic, TargetType.None)
@@ -30,7 +29,7 @@ public partial class TalismanDetonateCard()
         [
             new QiChargeVar(2M),
             new DynamicVar(nameof(Vulnerable), 1M),
-            new DamageVar(15M, ValueProp.Unblockable | ValueProp.Unpowered),
+            new TalismanDetonateDamageVar(11M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -41,13 +40,7 @@ public partial class TalismanDetonateCard()
 
     protected override bool IsPlayable =>
         Owner.Creature.GetPowerAmount<QiChargePower>() > 0
-        && (
-            CombatState?.Enemies.Any(e =>
-                e.IsHittable
-                && e.GetPowerInstances<TalismanPower>().Any(p => p.Applier == Owner.Creature)
-            )
-            ?? false
-        );
+        && (CombatState?.Enemies.Any(e => e.IsHittable && e.HasTalismanFor(Owner)) ?? false);
 
     protected override bool ShouldGlowGoldInternal => IsPlayable;
 
@@ -55,7 +48,7 @@ public partial class TalismanDetonateCard()
     {
         Vulnerable.UpgradeValueTo(2M);
         QiCharge.UpgradeValueTo(3M);
-        Damage.UpgradeValueTo(19M);
+        TalismanDetonateDamage.UpgradeValueTo(17M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -74,13 +67,18 @@ public partial class TalismanDetonateCard()
             return;
         }
 
-        var charges = await QiChargeCmd.ConsumeQiCharges(
-            choiceContext,
-            Owner.Creature,
-            QiCharge.BaseValue,
-            Owner.Creature,
-            this
-        );
+        decimal charges;
+        if (Owner.Creature.GetPower<FullControlPower>() is { } fullControl)
+            charges = await fullControl.ConsumeQiCharges(choiceContext, Owner, this);
+        else
+            charges = await QiChargeCmd.ConsumeQiCharges(
+                choiceContext,
+                Owner.Creature,
+                QiCharge.BaseValue,
+                Owner.Creature,
+                this
+            );
+
         if (charges == 0)
         {
             await ClearPowers();
@@ -105,7 +103,7 @@ public partial class TalismanDetonateCard()
         await CreatureCmd.Damage(
             choiceContext,
             eligibleCreatures,
-            new DamageVar(charges * Damage.BaseValue, Damage.Props),
+            new TalismanDetonateDamageVar(charges * TalismanDetonateDamage.BaseValue),
             Owner.Creature
         );
         return;

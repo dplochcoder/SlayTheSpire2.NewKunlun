@@ -12,7 +12,6 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
     public const string InvalidLocalizationId = "NKLOC001";
     public const string UnknownVariableId = "NKLOC002";
     public const string UnnamedArgumentId = "NKLOC003";
-    public const string LocalizationJsonOutOfDateId = "NKLOC004";
 
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
@@ -44,23 +43,8 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         description: "Named arguments keep localization fields independent of constructor parameter order."
     );
 
-    private static readonly DiagnosticDescriptor LocalizationJsonOutOfDate = new(
-        LocalizationJsonOutOfDateId,
-        "Localization JSON is out of date",
-        "Localization for '{0}' is missing or does not match its attribute",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "The model's localization JSON must contain the strings declared by its localization attribute."
-    );
-
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(
-            InvalidLocalization,
-            UnknownVariable,
-            UnnamedArgument,
-            LocalizationJsonOutOfDate
-        );
+        ImmutableArray.Create(InvalidLocalization, UnknownVariable, UnnamedArgument);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -95,25 +79,6 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         {
             context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
             return;
-        }
-
-        if (
-            !LocalizationJson.ContainsCurrentLocalization(
-                context.Options.AdditionalFiles,
-                kind,
-                clazz.Identifier.ValueText,
-                localizationStrings,
-                context.CancellationToken
-            )
-        )
-        {
-            context.ReportDiagnostic(
-                Diagnostic.Create(
-                    LocalizationJsonOutOfDate,
-                    clazz.Identifier.GetLocation(),
-                    clazz.Identifier.ValueText
-                )
-            );
         }
 
         var validVariables = DynamicVariables.FindDynamicVariables(clazz);

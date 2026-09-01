@@ -5,11 +5,21 @@ public sealed class PowerLocalizationAttribute(
     string title,
     string description,
     string smartDescription,
-    string? remoteDescription = null
-) : Attribute
+    string? remoteDescription = null,
+    string? customPromptA = null,
+    string? customPromptB = null,
+    string? customPromptC = null,
+    string? customPromptD = null
+)
+    : BaseLocalizationAttribute(
+        title,
+        description,
+        customPromptA,
+        customPromptB,
+        customPromptC,
+        customPromptD
+    )
 {
-    public string Title { get; } = title;
-    public string Description { get; } = description;
     public string SmartDescription { get; } = smartDescription;
     public string? RemoteDescription { get; } = remoteDescription;
 }

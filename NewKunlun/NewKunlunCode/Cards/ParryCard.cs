@@ -34,9 +34,6 @@ public partial class ParryCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tips.Power<ParryPower>(), Tips.Power<ImperfectPower>()];
 
-    protected override bool ShouldGlowGoldInternal =>
-        CombatState?.Enemies.Any(e => e.IsAlive && (e.Monster?.IntendsToAttack ?? false)) ?? false;
-
     protected override void OnUpgrade() => Block.UpgradeValueTo(12M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

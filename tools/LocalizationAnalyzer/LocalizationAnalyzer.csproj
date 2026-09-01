@@ -19,23 +19,6 @@
       Version="3.11.0"
       PrivateAssets="all"
     />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="all" />
-    <Reference
-      Include="Newtonsoft.Json"
-      HintPath="$(NuGetPackageRoot)newtonsoft.json\13.0.3\lib\netstandard2.0\Newtonsoft.Json.dll"
-      Private="true"
-      Condition="Exists('$(NuGetPackageRoot)newtonsoft.json\13.0.3\lib\netstandard2.0\Newtonsoft.Json.dll')"
-    />
-    <None
-      Include="$(NuGetPackageRoot)newtonsoft.json\13.0.3\lib\netstandard2.0\Newtonsoft.Json.dll"
-      Link="Newtonsoft.Json.dll"
-      CopyToOutputDirectory="PreserveNewest"
-      Condition="Exists('$(NuGetPackageRoot)newtonsoft.json\13.0.3\lib\netstandard2.0\Newtonsoft.Json.dll')"
-    />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="LocalizationCodeFixProvider.cs" />
   </ItemGroup>
 
   <ItemGroup>

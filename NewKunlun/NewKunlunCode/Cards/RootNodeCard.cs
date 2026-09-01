@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Root Node",
-    description: "Heal {Heal:diff()}. Gain {GainMaxHP:diff()} max HP. Heal all [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Choose {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:plural:more time|more times}|}.",
+    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal all [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Choose {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:plural:more time|more times}|}.",
     selectionScreenPrompt: "Choose up to {TopDeckCards:plural:card|cards} to place at the top of your deck."
 )]
 public partial class RootNodeCard()
@@ -32,8 +32,9 @@ public partial class RootNodeCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Heal), 6M),
+            new DynamicVar(nameof(HealHP), 6M),
             new DynamicVar(nameof(GainMaxHP), 1M),
+            new DynamicVar(nameof(HealInternalDamage), 20M),
             new DynamicVar(nameof(Strength), 2M),
             new DynamicVar(nameof(Dexterity), 2M),
             new DynamicVar(nameof(TopDeckCards), 1M),
@@ -52,16 +53,18 @@ public partial class RootNodeCard()
         switch (CurrentUpgradeLevel)
         {
             case 0:
-                Heal.UpgradeValueTo(8M);
+                HealHP.UpgradeValueTo(8M);
+                HealInternalDamage.UpgradeValueTo(24M);
                 TopDeckCards.UpgradeValueTo(2M);
                 break;
             case 1:
-                Heal.UpgradeValueTo(10M);
+                HealHP.UpgradeValueTo(10M);
                 Strength.UpgradeValueTo(3M);
                 Dexterity.UpgradeValueTo(3M);
                 break;
             case 2:
                 GainMaxHP.UpgradeValueTo(2M);
+                HealInternalDamage.UpgradeValueTo(30M);
                 Strength.UpgradeValueTo(4M);
                 Dexterity.UpgradeValueTo(4M);
                 TopDeckCards.UpgradeValueTo(3M);
@@ -73,12 +76,12 @@ public partial class RootNodeCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, Heal.BaseValue);
+        await CreatureCmd.Heal(Owner.Creature, HealHP.BaseValue);
         await CreatureCmd.GainMaxHp(Owner.Creature, GainMaxHP.BaseValue);
         await InternalDamageCmd.Heal(
             choiceContext,
             Owner.Creature,
-            decimal.MaxValue,
+            HealInternalDamage.BaseValue,
             Owner.Creature,
             this
         );

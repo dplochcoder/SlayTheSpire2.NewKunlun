@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Character;
@@ -19,12 +20,21 @@ public class YiCardPool : CustomCardPoolModel
     public override float S => 1f; //Saturation
     public override float V => 1f; //Brightness
 
-    //Alternatively, leave these values at 1 and provide a custom frame image.
-    /*public override Texture2D CustomFrame(CustomCardModel card)
+    // Alternatively, leave these values at 1 and provide custom frame images.
+    public override Texture2D? CustomFrame(CustomCardModel card)
     {
-        //This will attempt to load CharMod/images/cards/frame.png
-        return PreloadManager.Cache.GetTexture2D("cards/frame.png".ImagePath());
-    }*/
+        var frameName = card.Type switch
+        {
+            CardType.Attack => "frame_attack.png",
+            CardType.Power => "frame_power.png",
+            CardType.Skill => "frame_skill.png",
+            _ => null,
+        };
+
+        return frameName != null
+            ? ResourceLoader.Load<Texture2D>($"cards/{frameName}".ImagePath())
+            : null;
+    }
 
     //Color of small card icons
     public override Color DeckEntryCardColor => Yi.Color;

@@ -1,6 +1,6 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿using System.Collections;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 
 namespace NewKunlun.NewKunlunCode.Extensions;
@@ -9,6 +9,13 @@ public static class CardModelExtensions
 {
     extension(CardModel self)
     {
+        public CardKeywordList BuildKeywords() => new(self, []);
+
+        public CardKeywordList BuildKeywords(CardKeyword keyword) => new(self, [keyword]);
+
+        public CardKeywordList BuildKeywords(IEnumerable<CardKeyword> keywords) =>
+            new(self, keywords);
+
         public async Task AddGeneratedStatusToPile<T>(PileType pileType = PileType.Discard)
             where T : CardModel
         {
@@ -20,21 +27,36 @@ public static class CardModelExtensions
                 )
             );
         }
+    }
 
-        private LocString CustomPromptString(char suffix)
+    public class CardKeywordList(CardModel model, IEnumerable<CardKeyword> list)
+        : IEnumerable<CardKeyword>
+    {
+        public CardKeywordList If(Func<bool> condition, IEnumerable<CardKeyword> add)
         {
-            LocString str = new("cards", $"{self.Id.Entry}.customPrompt{suffix}");
-            if (!str.Exists())
-                throw new InvalidOperationException(
-                    $"No .customPrompt{suffix} string for {self.Id}."
-                );
-            self.DynamicVars.AddTo(str);
-            return str;
+            IEnumerable<CardKeyword> Gen()
+            {
+                foreach (var keyword in list)
+                    yield return keyword;
+                if (condition())
+                {
+                    foreach (var keyword in add)
+                        yield return keyword;
+                }
+            }
+
+            return new CardKeywordList(model, Gen());
         }
 
-        public LocString CustomPromptA => self.CustomPromptString('A');
-        public LocString CustomPromptB => self.CustomPromptString('B');
-        public LocString CustomPromptC => self.CustomPromptString('C');
-        public LocString CustomPromptD => self.CustomPromptString('D');
+        public CardKeywordList If(Func<bool> condition, CardKeyword add) => If(condition, [add]);
+
+        public CardKeywordList IfUpgraded(IEnumerable<CardKeyword> add) =>
+            If(() => model.IsUpgraded, add);
+
+        public CardKeywordList IfUpgraded(CardKeyword add) => IfUpgraded([add]);
+
+        public IEnumerator<CardKeyword> GetEnumerator() => list.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => list.GetEnumerator();
     }
 }

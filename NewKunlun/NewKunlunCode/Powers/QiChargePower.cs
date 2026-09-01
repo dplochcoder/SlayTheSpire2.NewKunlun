@@ -7,7 +7,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Qi Charges",
-    description: "Energy used to accelerate damage. Primarily used with [gold]Talisman Dash[/gold].",
+    description: "Energy used to accelerate damage. Primarily used with [gold]Talisman Dash[/gold]. Qi Charges are spent automatically by cards that request them.",
     smartDescription: ""
 )]
 public class QiChargePower : NewKunlunPower

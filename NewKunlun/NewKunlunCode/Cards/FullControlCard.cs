@@ -4,42 +4,39 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Invigorate",
-    description: "Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
+    title: "Full Control",
+    description: "[gold]Talisman Detonate[/gold] deals {Damage:diff()} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, without limit."
 )]
-public partial class InvigorateCard()
+public partial class FullControlCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 4M), new InternalDamageVar(18M)];
+        [new DamageVar(3M, ValueProp.Unpowered)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<StrengthPower>(), Tips.Power<InternalDamagePower>()];
+        [
+            Tips.Card<TalismanDetonateCard>(TalismanDashCard.IsUpgradedAnywhere(Owner)),
+            Tips.Power<QiChargePower>(),
+        ];
+
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(7M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<StrengthPower>(
+        await PowerCmd.Apply<FullControlPower>(
             choiceContext,
             Owner.Creature,
-            Strength.BaseValue,
-            Owner.Creature,
-            this
-        );
-        await InternalDamageCmd.Apply(
-            choiceContext,
-            Owner.Creature,
-            InternalDamage.BaseValue,
+            Damage.BaseValue,
             Owner.Creature,
             this
         );

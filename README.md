@@ -18,9 +18,9 @@ public partial class ExampleCard : NewKunlunCard
 ```
 
 Placeholder names inside `{...}` must match a dynamic variable declared by the card. A typo
-fails the build with error `NKLOC002` and, when possible, a suggested correction. If the JSON
-does not match the attribute, `NKLOC004` provides an IDE quick fix that immediately updates
-the corresponding `cards.json`, `powers.json`, or `relics.json` file.
+fails the build with error `NKLOC002` and, when possible, a suggested correction. Before
+compilation, `LocalizationTool` updates `cards.json`, `powers.json`, and `relics.json` from the
+corresponding localization attributes.
 
 Named variables use `nameof(GeneratedProperty)`, which is shared by localization linting and
 the generated strongly typed getter.

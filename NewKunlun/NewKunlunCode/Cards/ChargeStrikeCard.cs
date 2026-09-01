@@ -14,42 +14,43 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Parrying Strike",
-    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} block. The next [gold]Parry Card[/gold] you play is free."
+    title: "Charge Strike",
+    description: "Deal {BaseDamage:diff()} damage. Spend 1 [gold]Qi Charge[/gold] to deal {ChargeDamage:diff()} instead."
 )]
-public partial class ParryingStrike()
+public partial class ChargeStrikeCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
-    public override bool GainsBlock => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(11M, ValueProp.Move), new BlockVar(3M, ValueProp.Move)];
+        [
+            new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
+            new DamageVar(nameof(ChargeDamage), 18M, ValueProp.Move),
+        ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.ParryCardKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(15M);
-        Block.UpgradeValueTo(5M);
+        BaseDamage.UpgradeValueTo(11M);
+        ChargeDamage.UpgradeValueTo(24M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await DamageCmd
-            .Attack(Damage.BaseValue)
-            .FromCard(this, cardPlay)
-            .WithSlashVfx()
-            .Targeting(cardPlay.Target!)
-            .Execute(choiceContext);
-        await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
-        await PowerCmd.Apply<ParryingStrikePower>(
+        var charges = await QiChargeCmd.ConsumeQiCharges(
             choiceContext,
             Owner.Creature,
             1M,
             Owner.Creature,
             this
         );
+
+        var attack = DamageCmd
+            .Attack(charges > 0 ? ChargeDamage.BaseValue : BaseDamage.BaseValue)
+            .FromCard(this, cardPlay)
+            .Targeting(cardPlay.Target!);
+        attack = charges > 0 ? attack.WithHeavySlashVfx() : attack.WithSlashVfx();
+        await attack.Execute(choiceContext);
     }
 }
