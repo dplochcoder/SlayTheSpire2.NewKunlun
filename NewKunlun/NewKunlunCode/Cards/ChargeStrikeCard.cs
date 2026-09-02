@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -28,7 +27,7 @@ public partial class ChargeStrikeCard()
             new DamageVar(nameof(ChargeDamage), 21M, ValueProp.Move),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
 
     protected override void OnUpgrade()
     {

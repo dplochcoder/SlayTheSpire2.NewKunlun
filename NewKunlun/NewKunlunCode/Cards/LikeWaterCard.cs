@@ -23,7 +23,8 @@ public partial class LikeWaterCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         IsUpgraded ? [CardKeyword.Innate] : [];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.TalismanDetonateCard(Owner)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        Tips.TalismanDetonateCardWithTips(Owner);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

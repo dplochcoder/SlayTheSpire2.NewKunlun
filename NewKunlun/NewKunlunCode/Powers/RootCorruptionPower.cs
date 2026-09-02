@@ -14,8 +14,8 @@ namespace NewKunlun.NewKunlunCode.Powers;
 [PowerLocalization(
     title: "Root Corruption",
     description: "",
-    smartDescription: "At the start of your turn, gain {Amount:energyIcons()}, draw {CardDraw:plural:card|cards}, transform {Amount:plural:card|cards} in your hand into [gold]Malfunction[/gold] and discard {Amount:cond:>1?them|it}.",
-    selectionScreenPrompt: "Select {Amount:plural:card|cards} to transform into [gold]Malfunction[/gold]."
+    smartDescription: "At the start of your turn, gain {Amount:energyIcons()}, draw {CardDraw} {CardDraw:plural:card|cards}, transform {Amount} {Amount:plural:card|cards} in your hand into [gold]Malfunction[/gold] and discard {Amount:cond:>1?them|it}.",
+    selectionScreenPrompt: "Select {Amount} {Amount:plural:card|cards} to transform into [gold]Malfunction[/gold]."
 )]
 public partial class RootCorruptionPower : NewKunlunPower
 {

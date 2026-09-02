@@ -7,14 +7,13 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Twitch",
-    description: "Gain {Parry:diff()} [gold]Parry[/gold].{IfUpgraded:show: Draw {DrawCards:plural:card|cards}.|}"
+    description: "Gain {Parry:diff()} [gold]Parry[/gold].{IfUpgraded:show: Draw {DrawCards:diff()} {DrawCards:plural:card|cards}.|}"
 )]
 public partial class TwitchCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
@@ -24,7 +23,7 @@ public partial class TwitchCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(Parry), 1M), new DynamicVar(nameof(DrawCards), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ParryPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
 
     protected override void OnUpgrade() => DrawCards.UpgradeValueTo(1M);
 

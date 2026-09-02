@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
@@ -26,7 +25,7 @@ public partial class AirDashCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(7M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<DexterityPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Dexterity()];
 
     protected override void OnUpgrade()
     {

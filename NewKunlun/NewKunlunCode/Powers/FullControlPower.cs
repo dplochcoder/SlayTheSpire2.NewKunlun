@@ -23,7 +23,7 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.TalismanDetonateCard(Owner.Player), Tips.Power<QiChargePower>()];
+        Tips.TalismanDetonateCardWithTips(Owner.Player);
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -41,8 +41,8 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
     )
     {
         var available = player.Creature.GetPowerAmount<QiChargePower>();
-        if (available <= 0)
-            return 0;
+        if (available <= 1)
+            return available;
 
         List<CardModel> cards = [];
         for (var i = 0; i < available; i++)

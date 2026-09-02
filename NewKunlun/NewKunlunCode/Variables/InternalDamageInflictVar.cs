@@ -8,10 +8,10 @@ namespace NewKunlun.NewKunlunCode.Variables;
 
 public class InternalDamageInflictVar(string name, decimal damage) : DynamicVar(name, damage)
 {
-    public const string DefaultName = "InternalDamageInflict";
-
     public InternalDamageInflictVar(decimal damage)
-        : this(DefaultName, damage) { }
+        : this("InternalDamageInflict", damage) { }
+
+    protected virtual Creature? ModifyTarget(CardModel card, Creature? origTarget) => origTarget;
 
     public override void UpdateCardPreview(
         CardModel card,
@@ -21,7 +21,7 @@ public class InternalDamageInflictVar(string name, decimal damage) : DynamicVar(
     ) =>
         PreviewValue = IInternalDamageListener.ModifyInternalDamageInflicted(
             card.CombatState!,
-            target,
+            ModifyTarget(card, target),
             BaseValue,
             card.Owner.Creature,
             card

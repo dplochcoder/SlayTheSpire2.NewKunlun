@@ -29,7 +29,7 @@ public partial class TakeYouWithMeCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     protected override void OnUpgrade() => ExtraDamage.UpgradeValueTo(3M);
 

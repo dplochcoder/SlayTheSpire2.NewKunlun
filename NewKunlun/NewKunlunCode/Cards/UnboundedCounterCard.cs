@@ -10,7 +10,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using ParryPower = NewKunlun.NewKunlunCode.Powers.ParryPower;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -27,7 +26,7 @@ public partial class UnboundedCounterCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(28M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ParryPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(42M);
 

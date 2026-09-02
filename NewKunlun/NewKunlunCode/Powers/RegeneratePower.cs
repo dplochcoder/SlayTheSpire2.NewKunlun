@@ -8,7 +8,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Regenerate",
-    description: "Whenever you play [gold]Talisman Detonate[/gold], gain {Amount:plural:[gold]Qi Charges[/gold]|[gold]Qi Charge[/gold]}."
+    description: "Whenever you play [gold]Talisman Detonate[/gold], gain {Amount} {Amount:plural:[gold]Qi Charges[/gold]|[gold]Qi Charge[/gold]}."
 )]
 public class RegeneratePower : NewKunlunPower, ITalismanDetonateListener
 {

@@ -18,7 +18,7 @@ public class RegenerateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.TalismanDetonateCard(Owner), Tips.Power<QiChargePower>()];
+        Tips.TalismanDetonateCardWithTips(Owner);
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

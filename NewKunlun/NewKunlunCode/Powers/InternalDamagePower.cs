@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
@@ -55,6 +56,8 @@ public class InternalDamagePower : NewKunlunPower
             ValueProp.Unblockable | ValueProp.Unpowered,
             Owner
         );
+
+        await IInternalDamageListener.InvokeInternalDamageResolved(choiceContext, Owner, damage);
     }
 
     public override IEnumerable<HealthBarForecastSegment> GetHealthBarForecastSegments(

@@ -9,7 +9,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -31,7 +30,7 @@ public partial class MedicinePipeCard()
             new DynamicVar(nameof(RemainingUses), 3M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     [SavedProperty]
     public int TimesUsed

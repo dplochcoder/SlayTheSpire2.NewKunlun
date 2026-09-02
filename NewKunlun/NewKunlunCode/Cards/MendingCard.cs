@@ -22,7 +22,7 @@ public partial class MendingCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(InternalDamage), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(2M);
 

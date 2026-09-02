@@ -9,7 +9,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -23,14 +22,14 @@ public partial class CutThroughCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(3M, ValueProp.Move), new InternalDamageInflictVar(6M)];
+        [new DamageVar(3M, ValueProp.Move), new InternalDamageInflictVar(7M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(4M);
-        InternalDamageInflict.UpgradeValueTo(10M);
+        Damage.UpgradeValueTo(6M);
+        InternalDamageInflict.UpgradeValueTo(9M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -20,7 +20,7 @@ public partial class SurgeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(13M, ValueProp.Move)];
+        [new DamageVar(14M, ValueProp.Move)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 

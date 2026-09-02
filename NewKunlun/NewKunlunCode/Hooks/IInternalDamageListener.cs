@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 
@@ -26,6 +27,12 @@ public interface IInternalDamageListener
         decimal amount,
         Creature? applier,
         CardModel? source
+    ) => Task.CompletedTask;
+
+    Task OnInternalDamageResolved(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        decimal amount
     ) => Task.CompletedTask;
 
     decimal HealingAdditiveModifier(Creature? target, decimal amount) => 0;
@@ -68,6 +75,21 @@ public interface IInternalDamageListener
         ];
         foreach (var listener in listeners)
             await listener.OnInternalDamageTaken(target, amount, applier, cardSource);
+    }
+
+    public static async Task InvokeInternalDamageResolved(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        decimal amount
+    )
+    {
+        List<IInternalDamageListener> listeners =
+        [
+            .. Hook.IterateCombatHookListeners(target.CombatState!)
+                .OfType<IInternalDamageListener>(),
+        ];
+        foreach (var listener in listeners)
+            await listener.OnInternalDamageResolved(choiceContext, target, amount);
     }
 
     public static decimal ModifyInternalDamageHealed(Creature target, decimal amount)

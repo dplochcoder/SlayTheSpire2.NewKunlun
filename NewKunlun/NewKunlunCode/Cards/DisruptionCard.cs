@@ -25,12 +25,12 @@ public partial class DisruptionCard()
         [new InternalDamageInflictVar(6M), new DynamicVar(nameof(Imperfect), 5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<InternalDamagePower>(), Tips.Power<ImperfectPower>()];
+        [Tips.InternalDamage(), Tips.Imperfect()];
 
     protected override void OnUpgrade()
     {
-        DynamicVarExtensions.UpgradeValueTo(InternalDamageInflict, 8M);
-        DynamicVarExtensions.UpgradeValueTo(Imperfect, 7M);
+        InternalDamageInflict.UpgradeValueTo(8M);
+        Imperfect.UpgradeValueTo(7M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

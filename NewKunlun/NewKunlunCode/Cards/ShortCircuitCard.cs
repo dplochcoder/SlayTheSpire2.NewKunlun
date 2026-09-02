@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -24,7 +23,7 @@ public partial class ShortCircuitCard()
         [new DamageVar(15M, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<TalismanPower>(), Tips.TalismanDetonateCard(Owner)];
+        [Tips.Talisman(), Tips.TalismanDetonateCard(Owner)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(20M);
 

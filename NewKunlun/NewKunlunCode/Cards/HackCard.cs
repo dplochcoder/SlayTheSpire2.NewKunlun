@@ -28,7 +28,7 @@ public partial class HackCard()
             new DynamicVar(nameof(Multiplier), 2M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     protected override void OnUpgrade()
     {

@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
@@ -16,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Triple Slash",
-    description: "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage."
+    description: "Deal {SmallHitDamage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage, or spend 1 [gold]Qi Charge[/gold] to deal double."
 )]
 public partial class TripleSlashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
@@ -24,9 +25,11 @@ public partial class TripleSlashCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
+            new DamageVar(nameof(SmallHitDamage), 5M, ValueProp.Move),
             new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
 
     private bool IsBigHitTurn => _playsThisTurn % 3 == 2;
 
@@ -36,8 +39,8 @@ public partial class TripleSlashCard()
 
     protected override void OnUpgrade()
     {
-        SmallHitDamage.UpgradeValueTo(9M);
-        BigHitDamage.UpgradeValueTo(19M);
+        SmallHitDamage.UpgradeValueTo(8M);
+        BigHitDamage.UpgradeValueTo(18M);
     }
 
     protected override void AfterCloned() => _playsThisTurn = 0;

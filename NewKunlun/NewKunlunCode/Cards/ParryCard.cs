@@ -31,8 +31,7 @@ public partial class ParryCard()
             new DynamicVar(nameof(Imperfect), 3M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<ParryPower>(), Tips.Power<ImperfectPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry(), Tips.Imperfect()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(14M);
 

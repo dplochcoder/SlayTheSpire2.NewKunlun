@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -15,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Relics;
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "JadeSystem",
-    description: "At the start of combat, gain {QiCharge:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}",
+    description: "At the start of combat, gain {QiCharge} {QiCharge:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}",
     flavor: ""
 )]
 public partial class JadeSystemRelic : NewKunlunRelic
@@ -24,7 +23,7 @@ public partial class JadeSystemRelic : NewKunlunRelic
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new QiChargeVar(1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
 
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,

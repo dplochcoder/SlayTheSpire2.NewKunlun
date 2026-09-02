@@ -10,7 +10,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -18,8 +17,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Root Node",
-    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal all [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Choose {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:plural:more time|more times}|}.",
-    selectionScreenPrompt: "Choose up to {TopDeckCards:plural:card|cards} to place at the top of your deck."
+    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Choose {TopDeckCards:diff()} {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:diff()} {UpgradesRemaining:plural:more time|more times}|}.",
+    selectionScreenPrompt: "Choose up to {TopDeckCards} {TopDeckCards:plural:card|cards} to place at the top of your deck."
 )]
 public partial class RootNodeCard()
     : NewKunlunCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)
@@ -43,27 +42,23 @@ public partial class RootNodeCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            Tips.Power<InternalDamagePower>(),
-            Tips.Power<StrengthPower>(),
-            Tips.Power<DexterityPower>(),
-        ];
+        [Tips.InternalDamage(), Tips.Strength(), Tips.Dexterity()];
 
     protected override void OnUpgrade()
     {
         switch (CurrentUpgradeLevel)
         {
-            case 0:
+            case 1:
                 HealHP.UpgradeValueTo(8M);
                 InternalDamageHeal.UpgradeValueTo(24M);
                 TopDeckCards.UpgradeValueTo(2M);
                 break;
-            case 1:
+            case 2:
                 HealHP.UpgradeValueTo(10M);
                 Strength.UpgradeValueTo(3M);
                 Dexterity.UpgradeValueTo(3M);
                 break;
-            case 2:
+            case 3:
                 GainMaxHP.UpgradeValueTo(2M);
                 InternalDamageHeal.UpgradeValueTo(30M);
                 Strength.UpgradeValueTo(4M);
@@ -72,7 +67,7 @@ public partial class RootNodeCard()
                 break;
         }
 
-        UpgradesRemaining.BaseValue--;
+        UpgradesRemaining.UpgradeValueBy(-1);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

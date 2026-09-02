@@ -27,8 +27,7 @@ public partial class SkullKickCard()
             new DynamicVar(nameof(StrengthLoss), 1M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<WeakPower>(), Tips.Power<StrengthPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Weak(), Tips.Strength()];
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.Monster?.IntendsToAttack ?? false) ?? false;

@@ -29,7 +29,7 @@ public partial class PerfectParryCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(18M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ParryPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
 
     protected override void OnUpgrade() => Block.UpgradeValueBy(7M);
 

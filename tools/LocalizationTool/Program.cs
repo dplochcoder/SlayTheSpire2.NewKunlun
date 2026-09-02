@@ -77,11 +77,7 @@ static void UpdateJson(
     string modelKind
 )
 {
-    var existingText = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : null;
-    var entries = existingText is null
-        ? new SortedDictionary<string, string>()
-        : JsonConvert.DeserializeObject<SortedDictionary<string, string>>(existingText) ?? [];
-
+    SortedDictionary<string, string> entries = [];
     foreach (var model in models)
     {
         var modelId = $"{idPrefix}-{ToUpperSnakeCase(model.ClassName)}";
@@ -89,19 +85,7 @@ static void UpdateJson(
             entries[$"{modelId}.{value.Name}"] = value.Value;
     }
 
-    var newline = existingText?.Contains("\r\n") == true ? "\r\n" : "\n";
-    var json =
-        JsonConvert
-            .SerializeObject(entries, Formatting.Indented)
-            .Replace("\r\n", "\n")
-            .Replace("\n", newline) + newline;
-    if (existingText == json)
-    {
-        Console.WriteLine(
-            $"{Path.GetFileName(jsonPath)} is current for {models.Count} {modelKind} annotation(s)."
-        );
-        return;
-    }
+    var json = JsonConvert.SerializeObject(entries, Formatting.Indented).Replace("\r\n", "\n");
 
     Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
     File.WriteAllText(jsonPath, json, new UTF8Encoding(false));

@@ -21,12 +21,12 @@ public partial class FullControlCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(3M, ValueProp.Unpowered)];
+        [new DamageVar(5M, ValueProp.Unpowered)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.TalismanDetonateCard(Owner), Tips.Power<QiChargePower>()];
+        Tips.TalismanDetonateCardWithTips(Owner);
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(7M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(9M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -6,7 +6,8 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
+
+namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Neural Network",

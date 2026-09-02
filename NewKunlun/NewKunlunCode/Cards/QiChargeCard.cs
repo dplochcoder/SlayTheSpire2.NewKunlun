@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -13,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Qi Charge",
-    description: "Spend {QiCharges:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
+    description: "Spend {QiCharges} {QiCharges:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
 )]
 public partial class QiChargeCard()
     : NewKunlunCard(1, CardType.None, CardRarity.Token, TargetType.None)
@@ -21,5 +20,5 @@ public partial class QiChargeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new QiChargeVar(nameof(QiCharges), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
 }

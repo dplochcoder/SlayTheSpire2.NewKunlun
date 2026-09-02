@@ -15,7 +15,7 @@ public class SchematicsPower : NewKunlunPower, IInternalDamageListener
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     decimal IInternalDamageListener.DamageAdditiveModifier(
         Creature? target,

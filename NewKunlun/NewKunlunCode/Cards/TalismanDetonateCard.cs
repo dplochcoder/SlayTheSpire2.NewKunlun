@@ -40,7 +40,7 @@ public partial class TalismanDetonateCard()
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<QiChargePower>(), Tips.Power<VulnerablePower>(), Tips.Power<TalismanPower>()];
+        [Tips.QiCharge(), Tips.Vulnerable(), Tips.Talisman()];
 
     public static bool IsUpgradedAnywhere(Player? player)
     {
@@ -72,20 +72,11 @@ public partial class TalismanDetonateCard()
         if (player.Creature.GetPowerAmount<QiChargePower>() == 0)
             return;
 
-        List<PileType> pileTypes = [PileType.Hand, PileType.Draw, PileType.Discard];
-        CardModel? card = null;
-        foreach (var pileType in pileTypes)
-        {
-            List<TalismanDetonateCard> cards =
-            [
-                .. pileType.GetPile(player).Cards.OfType<TalismanDetonateCard>(),
-            ];
-            card ??= cards.FirstOrDefault(c => c.IsUpgraded);
-            card ??= cards.FirstOrDefault();
-            if (card != null)
-                break;
-        }
-
+        var card = player.FindCard<TalismanDetonateCard>([
+            PileType.Hand,
+            PileType.Deck,
+            PileType.Discard,
+        ]);
         if (card == null)
         {
             card = combatState.CreateCard<TalismanDetonateCard>(player);

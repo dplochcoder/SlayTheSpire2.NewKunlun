@@ -6,11 +6,9 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -27,7 +25,7 @@ public partial class BraceCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(26M, ValueProp.Move), new DynamicVar(nameof(Imperfect), 12M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ImperfectPower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Imperfect()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(34M);
 

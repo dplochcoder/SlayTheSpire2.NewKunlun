@@ -14,9 +14,9 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Retreat",
-    description: "Gain {Block:diff()} block. Discard {Discards:diff()} cards. Exhaust {Exhausts:plural:card|cards}.",
-    customPromptA: "Select {Discards:plural:card|cards} to discard.",
-    customPromptB: "Select {Exhausts:plural:card|cards} to exhaust."
+    description: "Gain {Block:diff()} block. Discard {Discards:diff()} cards. Exhaust {Exhausts:diff()} {Exhausts:plural:card|cards}.",
+    customPromptA: "Select {Discards} {Discards:plural:card|cards} to discard.",
+    customPromptB: "Select {Exhausts} {Exhausts:plural:card|cards} to exhaust."
 )]
 public partial class RetreatCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Rare, TargetType.Self)

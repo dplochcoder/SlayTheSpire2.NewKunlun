@@ -19,7 +19,7 @@ Starter deck:
 
 Spawns:
 Attacks:
- *Talisman Detonate 2 -> Ethereal. Spend up to 3 Qi Charges to inflict 14(20) unblockable damage per charge, and 2(3) Vulnerable, to each enemy afflicted with [gold]Talisman[/gold]. Exhaust.
+ *Talisman Detonate 1 -> Ethereal. Spend up to 3 Qi Charges to inflict 14(20) unblockable damage per charge, and 2(3) Vulnerable, to each enemy afflicted with [gold]Talisman[/gold]. Exhaust.
   Azure Bow 2(1) -> Retain. Spend 1 Azure Sand to fire an Arrow. Return to your hand.
   Cloud Piercer 0 -> Remove all enemy block. Apply 2 Weak and 2 Vulnerable. Deal 30 damage. Deals 15 additional damage for every Dark Steel.
   Thunder Buster 0 -> At the end of your next 3 turns, deal 10 damage twice to all enemies. Deals damage an additional time each turn for every Dark Steel.
@@ -37,23 +37,23 @@ Status:
 Attacks:
 *(C) Charge Strike 1: Deal 8(11) damage. Spend 1 Qi Charge to deal 21(29) instead.
 *(C) Parrying Strike 2: Deal 11(15) damage. Gain 3(5) Block. The next Parry card you play is free.
-*(C) Cut Through 1: Deal 3(4) damage. Inflict 6(10) Internal Damage.
-*(C) Surge 1: Deal 13(19) damage. Add 1 Malfunction to your discard pile.
+*(C) Cut Through 1: Deal 3(6) damage. Inflict 7(9) Internal Damage.
+*(C) Surge 1: Deal 14(19) damage. Add 1 Malfunction to your discard pile.
 *(C) Stagger 1: Deal 8(9) damage. If the target is afflicted with Talisman, attack twice(thrice).
 *(C) Tai-Chi Kick 1: Deal 4(6) damage. Gain 6(9) block. If the enemy intends to attack, gain 1 Qi Charge.
 *(C) Reckless Strike 1: Deal 16(21) damage. Take 6 Internal Damage.
 *(C) Sabotage 1: Deal 13(19) Internal Damage. Take 3 Internal Damage.
 *(C) Thieving Strike: Deal 5(7) damage. Heal 5(7) Internal Damage.
- (C) Wide Swing 0: Deal 4(7) damage to all enemies.
+*(C) Wide Swing 0: Deal 5(9) damage to all enemies.
 *(U) Skull Kick 2: Deal 14(18) damage. Inflict 1(2) Weak. If the enemy intends to attack, it loses 1(2) strength.
 *(U) Chase 1: Deal 10(14) damage. Gain 1 Energy. Take 4 Internal Damage.
-*(U) Triple Slash 1: Deal 7(9) damage, return to your hand the first two times played this turn. On the third play, deal 13(19) damage.
+*(U) Triple Slash 1: Deal 5(8) damage, return to your hand the first two times played this turn. On the third play, deal 13(18) damage, spending 1 Qi Charge to deal double.
 *(U) Shadow Strike 2: Deal 13(18) damage. Hits twice if the enemy is not attacking this turn. Thrice if the enemy is stunned.
 *(U) Unbounded Strike 1: Deal 22(30) damage. Add 1 Smolder each to your draw and discard piles.
-*(U) Spar 1: Deal 8(12) damage. Gain 1(2) Block. Gain 1 Strength. Take 4 Internal Damage.
+*(U) Spar 1: Deal 8(12) damage. Gain 2(3) Block. Gain 1 Strength. Take 4 Internal Damage.
 *(U) Short-circuit 2: Deal 15(20) damage. If the target has Talisman, play Talisman Detonate.
  (R) Destabilize 2: Deal 28(38) Internal Damage. Take 6 Internal Damage.
- (R) Return to the Tao 2(1): Whenever Internal Damage resolves on enemies this turn, immediately reapply it. Deal 1 damage to all enemies 3 times.
+*(R) Return to the Tao 2(1): Whenever Internal Damage resolves on enemies this turn, immediately reapply it. Deal 1 damage to all enemies 3 times.
 *(R) Take You With Me 1: Deal 12 Damage. Deals 2(3) additional damage for each Internal Damage you have.
 
 Skills:
@@ -65,13 +65,14 @@ Skills:
 *(C) Purge 0: (Retain) Choose one Status or Curse in your hand and Exhaust it to gain 1 Energy. Draw 1 card. Exhaust.
 *(C) Overcharge 0: Take 9 Internal Damage. Gain 1(2) Energy.
 *(C) Disruption 1: Inflict 6(8) Interal Damage and 5(7) Imperfect to all enemies.
- (C) Again 0: Pull Talisman Dash into your hand. It is free to play this turn. [Exhaust.]
-*(U) Immortal Dash 2: Gain 12(17) Block. Gain 1 Dex.
+*(C) Again 0: Pull Talisman Dash into your hand. It is free to play this turn. [Exhaust.]
+*(U) Regroup 0: Heal 6 Internal Damage. Keep your energy this turn. [Exhaust.]
+*(U) Immortal Dash 2: Gain 15(20) Block. Gain 1 Dex.
 *(U) Brace 2: Gain 26(34) Block. Gain 10 Imperfect.
 *(U) Air Dash 1: Gain 7(10) Block. Gain 3(5) Dex this turn.
 *(U) Breathing Exercise 1: Heal 12(18) Internal Damage.
- (U) Lightning Reflex 1: Shuffle 2(3) Twitch+ into your draw pile. They gain Adroit. Exhaust.
  (U) Cleanse 1: At the end of your next 2(3) turns, heal 3(4) Internal Damage and exhaust 1 card from your hand.
+*(R) Lightning Reflex 1: Gain 3(4) block. Shuffle 2(3) Twitch+ with 3(4) Adroit into your draw pile. Exhaust.
 *(R) Level Up 1(0): Choose a power from your deck and pull it into your hand. It gains Retain this turn. Exhaust.
 *(R) Retreat 2: (Retain) Gain 16 Block. Discard up 2 cards. Exhaust 1 card.
 *(R) Scrounge 1(0): Discard your hand. Draw 8 cards. Keep 2 cards and discard the rest. Exhaust.
@@ -90,7 +91,7 @@ Powers:
  (U) Breather Jade 1: Heal 2(4) Internal Damage every time you deal unblocked damage.
  (U) Ricochet Jade 1: Every time you fully block an attack, inflict 4(7) Internal Damage on the attacker.
 *(U) Like Water 1: (Innate) Talisman Detonate costs 1 less energy.
-*(U) Full Control 1: Talisman Detonate deals 3(7) additional damage per Qi Charge. You can choose how many Qi Charges to spend on detonation, and can spend any number.
+*(U) Full Control 1: Talisman Detonate deals 5(9) additional damage per Qi Charge. You can choose how many Qi Charges to spend on detonation, and can spend any number.
  (U) Stasis Jade 2(1): Enemies with the Talisman debuff deal half damage.
  (U) Qi Boost 1: (Innate) Your next 2 plays of Talisman Dash deal double damage.
  (U) Arson 2: At the start of your turn, deal 12(17) Internal Damage to all enemies and add 1 Smolder to your hand.
@@ -99,7 +100,7 @@ Powers:
  (U) Soul Reaper Jade 1: Talisman Dash transfers 25(50)% of your Internal Damage onto targets.
  (U) Enhanced Qi Blast 1(0): Whenever you spend 3 or more Qi Charges on Talisman Detonate, gain 1 Azure Sand.
 *(R) Neural Network 2(1): Whenever you take Internal Damage, gain that much block.
- (R) Avarice Jade 1: Gain 10(15) gold whenever a fatal blow is dealt.
+ (R) Avarice Jade 1: Gain 9(14) gold whenever a fatal blow is dealt.
  (R) Dark Steel 1 -> Gain 1(2) Dark Steel.
 *(R) Root Node 3: (((Retain))) Heal 6(8(10)) HP. Gain 1(((2))) max HP. Heal 20(24((30))) Internal Damage. Gain 2((3(4))) STR and 2((3(4))) DEX. Choose 1(2((3))) cards from your deck and place it(them) on top.
  (R) Mob Quell Jade 2(1): Talisman Dash targets all enemies.
@@ -114,3 +115,6 @@ Relics:
  (R) Last Stand Jade: Deal 100% more damage if your Internal Damage is greater than or equal to your remaining HP.
  (R) Focus Jade: Enchant up to 5 attacks with Charged.
      - Charged: Spent 1 Qi Charge to give this attack 15 Vigor.
+	 
+Potions:
+ 

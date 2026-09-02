@@ -7,8 +7,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -23,7 +21,7 @@ public partial class SchematicsCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(InternalDamage), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(5M);
 

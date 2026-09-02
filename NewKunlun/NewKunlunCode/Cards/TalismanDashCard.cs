@@ -27,11 +27,7 @@ public partial class TalismanDashCard()
         [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Weak), 1M), new QiChargeVar(2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            Tips.Power<WeakPower>(),
-            Tips.Power<TalismanPower>(),
-            Tips.Card<TalismanDetonateCard>(upgraded: IsUpgraded),
-        ];
+        [Tips.Weak(), Tips.Talisman(), Tips.Card<TalismanDetonateCard>(upgraded: IsUpgraded)];
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null

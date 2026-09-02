@@ -4,10 +4,11 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
-using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+
+namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
@@ -37,7 +38,7 @@ public partial class ShadowStrikeCard()
             : 1;
 
         await DamageCmd
-            .Attack(Damage.BaseValue)
+            .Attack((decimal)Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .WithHitCount(times)
