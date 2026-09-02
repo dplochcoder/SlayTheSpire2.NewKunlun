@@ -13,6 +13,14 @@ public enum LocalizedModelKind
 
 public static class Localization
 {
+    private static readonly IReadOnlyDictionary<LocalizedModelKind, string> AttributeNames =
+        new Dictionary<LocalizedModelKind, string>
+        {
+            [LocalizedModelKind.Card] = "CardLocalization",
+            [LocalizedModelKind.Power] = "PowerLocalization",
+            [LocalizedModelKind.Relic] = "RelicLocalization",
+        };
+
     public static bool TryGetModelKind(INamedTypeSymbol symbol, out LocalizedModelKind kind)
     {
         for (var current = symbol.BaseType; current is not null; current = current.BaseType)
@@ -46,18 +54,28 @@ public static class Localization
     ) =>
         clazz
             .AttributeLists.SelectMany(list => list.Attributes)
-            .FirstOrDefault(attribute =>
-                IsAttribute(
-                    attribute,
-                    kind switch
-                    {
-                        LocalizedModelKind.Card => "CardLocalization",
-                        LocalizedModelKind.Power => "PowerLocalization",
-                        LocalizedModelKind.Relic => "RelicLocalization",
-                        _ => throw new ArgumentOutOfRangeException(nameof(kind)),
-                    }
-                )
-            );
+            .FirstOrDefault(attribute => IsAttribute(attribute, GetAttributeName(kind)));
+
+    public static IEnumerable<AttributeSyntax> FindLocalizationAttributes(
+        ClassDeclarationSyntax clazz
+    ) =>
+        clazz
+            .AttributeLists.SelectMany(list => list.Attributes)
+            .Where(attribute => AttributeNames.Values.Any(name => IsAttribute(attribute, name)));
+
+    public static string GetAttributeName(LocalizedModelKind kind) =>
+        AttributeNames.TryGetValue(kind, out var name)
+            ? name
+            : throw new ArgumentOutOfRangeException(nameof(kind));
+
+    public static string GetModelName(LocalizedModelKind kind) =>
+        kind switch
+        {
+            LocalizedModelKind.Card => "NewKunlunCard",
+            LocalizedModelKind.Power => "NewKunlunPower",
+            LocalizedModelKind.Relic => "NewKunlunRelic",
+            _ => throw new ArgumentOutOfRangeException(nameof(kind)),
+        };
 
     public static bool GetLocalizationStrings(
         AttributeSyntax attr,

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
@@ -22,10 +23,12 @@ public partial class InvigorateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 4M), new InternalDamageInflictVar(14M)];
+        [new DynamicVar(nameof(Strength), 4M), new InternalDamageInflictVar(16M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tips.Power<StrengthPower>(), Tips.Power<InternalDamagePower>()];
+
+    protected override void OnUpgrade() => Strength.UpgradeValueTo(6M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

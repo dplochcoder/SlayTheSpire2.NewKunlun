@@ -10,7 +10,7 @@ using NewKunlun.NewKunlunCode.Powers;
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[PowerLocalization(
+[CardLocalization(
     title: "Regenerate",
     description: "Whenever you play [gold]Talisman Detonate[/gold], gain 1 [gold]Qi Charge[/gold]."
 )]

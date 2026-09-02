@@ -32,6 +32,8 @@
   "NEWKUNLUN-QI_CHARGE_POWER.description": "Energy used to accelerate damage. Qi Charges are spent automatically by cards that request them.",
   "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "",
   "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges",
+  "NEWKUNLUN-REGENERATE_POWER.description": "Whenever you play [gold]Talisman Detonate[/gold], gain {Amount:plural:[gold]Qi Charges[/gold]|[gold]Qi Charge[/gold]}.",
+  "NEWKUNLUN-REGENERATE_POWER.title": "Regenerate",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.description": "",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.selectionScreenPrompt": "Select {Amount:plural:card|cards} to transform into [gold]Malfunction[/gold].",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.smartDescription": "At the start of your turn, gain {Amount:energyIcons()}, draw {CardDraw:plural:card|cards}, transform {Amount:plural:card|cards} in your hand into [gold]Malfunction[/gold] and discard {Amount:cond:>1?them|it}.",

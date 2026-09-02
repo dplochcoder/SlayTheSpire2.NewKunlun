@@ -12,6 +12,7 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
     public const string InvalidLocalizationId = "NKLOC001";
     public const string UnknownVariableId = "NKLOC002";
     public const string UnnamedArgumentId = "NKLOC003";
+    public const string MissingOrMismatchedLocalizationId = "NKLOC004";
 
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
@@ -43,8 +44,23 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         description: "Named arguments keep localization fields independent of constructor parameter order."
     );
 
+    private static readonly DiagnosticDescriptor MissingOrMismatchedLocalization = new(
+        MissingOrMismatchedLocalizationId,
+        "Missing or mismatched localization attribute",
+        "'{0}' derives from {1} and must use [{2}] localization; {3}",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Every localized model must declare the localization attribute matching its model hierarchy."
+    );
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(InvalidLocalization, UnknownVariable, UnnamedArgument);
+        ImmutableArray.Create(
+            InvalidLocalization,
+            UnknownVariable,
+            UnnamedArgument,
+            MissingOrMismatchedLocalization
+        );
 
     public override void Initialize(AnalysisContext context)
     {
@@ -61,9 +77,40 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         if (!Localization.TryGetModelKind(classSymbol, out var kind))
             return;
 
+        var expectedAttributeName = Localization.GetAttributeName(kind);
+        var localizationAttributes = Localization.FindLocalizationAttributes(clazz).ToArray();
         var attr = Localization.FindLocalizationAttribute(clazz, kind);
+        foreach (
+            var mismatchedAttribute in localizationAttributes.Where(candidate => candidate != attr)
+        )
+        {
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    MissingOrMismatchedLocalization,
+                    mismatchedAttribute.GetLocation(),
+                    classSymbol.Name,
+                    Localization.GetModelName(kind),
+                    expectedAttributeName,
+                    $"found [{mismatchedAttribute.Name}]"
+                )
+            );
+        }
+
         if (attr is null)
+        {
+            if (localizationAttributes.Length == 0)
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        MissingOrMismatchedLocalization,
+                        clazz.Identifier.GetLocation(),
+                        classSymbol.Name,
+                        Localization.GetModelName(kind),
+                        expectedAttributeName,
+                        "no localization attribute was found"
+                    )
+                );
             return;
+        }
 
         var unnamedArguments =
             attr.ArgumentList?.Arguments.Where(argument => argument.NameColon is null).ToArray()

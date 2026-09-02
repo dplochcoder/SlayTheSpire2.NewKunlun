@@ -6,7 +6,7 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
-[CardLocalization(
+[PowerLocalization(
     title: "Regenerate",
     description: "Whenever you play [gold]Talisman Detonate[/gold], gain {Amount:plural:[gold]Qi Charges[/gold]|[gold]Qi Charge[/gold]}."
 )]

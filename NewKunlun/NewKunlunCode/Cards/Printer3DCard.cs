@@ -25,9 +25,9 @@ public partial class Printer3DCard()
         this.BuildKeywords(CardKeyword.Exhaust).IfUpgraded(CardKeyword.Retain);
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new GoldVar(nameof(Cost), 5), new GoldVar(nameof(CostIncrement), 4)];
+        [new GoldVar(nameof(Cost), 5), new GoldVar(nameof(CostIncrement), 5)];
 
-    protected override void OnUpgrade() => CostIncrement.UpgradeValueTo(2M);
+    protected override void OnUpgrade() => CostIncrement.UpgradeValueTo(3M);
 
     [SavedProperty]
     public int CostIncrease
@@ -37,9 +37,13 @@ public partial class Printer3DCard()
         {
             AssertMutable();
             field = value;
-            Cost.BaseValue = 5 + value;
+            UpdateValues();
         }
     }
+
+    protected override void AfterDowngraded() => UpdateValues();
+
+    private void UpdateValues() => Cost.BaseValue = 5 + CostIncrease;
 
     protected override bool IsPlayable => Owner.Gold >= Cost.BaseValue;
 

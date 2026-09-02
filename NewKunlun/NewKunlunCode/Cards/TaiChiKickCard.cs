@@ -27,6 +27,12 @@ public partial class TaiChiKickCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<QiChargePower>()];
 
+    protected override void OnUpgrade()
+    {
+        Damage.UpgradeValueTo(6M);
+        Block.UpgradeValueTo(9M);
+    }
+
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.IsHittable && (e.Monster?.IntendsToAttack ?? false))
         ?? false;

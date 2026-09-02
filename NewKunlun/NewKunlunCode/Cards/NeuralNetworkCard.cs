@@ -10,7 +10,7 @@ using NewKunlun.NewKunlunCode.Powers;
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[PowerLocalization(
+[CardLocalization(
     title: "Neural Network",
     description: "Whenever you take [gold]Internal Damage[/gold], gain that much block."
 )]
