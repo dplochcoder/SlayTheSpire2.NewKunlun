@@ -31,7 +31,7 @@ public partial class TakeYouWithMeCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
-    protected override void OnUpgrade() => DynamicVarExtensions.UpgradeValueTo(ExtraDamage, 3M);
+    protected override void OnUpgrade() => ExtraDamage.UpgradeValueTo(3M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

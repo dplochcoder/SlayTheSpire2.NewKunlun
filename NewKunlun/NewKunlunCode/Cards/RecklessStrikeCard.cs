@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Reckless Strike",
-    description: "Deal {Damage:diff()} damage. Take {InternalDamage:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage. Take {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class RecklessStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
@@ -25,7 +25,7 @@ public partial class RecklessStrikeCard()
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(16M, ValueProp.Move), new InternalDamageVar(6M)];
+        [new DamageVar(16M, ValueProp.Move), new InternalDamageInflictVar(6M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
@@ -39,10 +39,10 @@ public partial class RecklessStrikeCard()
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        await InternalDamageCmd.Apply(
+        await InternalDamageCmd.Inflict(
             choiceContext,
             Owner.Creature,
-            InternalDamage.BaseValue,
+            InternalDamageInflict,
             Owner.Creature,
             this
         );

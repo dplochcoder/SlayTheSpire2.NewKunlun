@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -34,7 +35,13 @@ public class ImperfectPower : NewKunlunPower
         if (target != Owner || !props.IsPoweredAttack())
             return;
 
-        await InternalDamageCmd.Apply(choiceContext, target, Amount, dealer, cardSource);
+        await InternalDamageCmd.Inflict(
+            choiceContext,
+            target,
+            new InternalDamageInflictVar(Amount),
+            dealer,
+            cardSource
+        );
         await PowerCmd.Remove(this);
         Flash();
     }

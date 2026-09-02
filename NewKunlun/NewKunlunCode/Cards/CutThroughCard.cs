@@ -17,20 +17,20 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cut Through",
-    description: "Deal {Damage:diff()} damage. Inflict {InternalDamage:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage. Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class CutThroughCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(3M, ValueProp.Move), new InternalDamageVar(6M)];
+        [new DamageVar(3M, ValueProp.Move), new InternalDamageInflictVar(6M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
     protected override void OnUpgrade()
     {
         Damage.UpgradeValueTo(4M);
-        InternalDamage.UpgradeValueTo(10M);
+        InternalDamageInflict.UpgradeValueTo(10M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -41,10 +41,10 @@ public partial class CutThroughCard()
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        await InternalDamageCmd.Apply(
+        await InternalDamageCmd.Inflict(
             choiceContext,
             cardPlay.Target!,
-            InternalDamage.BaseValue,
+            InternalDamageInflict,
             Owner.Creature,
             this
         );

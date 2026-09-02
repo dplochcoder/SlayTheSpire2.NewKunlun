@@ -20,7 +20,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class SchematicsCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageVar(3M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar(nameof(InternalDamage), 3M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 

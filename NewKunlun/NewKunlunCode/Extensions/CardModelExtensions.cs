@@ -16,16 +16,32 @@ public static class CardModelExtensions
         public CardKeywordList BuildKeywords(IEnumerable<CardKeyword> keywords) =>
             new(self, keywords);
 
-        public async Task AddGeneratedStatusToPile<T>(PileType pileType)
-            where T : CardModel
+        public async Task AddGeneratedStatusToPile<TStatus>(PileType pileType)
+            where TStatus : CardModel
         {
             CardCmd.PreviewCardPileAdd(
                 await CardPileCmd.AddGeneratedCardToCombat(
-                    self.CombatState!.CreateCard<T>(self.Owner),
+                    self.CombatState!.CreateCard<TStatus>(self.Owner),
                     PileType.Discard,
                     self.Owner
                 )
             );
+        }
+    }
+
+    extension<T>(T self)
+        where T : CardModel
+    {
+        public T? Permanently(Action<T> action)
+        {
+            action(self);
+            if (self.DeckVersion is T deckVersion)
+            {
+                action(deckVersion);
+                return deckVersion;
+            }
+            else
+                return null;
         }
     }
 

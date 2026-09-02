@@ -16,7 +16,7 @@ public class TalismanDetonateDamageVar(decimal damage)
         Creature? target,
         bool runGlobalHooks
     ) =>
-        PreviewValue = ITalismanDetonateDamageModifier.ModifyTalismanDetonateDamage(
+        PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateDamage(
             card.CombatState!,
             BaseValue,
             card.Owner.Creature

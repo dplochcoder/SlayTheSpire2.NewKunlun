@@ -6,11 +6,11 @@ using NewKunlun.NewKunlunCode.Hooks;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
-public class InternalDamageVar(string name, decimal damage) : DynamicVar(name, damage)
+public class InternalDamageHealVar(string name, decimal damage) : DynamicVar(name, damage)
 {
-    public const string DefaultName = "InternalDamage";
+    public const string DefaultName = "InternalDamageHeal";
 
-    public InternalDamageVar(decimal damage)
+    public InternalDamageHealVar(decimal damage)
         : this(DefaultName, damage) { }
 
     public override void UpdateCardPreview(
@@ -19,11 +19,8 @@ public class InternalDamageVar(string name, decimal damage) : DynamicVar(name, d
         Creature? target,
         bool runGlobalHooks
     ) =>
-        PreviewValue = IInternalDamageModifier.ModifyInternalDamage(
-            card.CombatState!,
-            target,
-            BaseValue,
+        PreviewValue = IInternalDamageListener.ModifyInternalDamageHealed(
             card.Owner.Creature,
-            card
+            BaseValue
         );
 }

@@ -7,7 +7,7 @@ using NewKunlun.NewKunlunCode.Powers;
 
 public static class QiChargeCmd
 {
-    private const int DefaultMaxCharges = 3;
+    private const int DefaultMaxCharges = 5;
 
     public static async Task GainQiCharges(
         PlayerChoiceContext choiceContext,

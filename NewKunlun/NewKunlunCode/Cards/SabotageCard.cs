@@ -22,8 +22,8 @@ public partial class SabotageCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(InternalDamageEnemy), 13M),
-            new InternalDamageVar(nameof(InternalDamageSelf), 3M),
+            new InternalDamageInflictVar(nameof(InternalDamageEnemy), 13M),
+            new InternalDamageInflictVar(nameof(InternalDamageSelf), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
@@ -32,17 +32,17 @@ public partial class SabotageCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await InternalDamageCmd.Apply(
+        await InternalDamageCmd.Inflict(
             choiceContext,
             cardPlay.Target!,
-            InternalDamageEnemy.BaseValue,
+            InternalDamageEnemy,
             Owner.Creature,
             this
         );
-        await InternalDamageCmd.Apply(
+        await InternalDamageCmd.Inflict(
             choiceContext,
             Owner.Creature,
-            InternalDamageSelf.BaseValue,
+            InternalDamageSelf,
             Owner.Creature,
             this
         );

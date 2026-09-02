@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Relics;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
@@ -16,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "At the start of your turn, gain 1 energy, draw {CardDraw:diff()} {CardDraw:cond:>1?cards|card}, transform 1 card in your hand into [gold]Malfunction[/gold] and discard it."
 )]
 public partial class RootCorruptionCard()
-    : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
+    : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(CardDraw), 1)];
@@ -27,7 +29,7 @@ public partial class RootCorruptionCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var power = await PowerCmd.Apply<RootCorruptionPower>(
+        var power = await PowerCmd.Apply<Powers.RootCorruptionPower>(
             choiceContext,
             Owner.Creature,
             1M,

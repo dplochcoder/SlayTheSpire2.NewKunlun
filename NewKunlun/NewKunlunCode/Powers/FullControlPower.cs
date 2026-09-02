@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
     title: "Full Control",
     description: "[gold]Talisman Detonate[/gold] deals {Amount} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, and can spend any number."
 )]
-public class FullControlPower : NewKunlunPower, ITalismanDetonateDamageModifier
+public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -65,6 +65,6 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateDamageModifier
         return actualSpent;
     }
 
-    decimal ITalismanDetonateDamageModifier.AdditiveModifier(decimal amount, Creature? applier) =>
-        applier == Owner ? Amount : 0;
+    decimal ITalismanDetonateListener.AdditiveModifier(decimal amount, Creature? dealer) =>
+        dealer == Owner ? Amount : 0;
 }

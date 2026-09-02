@@ -11,6 +11,7 @@ using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -34,7 +35,7 @@ public partial class RootNodeCard()
         [
             new DynamicVar(nameof(HealHP), 6M),
             new DynamicVar(nameof(GainMaxHP), 1M),
-            new DynamicVar(nameof(HealInternalDamage), 20M),
+            new InternalDamageHealVar(20M),
             new DynamicVar(nameof(Strength), 2M),
             new DynamicVar(nameof(Dexterity), 2M),
             new DynamicVar(nameof(TopDeckCards), 1M),
@@ -54,7 +55,7 @@ public partial class RootNodeCard()
         {
             case 0:
                 HealHP.UpgradeValueTo(8M);
-                HealInternalDamage.UpgradeValueTo(24M);
+                InternalDamageHeal.UpgradeValueTo(24M);
                 TopDeckCards.UpgradeValueTo(2M);
                 break;
             case 1:
@@ -64,7 +65,7 @@ public partial class RootNodeCard()
                 break;
             case 2:
                 GainMaxHP.UpgradeValueTo(2M);
-                HealInternalDamage.UpgradeValueTo(30M);
+                InternalDamageHeal.UpgradeValueTo(30M);
                 Strength.UpgradeValueTo(4M);
                 Dexterity.UpgradeValueTo(4M);
                 TopDeckCards.UpgradeValueTo(3M);
@@ -81,7 +82,7 @@ public partial class RootNodeCard()
         await InternalDamageCmd.Heal(
             choiceContext,
             Owner.Creature,
-            HealInternalDamage.BaseValue,
+            InternalDamageHeal,
             Owner.Creature,
             this
         );

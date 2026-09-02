@@ -31,7 +31,7 @@ public partial class TalismanDetonateCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new QiChargeVar(2M),
+            new QiChargeVar(3M),
             new DynamicVar(nameof(Vulnerable), 2M),
             new TalismanDetonateDamageVar(14M),
         ];
@@ -59,7 +59,7 @@ public partial class TalismanDetonateCard()
 
     protected override void OnUpgrade()
     {
-        QiCharge.UpgradeValueTo(3M);
+        Vulnerable.UpgradeValueTo(3M);
         TalismanDetonateDamage.UpgradeValueTo(20M);
     }
 
@@ -146,7 +146,7 @@ public partial class TalismanDetonateCard()
             );
         await ClearPowers();
 
-        var modifiedDamage = ITalismanDetonateDamageModifier.ModifyTalismanDetonateDamage(
+        var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateDamage(
             CombatState!,
             TalismanDetonateDamage.BaseValue,
             Owner.Creature

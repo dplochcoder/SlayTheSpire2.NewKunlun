@@ -6,6 +6,7 @@ public sealed class PowerLocalizationAttribute(
     string description,
     string? smartDescription = null,
     string? remoteDescription = null,
+    string? selectionScreenPrompt = null,
     string? customPromptA = null,
     string? customPromptB = null,
     string? customPromptC = null,
@@ -22,4 +23,5 @@ public sealed class PowerLocalizationAttribute(
 {
     public string SmartDescription { get; } = smartDescription ?? description;
     public string? RemoteDescription { get; } = remoteDescription;
+    public string? SelectionScreenPrompt { get; } = selectionScreenPrompt;
 }

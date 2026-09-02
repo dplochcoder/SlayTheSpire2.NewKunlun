@@ -14,7 +14,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Feint",
-    description: "Deal {Damage:diff()} damage. {IfUpgraded:show:Draw 1 card. |}Place 1 card from your hand on top of your deck."
+    description: "Deal {Damage:diff()} damage. {IfUpgraded:show:[green]Draw 1 card.[/green] |}Place 1 card from your hand on top of your draw pile.",
+    selectionScreenPrompt: "Choose a card to place on top of your draw pile."
 )]
 public partial class FeintCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)

@@ -6,38 +6,40 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Commands;
-using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Brace",
-    description: "Gain {Block:diff()} block. Take {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
+    title: "Perfect Parry",
+    description: "Gain {Block:diff()} block. Gain {Parry} [gold]Parry[/gold]."
 )]
-public partial class BraceCard()
-    : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public partial class PerfectParryCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Ancient, TargetType.Self)
 {
     public override bool GainsBlock => true;
 
+    public override bool IsParryCard => true;
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        IsUpgraded ? [CardKeyword.Retain] : [];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(28M, ValueProp.Move), new InternalDamageInflictVar(12M)];
+        [new BlockVar(18M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<ParryPower>()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(38M);
+    protected override void OnUpgrade() => Block.UpgradeValueBy(7M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
-        await InternalDamageCmd.Inflict(
+        await PowerCmd.Apply<ParryPower>(
             choiceContext,
             Owner.Creature,
-            InternalDamageInflict,
+            Parry.BaseValue,
             Owner.Creature,
             this
         );

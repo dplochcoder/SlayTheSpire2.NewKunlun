@@ -2,42 +2,47 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Brace",
-    description: "Gain {Block:diff()} block. Take {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
+    title: "Thieving Strike",
+    description: "Deal {Damage:diff()} damage. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
 )]
-public partial class BraceCard()
-    : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public partial class ThievingStrikeCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
-    public override bool GainsBlock => true;
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(28M, ValueProp.Move), new InternalDamageInflictVar(12M)];
+        [new DamageVar(5M, ValueProp.Move), new InternalDamageHealVar(5M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
-
-    protected override void OnUpgrade() => Block.UpgradeValueTo(38M);
+    protected override void OnUpgrade()
+    {
+        Damage.UpgradeValueTo(7M);
+        InternalDamageHeal.UpgradeValueTo(7M);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
-        await InternalDamageCmd.Inflict(
+        await DamageCmd
+            .Attack(Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .WithSlashVfx()
+            .Targeting(cardPlay.Target!)
+            .Execute(choiceContext);
+        await InternalDamageCmd.Heal(
             choiceContext,
             Owner.Creature,
-            InternalDamageInflict,
+            InternalDamageHeal,
             Owner.Creature,
             this
         );

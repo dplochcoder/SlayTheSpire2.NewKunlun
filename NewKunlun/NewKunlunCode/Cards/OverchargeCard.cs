@@ -1,4 +1,5 @@
 ﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -14,26 +15,28 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Breathing Exercise",
-    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
+    title: "Overcharge",
+    description: "Take {InternalDamageInflict} [gold]Internal Damage[/gold]. Gain {Energy:energyIcons()}."
 )]
-public partial class BreathingExerciseCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public partial class OverchargeCard()
+    : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(12M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new InternalDamageInflictVar(9M), new EnergyVar(1)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
-    protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(18M);
+    protected override void OnUpgrade() => Energy.UpgradeValueTo(2);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await InternalDamageCmd.Heal(
+        await InternalDamageCmd.Inflict(
             choiceContext,
             Owner.Creature,
-            InternalDamageHeal,
+            InternalDamageInflict,
             Owner.Creature,
             this
         );
+        await PlayerCmd.GainEnergy(Energy.BaseValue, Owner);
     }
 }

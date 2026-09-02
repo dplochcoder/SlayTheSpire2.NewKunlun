@@ -4,9 +4,9 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Variables;
@@ -15,31 +15,37 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Invigorate",
-    description: "Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
+    title: "Disruption",
+    description: "Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold] and {Imperfect:diff()} [gold]Imperfect[/gold] to all enemies."
 )]
-public partial class InvigorateCard()
-    : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+public partial class DisruptionCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 4M), new InternalDamageInflictVar(14M)];
+        [new InternalDamageInflictVar(6M), new DynamicVar(nameof(Imperfect), 5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Power<StrengthPower>(), Tips.Power<InternalDamagePower>()];
+        [Tips.Power<InternalDamagePower>(), Tips.Power<ImperfectPower>()];
+
+    protected override void OnUpgrade()
+    {
+        DynamicVarExtensions.UpgradeValueTo(InternalDamageInflict, 8M);
+        DynamicVarExtensions.UpgradeValueTo(Imperfect, 7M);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<StrengthPower>(
+        await InternalDamageCmd.Inflict(
             choiceContext,
-            Owner.Creature,
-            Strength.BaseValue,
+            CombatState!.HittableEnemies,
+            InternalDamageInflict,
             Owner.Creature,
             this
         );
-        await InternalDamageCmd.Inflict(
+        await PowerCmd.Apply<ImperfectPower>(
             choiceContext,
-            Owner.Creature,
-            InternalDamageInflict,
+            CombatState!.HittableEnemies,
+            Imperfect.BaseValue,
             Owner.Creature,
             this
         );

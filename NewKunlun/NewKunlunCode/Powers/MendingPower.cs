@@ -10,12 +10,12 @@ namespace NewKunlun.NewKunlunCode.Powers;
     title: "Mending",
     description: "Whenever you would take [gold]Internal Damage[/gold], take {Amount} less."
 )]
-public class MendingPower : NewKunlunPower, IInternalDamageModifier
+public class MendingPower : NewKunlunPower, IInternalDamageListener
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    decimal IInternalDamageModifier.AdditiveModifier(
+    decimal IInternalDamageListener.DamageAdditiveModifier(
         Creature? target,
         decimal amount,
         Creature? applier,

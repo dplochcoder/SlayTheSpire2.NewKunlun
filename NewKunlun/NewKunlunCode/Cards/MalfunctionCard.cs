@@ -24,8 +24,8 @@ public partial class MalfunctionCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageVar(nameof(EndOfTurnDamage), 2M),
-            new InternalDamageVar(nameof(OnExhaustDamage), 4M),
+            new InternalDamageInflictVar(nameof(EndOfTurnDamage), 2M),
+            new InternalDamageInflictVar(nameof(OnExhaustDamage), 4M),
             new DynamicVar(nameof(DamageIncrement), 2M),
         ];
 
@@ -37,13 +37,7 @@ public partial class MalfunctionCard()
 
     protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
     {
-        await InternalDamageCmd.Apply(
-            choiceContext,
-            Owner.Creature,
-            EndOfTurnDamage.BaseValue,
-            null,
-            this
-        );
+        await InternalDamageCmd.Inflict(choiceContext, Owner.Creature, EndOfTurnDamage, null, this);
 
         EndOfTurnDamage.BaseValue += DamageIncrement.BaseValue;
         OnExhaustDamage.BaseValue += DamageIncrement.BaseValue;
@@ -51,13 +45,7 @@ public partial class MalfunctionCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await InternalDamageCmd.Apply(
-            choiceContext,
-            Owner.Creature,
-            OnExhaustDamage.BaseValue,
-            null,
-            this
-        );
+        await InternalDamageCmd.Inflict(choiceContext, Owner.Creature, OnExhaustDamage, null, this);
         await CardPileCmd.Draw(choiceContext, Owner);
     }
 }

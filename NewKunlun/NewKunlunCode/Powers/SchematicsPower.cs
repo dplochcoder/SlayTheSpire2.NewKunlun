@@ -10,14 +10,14 @@ using NewKunlun.NewKunlunCode.Powers;
     title: "Schematics",
     description: "Whenever you inflict [gold]Internal Damage[/gold] on enemies, inflict {Amount} more."
 )]
-public class SchematicsPower : NewKunlunPower, IInternalDamageModifier
+public class SchematicsPower : NewKunlunPower, IInternalDamageListener
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Power<InternalDamagePower>()];
 
-    decimal IInternalDamageModifier.AdditiveModifier(
+    decimal IInternalDamageListener.DamageAdditiveModifier(
         Creature? target,
         decimal amount,
         Creature? applier,
