@@ -8,20 +8,21 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Imperfect",
-    description: "If attacked this turn, take {Amount} [glow]Internal Damage[/glow]."
+    description: "If attacked this turn, take {Amount} [gold]Internal Damage[/gold]."
 )]
 public class ImperfectPower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Debuff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,

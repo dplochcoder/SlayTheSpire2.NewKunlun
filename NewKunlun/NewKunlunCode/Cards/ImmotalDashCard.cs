@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -23,11 +24,11 @@ public partial class ImmortalDashCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(15M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 1M)];
+        [new BlockVar(11M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(20M);
+    protected override void OnUpgrade() => Block.UpgradeValueTo(15M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

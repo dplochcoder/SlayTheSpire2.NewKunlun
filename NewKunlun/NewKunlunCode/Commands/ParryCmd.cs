@@ -5,6 +5,8 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Powers;
 
+namespace NewKunlun.NewKunlunCode.Commands;
+
 public static class ParryCmd
 {
     public static async Task GainParry(

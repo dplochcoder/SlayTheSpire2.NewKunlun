@@ -5,9 +5,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Powers;
 
+namespace NewKunlun.NewKunlunCode.Commands;
+
 public static class QiChargeCmd
 {
-    private const int DefaultMaxCharges = 5;
+    private const int DefaultMaxCharges = 3;
 
     public static async Task GainQiCharges(
         PlayerChoiceContext choiceContext,
@@ -67,5 +69,26 @@ public static class QiChargeCmd
 
         await PowerCmd.ModifyAmount(choiceContext, qiChargePower, -toConsume, applier, cardSource);
         return toConsume;
+    }
+
+    public static async Task IncreaseQiChargeCapacity(
+        PlayerChoiceContext choiceContext,
+        Creature target,
+        decimal amount,
+        Creature? applier,
+        CardModel? cardSource
+    )
+    {
+        if (target.GetPowerAmount<QiChargeCapacityPower>() == 0)
+            amount += DefaultMaxCharges;
+
+        await PowerCmd.Apply<QiChargeCapacityPower>(
+            choiceContext,
+            target,
+            amount,
+            applier,
+            cardSource,
+            silent: true
+        );
     }
 }

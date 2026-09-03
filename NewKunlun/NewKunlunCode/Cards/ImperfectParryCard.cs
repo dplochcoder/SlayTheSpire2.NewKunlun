@@ -6,9 +6,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -31,7 +33,7 @@ public partial class ImperfectParryCard()
             new DynamicVar(nameof(Imperfect), 6M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry(), Tips.Imperfect()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry(), Tip.Imperfect()];
 
     protected override void OnUpgrade()
     {

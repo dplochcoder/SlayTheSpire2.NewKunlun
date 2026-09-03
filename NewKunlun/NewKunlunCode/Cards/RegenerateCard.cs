@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -18,7 +19,7 @@ public class RegenerateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tips.TalismanDetonateCardWithTips(Owner);
+        Tip.TalismanDetonateCardWithTips(Owner);
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

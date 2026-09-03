@@ -36,11 +36,12 @@ public partial class FeintCard()
         if (IsUpgraded)
             await CardPileCmd.Draw(choiceContext, Owner);
 
-        var cards = await CardSelectCmd.FromCombatPile(
+        var cards = await CardSelectCmd.FromHand(
             choiceContext,
-            PileType.Hand.GetPile(Owner),
             Owner,
-            new CardSelectorPrefs(SelectionScreenPrompt, 1, 1)
+            new CardSelectorPrefs(SelectionScreenPrompt, 1),
+            _ => true,
+            this
         );
         foreach (var card in cards)
             await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);

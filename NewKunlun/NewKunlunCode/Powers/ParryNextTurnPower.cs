@@ -5,7 +5,9 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -20,7 +22,7 @@ public partial class ParryNextTurnPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(TurnsRemaining), 2M)];

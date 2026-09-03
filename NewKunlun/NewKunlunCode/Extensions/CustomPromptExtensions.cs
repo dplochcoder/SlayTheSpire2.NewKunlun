@@ -23,7 +23,7 @@ public static class CustomPromptExtensions
     extension(CardModel self)
     {
         private LocString CustomPromptString(char suffix) =>
-            CustomPromptExtensions.CustomPromptString(self, self.DynamicVars, "cards", suffix);
+            CustomPromptString(self, self.DynamicVars, "cards", suffix);
 
         public LocString CustomPromptA => self.CustomPromptString('A');
         public LocString CustomPromptB => self.CustomPromptString('B');
@@ -34,7 +34,7 @@ public static class CustomPromptExtensions
     extension(RelicModel self)
     {
         private LocString CustomPromptString(char suffix) =>
-            CustomPromptExtensions.CustomPromptString(self, self.DynamicVars, "relics", suffix);
+            CustomPromptString(self, self.DynamicVars, "relics", suffix);
 
         public LocString CustomPromptA => self.CustomPromptString('A');
         public LocString CustomPromptB => self.CustomPromptString('B');
@@ -45,7 +45,7 @@ public static class CustomPromptExtensions
     extension(PowerModel self)
     {
         private LocString CustomPromptString(char suffix) =>
-            CustomPromptExtensions.CustomPromptString(self, self.DynamicVars, "powers", suffix);
+            CustomPromptString(self, self.DynamicVars, "powers", suffix);
 
         public LocString CustomPromptA => self.CustomPromptString('A');
         public LocString CustomPromptB => self.CustomPromptString('B');

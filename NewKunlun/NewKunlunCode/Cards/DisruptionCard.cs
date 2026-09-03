@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -25,7 +26,7 @@ public partial class DisruptionCard()
         [new InternalDamageInflictVar(6M), new DynamicVar(nameof(Imperfect), 5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.InternalDamage(), Tips.Imperfect()];
+        [Tip.InternalDamage(), Tip.Imperfect()];
 
     protected override void OnUpgrade()
     {

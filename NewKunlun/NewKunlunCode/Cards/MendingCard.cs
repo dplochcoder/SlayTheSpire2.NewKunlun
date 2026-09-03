@@ -8,6 +8,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -22,7 +23,7 @@ public partial class MendingCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(InternalDamage), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(2M);
 

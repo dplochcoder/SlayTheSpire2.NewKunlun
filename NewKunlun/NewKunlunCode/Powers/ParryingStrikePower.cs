@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -17,7 +18,7 @@ public class ParryingStrikePower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.ParryCardKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCardKeyword()];
 
     private bool ShouldCardBeFree(CardModel card) =>
         card.Pile?.Type is PileType.Hand or PileType.Play

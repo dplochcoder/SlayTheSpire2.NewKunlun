@@ -19,10 +19,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class RegroupCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [] : [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(6M)];
+
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -7,6 +7,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -19,11 +20,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class BreathingExerciseCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(12M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(14M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(18M);
+    protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(22M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

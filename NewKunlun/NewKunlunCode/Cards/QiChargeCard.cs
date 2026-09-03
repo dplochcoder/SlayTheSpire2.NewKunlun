@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -20,5 +21,5 @@ public partial class QiChargeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new QiChargeVar(nameof(QiCharges), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 }

@@ -30,35 +30,30 @@ public partial class RetreatCard()
             new DynamicVar(nameof(Exhausts), 1M),
         ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [CardKeyword.Retain, CardKeyword.Exhaust] : [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
 
-        var discards = await CardSelectCmd.FromCombatPile(
+        var discards = await CardSelectCmd.FromHand(
             choiceContext,
-            PileType.Hand.GetPile(Owner),
             cardPlay.Player,
-            new CardSelectorPrefs(
-                this.CustomPromptA,
-                (int)Discards.BaseValue,
-                (int)Discards.BaseValue
-            )
+            new CardSelectorPrefs(this.CustomPromptA, (int)Discards.BaseValue),
+            _ => true,
+            this
         );
         foreach (var card in discards)
             await CardCmd.Discard(choiceContext, card);
 
-        var exhausts = await CardSelectCmd.FromCombatPile(
+        var exhausts = await CardSelectCmd.FromHand(
             choiceContext,
-            PileType.Hand.GetPile(Owner),
             cardPlay.Player,
-            new CardSelectorPrefs(
-                this.CustomPromptB,
-                (int)Exhausts.BaseValue,
-                (int)Exhausts.BaseValue
-            )
+            new CardSelectorPrefs(this.CustomPromptB, (int)Exhausts.BaseValue),
+            _ => true,
+            this
         );
         foreach (var card in exhausts)
             await CardCmd.Exhaust(choiceContext, card);

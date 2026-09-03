@@ -8,8 +8,10 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Cards;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -23,7 +25,7 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tips.TalismanDetonateCardWithTips(Owner.Player);
+        Tip.TalismanDetonateCardWithTips(Owner.Player);
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -65,6 +67,6 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
         return actualSpent;
     }
 
-    decimal ITalismanDetonateListener.AdditiveModifier(decimal amount, Creature? dealer) =>
+    decimal ITalismanDetonateListener.DamageAdditiveModifier(decimal amount, Creature? dealer) =>
         dealer == Owner ? Amount : 0;
 }

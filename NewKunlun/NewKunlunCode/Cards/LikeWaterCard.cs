@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -20,11 +21,12 @@ public partial class LikeWaterCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [CardKeyword.Innate] : [];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tips.TalismanDetonateCardWithTips(Owner);
+        Tip.TalismanDetonateCardWithTips(Owner);
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

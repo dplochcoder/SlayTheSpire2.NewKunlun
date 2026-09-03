@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -23,14 +24,14 @@ public partial class AirDashCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(7M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 3M)];
+        [new BlockVar(6M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
 
     protected override void OnUpgrade()
     {
-        Block.UpgradeValueTo(10M);
-        Dexterity.UpgradeValueTo(5M);
+        Block.UpgradeValueTo(8M);
+        Dexterity.UpgradeValueTo(4M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

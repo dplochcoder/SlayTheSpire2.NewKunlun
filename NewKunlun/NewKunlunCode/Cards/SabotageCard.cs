@@ -7,6 +7,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -14,20 +15,20 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Sabotage",
-    description: "Deal {InternalDamageEnemy:diff()} [gold]Internal Damage[/gold]. Take {InternalDamageSelf:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {InternalDamageEnemy:diff()} [gold]Internal Damage[/gold]. Take {InternalDamageSelf:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class SabotageCard()
-    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageInflictVar(nameof(InternalDamageEnemy), 13M),
+            new InternalDamageInflictVar(nameof(InternalDamageEnemy), 12M),
             new InternalDamageSelfInflictVar(nameof(InternalDamageSelf), 3M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => InternalDamageEnemy.UpgradeValueTo(19M);
+    protected override void OnUpgrade() => InternalDamageEnemy.UpgradeValueTo(17M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

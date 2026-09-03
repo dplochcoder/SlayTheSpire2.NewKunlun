@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -26,24 +27,24 @@ public partial class LightningReflexCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(3M, ValueProp.Move),
-            new DynamicVar(nameof(NumCards), 2M),
+            new DynamicVar(nameof(NumCards), 3M),
             new DynamicVar(nameof(AdroitAmount), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Card<TwitchCard>(upgraded: true), .. Tips.Adroit()];
+        [Tip.Card<TwitchCard>(upgraded: true), .. Tip.Adroit()];
 
     protected override void OnUpgrade()
     {
         Block.UpgradeValueTo(4M);
-        NumCards.UpgradeValueTo(3M);
+        NumCards.UpgradeValueTo(4M);
         AdroitAmount.UpgradeValueTo(4M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         List<CardModel> cards = [];
-        for (int i = 0; i < NumCards.BaseValue; i++)
+        for (var i = 0; i < NumCards.BaseValue; i++)
         {
             var card = CombatState!.CreateCard<TwitchCard>(Owner);
             CardCmd.Upgrade(card);

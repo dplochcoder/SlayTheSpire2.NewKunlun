@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -22,7 +23,7 @@ public partial class StaggerCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(8M, ValueProp.Move), new DynamicVar(nameof(Repeat), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Talisman()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Talisman()];
 
     protected override void OnUpgrade()
     {

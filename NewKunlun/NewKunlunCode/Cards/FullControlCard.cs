@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -24,7 +25,7 @@ public partial class FullControlCard()
         [new DamageVar(5M, ValueProp.Unpowered)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tips.TalismanDetonateCardWithTips(Owner);
+        Tip.TalismanDetonateCardWithTips(Owner);
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(9M);
 

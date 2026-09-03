@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -22,8 +21,9 @@ public partial class PurgeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        this.BuildKeywords(CardKeyword.Exhaust).IfUpgraded(CardKeyword.Retain);
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
     protected override bool ShouldGlowGoldInternal =>
         PileType.Hand.GetPile(Owner).Cards.Any(c => c.Type is CardType.Status or CardType.Curse);

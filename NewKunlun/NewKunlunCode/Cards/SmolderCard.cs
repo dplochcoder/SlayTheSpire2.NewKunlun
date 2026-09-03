@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -32,7 +33,7 @@ public partial class SmolderCard()
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<SmolderCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<SmolderCard>()];
 
     public override bool HasTurnEndInHandEffect => true;
 

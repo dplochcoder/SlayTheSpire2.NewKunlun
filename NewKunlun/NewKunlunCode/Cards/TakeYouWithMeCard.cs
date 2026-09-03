@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -29,14 +30,14 @@ public partial class TakeYouWithMeCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => ExtraDamage.UpgradeValueTo(3M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await DamageCmd
-            .Attack((decimal)CalculatedDamage.BaseValue)
+            .Attack(CalculatedDamage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)

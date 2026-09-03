@@ -66,7 +66,7 @@ public class InternalDamagePower : NewKunlunPower
     {
         return
         [
-            new HealthBarForecastSegment()
+            new HealthBarForecastSegment
             {
                 Amount = Amount,
                 Color = new Color(0.45f, 0.1f, 0.05f),

@@ -29,15 +29,12 @@ public partial class ScroungeCard()
     {
         await CardCmd.Discard(choiceContext, PileType.Hand.GetPile(Owner).Cards);
         await CardPileCmd.Draw(choiceContext, DrawCards.BaseValue, Owner);
-        var keep = await CardSelectCmd.FromCombatPile(
+        var keep = await CardSelectCmd.FromHand(
             choiceContext,
-            PileType.Hand.GetPile(Owner),
             cardPlay.Player,
-            new CardSelectorPrefs(
-                SelectionScreenPrompt,
-                (int)KeepCards.BaseValue,
-                (int)KeepCards.BaseValue
-            )
+            new CardSelectorPrefs(SelectionScreenPrompt, (int)KeepCards.BaseValue),
+            _ => true,
+            this
         );
         await CardCmd.Discard(
             choiceContext,

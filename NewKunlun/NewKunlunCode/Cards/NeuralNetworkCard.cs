@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -17,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public class NeuralNetworkCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

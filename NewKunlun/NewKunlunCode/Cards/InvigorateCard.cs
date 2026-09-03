@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -16,18 +17,18 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Invigorate",
-    description: "Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:diff()} [gold]Internal Damage[/gold]."
+    description: "Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class InvigorateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 4M), new InternalDamageSelfInflictVar(16M)];
+        [new DynamicVar(nameof(Strength), 5M), new InternalDamageSelfInflictVar(16M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Strength(), Tips.InternalDamage()];
+        [Tip.Strength(), Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => Strength.UpgradeValueTo(6M);
+    protected override void OnUpgrade() => Strength.UpgradeValueTo(7M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

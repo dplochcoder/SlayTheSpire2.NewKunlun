@@ -6,8 +6,10 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -24,15 +26,15 @@ public partial class ChargeStrikeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
-            new DamageVar(nameof(ChargeDamage), 21M, ValueProp.Move),
+            new DamageVar(nameof(ChargeDamage), 20M, ValueProp.Move),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 
     protected override void OnUpgrade()
     {
         BaseDamage.UpgradeValueTo(11M);
-        ChargeDamage.UpgradeValueTo(29M);
+        ChargeDamage.UpgradeValueTo(26M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

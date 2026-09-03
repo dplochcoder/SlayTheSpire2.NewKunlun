@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -27,7 +28,7 @@ public partial class ParryingStrike()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(11M, ValueProp.Move), new BlockVar(3M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.ParryCardKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCardKeyword()];
 
     protected override void OnUpgrade()
     {

@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -14,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Malfunction",
-    description: "Take {OnExhaustDamage:diff()} [gold]Internal Damage[/gold]. If this is in your hand at the end of your turn, take {EndOfTurnDamage:diff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
+    description: "Take {OnExhaustDamage:inverseDiff()} [gold]Internal Damage[/gold]. If this is in your hand at the end of your turn, take {EndOfTurnDamage:inverseDiff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
 )]
 public partial class MalfunctionCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.Self)
@@ -30,7 +31,7 @@ public partial class MalfunctionCard()
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     public override bool HasTurnEndInHandEffect => true;
 

@@ -13,10 +13,12 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -27,20 +29,20 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold] to inflict {TalismanDetonateDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
 )]
 public partial class TalismanDetonateCard()
-    : NewKunlunCard(2, CardType.Skill, CardRarity.Basic, TargetType.None)
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.None)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new QiChargeVar(3M),
-            new DynamicVar(nameof(Vulnerable), 2M),
-            new TalismanDetonateDamageVar(14M),
+            new DynamicVar(nameof(Vulnerable), 1M),
+            new TalismanDetonateDamageVar(10M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.QiCharge(), Tips.Vulnerable(), Tips.Talisman()];
+        [Tip.QiCharge(), Tip.Vulnerable(), Tip.Talisman()];
 
     public static bool IsUpgradedAnywhere(Player? player)
     {
@@ -59,8 +61,8 @@ public partial class TalismanDetonateCard()
 
     protected override void OnUpgrade()
     {
-        Vulnerable.UpgradeValueTo(3M);
-        TalismanDetonateDamage.UpgradeValueTo(20M);
+        Vulnerable.UpgradeValueTo(2M);
+        TalismanDetonateDamage.UpgradeValueTo(15M);
     }
 
     public static async Task AutoPlay(
@@ -142,10 +144,20 @@ public partial class TalismanDetonateCard()
             TalismanDetonateDamage.BaseValue,
             Owner.Creature
         );
+        var totalDamage = modifiedDamage * charges;
         await CreatureCmd.Damage(
             choiceContext,
             eligibleCreatures,
-            new DamageVar(modifiedDamage * charges, TalismanDetonateDamage.Props),
+            new DamageVar(totalDamage, TalismanDetonateDamage.Props),
+            Owner.Creature
+        );
+        if (Owner.Creature.CombatState == null)
+            return;
+
+        await ITalismanDetonateListener.InvokeTalismanDetonated(
+            Owner.Creature.CombatState,
+            choiceContext,
+            totalDamage,
             Owner.Creature
         );
         return;

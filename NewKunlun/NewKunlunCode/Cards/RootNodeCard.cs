@@ -5,11 +5,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -27,8 +29,7 @@ public partial class RootNodeCard()
 
     public override int MaxUpgradeLevel => MaxUpgrades;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgradable ? [] : [CardKeyword.Retain];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -42,7 +43,7 @@ public partial class RootNodeCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.InternalDamage(), Tips.Strength(), Tips.Dexterity()];
+        [Tip.InternalDamage(), Tip.Strength(), Tip.Dexterity()];
 
     protected override void OnUpgrade()
     {
@@ -64,6 +65,7 @@ public partial class RootNodeCard()
                 Strength.UpgradeValueTo(4M);
                 Dexterity.UpgradeValueTo(4M);
                 TopDeckCards.UpgradeValueTo(3M);
+                AddKeyword(CardKeyword.Retain);
                 break;
         }
 

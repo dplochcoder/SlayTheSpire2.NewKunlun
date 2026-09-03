@@ -5,8 +5,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -23,7 +25,7 @@ public partial class TwitchCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(Parry), 1M), new DynamicVar(nameof(DrawCards), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
 
     protected override void OnUpgrade() => DrawCards.UpgradeValueTo(1M);
 

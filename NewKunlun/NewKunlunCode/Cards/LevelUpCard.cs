@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Choose a power from your deck and pull it into your hand. It gains Retain this turn.",
     selectionScreenPrompt: "Choose a power to add to your hand."
 )]
-public class LevelUpCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public class LevelUpCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -21,13 +23,13 @@ public partial class RootCorruptionCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(CardDraw), 1)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<MalfunctionCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MalfunctionCard>()];
 
     protected override void OnUpgrade() => CardDraw.UpgradeValueTo(2M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var power = await PowerCmd.Apply<Powers.RootCorruptionPower>(
+        var power = await PowerCmd.Apply<RootCorruptionPower>(
             choiceContext,
             Owner.Creature,
             1M,

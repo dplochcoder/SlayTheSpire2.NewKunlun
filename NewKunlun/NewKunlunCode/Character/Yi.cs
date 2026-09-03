@@ -31,6 +31,7 @@ public class Yi : PlaceholderCharacterModel
             ModelDb.Card<DefendYiCard>(),
             ModelDb.Card<DefendYiCard>(),
             ModelDb.Card<ParryCard>(),
+            ModelDb.Card<FeintCard>(),
             ModelDb.Card<TalismanDashCard>(),
         ];
 

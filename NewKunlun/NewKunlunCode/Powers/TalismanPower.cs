@@ -5,7 +5,9 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -26,7 +28,19 @@ public partial class TalismanPower : NewKunlunPower
         [new DynamicVar(nameof(TurnsRemaining), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.TalismanDetonateCard(Applier?.Player)];
+        [Tip.TalismanDetonateCard(Applier?.Player)];
+
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        await PowerCmd.Apply<HadTalismanThisTurnPower>(
+            new ThrowingPlayerChoiceContext(),
+            Owner,
+            1M,
+            applier,
+            cardSource,
+            silent: true
+        );
+    }
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

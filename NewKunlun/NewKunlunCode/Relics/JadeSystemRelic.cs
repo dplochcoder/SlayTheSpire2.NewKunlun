@@ -6,7 +6,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -23,7 +25,7 @@ public partial class JadeSystemRelic : NewKunlunRelic
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new QiChargeVar(1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,

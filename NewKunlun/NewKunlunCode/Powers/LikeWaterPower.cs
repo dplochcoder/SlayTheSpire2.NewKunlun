@@ -30,7 +30,7 @@ public class LikeWaterPower : NewKunlunPower
             modifiedCost = Math.Max(originalCost - Amount, 0);
             return true;
         }
-        else
-            return false;
+
+        return false;
     }
 }

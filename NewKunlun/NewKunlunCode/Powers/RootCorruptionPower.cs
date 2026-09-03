@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -25,7 +26,7 @@ public partial class RootCorruptionPower : NewKunlunPower
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(CardDraw), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Card<MalfunctionCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MalfunctionCard>()];
 
     public override decimal ModifyMaxEnergy(Player player, decimal amount) =>
         amount + (player.Creature == Owner ? Amount : 0);

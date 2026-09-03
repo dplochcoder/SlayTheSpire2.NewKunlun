@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -22,7 +23,7 @@ public partial class ReturnToTheTaoCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Repeats), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

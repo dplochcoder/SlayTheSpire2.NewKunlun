@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -16,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Chase",
-    description: "Deal {Damage:diff()} damage. Gain {Energy:energyIcons()}. Take {InternalDamageSelfInflict:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage. Gain {Energy:energyIcons()}. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class ChaseCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -28,7 +29,7 @@ public partial class ChaseCard()
             new InternalDamageSelfInflictVar(4M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(14M);
 

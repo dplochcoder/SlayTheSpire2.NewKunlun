@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -27,7 +28,7 @@ public partial class SkullKickCard()
             new DynamicVar(nameof(StrengthLoss), 1M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Weak(), Tips.Strength()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Weak(), Tip.Strength()];
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.Monster?.IntendsToAttack ?? false) ?? false;
@@ -43,7 +44,7 @@ public partial class SkullKickCard()
         var intendedToAttack = cardPlay.Target?.Monster?.IntendsToAttack ?? false;
 
         await DamageCmd
-            .Attack((decimal)Damage.BaseValue)
+            .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)

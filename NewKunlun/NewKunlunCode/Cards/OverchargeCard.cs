@@ -8,6 +8,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -15,15 +16,15 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Overcharge",
-    description: "Take {InternalDamageSelfInflict} [gold]Internal Damage[/gold]. Gain {Energy:energyIcons()}."
+    description: "Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]. Gain {Energy:energyIcons()}."
 )]
 public partial class OverchargeCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new InternalDamageSelfInflictVar(9M), new EnergyVar(1)];
+        [new InternalDamageSelfInflictVar(4M), new EnergyVar(1)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     protected override void OnUpgrade() => Energy.UpgradeValueTo(2);
 

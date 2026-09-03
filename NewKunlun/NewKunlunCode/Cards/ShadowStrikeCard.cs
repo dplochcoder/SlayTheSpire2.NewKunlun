@@ -32,13 +32,13 @@ public partial class ShadowStrikeCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var target = cardPlay.Target!;
-        int times =
+        var times =
             target.IsStunned ? 3
             : target.Monster is { IntendsToAttack: false } ? 2
             : 1;
 
         await DamageCmd
-            .Attack((decimal)Damage.BaseValue)
+            .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .WithHitCount(times)

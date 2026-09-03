@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -23,15 +24,18 @@ public partial class PerfectParryCard()
 
     public override bool IsParryCard => true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [CardKeyword.Retain] : [];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(18M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueBy(7M);
+    protected override void OnUpgrade()
+    {
+        Block.UpgradeValueBy(7M);
+        AddKeyword(CardKeyword.Retain);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

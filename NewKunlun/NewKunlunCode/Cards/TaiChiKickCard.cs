@@ -6,8 +6,10 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -22,14 +24,14 @@ public partial class TaiChiKickCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(4M, ValueProp.Move), new BlockVar(6M, ValueProp.Move)];
+        [new DamageVar(4M, ValueProp.Move), new BlockVar(4M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 
     protected override void OnUpgrade()
     {
         Damage.UpgradeValueTo(6M);
-        Block.UpgradeValueTo(9M);
+        Block.UpgradeValueTo(7M);
     }
 
     protected override bool ShouldGlowGoldInternal =>
@@ -38,9 +40,9 @@ public partial class TaiChiKickCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        bool intendedToAttack = cardPlay.Target?.Monster?.IntendsToAttack ?? false;
+        var intendedToAttack = cardPlay.Target?.Monster?.IntendsToAttack ?? false;
         await DamageCmd
-            .Attack((decimal)Damage.BaseValue)
+            .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)

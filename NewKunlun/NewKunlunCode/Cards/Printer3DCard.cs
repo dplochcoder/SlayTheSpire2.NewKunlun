@@ -15,19 +15,22 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "3D Printer",
-    description: "Spend {Cost} gold. Choose a card in your hand. Add a copy of it into your hand. Permanently increase cost by {CostIncrement:diff()} gold.",
+    description: "Spend {Cost} gold. Choose a card in your hand. Add a copy of it into your hand. Permanently increase this cost by {CostIncrement:inverseDiff()} gold.",
     selectionScreenPrompt: "Choose a card to 3D Print into your hand."
 )]
 public partial class Printer3DCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        this.BuildKeywords(CardKeyword.Exhaust).IfUpgraded(CardKeyword.Retain);
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new GoldVar(nameof(Cost), 5), new GoldVar(nameof(CostIncrement), 5)];
+        [new GoldVar(nameof(Cost), 10), new GoldVar(nameof(CostIncrement), 10)];
 
-    protected override void OnUpgrade() => CostIncrement.UpgradeValueTo(3M);
+    protected override void OnUpgrade()
+    {
+        CostIncrement.UpgradeValueTo(5M);
+        AddKeyword(CardKeyword.Retain);
+    }
 
     [SavedProperty]
     public int CostIncrease
@@ -52,11 +55,12 @@ public partial class Printer3DCard()
         if (Owner.Gold < Cost.BaseValue)
             return;
 
-        var cards = await CardSelectCmd.FromCombatPile(
+        var cards = await CardSelectCmd.FromHand(
             choiceContext,
-            PileType.Hand.GetPile(Owner),
             Owner,
-            new CardSelectorPrefs(SelectionScreenPrompt, 1)
+            new CardSelectorPrefs(SelectionScreenPrompt, 1),
+            _ => true,
+            this
         );
 
         await PlayerCmd.LoseGold(Cost.BaseValue, Owner, GoldLossType.Spent);

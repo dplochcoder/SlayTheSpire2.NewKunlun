@@ -7,9 +7,9 @@ namespace NewKunlun.NewKunlunCode.Hooks;
 
 public interface ITalismanDetonateListener
 {
-    decimal AdditiveModifier(decimal amount, Creature? dealer) => 0;
+    decimal DamageAdditiveModifier(decimal amount, Creature? dealer) => 0;
 
-    decimal MultiplicativeModifier(decimal amount, Creature? dealer) => 1;
+    decimal DamageMultiplicativeModifier(decimal amount, Creature? dealer) => 1;
 
     Task OnTalismanDetonated(PlayerChoiceContext choiceContext, decimal amount, Creature? dealer) =>
         Task.CompletedTask;
@@ -27,8 +27,8 @@ public interface ITalismanDetonateListener
                 .OfType<ITalismanDetonateListener>()
         )
         {
-            add += model.AdditiveModifier(amount, applier);
-            multiply *= model.MultiplicativeModifier(amount, applier);
+            add += model.DamageAdditiveModifier(amount, applier);
+            multiply *= model.DamageMultiplicativeModifier(amount, applier);
         }
 
         return Math.Max(0, amount + add) * multiply;

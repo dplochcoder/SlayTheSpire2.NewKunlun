@@ -4,7 +4,9 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
+
+namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Schematics",
@@ -15,7 +17,7 @@ public class SchematicsPower : NewKunlunPower, IInternalDamageListener
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tips.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
     decimal IInternalDamageListener.DamageAdditiveModifier(
         Creature? target,

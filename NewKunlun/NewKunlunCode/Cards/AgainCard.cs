@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -16,11 +17,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 )]
 public class AgainCard() : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        IsUpgraded ? [] : [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tips.TalismanDashCardWithTips(Owner);
+    protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => Tip.TalismanDashCardWithTips(Owner);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

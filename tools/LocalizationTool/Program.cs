@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using LocalizationTool;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -136,16 +137,22 @@ static AttributeSyntax? FindLocalizationAttribute(
 static string ToUpperSnakeCase(string value) =>
     Regex.Replace(value, "(?<=[a-z0-9])([A-Z])", "_$1").ToUpperInvariant();
 
-internal sealed record ToolOptions(
-    string CardsDirectory,
-    string CardsJsonPath,
-    string PowersDirectory,
-    string PowersJsonPath,
-    string RelicsDirectory,
-    string RelicsJsonPath,
-    string IdPrefix
-);
+namespace LocalizationTool
+{
+    internal sealed record ToolOptions(
+        string CardsDirectory,
+        string CardsJsonPath,
+        string PowersDirectory,
+        string PowersJsonPath,
+        string RelicsDirectory,
+        string RelicsJsonPath,
+        string IdPrefix
+    );
 
-internal sealed record LocalizedModel(string ClassName, IReadOnlyList<LocalizationValue> Values);
+    internal sealed record LocalizedModel(
+        string ClassName,
+        IReadOnlyList<LocalizationValue> Values
+    );
 
-internal sealed record LocalizationValue(string Name, string Value);
+    internal sealed record LocalizationValue(string Name, string Value);
+}

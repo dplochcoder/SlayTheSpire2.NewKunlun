@@ -10,6 +10,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -17,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Spar",
-    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} block. Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} block. Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class SparCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -33,7 +34,7 @@ public partial class SparCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tips.Strength(), Tips.InternalDamage()];
+        [Tip.Strength(), Tip.InternalDamage()];
 
     protected override void OnUpgrade()
     {
