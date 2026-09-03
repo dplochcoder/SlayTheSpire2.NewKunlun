@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Medicine Pipe",
-    description: "Heal {Heal:diff()} hp. Heal all [gold]Internal Damage[/gold]. After {RemainingUses:diff()}, this card is removed from your deck."
+    description: "Heal {Heal:diff()} hp. Heal all [gold]Internal Damage[/gold]. After {RemainingUses:diff()} more uses, this card is removed from your deck."
 )]
 public partial class MedicinePipeCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)

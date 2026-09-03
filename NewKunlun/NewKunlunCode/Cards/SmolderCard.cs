@@ -50,7 +50,7 @@ public partial class SmolderCard()
     {
         SpawnFire();
         await CreatureCmd.Damage(choiceContext, Owner.Creature, EndOfTurnDamage, this, null);
-        await this.AddGeneratedStatusToPile<SmolderCard>(PileType.Discard);
+        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Discard);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

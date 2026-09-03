@@ -18,7 +18,8 @@ public class RegeneratePower : NewKunlunPower, ITalismanDetonateListener
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,
-        decimal amount,
+        int qiCharges,
+        decimal totalDamage,
         Creature? dealer
     )
     {

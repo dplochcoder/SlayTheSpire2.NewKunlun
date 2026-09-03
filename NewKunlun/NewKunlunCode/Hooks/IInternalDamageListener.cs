@@ -23,6 +23,7 @@ public interface IInternalDamageListener
     ) => 1;
 
     Task OnInternalDamageTaken(
+        PlayerChoiceContext choiceContext,
         Creature target,
         decimal amount,
         Creature? applier,
@@ -62,6 +63,7 @@ public interface IInternalDamageListener
     }
 
     public static async Task InvokeInternalDamageTaken(
+        PlayerChoiceContext choiceContext,
         Creature target,
         decimal amount,
         Creature? applier,
@@ -74,7 +76,13 @@ public interface IInternalDamageListener
                 .OfType<IInternalDamageListener>(),
         ];
         foreach (var listener in listeners)
-            await listener.OnInternalDamageTaken(target, amount, applier, cardSource);
+            await listener.OnInternalDamageTaken(
+                choiceContext,
+                target,
+                amount,
+                applier,
+                cardSource
+            );
     }
 
     public static async Task InvokeInternalDamageResolved(

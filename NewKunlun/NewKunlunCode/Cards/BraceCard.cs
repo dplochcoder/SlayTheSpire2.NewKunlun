@@ -24,11 +24,11 @@ public partial class BraceCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(26M, ValueProp.Move), new DynamicVar(nameof(Imperfect), 12M)];
+        [new BlockVar(20M, ValueProp.Move), new DynamicVar(nameof(Imperfect), 10M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Imperfect()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(34M);
+    protected override void OnUpgrade() => Block.UpgradeValueTo(28M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

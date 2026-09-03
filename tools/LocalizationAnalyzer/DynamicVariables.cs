@@ -25,7 +25,10 @@ public static class DynamicVariables
             var creation in canonicalVars.DescendantNodes().OfType<ObjectCreationExpressionSyntax>()
         )
         {
-            var typeName = creation.Type.ToString().Split('.').Last();
+            var typeName = GetUnqualifiedTypeName(creation.Type);
+            if (typeName is null)
+                continue;
+
             if (!typeName.EndsWith("Var"))
                 continue;
 
@@ -54,6 +57,17 @@ public static class DynamicVariables
 
         return names;
     }
+
+    private static string? GetUnqualifiedTypeName(TypeSyntax type) =>
+        type switch
+        {
+            SimpleNameSyntax simpleName => simpleName.Identifier.ValueText,
+            QualifiedNameSyntax qualifiedName => GetUnqualifiedTypeName(qualifiedName.Right),
+            AliasQualifiedNameSyntax aliasQualifiedName => GetUnqualifiedTypeName(
+                aliasQualifiedName.Name
+            ),
+            _ => null,
+        };
 
     public static IEnumerable<string> ParseReferencedVariables(string description) =>
         PlaceholderPattern

@@ -26,16 +26,25 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Detonate",
-    description: "Spend up to {QiCharge:diff()} [gold]Qi Charges[/gold] to inflict {TalismanDetonateDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
+    description: "{TotalDamage:cond:>0?Deal [green]{TotalDamage}[/green] damage.\n|}Spend {FullControl:cond:<1?up to 3 |}[gold]Qi Charges[/gold] to inflict {TalismanDetonateBaseDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.None)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new QiChargeVar(3M),
+            new CustomVar<TalismanDetonateCard>(
+                nameof(TotalDamage),
+                0,
+                (card, _) => card.ComputeTotalDamage()
+            ),
+            new CustomVar<TalismanDetonateCard>(
+                nameof(FullControl),
+                0,
+                (card, _) => card.Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
+            ),
+            new TalismanDetonateBaseDamageVar(10M),
             new DynamicVar(nameof(Vulnerable), 1M),
-            new TalismanDetonateDamageVar(10M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -43,6 +52,21 @@ public partial class TalismanDetonateCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.QiCharge(), Tip.Vulnerable(), Tip.Talisman()];
+
+    private decimal ComputeTotalDamage()
+    {
+        if (CombatState == null || FullControl.Calculate() > 0)
+            return 0;
+
+        var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
+            CombatState,
+            TalismanDetonateBaseDamage.BaseValue,
+            Owner.Creature
+        );
+
+        var charges = Owner.Creature.GetPowerAmount<QiChargePower>();
+        return Math.Max(charges, 3) * modifiedDamage;
+    }
 
     public static bool IsUpgradedAnywhere(Player? player)
     {
@@ -62,7 +86,7 @@ public partial class TalismanDetonateCard()
     protected override void OnUpgrade()
     {
         Vulnerable.UpgradeValueTo(2M);
-        TalismanDetonateDamage.UpgradeValueTo(15M);
+        TalismanDetonateBaseDamage.UpgradeValueTo(15M);
     }
 
     public static async Task AutoPlay(
@@ -106,19 +130,19 @@ public partial class TalismanDetonateCard()
             return;
         }
 
-        decimal charges;
+        decimal qiCharges;
         if (Owner.Creature.GetPower<FullControlPower>() is { } fullControl)
-            charges = await fullControl.ConsumeQiCharges(choiceContext, Owner, this);
+            qiCharges = await fullControl.ConsumeQiCharges(choiceContext, Owner, this);
         else
-            charges = await QiChargeCmd.ConsumeQiCharges(
+            qiCharges = await QiChargeCmd.ConsumeQiCharges(
                 choiceContext,
                 Owner.Creature,
-                QiCharge.BaseValue,
+                3M,
                 Owner.Creature,
                 this
             );
 
-        if (charges == 0)
+        if (qiCharges == 0)
         {
             await ClearPowers();
             return;
@@ -139,16 +163,16 @@ public partial class TalismanDetonateCard()
             );
         await ClearPowers();
 
-        var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateDamage(
+        var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
             CombatState!,
-            TalismanDetonateDamage.BaseValue,
+            TalismanDetonateBaseDamage.BaseValue,
             Owner.Creature
         );
-        var totalDamage = modifiedDamage * charges;
+        var totalDamage = modifiedDamage * qiCharges;
         await CreatureCmd.Damage(
             choiceContext,
             eligibleCreatures,
-            new DamageVar(totalDamage, TalismanDetonateDamage.Props),
+            new DamageVar(totalDamage, TalismanDetonateBaseDamage.Props),
             Owner.Creature
         );
         if (Owner.Creature.CombatState == null)
@@ -157,6 +181,7 @@ public partial class TalismanDetonateCard()
         await ITalismanDetonateListener.InvokeTalismanDetonated(
             Owner.Creature.CombatState,
             choiceContext,
+            (int)qiCharges,
             totalDamage,
             Owner.Creature
         );

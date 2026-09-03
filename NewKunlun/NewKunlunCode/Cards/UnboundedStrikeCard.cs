@@ -37,7 +37,7 @@ public partial class UnboundedStrikeCard()
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        await this.AddGeneratedStatusToPile<SmolderCard>(PileType.Draw);
-        await this.AddGeneratedStatusToPile<SmolderCard>(PileType.Discard);
+        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Draw);
+        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Discard);
     }
 }

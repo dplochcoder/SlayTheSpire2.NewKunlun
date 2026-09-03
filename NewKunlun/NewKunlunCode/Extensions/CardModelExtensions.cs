@@ -8,14 +8,19 @@ public static class CardModelExtensions
 {
     extension(CardModel self)
     {
-        public async Task AddGeneratedStatusToPile<TStatus>(PileType pileType)
-            where TStatus : CardModel
+        public async Task AddGeneratedCardToPile<T>(
+            PileType pileType,
+            bool upgrade = false,
+            CardPilePosition position = CardPilePosition.Bottom
+        )
+            where T : CardModel
         {
             CardCmd.PreviewCardPileAdd(
                 await CardPileCmd.AddGeneratedCardToCombat(
-                    self.CombatState!.CreateCard<TStatus>(self.Owner),
-                    PileType.Discard,
-                    self.Owner
+                    self.CombatState!.CreateCard<T>(self.Owner, upgrade),
+                    pileType,
+                    self.Owner,
+                    position
                 )
             );
         }

@@ -13,7 +13,6 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -26,13 +25,13 @@ public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Weak), 1M), new QiChargeVar(2M)];
+        [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Weak), 1M)];
 
     public override TargetType TargetType =>
         Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Weak(), Tip.Talisman(), Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded)];
+        [Tip.Weak(), Tip.Talisman(), Tip.Card<TalismanDetonateCard>(upgraded: IsUpgraded)];
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null

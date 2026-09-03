@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
 
@@ -11,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Stasis Jade",
-    description: "Take half damage from enemies who had the [gold]Talisman[/gold] debuff this turn."
+    description: "Take half damage from enemies who had [gold]Talisman[/gold] this turn."
 )]
 public class StasisJadePower : NewKunlunPower
 {
@@ -32,7 +33,7 @@ public class StasisJadePower : NewKunlunPower
         if (
             target == Owner
             && props.IsPoweredAttack()
-            && dealer?.HasPower<HadTalismanThisTurnPower>() is true
+            && dealer?.HadTalismanThisTurnFor(Owner) is true
         )
             return amount / 2;
 

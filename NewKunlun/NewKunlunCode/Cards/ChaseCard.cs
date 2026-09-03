@@ -23,15 +23,11 @@ public partial class ChaseCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DamageVar(10M, ValueProp.Move),
-            new EnergyVar(1),
-            new InternalDamageSelfInflictVar(4M),
-        ];
+        [new DamageVar(8M, ValueProp.Move), new EnergyVar(1), new InternalDamageSelfInflictVar(4M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(14M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(12M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

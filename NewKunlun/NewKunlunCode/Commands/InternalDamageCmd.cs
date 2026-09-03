@@ -38,6 +38,7 @@ public static class InternalDamageCmd
             silent
         );
         await IInternalDamageListener.InvokeInternalDamageTaken(
+            choiceContext,
             target,
             amount,
             applier,

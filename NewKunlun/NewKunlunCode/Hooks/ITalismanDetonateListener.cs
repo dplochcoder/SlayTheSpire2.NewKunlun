@@ -7,14 +7,18 @@ namespace NewKunlun.NewKunlunCode.Hooks;
 
 public interface ITalismanDetonateListener
 {
-    decimal DamageAdditiveModifier(decimal amount, Creature? dealer) => 0;
+    decimal BaseDamageAdditiveModifier(decimal amount, Creature? dealer) => 0;
 
-    decimal DamageMultiplicativeModifier(decimal amount, Creature? dealer) => 1;
+    decimal BaseDamageMultiplicativeModifier(decimal amount, Creature? dealer) => 1;
 
-    Task OnTalismanDetonated(PlayerChoiceContext choiceContext, decimal amount, Creature? dealer) =>
-        Task.CompletedTask;
+    Task OnTalismanDetonated(
+        PlayerChoiceContext choiceContext,
+        int qiCharges,
+        decimal totalDamage,
+        Creature? dealer
+    ) => Task.CompletedTask;
 
-    public static decimal ModifyTalismanDetonateDamage(
+    public static decimal ModifyTalismanDetonateBaseDamage(
         ICombatState combatState,
         decimal amount,
         Creature? applier
@@ -27,8 +31,8 @@ public interface ITalismanDetonateListener
                 .OfType<ITalismanDetonateListener>()
         )
         {
-            add += model.DamageAdditiveModifier(amount, applier);
-            multiply *= model.DamageMultiplicativeModifier(amount, applier);
+            add += model.BaseDamageAdditiveModifier(amount, applier);
+            multiply *= model.BaseDamageMultiplicativeModifier(amount, applier);
         }
 
         return Math.Max(0, amount + add) * multiply;
@@ -37,7 +41,8 @@ public interface ITalismanDetonateListener
     public static async Task InvokeTalismanDetonated(
         ICombatState combatState,
         PlayerChoiceContext choiceContext,
-        decimal amount,
+        int qiCharges,
+        decimal totalDamage,
         Creature dealer
     )
     {
@@ -46,6 +51,6 @@ public interface ITalismanDetonateListener
             .. Hook.IterateCombatHookListeners(combatState!).OfType<ITalismanDetonateListener>(),
         ];
         foreach (var listener in listeners)
-            await listener.OnTalismanDetonated(choiceContext, amount, dealer);
+            await listener.OnTalismanDetonated(choiceContext, qiCharges, totalDamage, dealer);
     }
 }

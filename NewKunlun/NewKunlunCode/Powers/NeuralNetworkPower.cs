@@ -1,6 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -19,6 +20,7 @@ public class NeuralNetworkPower : NewKunlunPower, IInternalDamageListener
     public override PowerStackType StackType => PowerStackType.Counter;
 
     async Task IInternalDamageListener.OnInternalDamageTaken(
+        PlayerChoiceContext choiceContext,
         Creature target,
         decimal amount,
         Creature? applier,

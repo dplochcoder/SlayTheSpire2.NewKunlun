@@ -7,8 +7,8 @@ using NewKunlun.NewKunlunCode.Hooks;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
-public class TalismanDetonateDamageVar(decimal damage)
-    : DamageVar("TalismanDetonateDamage", damage, ValueProp.Unblockable | ValueProp.Unpowered)
+public class TalismanDetonateBaseDamageVar(decimal damage)
+    : DamageVar("TalismanDetonateBaseDamage", damage, ValueProp.Unblockable | ValueProp.Unpowered)
 {
     public override void UpdateCardPreview(
         CardModel card,
@@ -16,7 +16,7 @@ public class TalismanDetonateDamageVar(decimal damage)
         Creature? target,
         bool runGlobalHooks
     ) =>
-        PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateDamage(
+        PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
             card.CombatState!,
             BaseValue,
             card.Owner.Creature

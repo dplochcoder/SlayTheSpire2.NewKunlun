@@ -5,7 +5,8 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
-public abstract class CustomVar<T>(string name) : DynamicVar(name, 0M)
+public class CustomVar<T>(string name, decimal origValue, Func<T, Creature?, decimal> fn)
+    : DynamicVar(name, origValue)
     where T : AbstractModel
 {
     private new T? _owner;
@@ -14,15 +15,10 @@ public abstract class CustomVar<T>(string name) : DynamicVar(name, 0M)
     {
         base.SetOwner(owner);
         _owner = (T)owner;
-        UpdateValue();
     }
 
-    public void UpdateValue() => BaseValue = Calculate();
-
-    protected abstract decimal Calculate(T owner, Creature? target);
-
-    private decimal Calculate(Creature? target = null) =>
-        _owner != null ? Calculate(_owner, target) : 0;
+    public decimal Calculate(Creature? target = null) =>
+        _owner != null ? fn(_owner, target) : BaseValue;
 
     public override void UpdateCardPreview(
         CardModel card,

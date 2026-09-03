@@ -67,6 +67,8 @@ public class FullControlPower : NewKunlunPower, ITalismanDetonateListener
         return actualSpent;
     }
 
-    decimal ITalismanDetonateListener.DamageAdditiveModifier(decimal amount, Creature? dealer) =>
-        dealer == Owner ? Amount : 0;
+    decimal ITalismanDetonateListener.BaseDamageAdditiveModifier(
+        decimal amount,
+        Creature? dealer
+    ) => dealer == Owner ? Amount : 0;
 }

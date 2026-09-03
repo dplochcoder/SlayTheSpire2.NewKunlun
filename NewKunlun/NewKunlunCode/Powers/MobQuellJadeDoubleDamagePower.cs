@@ -21,14 +21,15 @@ public class MobQuellJadeDoubleDamagePower : NewKunlunPower, ITalismanDetonateLi
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         Tip.TalismanDetonateCardWithTips(Owner.Player);
 
-    decimal ITalismanDetonateListener.DamageMultiplicativeModifier(
+    decimal ITalismanDetonateListener.BaseDamageMultiplicativeModifier(
         decimal amount,
         Creature? dealer
     ) => Owner == dealer ? 2 : 1;
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,
-        decimal amount,
+        int qiCharges,
+        decimal totalDamage,
         Creature? dealer
     )
     {

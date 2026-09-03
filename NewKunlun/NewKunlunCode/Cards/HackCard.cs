@@ -16,43 +16,35 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Hack",
-    description: "Inflict {BaseDamage:diff()} [gold]Internal Damage[/gold]. Inflict [gold]Internal Damage[/gold] {IfUpgraded:show:[green]double[/green]|equal to} their current total."
+    description: "Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]. Inflict [gold]Internal Damage[/gold] equal to their current total."
 )]
 public partial class HackCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new InternalDamageInflictVar(nameof(BaseDamage), 4M),
-            new DynamicVar(nameof(Multiplier), 2M),
-        ];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageInflictVar(4M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade()
-    {
-        BaseDamage.UpgradeValueTo(5M);
-        Multiplier.UpgradeValueTo(3M);
-    }
+    protected override void OnUpgrade() => InternalDamageInflict.UpgradeValueTo(7M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        var target = cardPlay.Target!;
         await InternalDamageCmd.Inflict(
             choiceContext,
-            cardPlay.Target!,
-            BaseDamage,
+            target,
+            InternalDamageInflict,
             Owner.Creature,
             this
         );
 
-        var total = cardPlay.Target!.GetPowerAmount<InternalDamagePower>();
-        var toApply = total * Multiplier.BaseValue - total;
+        var total = target.GetPowerAmount<InternalDamagePower>();
         await InternalDamageCmd.Inflict(
             choiceContext,
-            cardPlay.Target!,
-            new InternalDamageInflictVar(toApply),
+            target,
+            new InternalDamageInflictVar(total),
             Owner.Creature,
             this
         );
