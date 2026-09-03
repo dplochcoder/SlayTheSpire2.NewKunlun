@@ -32,7 +32,7 @@ public partial class LightningReflexCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Card<TwitchCard>(upgraded: true), .. Tip.Adroit()];
+        [Tip.Card<TwitchCard>(upgrade: true), .. Tip.Adroit()];
 
     protected override void OnUpgrade()
     {

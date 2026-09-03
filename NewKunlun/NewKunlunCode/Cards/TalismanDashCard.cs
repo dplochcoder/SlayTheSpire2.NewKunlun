@@ -32,7 +32,7 @@ public partial class TalismanDashCard()
         Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Weak(), Tip.Talisman(), Tip.Card<TalismanDetonateCard>(upgraded: IsUpgraded)];
+        [Tip.Weak(), Tip.Talisman(), Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded)];
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null
