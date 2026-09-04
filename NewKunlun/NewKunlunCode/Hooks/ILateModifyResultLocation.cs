@@ -17,55 +17,62 @@ public interface ILateModifyResultLocation
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> src)
         {
-            var earlyCall = typeof(CardModel).GetMethod("GetResultLocationForCardPlay");
+            var earlyCall = AccessTools.Method(typeof(CardModel), "GetResultLocationForCardPlay");
 
-            // Seek a unique method preceding the common method.
-            var endMethod = typeof(CombatManager).GetMethod(
+            var instructions = src.ToList();
+            var earlyCallIndex = instructions.FindIndex(i => i.Calls(earlyCall));
+            if (earlyCallIndex <= 0 || earlyCallIndex >= instructions.Count - 1)
+                throw new InvalidOperationException(
+                    "Could not find GetResultLocationForCardPlay() call."
+                );
+
+            var cardLocalIndex = instructions[earlyCallIndex - 1].LocalIndex();
+            var resultLocationLocalIndex = instructions[earlyCallIndex + 1].LocalIndex();
+            if (cardLocalIndex < 0 || resultLocationLocalIndex < 0)
+                throw new InvalidOperationException("Could not find required locals.");
+
+            var endMethod = AccessTools.Method(
+                typeof(CombatManager),
                 nameof(CombatManager.EndCardOrPotionEffect)
             );
-            var foundEndMethod = false;
-            var insertedHook = false;
-
             var instanceGetter = AccessTools.PropertyGetter(
                 typeof(CombatManager),
                 nameof(CombatManager.Instance)
             );
-
-            var nextInstrHasResultLocationAddr = false;
-            int? resultLocationAddr = null;
-            foreach (var instr in src)
+            var foundEndMethod = false;
+            var injectedCall = false;
+            foreach (var instruction in instructions)
             {
-                if (resultLocationAddr != null)
+                if (injectedCall)
+                    yield return instruction;
+                else if (!foundEndMethod && instruction.Calls(endMethod))
                 {
-                    if (nextInstrHasResultLocationAddr)
-                        resultLocationAddr = Convert.ToInt32(instr.operand);
-                    else if (instr.Is(OpCodes.Callvirt, earlyCall))
-                        nextInstrHasResultLocationAddr = true;
-                }
-
-                if (!foundEndMethod && instr.Is(OpCodes.Callvirt, endMethod))
                     foundEndMethod = true;
-
-                if (
-                    resultLocationAddr != null
-                    && !insertedHook
-                    && foundEndMethod
-                    && instr.Calls(instanceGetter)
-                )
+                    continue;
+                }
+                else if (foundEndMethod && instruction.Calls(instanceGetter))
                 {
-                    insertedHook = true;
+                    var loadCard = CodeInstruction.LoadLocal(cardLocalIndex);
+                    instruction.MoveLabelsTo(loadCard);
 
-                    yield return CodeInstruction.LoadLocal(1);
-                    yield return CodeInstruction.LoadLocal(resultLocationAddr.Value);
+                    yield return loadCard;
+                    yield return CodeInstruction.LoadLocal(resultLocationLocalIndex);
                     yield return CodeInstruction.Call(
                         (CardModel self, CardLocation resultLocation) =>
                             MaybeLateModifyResultLocation(self, resultLocation)
                     );
-                    yield return CodeInstruction.StoreLocal(resultLocationAddr.Value);
-                }
+                    yield return CodeInstruction.StoreLocal(resultLocationLocalIndex);
 
-                yield return instr;
+                    injectedCall = true;
+                }
+                else
+                    yield return instruction;
             }
+
+            if (!injectedCall)
+                throw new InvalidOperationException(
+                    "Could not inject ILateModifyResultLocation hook."
+                );
         }
 
         private static CardLocation MaybeLateModifyResultLocation(
