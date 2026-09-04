@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Scrounge",
-    description: "Discard your hand. Draw {DrawCards} cards. Keep {KeepCards:diff()} and discard the rest.",
+    description: "Discard your hand. Draw {DrawCards} cards. Keep up to {KeepCards:diff()} and discard the rest.",
     selectionScreenPrompt: "Select up to {KeepCards} cards to keep."
 )]
 public partial class ScroungeCard()
@@ -32,7 +32,7 @@ public partial class ScroungeCard()
         var keep = await CardSelectCmd.FromHand(
             choiceContext,
             cardPlay.Player,
-            new CardSelectorPrefs(SelectionScreenPrompt, (int)KeepCards.BaseValue),
+            new CardSelectorPrefs(SelectionScreenPrompt, 0, KeepCards.IntValue),
             _ => true,
             this
         );

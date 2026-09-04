@@ -41,6 +41,7 @@ public partial class BreakoutCard()
                 .FromCard(this, cardPlay)
                 .WithSlashVfx()
                 .Targeting(target)
+                .WithHitCount(HitCount.IntValue)
                 .Execute(choiceContext);
             first = target;
         }

@@ -37,7 +37,7 @@ public partial class TakeYouWithMeCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await DamageCmd
-            .Attack(CalculatedDamage.BaseValue)
+            .Attack(CalculatedDamage.Calculate(cardPlay.Target!))
             .FromCard(this, cardPlay)
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)

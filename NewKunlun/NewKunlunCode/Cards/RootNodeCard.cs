@@ -2,9 +2,11 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
@@ -18,8 +20,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Root Node",
-    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Choose {TopDeckCards:diff()} {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:diff()} {UpgradesRemaining:plural:more time|more times}|}.",
-    selectionScreenPrompt: "Choose up to {TopDeckCards} {TopDeckCards:plural:card|cards} to place at the top of your deck."
+    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Select up to {TopDeckCards:diff()} {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:diff()} {UpgradesRemaining:plural:more time|more times}|}.",
+    selectionScreenPrompt: "Select up to {TopDeckCards} {TopDeckCards:plural:card|cards} to place at the top of your deck."
 )]
 public partial class RootNodeCard()
     : NewKunlunCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)
@@ -97,12 +99,16 @@ public partial class RootNodeCard()
             this
         );
 
-        var cards = await CardSelectCmd.FromCombatPile(
-            choiceContext,
-            PileType.Draw.GetPile(Owner),
-            cardPlay.Player,
-            new CardSelectorPrefs(SelectionScreenPrompt, 0, (int)TopDeckCards.BaseValue)
-        );
+        List<CardModel> cards =
+        [
+            .. await CardSelectCmd.FromCombatPile(
+                choiceContext,
+                PileType.Draw.GetPile(Owner),
+                cardPlay.Player,
+                new CardSelectorPrefs(SelectionScreenPrompt, 0, TopDeckCards.IntValue)
+            ),
+        ];
+        cards.StableShuffle(CombatState!.RunState.Rng.CombatCardSelection);
         foreach (var card in cards)
             await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);
     }

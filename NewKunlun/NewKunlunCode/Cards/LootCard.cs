@@ -18,7 +18,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 )]
 public class LootCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.AzureSandPower()];
 

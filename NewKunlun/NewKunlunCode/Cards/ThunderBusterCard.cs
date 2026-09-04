@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -25,10 +26,10 @@ public partial class ThunderBusterCard()
         [
             new DynamicVar(nameof(TurnCount), 3M),
             new DamageVar(8M, ValueProp.Unpowered),
-            new CalculationBaseVar(3M),
-            new CalculationExtraVar(1M),
-            new CalculatedVar(nameof(HitCount)).WithMultiplier(
-                (card, _) => card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+            new CustomVar<ThunderBusterCard>(
+                nameof(HitCount),
+                3M,
+                (card, _) => 3M + card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
         ];
 

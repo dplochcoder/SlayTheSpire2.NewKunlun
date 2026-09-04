@@ -14,23 +14,16 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Retreat",
-    description: "Gain {Block:diff()} block. Discard {Discards:diff()} cards. Exhaust {Exhausts:diff()} {Exhausts:plural:card|cards}.",
-    customPromptA: "Select {Discards} {Discards:plural:card|cards} to discard.",
-    customPromptB: "Select {Exhausts} {Exhausts:plural:card|cards} to exhaust."
+    description: "Gain {Block:diff()} block. Discard 2 cards. Exhaust 1 card from your hand.",
+    customPromptA: "Select 2 cards to discard.",
+    customPromptB: "Select 1 card to exhaust."
 )]
 public partial class RetreatCard()
-    : NewKunlunCard(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
+    : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override bool GainsBlock => true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new BlockVar(16M, ValueProp.Move),
-            new DynamicVar(nameof(Discards), 2M),
-            new DynamicVar(nameof(Exhausts), 1M),
-        ];
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(16M, ValueProp.Move)];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
@@ -38,20 +31,17 @@ public partial class RetreatCard()
     {
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
 
-        var discards = await CardSelectCmd.FromHand(
+        await CardSelectCmd.FromHandForDiscard(
             choiceContext,
-            cardPlay.Player,
-            new CardSelectorPrefs(this.CustomPromptA, (int)Discards.BaseValue),
+            Owner,
+            new CardSelectorPrefs(this.CustomPromptA, 2),
             _ => true,
             this
         );
-        foreach (var card in discards)
-            await CardCmd.Discard(choiceContext, card);
-
         var exhausts = await CardSelectCmd.FromHand(
             choiceContext,
             cardPlay.Player,
-            new CardSelectorPrefs(this.CustomPromptB, (int)Exhausts.BaseValue),
+            new CardSelectorPrefs(this.SelectionScreenPrompt, 1),
             _ => true,
             this
         );

@@ -36,7 +36,7 @@ public partial class StaggerCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var times = cardPlay.Target?.HasTalismanFor(Owner) ?? false ? (int)Repeat.BaseValue : 1;
+        var times = cardPlay.Target?.HasTalismanFor(Owner) ?? false ? Repeat.IntValue : 1;
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)

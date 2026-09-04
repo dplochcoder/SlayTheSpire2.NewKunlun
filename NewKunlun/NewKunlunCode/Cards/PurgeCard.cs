@@ -13,11 +13,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Purge",
-    description: "Choose one [gold]Status[/gold] or [gold]Curse[/gold] in your hand and [gold]Exhaust[/gold] it to gain {Energy:energyIcons()}. Draw 1 card.",
+    description: "Choose one [gold]Status[/gold] or [gold]Curse[/gold] in your hand and [gold]Exhaust[/gold] it to gain {Energy:energyIcons()}. Draw 2 cards.",
     selectionScreenPrompt: "Choose a card to Exhaust."
 )]
 public partial class PurgeCard()
-    : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+    : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
@@ -45,6 +45,6 @@ public partial class PurgeCard()
             await PlayerCmd.GainEnergy(Energy.BaseValue, Owner);
         }
 
-        await CardPileCmd.Draw(choiceContext, Owner);
+        await CardPileCmd.Draw(choiceContext, 2, Owner);
     }
 }

@@ -11,13 +11,14 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cloud Piercer",
-    description: "Remove all enemy block. Apply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold]. Deal {CalculatedDamage} damage. Deals {ExtraDamage} additional damage for every [icon]Dark Steel[/icon]."
+    description: "Remove all enemy block. Apply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold]. Deal {Damage:diff()} damage. Deals {ExtraDamage:diff()} additional damage for every [icon]Dark Steel[/icon]."
 )]
 public partial class CloudPiercerCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy),
@@ -25,13 +26,17 @@ public partial class CloudPiercerCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Weak), 3M),
-            new DynamicVar(nameof(Vulnerable), 3M),
-            new CalculationBaseVar(25M),
-            new ExtraDamageVar(5M),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier(
-                (card, _) => card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+            new DynamicVar(nameof(Weak), 2M),
+            new DynamicVar(nameof(Vulnerable), 2M),
+            new CustomDamageVar<CloudPiercerCard>(
+                nameof(Damage),
+                36M,
+                ValueProp.Move,
+                (card, _) =>
+                    36M
+                    + ExtraDamage.BaseValue * card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
+            new DynamicVar(nameof(ExtraDamage), 8M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -56,7 +61,7 @@ public partial class CloudPiercerCard()
             cardPlay.Card
         );
         await DamageCmd
-            .Attack(CalculatedDamage.Calculate(target))
+            .Attack(Damage.Calculate(target))
             .FromCard(cardPlay.Card, cardPlay)
             .Targeting(target)
             .WithHeavySlashVfx()

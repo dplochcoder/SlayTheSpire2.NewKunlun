@@ -65,7 +65,7 @@ public partial class TalismanDetonateCard()
         );
 
         var charges = Owner.Creature.GetPowerAmount<QiChargePower>();
-        return Math.Max(charges, 3) * modifiedDamage;
+        return Math.Min(charges, 3) * modifiedDamage;
     }
 
     public static bool IsUpgradedAnywhere(Player? player)

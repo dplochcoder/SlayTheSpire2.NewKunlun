@@ -40,7 +40,7 @@ public partial class ReturnToTheTaoCard()
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .TargetingAllOpponents(Owner.Creature.CombatState!)
-            .WithHitCount((int)Repeats.BaseValue)
+            .WithHitCount(Repeats.IntValue)
             .Execute(choiceContext);
     }
 }

@@ -10,13 +10,14 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Shadow Hunter",
-    description: "Deal {CalculatedDamage:diff()} damage {HitCount} times. Deals damage an additional {ExtraDamage:diff()} times for every [gold]Dark Steel[/gold]."
+    description: "Deal {Damage:diff()} damage {HitCount:diff()} times. Deals damage one additional time for every [gold]Dark Steel[/gold]."
 )]
 public partial class ShadowHunterCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy),
@@ -24,12 +25,12 @@ public partial class ShadowHunterCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CalculationBaseVar(12M),
-            new ExtraDamageVar(3M),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier(
-                (card, _) => card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+            new DamageVar(13M, ValueProp.Move),
+            new CustomVar<ShadowHunterCard>(
+                nameof(HitCount),
+                5M,
+                (card, _) => 5M + card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
-            new DynamicVar(nameof(HitCount), 5M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.DarkSteelPower()];
@@ -37,9 +38,9 @@ public partial class ShadowHunterCard()
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await DamageCmd
-            .Attack(CalculatedDamage.Calculate(cardPlay.Target!))
+            .Attack(Damage.BaseValue)
             .FromCard(cardPlay.Card, cardPlay)
-            .WithHitCount((int)HitCount.BaseValue)
+            .WithHitCount((int)HitCount.Calculate(cardPlay.Target!))
             .WithHeavySlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);

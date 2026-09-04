@@ -67,6 +67,6 @@ public partial class Printer3DCard()
         foreach (var card in cards)
             await CardPileCmd.Add(card.CreateClone(), PileType.Hand.GetPile(Owner), clonedBy: this);
 
-        this.Permanently(c => c.CostIncrease += (int)CostIncrement.BaseValue);
+        this.Permanently(c => c.CostIncrease += CostIncrement.IntValue);
     }
 }

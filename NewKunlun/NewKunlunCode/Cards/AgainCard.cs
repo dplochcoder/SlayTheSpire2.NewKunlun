@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     title: "Again",
     description: "Pull [gold]Talisman Dash[/gold] into your hand. It is free to play this turn."
 )]
-public class AgainCard() : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+public class AgainCard() : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
