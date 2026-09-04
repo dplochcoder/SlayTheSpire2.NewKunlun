@@ -26,21 +26,69 @@ internal static class CardDiscovery
         );
     }
 
-    public static IReadOnlyList<CardEntry> ReadCards(string repositoryRoot)
+    public static IReadOnlyList<CardEntry> ReadEntries(string repositoryRoot, AssetKind kind)
     {
-        var cardsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Cards");
-        var portraitsDirectory = Path.Combine(
+        var (
+            codeFolder,
+            baseClass,
+            localizationAttribute,
+            imageFolder,
+            smallWidth,
+            smallHeight,
+            largeWidth,
+            largeHeight
+        ) = kind switch
+        {
+            AssetKind.Card => (
+                "Cards",
+                "NewKunlunCard",
+                "CardLocalization",
+                "card_portraits",
+                250,
+                190,
+                1000,
+                760
+            ),
+            AssetKind.Power => (
+                "Powers",
+                "NewKunlunPower",
+                "PowerLocalization",
+                "powers",
+                64,
+                64,
+                256,
+                256
+            ),
+            AssetKind.Relic => (
+                "Relics",
+                "NewKunlunRelic",
+                "RelicLocalization",
+                "relics",
+                94,
+                94,
+                256,
+                256
+            ),
+            _ => throw new ArgumentOutOfRangeException(nameof(kind)),
+        };
+        var modelsDirectory = Path.Combine(
+            repositoryRoot,
+            "NewKunlun",
+            "NewKunlunCode",
+            codeFolder
+        );
+        var imagesDirectory = Path.Combine(
             repositoryRoot,
             "NewKunlun",
             "NewKunlun",
             "images",
-            "card_portraits"
+            imageFolder
         );
         var result = new List<CardEntry>();
 
         foreach (
             var path in Directory.EnumerateFiles(
-                cardsDirectory,
+                modelsDirectory,
                 "*.cs",
                 SearchOption.AllDirectories
             )
@@ -49,17 +97,17 @@ internal static class CardDiscovery
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path), path: path).GetRoot();
             foreach (var clazz in root.DescendantNodes().OfType<ClassDeclarationSyntax>())
             {
-                if (!DirectlyExtends(clazz, "NewKunlunCard"))
+                if (!DirectlyExtends(clazz, baseClass))
                     continue;
                 var attribute = clazz
                     .AttributeLists.SelectMany(list => list.Attributes)
                     .FirstOrDefault(candidate =>
                         candidate
                             .Name.ToString()
-                            .EndsWith("CardLocalization", StringComparison.Ordinal)
+                            .EndsWith(localizationAttribute, StringComparison.Ordinal)
                         || candidate
                             .Name.ToString()
-                            .EndsWith("CardLocalizationAttribute", StringComparison.Ordinal)
+                            .EndsWith($"{localizationAttribute}Attribute", StringComparison.Ordinal)
                     );
                 var title =
                     attribute
@@ -75,8 +123,13 @@ internal static class CardDiscovery
                 var entry = new CardEntry(
                     className,
                     title.Token.ValueText,
-                    Path.Combine(portraitsDirectory, fileName),
-                    Path.Combine(portraitsDirectory, "big", fileName)
+                    kind,
+                    Path.Combine(imagesDirectory, fileName),
+                    Path.Combine(imagesDirectory, "big", fileName),
+                    smallWidth,
+                    smallHeight,
+                    largeWidth,
+                    largeHeight
                 );
                 entry.RefreshStatus();
                 result.Add(entry);

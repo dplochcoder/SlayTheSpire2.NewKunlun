@@ -23,29 +23,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private readonly AppSettings _settings;
     private readonly string _repositoryRoot;
-    private readonly string _smallPlaceholder;
-    private readonly string _largePlaceholder;
     private readonly ObservableCollection<CardEntry> _cards = [];
     private ObservableCollection<GalleryEntry> _gallery = [];
     private CancellationTokenSource? _galleryLoadCancellation;
     private CancellationTokenSource? _cropLoadCancellation;
     private double _thumbnailSize;
     private bool _suppressCardSelection;
+    private readonly Dictionary<AssetKind, string?> _selectedClassNames = [];
 
     public MainWindow()
     {
         _settings = AppSettings.Load();
         _thumbnailSize = _settings.ThumbnailSize;
         _repositoryRoot = CardDiscovery.FindRepositoryRoot();
-        var portraits = Path.Combine(
-            _repositoryRoot,
-            "NewKunlun",
-            "NewKunlun",
-            "images",
-            "card_portraits"
-        );
-        _smallPlaceholder = Path.Combine(portraits, "card.png");
-        _largePlaceholder = Path.Combine(portraits, "big", "card.png");
 
         InitializeComponent();
         DataContext = this;
@@ -55,8 +45,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         CollectionViewSource.GetDefaultView(_cards).Filter = FilterCard;
         Cropper.SaveRequested += Cropper_OnSaveRequested;
 
-        foreach (var card in CardDiscovery.ReadCards(_repositoryRoot))
+        foreach (var card in CardDiscovery.ReadEntries(_repositoryRoot, AssetKind.Card))
             _cards.Add(card);
+        UpdatePreviewLayout(_cards.FirstOrDefault());
         CardList.SelectedIndex = _cards.Count > 0 ? 0 : -1;
 
         if (Directory.Exists(_settings.GalleryPath))
@@ -115,8 +106,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         SetBusy(true, $"Loading {card.Title}…");
         try
         {
-            var smallPath = File.Exists(card.SmallPath) ? card.SmallPath : _smallPlaceholder;
-            var largePath = File.Exists(card.LargePath) ? card.LargePath : _largePlaceholder;
+            UpdatePreviewLayout(card);
+            var smallPath = File.Exists(card.SmallPath)
+                ? card.SmallPath
+                : GetPlaceholder(card, false);
+            var largePath = File.Exists(card.LargePath)
+                ? card.LargePath
+                : GetPlaceholder(card, true);
             var smallTask = Task.Run(() => LoadBitmap(smallPath));
             var largeTask = Task.Run(() => LoadBitmap(largePath));
             await Task.WhenAll(smallTask, largeTask);
@@ -127,7 +123,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
         catch (Exception exception)
         {
-            ShowError("Could not load card art", exception);
+            ShowError("Could not load art", exception);
         }
         finally
         {
@@ -141,11 +137,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         IReadOnlyList<CardEntry> refreshedCards;
         try
         {
-            refreshedCards = await Task.Run(() => CardDiscovery.ReadCards(_repositoryRoot));
+            refreshedCards = await Task.Run(() =>
+                CardDiscovery.ReadEntries(_repositoryRoot, ActiveAssetKind)
+            );
         }
         catch (Exception exception)
         {
-            ShowError("Could not refresh cards", exception);
+            ShowError("Could not refresh assets", exception);
             return;
         }
 
@@ -172,6 +170,52 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             || (CardList.SelectedItem as CardEntry)?.ClassName != selectedClassName
         )
             await LoadSelectedCardPreviewsAsync();
+    }
+
+    private async void AssetKindTabs_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (CardList is null || e.Source != AssetKindTabs)
+            return;
+
+        var previous = _cards.FirstOrDefault()?.Kind;
+        if (previous is not null)
+            _selectedClassNames[previous.Value] = (CardList.SelectedItem as CardEntry)?.ClassName;
+
+        IReadOnlyList<CardEntry> entries;
+        try
+        {
+            entries = await Task.Run(() =>
+                CardDiscovery.ReadEntries(_repositoryRoot, ActiveAssetKind)
+            );
+        }
+        catch (Exception exception)
+        {
+            ShowError("Could not load assets", exception);
+            return;
+        }
+
+        _suppressCardSelection = true;
+        try
+        {
+            using (CollectionViewSource.GetDefaultView(_cards).DeferRefresh())
+            {
+                _cards.Clear();
+                foreach (var entry in entries)
+                    _cards.Add(entry);
+            }
+
+            _selectedClassNames.TryGetValue(ActiveAssetKind, out var selectedClassName);
+            CardList.SelectedItem =
+                _cards.FirstOrDefault(entry => entry.ClassName == selectedClassName)
+                ?? _cards.FirstOrDefault();
+        }
+        finally
+        {
+            _suppressCardSelection = false;
+        }
+
+        UpdatePreviewLayout(_cards.FirstOrDefault());
+        await LoadSelectedCardPreviewsAsync();
     }
 
     private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e) =>
@@ -302,7 +346,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         if (CardList.SelectedItem is not CardEntry card)
         {
-            MessageBox.Show(this, "Select a card first.", "No card selected");
+            MessageBox.Show(this, "Select an asset first.", "Nothing selected");
             return;
         }
         if (!Cropper.HasSource)
@@ -315,8 +359,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         Cropper.SetInteractionEnabled(false);
         try
         {
-            var large = Cropper.RenderCrop(1000, 760);
-            var small = Cropper.RenderCrop(250, 190);
+            var large = Cropper.RenderCrop(card.LargeWidth, card.LargeHeight);
+            var small = Cropper.RenderCrop(card.SmallWidth, card.SmallHeight);
             await Task.Run(() =>
             {
                 SavePngAtomically(large, card.LargePath);
@@ -326,7 +370,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
         catch (Exception exception)
         {
-            ShowError("Could not save card art", exception);
+            ShowError("Could not save art", exception);
         }
         finally
         {
@@ -424,4 +468,46 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void OnPropertyChanged([CallerMemberName] string? name = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    private AssetKind ActiveAssetKind =>
+        Enum.TryParse<AssetKind>(
+            (AssetKindTabs.SelectedItem as TabItem)?.Tag as string,
+            out var kind
+        )
+            ? kind
+            : AssetKind.Card;
+
+    private static string GetPlaceholder(CardEntry entry, bool large)
+    {
+        var name = entry.Kind switch
+        {
+            AssetKind.Card => "card.png",
+            AssetKind.Power => "power.png",
+            AssetKind.Relic => "relic.png",
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+        var directory = large
+            ? Path.GetDirectoryName(entry.LargePath)!
+            : Path.GetDirectoryName(entry.SmallPath)!;
+        return Path.Combine(directory, name);
+    }
+
+    private void UpdatePreviewLayout(CardEntry? entry)
+    {
+        if (entry is null)
+            return;
+        var kindName = entry.Kind.ToString();
+        PreviewHeading.Text = $"{kindName} previews (1:1)";
+        SmallPreviewLabel.Text = $"Small — {entry.SmallWidth} × {entry.SmallHeight}";
+        LargePreviewLabel.Text = $"Large — {entry.LargeWidth} × {entry.LargeHeight}";
+        SmallPreview.Width = entry.SmallWidth;
+        SmallPreview.Height = entry.SmallHeight;
+        SmallPreviewBorder.Width = entry.SmallWidth + 2;
+        SmallPreviewBorder.Height = entry.SmallHeight + 2;
+        LargePreview.Width = entry.LargeWidth;
+        LargePreview.Height = entry.LargeHeight;
+        LargePreviewBorder.Width = entry.LargeWidth + 2;
+        LargePreviewBorder.Height = entry.LargeHeight + 2;
+        Cropper.SetAspectRatio((double)entry.LargeWidth / entry.LargeHeight);
+    }
 }

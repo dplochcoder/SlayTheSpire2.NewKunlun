@@ -24,7 +24,7 @@ public partial class FullControlCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(5M, ValueProp.Unpowered),
+            new DamageVar(2M, ValueProp.Unpowered),
             new TalismanDetonateVar<FullControlCard>(card =>
                 TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
             ),
@@ -33,7 +33,7 @@ public partial class FullControlCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         Tip.TalismanDetonateCardWithTips(Owner);
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(9M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(5M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

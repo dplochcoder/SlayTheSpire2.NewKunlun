@@ -4,15 +4,29 @@ using System.Windows.Media.Imaging;
 
 namespace CardArtClipper;
 
-public sealed class CardEntry(string className, string title, string smallPath, string largePath)
-    : INotifyPropertyChanged
+public sealed class CardEntry(
+    string className,
+    string title,
+    AssetKind kind,
+    string smallPath,
+    string largePath,
+    int smallWidth,
+    int smallHeight,
+    int largeWidth,
+    int largeHeight
+) : INotifyPropertyChanged
 {
     private bool _isComplete;
 
     public string ClassName { get; } = className;
     public string Title { get; } = title;
+    public AssetKind Kind { get; } = kind;
     public string SmallPath { get; } = smallPath;
     public string LargePath { get; } = largePath;
+    public int SmallWidth { get; } = smallWidth;
+    public int SmallHeight { get; } = smallHeight;
+    public int LargeWidth { get; } = largeWidth;
+    public int LargeHeight { get; } = largeHeight;
 
     public bool IsComplete
     {
@@ -64,4 +78,11 @@ public enum CompletionFilter
     Both,
     Completed,
     Incomplete,
+}
+
+public enum AssetKind
+{
+    Card,
+    Power,
+    Relic,
 }

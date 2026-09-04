@@ -8,7 +8,7 @@ namespace CardArtClipper;
 
 public partial class CropperControl : UserControl
 {
-    private const double AspectRatio = 25d / 19d;
+    private double _aspectRatio = 25d / 19d;
     private BitmapSource? _sourceBitmap;
     private bool _isVideo;
     private bool _isDragging;
@@ -118,6 +118,16 @@ public partial class CropperControl : UserControl
 
     public void SetInteractionEnabled(bool enabled) => IsEnabled = enabled;
 
+    public void SetAspectRatio(double aspectRatio)
+    {
+        if (aspectRatio <= 0 || double.IsNaN(aspectRatio) || double.IsInfinity(aspectRatio))
+            throw new ArgumentOutOfRangeException(nameof(aspectRatio));
+        _aspectRatio = aspectRatio;
+        ResizeCropFrame(Viewport.ActualWidth, Viewport.ActualHeight);
+        if (HasSource)
+            InitializeMediaLayout();
+    }
+
     private static BitmapImage LoadBitmap(string path)
     {
         using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -175,19 +185,24 @@ public partial class CropperControl : UserControl
 
     private void Viewport_OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var availableWidth = Math.Max(1, e.NewSize.Width - 36);
-        var availableHeight = Math.Max(1, e.NewSize.Height - 36);
-        if (availableWidth / availableHeight > AspectRatio)
+        ResizeCropFrame(e.NewSize.Width, e.NewSize.Height);
+        UpdateMediaTransform();
+    }
+
+    private void ResizeCropFrame(double viewportWidth, double viewportHeight)
+    {
+        var availableWidth = Math.Max(1, viewportWidth - 36);
+        var availableHeight = Math.Max(1, viewportHeight - 36);
+        if (availableWidth / availableHeight > _aspectRatio)
         {
             CropFrame.Height = availableHeight;
-            CropFrame.Width = availableHeight * AspectRatio;
+            CropFrame.Width = availableHeight * _aspectRatio;
         }
         else
         {
             CropFrame.Width = availableWidth;
-            CropFrame.Height = availableWidth / AspectRatio;
+            CropFrame.Height = availableWidth / _aspectRatio;
         }
-        UpdateMediaTransform();
     }
 
     private void Viewport_OnMouseWheel(object sender, MouseWheelEventArgs e)

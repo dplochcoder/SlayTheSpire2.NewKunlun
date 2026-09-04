@@ -35,7 +35,7 @@ Status:
  *Malfunction 1: Take 4 Internal Damage. Draw 1 card. Exhaust. If this is in your hand at the end of your turn, take 2 Internal Damage and increase damage values by 2.
 
 Attacks:
-*(C) Charge Strike 1: Deal 8(11) damage. Spend 1 Qi Charge to deal 20(26) instead.
+*(C) Charge Strike 1: Deal 8(11) damage. Spend 1 Qi Charge to deal 20(27) instead.
 *(C) Parrying Strike 2: Deal 11(16) damage. Gain 4(6) Block. The next Parry card you play this turn is free.
 *(C) Cut Through 1: Deal 3(6) damage. Inflict 7(9) Internal Damage.
 *(C) Crowd Control: Deal 4(7) damage to all enemies. Draw 1 card for each enemy.
@@ -104,7 +104,7 @@ Powers:
 *(U) Qi Swipe Jade 1(0): Increase Qi Charge Capacity by 2. Whenever you successfully Parry, gain an extra Qi Charge.
 *(U) Ricochet Jade 2: Every time you fully block an attack, inflict 4(7) Internal Damage on the attacker.
 *(U) Like Water 1: (Innate) Talisman Detonate costs 1 less energy.
-*(U) Full Control 1: Talisman Detonate deals 5(9) additional damage per Qi Charge. You can choose how many Qi Charges to spend on detonation, and can spend any number.
+*(U) Full Control 1: Talisman Detonate deals 2(5) additional damage per Qi Charge. You can choose how many Qi Charges to spend on detonation, and can spend any number.
 *(U) Stasis Jade 2(1): Take half damage from enemies who had the Talisman debuff this turn.
 *(U) Invigorate 1: Gain 5(7) strength. Take 16 Internal Damage.
 *(U) Rhythm Chop 2(1): Whenever you have 3 or more Qi Charges at the start of your turn, pull Talisman Dash into your hand.
