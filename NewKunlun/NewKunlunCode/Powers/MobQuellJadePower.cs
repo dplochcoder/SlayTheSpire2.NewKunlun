@@ -1,17 +1,27 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Mob Quell Jade",
-    description: "[gold]Talisman Dash[/gold] targets all enemies."
+    description: "{TalismanDash:cardName} targets all enemies."
 )]
-public class MobQuellJadePower : NewKunlunPower, ITalismanDetonateListener
+public partial class MobQuellJadePower : NewKunlunPower, ITalismanDetonateListener
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new TalismanDashVar<MobQuellJadePower>(power =>
+                TalismanDashCard.IsUpgradedAnywhere(power.Owner.Player)
+            ),
+        ];
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 

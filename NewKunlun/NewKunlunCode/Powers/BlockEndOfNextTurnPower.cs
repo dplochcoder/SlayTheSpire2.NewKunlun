@@ -11,8 +11,8 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Block Next Turn",
-    description: "At the end of your next turn, gain {Amount} block.",
-    smartDescription: "At the end of {TurnsRemaining:cond:>1?your next|this} turn, gain {Amount} block."
+    description: "At the end of your next turn, gain {Amount} [gold]Block[/gold].",
+    smartDescription: "At the end of {TurnsRemaining:cond:>1?your next|this} turn, gain {Amount} [gold]Block[/gold]."
 )]
 public partial class BlockEndOfNextTurnPower : NewKunlunPower
 {

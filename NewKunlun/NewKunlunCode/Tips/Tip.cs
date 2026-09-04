@@ -22,6 +22,8 @@ public static class Tip
 
     public static IHoverTip ParryCardKeyword() => CustomKeywordHoverTip("PARRY_CARD");
 
+    public static IHoverTip PreciseParryKeyword() => CustomKeywordHoverTip("PRECISE_PARRY");
+
     public static IHoverTip TalismanDashCard(Player? player) =>
         Card<TalismanDashCard>(upgraded: Cards.TalismanDashCard.IsUpgradedAnywhere(player));
 

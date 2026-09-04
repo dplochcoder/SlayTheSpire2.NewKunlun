@@ -11,7 +11,7 @@ using NewKunlun.NewKunlunCode.Localization;
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[CardLocalization(title: "Defend", description: "Gain {Block:diff()} block.")]
+[CardLocalization(title: "Defend", description: "Gain {Block:diff()} [gold]Block[/gold].")]
 public partial class DefendYiCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
 {

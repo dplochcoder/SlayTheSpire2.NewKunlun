@@ -4,18 +4,27 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Rhythm Chop",
-    description: "Whenever you have 3 or more [gold]Qi Charges[/gold] at the start of your turn, put [gold]Talisman Dash[/gold] into your hand."
+    description: "Whenever you have 3 or more [gold]Qi Charges[/gold] at the start of your turn, pull {TalismanDash:cardName} into your hand."
 )]
-public class RhythmChopPower : NewKunlunPower
+public partial class RhythmChopPower : NewKunlunPower
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new TalismanDashVar<RhythmChopPower>(power =>
+                TalismanDashCard.IsUpgradedAnywhere(power.Owner.Player)
+            ),
+        ];
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 

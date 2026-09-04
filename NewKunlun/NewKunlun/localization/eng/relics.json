@@ -1,5 +1,8 @@
 {
-  "NEWKUNLUN-JADE_SYSTEM_RELIC.description": "At the start of combat, shuffle one [gold]Talisman Dash[/gold] into your deck and gain 1 [gold]Qi Charge[/gold].",
-  "NEWKUNLUN-JADE_SYSTEM_RELIC.flavor": "",
-  "NEWKUNLUN-JADE_SYSTEM_RELIC.title": "JadeSystem"
+  "NEWKUNLUN-ENHANCED_TALISMAN_RELIC.description": "At the start of combat, add one [green]Talisman Dash+[/green] into your hand and gain 3 [gold]Qi Charges[/gold].",
+  "NEWKUNLUN-ENHANCED_TALISMAN_RELIC.flavor": "",
+  "NEWKUNLUN-ENHANCED_TALISMAN_RELIC.title": "Enhanced Talisman",
+  "NEWKUNLUN-TALISMAN_RELIC.description": "At the start of combat, shuffle one [gold]Talisman Dash[/gold] into your deck and gain 1 [gold]Qi Charge[/gold].",
+  "NEWKUNLUN-TALISMAN_RELIC.flavor": "",
+  "NEWKUNLUN-TALISMAN_RELIC.title": "Talisman"
 }

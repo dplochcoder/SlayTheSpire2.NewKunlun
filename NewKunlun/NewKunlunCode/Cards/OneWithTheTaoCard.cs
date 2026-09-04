@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "One with the Tao",
-    description: "At the end of your turn, gain {Block:diff()} block and 1 [gold]Parry[/gold]."
+    description: "At the end of your turn, gain {Block:diff()} [gold]Block[/gold] and 1 [gold]Parry[/gold]."
 )]
 public partial class OneWithTheTaoCard()
     : NewKunlunCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)

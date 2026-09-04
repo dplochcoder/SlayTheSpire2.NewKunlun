@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Neural Network",
-    description: "Whenever you take [gold]Internal Damage[/gold], gain that much block."
+    description: "Whenever you take [gold]Internal Damage[/gold], gain that much [gold]Block[/gold]."
 )]
 public class NeuralNetworkPower : NewKunlunPower, IInternalDamageListener
 {

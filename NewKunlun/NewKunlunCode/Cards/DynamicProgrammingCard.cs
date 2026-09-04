@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Whenever your play a card, it gains [gold]Retain[/gold]."
 )]
 public class DynamicProgrammingCard()
-    : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+    : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 

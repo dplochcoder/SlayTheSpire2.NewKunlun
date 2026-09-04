@@ -1,0 +1,1 @@
+﻿namespace NewKunlun.NewKunlunCode.Variables;

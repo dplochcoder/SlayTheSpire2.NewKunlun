@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Tai-Chi Kick",
-    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} block. If the enemy intends to attack, gain 1 [gold]Qi Charge[/gold]."
+    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} [gold]Block[/gold]. If the enemy intends to attack, gain 1 [gold]Qi Charge[/gold]."
 )]
 public partial class TaiChiKickCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)

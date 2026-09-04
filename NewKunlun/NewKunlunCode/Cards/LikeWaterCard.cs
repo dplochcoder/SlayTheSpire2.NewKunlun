@@ -8,18 +8,25 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Like Water",
-    description: "[gold]Talisman Detonate[/gold] costs 1 less {Energy:energyIcons()}."
+    description: "{TalismanDetonate:cardName} costs 1 less {Energy:energyIcons()}."
 )]
 public partial class LikeWaterCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new EnergyVar(1),
+            new TalismanDetonateVar<LikeWaterCard>(card =>
+                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            ),
+        ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [];
 

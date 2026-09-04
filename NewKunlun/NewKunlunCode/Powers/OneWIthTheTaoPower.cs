@@ -13,7 +13,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 [PowerLocalization(
     title: "One with the Tao",
     description: "",
-    smartDescription: "At the end of your turn, gain {Amount} block and {Parry} [gold]Parry[/gold]."
+    smartDescription: "At the end of your turn, gain {Amount} [gold]Block[/gold] and {Parry} [gold]Parry[/gold]."
 )]
 public partial class OneWithTheTaoPower : NewKunlunPower
 {

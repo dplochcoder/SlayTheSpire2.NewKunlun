@@ -21,13 +21,13 @@ public partial class StaggerCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(8M, ValueProp.Move), new DynamicVar(nameof(Repeat), 2M)];
+        [new DamageVar(9M, ValueProp.Move), new DynamicVar(nameof(Repeat), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Talisman()];
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(9M);
+        Damage.UpgradeValueTo(11M);
         Repeat.UpgradeValueTo(3M);
     }
 

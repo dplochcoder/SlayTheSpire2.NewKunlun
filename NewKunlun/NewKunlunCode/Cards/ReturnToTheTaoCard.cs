@@ -21,7 +21,7 @@ public partial class ReturnToTheTaoCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Repeats), 3M)];
+        [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Repeats), 5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 

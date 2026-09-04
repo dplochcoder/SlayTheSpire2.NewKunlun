@@ -1,2 +1,5 @@
 **/bin/**
 **/obj/**
+.analyzer-smoke
+.codex-appdata
+.generated-inspect

@@ -8,14 +8,14 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
-// TODO: Formatter.
 [PowerLocalization(
     title: "Talisman Detonate",
-    description: "Next turn, add one [gold]Talisman Detonate[/gold] to your hand.",
-    smartDescription: "Next turn, add one [gold]Talisman Detonate{UpgradeCount:cond:>0:(+)|}[/gold] to your hand."
+    description: "Next turn, add one {TalismanDetonate:cardName} to your hand.",
+    smartDescription: "Next turn, add one {TalismanDetonate:cardName} to your hand."
 )]
 public partial class TalismanDetonatePower : NewKunlunPower
 {
@@ -24,7 +24,10 @@ public partial class TalismanDetonatePower : NewKunlunPower
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(UpgradeCount), 0M)];
+        [
+            new DynamicVar(nameof(UpgradeCount), 0M),
+            new TalismanDetonateVar<TalismanDetonatePower>(power => power.Upgraded),
+        ];
 
     public bool Upgraded
     {

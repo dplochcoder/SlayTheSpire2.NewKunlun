@@ -11,9 +11,12 @@ using NewKunlun.NewKunlunCode.Localization;
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
-[CardLocalization(title: "Wide Swing", description: "Deal {Damage:diff()} damage to all enemies.")]
-public partial class WideSwingCard()
-    : NewKunlunCard(0, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+[CardLocalization(
+    title: "Crowd Control",
+    description: "Deal {Damage:diff()} damage to all enemies.\nDraw 1 card for each enemy."
+)]
+public partial class CrowdControlCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4M, ValueProp.Move)];
 
@@ -21,11 +24,16 @@ public partial class WideSwingCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (CombatState == null)
+            return;
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithSlashVfx()
-            .TargetingAllOpponents(CombatState!)
+            .TargetingAllOpponents(CombatState)
             .Execute(choiceContext);
+
+        var count = CombatState.Enemies.Count(e => e.IsAlive);
+        await CardPileCmd.Draw(choiceContext, count, Owner);
     }
 }

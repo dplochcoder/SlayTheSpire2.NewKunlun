@@ -23,7 +23,7 @@ public partial class RootCorruptionCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(CardDraw), 1)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MalfunctionCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Malfunction()];
 
     protected override void OnUpgrade() => CardDraw.UpgradeValueTo(2M);
 

@@ -13,19 +13,24 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Dash",
-    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Inflict [gold]Talisman[/gold]. Next turn, add a {IfUpgraded:show:[green]Talisman Detonate+[/green]|[gold]Talisman Detonate[/gold]} into your hand."
+    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Inflict [gold]Talisman[/gold]. Next turn, add a {TalismanDetonate:cardName} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(1M, ValueProp.Move), new DynamicVar(nameof(Weak), 1M)];
+        [
+            new DamageVar(6M, ValueProp.Move),
+            new DynamicVar(nameof(Weak), 1M),
+            new TalismanDetonateVar<TalismanDashCard>(card => card.IsUpgraded),
+        ];
 
     public override TargetType TargetType =>
         Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;

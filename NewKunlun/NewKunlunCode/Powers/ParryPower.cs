@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
@@ -15,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Parry",
-    description: "Each time you would full-block an attack this turn, lose 1 [gold]Parry[/gold] and gain 1 [gold]Qi Charge[/gold] instead of losing block."
+    description: "Each time you block an attack this turn, lose 1 [gold]Parry[/gold] and gain 1 [gold]Qi Charge[/gold].\nIf you would full block, make a [gold]Precise Parry[/gold]."
 )]
 public class ParryPower : NewKunlunPower
 {
@@ -24,7 +25,8 @@ public class ParryPower : NewKunlunPower
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 
-    private int _successfulParries = 0;
+    private int _parries = 0;
+    private int _preciseParries = 0;
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,
@@ -35,19 +37,34 @@ public class ParryPower : NewKunlunPower
         CardModel? cardSource
     )
     {
-        if (_successfulParries == 0)
+        if (_parries == 0)
             return;
 
-        // TODO: FX
+        var qiSwipeJade = Owner.GetPower<QiSwipeJadePower>();
+        qiSwipeJade?.Flash();
         await QiChargeCmd.GainQiCharges(
             choiceContext,
             target,
-            _successfulParries * (1 + Owner.GetPowerAmount<QiSwipeJadePower>()),
+            _parries * (1 + qiSwipeJade?.Amount ?? 0),
             Owner,
             null
         );
-        await PowerCmd.ModifyAmount(choiceContext, this, -_successfulParries, dealer, cardSource);
-        _successfulParries = 0;
+        await PowerCmd.ModifyAmount(choiceContext, this, -_parries, dealer, cardSource);
+
+        if (_preciseParries > 0 && Owner.GetPower<DownloadPower>() is { } download)
+        {
+            await PowerCmd.Apply<StrengthPower>(
+                choiceContext,
+                target,
+                download.Amount * _preciseParries,
+                target,
+                null
+            );
+            download.Flash();
+        }
+
+        _parries = 0;
+        _preciseParries = 0;
         Flash();
     }
 
@@ -82,13 +99,17 @@ public class ParryPower : NewKunlunPower
             var self = __instance;
             if (
                 self.GetPower<ParryPower>() is { } parryPower
-                && parryPower._successfulParries < parryPower.Amount
-                && self.Block >= amount
+                && parryPower._parries < parryPower.Amount
+                && self.Block > 0
             )
             {
-                parryPower._successfulParries++;
-                __result = amount;
-                return false;
+                parryPower._parries++;
+                if (self.Block >= amount)
+                {
+                    parryPower._preciseParries++;
+                    __result = amount;
+                    return false;
+                }
             }
             return true;
         }

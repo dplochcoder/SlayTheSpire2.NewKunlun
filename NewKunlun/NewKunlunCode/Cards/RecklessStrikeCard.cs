@@ -25,11 +25,11 @@ public partial class RecklessStrikeCard()
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(16M, ValueProp.Move), new InternalDamageSelfInflictVar(6M)];
+        [new DamageVar(14M, ValueProp.Move), new InternalDamageSelfInflictVar(6M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(21M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

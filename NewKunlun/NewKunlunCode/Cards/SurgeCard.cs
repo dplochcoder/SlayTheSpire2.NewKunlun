@@ -25,7 +25,7 @@ public partial class SurgeCard()
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MalfunctionCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Malfunction()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

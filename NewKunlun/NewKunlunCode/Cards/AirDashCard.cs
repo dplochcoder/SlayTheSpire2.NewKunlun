@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Air Dash",
-    description: "Gain {Block:diff()} block. Gain {Dexterity:diff()} [gold]Dexterity[/gold] this turn."
+    description: "Gain {Block:diff()} [gold]Block[/gold]. Gain {Dexterity:diff()} [gold]Dexterity[/gold] this turn."
 )]
 public partial class AirDashCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

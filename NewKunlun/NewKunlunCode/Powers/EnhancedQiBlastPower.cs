@@ -9,13 +9,14 @@ using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Enhanced Qi Blast",
     description: "",
-    smartDescription: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on [gold]Talisman Detonate[/gold], place 1 {Upgraded:cond:>0?[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
+    smartDescription: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName}, place 1 {Upgraded:cond:>0?[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
 )]
 public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateListener
 {
@@ -24,7 +25,12 @@ public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateLis
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Upgraded), 0M)];
+        [
+            new DynamicVar(nameof(Upgraded), 0M),
+            new TalismanDetonateVar<EnhancedQiBlastPower>(power =>
+                TalismanDetonateCard.IsUpgradedAnywhere(power.Owner.Player)
+            ),
+        ];
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,
@@ -39,7 +45,10 @@ public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateLis
         List<CardModel> cards = [];
         for (var i = 0; i < Amount; i++)
             cards.Add(
-                CombatState.CreateCard<AzureSandCard>(Owner.Player, upgrade: Upgraded.BaseValue > 0)
+                CombatState.CreateUpgradedCard<AzureSandCard>(
+                    Owner.Player,
+                    upgrade: Upgraded.BaseValue > 0
+                )
             );
 
         CardCmd.PreviewCardPileAdd(

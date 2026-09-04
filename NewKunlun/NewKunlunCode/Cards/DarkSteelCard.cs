@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Gain {Amount:diff()} [gold]Dark Steel[/gold]."
 )]
 public partial class DarkSteelCard()
-    : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+    : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(Amount), 2M)];

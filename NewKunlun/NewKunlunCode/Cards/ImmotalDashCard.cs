@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Immortal Dash",
-    description: "Gain {Block:diff()} block. Gain {Dexterity:diff()} [gold]Dexterity[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold]. Gain {Dexterity:diff()} [gold]Dexterity[/gold]."
 )]
 public partial class ImmortalDashCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
@@ -24,11 +24,11 @@ public partial class ImmortalDashCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(11M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 1M)];
+        [new BlockVar(13M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 1M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(15M);
+    protected override void OnUpgrade() => Block.UpgradeValueTo(18M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

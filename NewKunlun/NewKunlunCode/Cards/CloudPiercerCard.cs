@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cloud Piercer",
-    description: "Remove all enemy block. Apply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold]. Deal {Damage:diff()} damage. Deals {ExtraDamage:diff()} additional damage for every [icon]Dark Steel[/icon]."
+    description: "Remove all enemy [gold]Block[/gold]. Apply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold]. Deal {Damage:diff()} damage. Deals {ExtraDamage:diff()} additional damage for every [icon]Dark Steel[/icon]."
 )]
 public partial class CloudPiercerCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy),

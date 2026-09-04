@@ -18,9 +18,9 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class AvariceJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new GoldVar(16)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new GoldVar(9)];
 
-    protected override void OnUpgrade() => Gold.UpgradeValueTo(20M);
+    protected override void OnUpgrade() => Gold.UpgradeValueTo(15M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

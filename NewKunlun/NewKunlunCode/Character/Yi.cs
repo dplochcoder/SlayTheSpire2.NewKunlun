@@ -34,7 +34,7 @@ public class Yi : PlaceholderCharacterModel
             ModelDb.Card<FeintCard>(),
         ];
 
-    public override IReadOnlyList<RelicModel> StartingRelics => [ModelDb.Relic<JadeSystemRelic>()];
+    public override IReadOnlyList<RelicModel> StartingRelics => [ModelDb.Relic<TalismanRelic>()];
 
     public override CardPoolModel CardPool => ModelDb.CardPool<YiCardPool>();
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<YiRelicPool>();

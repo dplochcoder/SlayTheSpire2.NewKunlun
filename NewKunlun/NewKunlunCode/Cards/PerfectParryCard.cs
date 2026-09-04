@@ -15,37 +15,25 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Perfect Parry",
-    description: "Gain {Block:diff()} block. Gain {Parry} [gold]Parry[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold]. Draw 1 card. Gain 1 [gold]Parry[/gold]."
 )]
 public partial class PerfectParryCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Ancient, TargetType.Self)
+    : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.Self)
 {
     public override bool GainsBlock => true;
 
     public override bool IsParryCard => true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(18M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(18M, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
 
-    protected override void OnUpgrade()
-    {
-        Block.UpgradeValueBy(7M);
-        AddKeyword(CardKeyword.Retain);
-    }
+    protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, Block, cardPlay);
-        await PowerCmd.Apply<ParryPower>(
-            choiceContext,
-            Owner.Creature,
-            Parry.BaseValue,
-            Owner.Creature,
-            this
-        );
+        await CardPileCmd.Draw(choiceContext, Owner);
+        await PowerCmd.Apply<ParryPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
     }
 }

@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Lightning Reflex",
-    description: "Gain {Block:diff()} block. Shuffle {NumCards:diff()} [green]Twitch+[/green] with {AdroitAmount:diff()} [gold]Adroit[/gold] into your draw pile."
+    description: "Gain {Block:diff()} [gold]Block[/gold]. Shuffle {NumCards:diff()} [green]Twitch+[/green] with {AdroitAmount:diff()} [gold]Adroit[/gold] into your draw pile."
 )]
 public partial class LightningReflexCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)

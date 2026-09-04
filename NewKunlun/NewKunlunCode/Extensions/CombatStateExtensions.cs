@@ -9,7 +9,7 @@ public static class CombatStateExtensions
 {
     extension(ICombatState self)
     {
-        public T CreateCard<T>(Player owner, bool upgrade)
+        public T CreateUpgradedCard<T>(Player owner, bool upgrade)
             where T : CardModel
         {
             var card = self.CreateCard<T>(owner);

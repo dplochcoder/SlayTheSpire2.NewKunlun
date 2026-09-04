@@ -17,7 +17,7 @@ public static class CardModelExtensions
         {
             CardCmd.PreviewCardPileAdd(
                 await CardPileCmd.AddGeneratedCardToCombat(
-                    self.CombatState!.CreateCard<T>(self.Owner, upgrade),
+                    self.CombatState!.CreateUpgradedCard<T>(self.Owner, upgrade),
                     pileType,
                     self.Owner,
                     position

@@ -13,7 +13,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Swift Dash",
-    description: "Gain {Block:diff()} block {Times:diff()} times."
+    description: "Gain {Block:diff()} [gold]Block[/gold] {Times:diff()} times."
 )]
 public partial class SwiftDashCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)

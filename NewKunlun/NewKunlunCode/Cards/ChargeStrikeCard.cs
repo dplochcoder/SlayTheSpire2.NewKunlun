@@ -9,14 +9,16 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Charge Strike",
-    description: "Deal {BaseDamage:diff()} damage. Spend 1 [gold]Qi Charge[/gold] to deal {ChargeDamage:diff()} instead."
+    description: "Deal {Damage:diff()} damage. Spend 1 [gold]Qi Charge[/gold] to deal {ChargeDamage:diff()} instead."
 )]
 public partial class ChargeStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
@@ -25,6 +27,15 @@ public partial class ChargeStrikeCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new CustomDamageVar<ChargeStrikeCard>(
+                nameof(Damage),
+                8M,
+                ValueProp.Move,
+                (card, _) =>
+                    card.Owner.Creature.GetPowerAmount<QiChargePower>() > 0
+                        ? ChargeDamage.BaseValue
+                        : Damage.BaseValue
+            ),
             new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
             new DamageVar(nameof(ChargeDamage), 20M, ValueProp.Move),
         ];

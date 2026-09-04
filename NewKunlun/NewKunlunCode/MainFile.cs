@@ -3,6 +3,9 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
+using NewKunlun.NewKunlunCode.Localization;
+using SmartFormat;
+using SmartFormat.Core.Extensions;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace NewKunlun.NewKunlunCode;
@@ -19,6 +22,14 @@ public partial class MainFile : Node
     public static void Initialize()
     {
         var assembly = Assembly.GetExecutingAssembly();
+
+        Smart.Default.AddExtensions([
+            .. assembly
+                .GetTypes()
+                .Where(t => t.GetCustomAttribute<CustomFormatterAttribute>() != null)
+                .Select(Activator.CreateInstance)
+                .OfType<IFormatter>(),
+        ]);
 
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);

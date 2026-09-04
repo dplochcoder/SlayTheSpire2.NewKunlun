@@ -9,19 +9,28 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Mob Quell Jade",
-    description: "[gold]Talisman Dash[/gold] targets all enemies. Your next {IfUpgraded:show:2 [gold]Talisman Detonate[/gold]s deal|[gold]Talisman Detonate[/gold] deals} double damage."
+    description: "{TalismanDash:cardName} targets all enemies. Your next {IfUpgraded:show:2 {TalismanDetonate:cardName}s deal|{TalismanDetonate:cardName} deals} double damage."
 )]
 public partial class MobQuellJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(DoubleDamages), 1M)];
+        [
+            new DynamicVar(nameof(DoubleDamages), 1M),
+            new TalismanDashVar<MobQuellJadeCard>(card =>
+                TalismanDashCard.IsUpgradedAnywhere(card.Owner)
+            ),
+            new TalismanDetonateVar<MobQuellJadeCard>(card =>
+                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            ),
+        ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.TalismanDashCard(Owner), Tip.TalismanDetonateCard(Owner)];

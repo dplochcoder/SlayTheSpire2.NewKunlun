@@ -13,7 +13,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Neural Network",
-    description: "Whenever you take [gold]Internal Damage[/gold], gain that much block."
+    description: "Whenever you take [gold]Internal Damage[/gold], gain that much [gold]Block[/gold]."
 )]
 public class NeuralNetworkCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)

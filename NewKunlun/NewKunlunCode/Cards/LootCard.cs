@@ -27,8 +27,8 @@ public class LootCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, Targ
     {
         List<CardModel> cards = [];
         for (var i = 0; i < 3; i++)
-            cards.Add(CombatState!.CreateCard<AzureSandCard>(Owner, upgrade: IsUpgraded));
-        cards.Add(CombatState!.CreateCard<DarkSteelCard>(Owner, upgrade: IsUpgraded));
+            cards.Add(CombatState!.CreateUpgradedCard<AzureSandCard>(Owner, upgrade: IsUpgraded));
+        cards.Add(CombatState!.CreateUpgradedCard<DarkSteelCard>(Owner, upgrade: IsUpgraded));
 
         foreach (
             var preview in await CardPileCmd.AddGeneratedCardsToCombat(

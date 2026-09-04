@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Imperfect",
-    description: "If attacked this turn, take {Amount} [gold]Internal Damage[/gold]."
+    description: "Converts to [gold]Internal Damage[/gold] for each damage you take this turn."
 )]
 public class ImperfectPower : NewKunlunPower
 {
@@ -36,14 +36,26 @@ public class ImperfectPower : NewKunlunPower
         if (target != Owner || !props.IsPoweredAttack())
             return;
 
+        var toConvert = Math.Min(result.TotalDamage, Amount);
+        if (toConvert <= 0)
+            return;
+
         await InternalDamageCmd.Inflict(
             choiceContext,
             target,
-            new InternalDamageInflictVar(Amount),
+            new InternalDamageInflictVar(toConvert),
             dealer,
-            cardSource
+            cardSource,
+            silent: true
         );
-        await PowerCmd.Remove(this);
+        await PowerCmd.ModifyAmount(
+            choiceContext,
+            this,
+            -toConvert,
+            dealer,
+            cardSource,
+            silent: true
+        );
         Flash();
     }
 

@@ -23,11 +23,11 @@ public partial class UnboundedStrikeCard()
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(22M, ValueProp.Move)];
+        [new DamageVar(18M, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<SmolderCard>()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(30M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(24M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

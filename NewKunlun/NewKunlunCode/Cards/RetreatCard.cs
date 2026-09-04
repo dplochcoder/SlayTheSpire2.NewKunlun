@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Retreat",
-    description: "Gain {Block:diff()} block. Discard 2 cards. Exhaust 1 card from your hand.",
+    description: "Gain {Block:diff()} [gold]Block[/gold]. Discard 2 cards. Exhaust 1 card from your hand.",
     customPromptA: "Select 2 cards to discard.",
     customPromptB: "Select 1 card to exhaust."
 )]

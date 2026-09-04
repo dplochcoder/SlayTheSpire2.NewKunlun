@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Unbounded Counter",
-    description: "At the end of your next turn, gain {Block:diff()} block and {Parry:diff()} [gold]Parry[/gold]."
+    description: "At the end of your next turn, gain {Block:diff()} [gold]Block[/gold] and {Parry:diff()} [gold]Parry[/gold]."
 )]
 public partial class UnboundedCounterCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Rare, TargetType.Self)
@@ -27,11 +27,11 @@ public partial class UnboundedCounterCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(22M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
+        [new BlockVar(24M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
 
-    protected override void OnUpgrade() => Block.UpgradeValueTo(32M);
+    protected override void OnUpgrade() => Block.UpgradeValueTo(34M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

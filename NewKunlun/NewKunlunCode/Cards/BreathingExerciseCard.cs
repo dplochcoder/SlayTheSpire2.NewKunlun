@@ -1,4 +1,5 @@
 ﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -15,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Breathing Exercise",
-    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
+    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold].\nDraw 1 card."
 )]
 public partial class BreathingExerciseCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
@@ -35,5 +36,6 @@ public partial class BreathingExerciseCard()
             Owner.Creature,
             this
         );
+        await CardPileCmd.Draw(choiceContext, Owner);
     }
 }

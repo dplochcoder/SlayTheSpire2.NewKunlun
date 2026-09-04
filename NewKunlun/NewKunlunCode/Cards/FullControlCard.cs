@@ -10,19 +10,25 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Full Control",
-    description: "[gold]Talisman Detonate[/gold] deals {Damage:diff()} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, without limit."
+    description: "{TalismanDetonate:cardName} deals {Damage:diff()} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, without limit."
 )]
 public partial class FullControlCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(5M, ValueProp.Unpowered)];
+        [
+            new DamageVar(5M, ValueProp.Unpowered),
+            new TalismanDetonateVar<FullControlCard>(card =>
+                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            ),
+        ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         Tip.TalismanDetonateCardWithTips(Owner);
