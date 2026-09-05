@@ -23,14 +23,14 @@ public partial class DisruptionCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new InternalDamageInflictVar(6M), new DynamicVar(nameof(Imperfect), 5M)];
+        [new InternalDamageInflictVar(5M), new DynamicVar(nameof(Imperfect), 5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.InternalDamage(), Tip.Imperfect()];
 
     protected override void OnUpgrade()
     {
-        InternalDamageInflict.UpgradeValueTo(8M);
+        InternalDamageInflict.UpgradeValueTo(7M);
         Imperfect.UpgradeValueTo(7M);
     }
 

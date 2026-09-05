@@ -32,9 +32,7 @@ public partial class CloudPiercerCard()
                 nameof(Damage),
                 36M,
                 ValueProp.Move,
-                (card, _) =>
-                    36M
-                    + ExtraDamage.BaseValue * card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 36M + ExtraDamage.BaseValue * Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
             new DynamicVar(nameof(ExtraDamage), 8M),
         ];

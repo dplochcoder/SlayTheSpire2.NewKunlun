@@ -31,8 +31,8 @@ public partial class ChargeStrikeCard()
                 nameof(Damage),
                 8M,
                 ValueProp.Move,
-                (card, _) =>
-                    card.Owner.Creature.GetPowerAmount<QiChargePower>() > 0
+                _ =>
+                    Owner.Creature.GetPowerAmount<QiChargePower>() > 0
                         ? ChargeDamage.BaseValue
                         : Damage.BaseValue
             ),

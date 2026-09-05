@@ -36,7 +36,7 @@ public partial class TripleSlashCard()
                 nameof(Damage),
                 5M,
                 ValueProp.Move,
-                (card, _) => card.CalculateBaseDamage()
+                _ => CalculateBaseDamage()
             ),
         ];
 

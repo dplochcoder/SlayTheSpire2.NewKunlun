@@ -26,10 +26,10 @@ public partial class ShadowHunterCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(13M, ValueProp.Move),
-            new CustomVar<ShadowHunterCard>(
+            new CustomVar(
                 nameof(HitCount),
                 5M,
-                (card, _) => 5M + card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 5M + Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
         ];
 

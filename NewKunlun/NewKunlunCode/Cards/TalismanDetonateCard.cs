@@ -33,15 +33,11 @@ public partial class TalismanDetonateCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CustomVar<TalismanDetonateCard>(
-                nameof(TotalDamage),
-                0,
-                (card, _) => card.ComputeTotalDamage()
-            ),
-            new CustomVar<TalismanDetonateCard>(
+            new CustomVar(nameof(TotalDamage), 0, _ => ComputeTotalDamage()),
+            new CustomVar(
                 nameof(FullControl),
                 0,
-                (card, _) => card.Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
+                _ => Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
             ),
             new TalismanDetonateBaseDamageVar(10M),
             new DynamicVar(nameof(Vulnerable), 1M),

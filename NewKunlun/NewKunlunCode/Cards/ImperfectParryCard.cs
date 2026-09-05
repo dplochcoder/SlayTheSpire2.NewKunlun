@@ -37,7 +37,7 @@ public partial class ImperfectParryCard()
 
     protected override void OnUpgrade()
     {
-        Block.UpgradeValueTo(16M);
+        Block.UpgradeValueTo(18M);
         Imperfect.UpgradeValueTo(4M);
     }
 

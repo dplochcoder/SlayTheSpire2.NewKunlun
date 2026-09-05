@@ -23,7 +23,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private readonly AppSettings _settings;
     private readonly string _repositoryRoot;
-    private readonly ObservableCollection<CardEntry> _cards = [];
+    private readonly BulkObservableCollection<CardEntry> _cards = [];
     private ObservableCollection<GalleryEntry> _gallery = [];
     private CancellationTokenSource? _galleryLoadCancellation;
     private CancellationTokenSource? _cropLoadCancellation;
@@ -134,11 +134,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private async void RefreshCards_OnClick(object sender, RoutedEventArgs e)
     {
         var selectedClassName = (CardList.SelectedItem as CardEntry)?.ClassName;
+        var assetKind = ActiveAssetKind;
         IReadOnlyList<CardEntry> refreshedCards;
         try
         {
             refreshedCards = await Task.Run(() =>
-                CardDiscovery.ReadEntries(_repositoryRoot, ActiveAssetKind)
+                CardDiscovery.ReadEntries(_repositoryRoot, assetKind)
             );
         }
         catch (Exception exception)
@@ -150,12 +151,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _suppressCardSelection = true;
         try
         {
-            using (CollectionViewSource.GetDefaultView(_cards).DeferRefresh())
-            {
-                _cards.Clear();
-                foreach (var card in refreshedCards)
-                    _cards.Add(card);
-            }
+            _cards.ReplaceAll(refreshedCards);
             CardList.SelectedItem =
                 _cards.FirstOrDefault(card => card.ClassName == selectedClassName)
                 ?? _cards.FirstOrDefault();
@@ -181,12 +177,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (previous is not null)
             _selectedClassNames[previous.Value] = (CardList.SelectedItem as CardEntry)?.ClassName;
 
+        var assetKind = ActiveAssetKind;
         IReadOnlyList<CardEntry> entries;
         try
         {
-            entries = await Task.Run(() =>
-                CardDiscovery.ReadEntries(_repositoryRoot, ActiveAssetKind)
-            );
+            entries = await Task.Run(() => CardDiscovery.ReadEntries(_repositoryRoot, assetKind));
         }
         catch (Exception exception)
         {
@@ -197,14 +192,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _suppressCardSelection = true;
         try
         {
-            using (CollectionViewSource.GetDefaultView(_cards).DeferRefresh())
-            {
-                _cards.Clear();
-                foreach (var entry in entries)
-                    _cards.Add(entry);
-            }
+            _cards.ReplaceAll(entries);
 
-            _selectedClassNames.TryGetValue(ActiveAssetKind, out var selectedClassName);
+            _selectedClassNames.TryGetValue(assetKind, out var selectedClassName);
             CardList.SelectedItem =
                 _cards.FirstOrDefault(entry => entry.ClassName == selectedClassName)
                 ?? _cards.FirstOrDefault();

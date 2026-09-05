@@ -10,9 +10,8 @@ public class CustomDamageVar<T>(
     string name,
     decimal origValue,
     ValueProp props,
-    Func<T, Creature?, decimal> fn
-) : CustomVar<T>(name, origValue, fn)
-    where T : AbstractModel
+    Func<Creature?, decimal> fn
+) : CustomVar(name, origValue, fn)
 {
     public override void UpdateCardPreview(
         CardModel card,

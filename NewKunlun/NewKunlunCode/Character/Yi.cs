@@ -2,6 +2,7 @@
 using BaseLib.Utils.NodeFactories;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
@@ -19,6 +20,11 @@ public class Yi : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Masculine;
     public override int StartingHp => 63;
     public override int StartingGold => 99;
+
+    private static LocString BanterLocString(string name) =>
+        new LocString("characters", $"NEWKUNLUN-YI.banter.alive.{name}");
+
+    public static LocString BanterNoTalismanDash() => BanterLocString("noTalismanDash");
 
     public override IEnumerable<CardModel> StartingDeck =>
         [

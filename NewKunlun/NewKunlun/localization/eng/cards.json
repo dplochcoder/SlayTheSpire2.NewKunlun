@@ -29,6 +29,8 @@
   "NEWKUNLUN-CONTROLLED_BURN_CARD.title": "Controlled Burn",
   "NEWKUNLUN-CROSS_UP_CARD.description": "Deal {Damage:diff()} damage.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold].\nPull {TalismanDash:cardName} into your hand.",
   "NEWKUNLUN-CROSS_UP_CARD.title": "Cross Up",
+  "NEWKUNLUN-CROUCH_CARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nNext turn, gain {Energy:energyIcons()} and pull {TalismanDash:cardName()} into your hand.",
+  "NEWKUNLUN-CROUCH_CARD.title": "Crouch",
   "NEWKUNLUN-CROWD_CONTROL_CARD.description": "Deal {Damage:diff()} damage to all enemies.\nDraw 1 card for each enemy.",
   "NEWKUNLUN-CROWD_CONTROL_CARD.title": "Crowd Control",
   "NEWKUNLUN-CUT_THROUGH_CARD.description": "Deal {Damage:diff()} damage. Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold].",

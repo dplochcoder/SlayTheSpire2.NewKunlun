@@ -30,10 +30,9 @@ public partial class TakeYouWithMeCard()
                 nameof(Damage),
                 10M,
                 ValueProp.Move,
-                (card, _) =>
+                _ =>
                     BaseDamage.BaseValue
-                    + ExtraDamage.BaseValue
-                        * card.Owner.Creature.GetPowerAmount<InternalDamagePower>()
+                    + ExtraDamage.BaseValue * Owner.Creature.GetPowerAmount<InternalDamagePower>()
             ),
         ];
 

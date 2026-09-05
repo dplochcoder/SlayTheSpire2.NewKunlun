@@ -26,10 +26,10 @@ public partial class ThunderBusterCard()
         [
             new DynamicVar(nameof(TurnCount), 3M),
             new DamageVar(8M, ValueProp.Unpowered),
-            new CustomVar<ThunderBusterCard>(
+            new CustomVar(
                 nameof(HitCount),
                 3M,
-                (card, _) => 3M + card.Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 3M + Owner.Creature.GetPowerAmount<DarkSteelPower>()
             ),
         ];
 

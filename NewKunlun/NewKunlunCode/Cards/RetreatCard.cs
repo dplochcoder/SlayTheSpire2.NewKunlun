@@ -23,7 +23,7 @@ public partial class RetreatCard()
 {
     public override bool GainsBlock => true;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(16M, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(18M, ValueProp.Move)];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 

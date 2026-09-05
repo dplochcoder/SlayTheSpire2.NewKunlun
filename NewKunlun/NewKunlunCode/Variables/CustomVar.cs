@@ -5,20 +5,10 @@ using MegaCrit.Sts2.Core.Models;
 
 namespace NewKunlun.NewKunlunCode.Variables;
 
-public class CustomVar<T>(string name, decimal origValue, Func<T, Creature?, decimal> fn)
+public class CustomVar(string name, decimal origValue, Func<Creature?, decimal> fn)
     : DynamicVar(name, origValue)
-    where T : AbstractModel
 {
-    private new T? _owner;
-
-    public override void SetOwner(AbstractModel owner)
-    {
-        base.SetOwner(owner);
-        _owner = (T)owner;
-    }
-
-    public decimal Calculate(Creature? target = null) =>
-        _owner != null ? fn(_owner, target) : BaseValue;
+    public decimal Calculate(Creature? target = null) => fn(target);
 
     public override void UpdateCardPreview(
         CardModel card,

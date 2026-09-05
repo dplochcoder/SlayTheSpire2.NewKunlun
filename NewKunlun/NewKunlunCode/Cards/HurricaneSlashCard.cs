@@ -26,11 +26,7 @@ public partial class HurricaneSlashCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(6M, ValueProp.Move),
-            new CustomVar<HurricaneSlashCard>(
-                nameof(HitCount),
-                3,
-                (card, _) => card.CalculateHitCount()
-            ),
+            new CustomVar(nameof(HitCount), 3, _ => CalculateHitCount()),
             new TalismanDashVar<HurricaneSlashCard>(card =>
                 TalismanDashCard.IsUpgradedAnywhere(card.Owner)
             ),

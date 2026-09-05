@@ -64,14 +64,16 @@ Attacks:
 
 Skills:
 *(C) Swift Dash 1: Gain 2 Block 3(4) times.
-*(C) Imperfect Parry 1: Gain 13(16) Block. Gain 1 Parry. Take 6(4) Imperfect.
+*(C) Imperfect Parry 1: Gain 13(18) Block. Gain 1 Parry. Take 6 Imperfect.
 *(C) Patch Up 0: Gain 2(5) block. Heal 2(3) HP. Heal 2(3) Internal Damage. Exhaust.
 *(C) Twitch 0: Gain 1 Parry. (Draw 1 card.)
+*(C) Scramble 0:  Take 5 Internal Damage. Draw 2 cards.
 *(C) Overcharge 0: Take 4 Internal Damage. Gain 1(2) Energy.
+*(C) Crouch 2: Gain 10(17) Block. Next turn, gain 1 Energy and pull Talisman Dash into your hand.
 *(C) Patience 1: Gain 6(9) block. Heal 5(7) Internal damage.
-*(C) Disruption 1: Inflict 6(8) Interal Damage and 5(7) Imperfect to all enemies.
-*(C) Sabotage 1: Deal 12(17) Internal Damage. Take 3 Internal Damage.
-*(C) Multi-parry: Gain 8(11) block. Gain 2(3) Parry.
+*(C) Disruption 1: Inflict 5(7) Internal Damage and 5(7) Imperfect to all enemies.
+*(C) Sabotage 1: Inflict 12(17) Internal Damage. Take 3 Internal Damage.
+*(C) Multi-parry 1: Gain 8(11) block. Gain 2(3) Parry.
 *(U) Scrap Heap 1: Choose 1 of 3 random cards in your discard pile to transform into Dark Steel(+). Exhaust.
 *(U) Regroup 0: Heal 6 Internal Damage. Keep your energy this turn. [Exhaust.]
 *(U) Immortal Dash 2: Gain 13(18) Block. Gain 1 Dex.
@@ -82,7 +84,7 @@ Skills:
 *(U) Controlled Burn 0: Choose two cards in your hand to transform into Smolder. Gain 1(2) energy. Add 1 Smolder to your discard pile.
 *(U) Breathing Exercise 1: Heal 14(22) Internal Damage. Draw 1 card.
 *(U) Power Bank 0: Draw 3(4) cards. Place a Void on top of your draw pile.
-*(U) Retreat 2: (Retain) Gain 16 Block. Discard 2 cards. Exhaust 1 card.
+*(U) Retreat 2: (Retain) Gain 18 Block. Discard 2 cards. Exhaust 1 card.
 *(U) Cleanse 1: At the end of your next 2(3) turns, heal 4 Internal Damage and Exhaust 1 card from your hand.
 *(U) Level Up 1(0): Choose a power from your deck and pull it into your hand. It gains Retain this turn. Exhaust.
 *(U) Again 0: Pull Talisman Dash into your hand. It is free to play this turn. [Exhaust.]

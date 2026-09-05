@@ -12,6 +12,8 @@
   "NEWKUNLUN-CLEANSE_POWER.selectionScreenPrompt": "Choose a card to Exhaust.",
   "NEWKUNLUN-CLEANSE_POWER.smartDescription": "At the end of your next {Amount:plural:turn|{Amount} turns}, heal {InternalDamageHeal} [gold]Internal Damage[/gold] and [gold]Exhaust[/gold] 1 card from your hand.",
   "NEWKUNLUN-CLEANSE_POWER.title": "Cleanse",
+  "NEWKUNLUN-CROUCH_POWER.description": "Next turn, pull {TalismanDash:cardName()} into your hand.",
+  "NEWKUNLUN-CROUCH_POWER.title": "Crouch",
   "NEWKUNLUN-DARK_STEEL_POWER.description": "Increases the power of the [gold]Azure Bow[/gold].",
   "NEWKUNLUN-DARK_STEEL_POWER.title": "Dark Steel",
   "NEWKUNLUN-DOWNLOAD_POWER.description": "Every time you [gold]Precise Parry[/gold], gain {Amount} [gold]Strength[/gold].",
