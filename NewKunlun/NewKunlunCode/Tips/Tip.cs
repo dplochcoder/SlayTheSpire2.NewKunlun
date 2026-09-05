@@ -46,6 +46,8 @@ public static class Tip
 
     public static IHoverTip Exhaust() => Keyword(CardKeyword.Exhaust);
 
+    public static IHoverTip Fatal() => Static(StaticHoverTip.Fatal);
+
     public static IHoverTip Imperfect() => Power<ImperfectPower>();
 
     public static IHoverTip InternalDamage() => Power<InternalDamagePower>();
@@ -95,4 +97,6 @@ public static class Tip
 
     private static IHoverTip Power<T>()
         where T : PowerModel => HoverTipFactory.FromPower<T>();
+
+    private static IHoverTip Static(StaticHoverTip tip) => HoverTipFactory.Static(tip);
 }

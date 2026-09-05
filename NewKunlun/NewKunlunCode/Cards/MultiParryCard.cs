@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Multi Parry",
-    description: "Gain {Block:diff()} [gold]Block[/gold]. Gain {Parry:diff()} [gold]Parry[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold].\nGain {Parry:diff()} [gold]Parry[/gold]."
 )]
 public partial class MultiParryCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)

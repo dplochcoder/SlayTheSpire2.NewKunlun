@@ -26,7 +26,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Detonate",
-    description: "{TotalDamage:cond:>0?Deal [green]{TotalDamage}[/green] damage.\n|}Spend {FullControl:cond:<1?up to 3 |}[gold]Qi Charges[/gold] to inflict {TalismanDetonateBaseDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
+    description: "{TotalDamage:cond:>0?Deal [green]{TotalDamage}[/green] unblockable damage.\n|}Spend {FullControl:cond:<1?up to 3 |}[gold]Qi Charges[/gold] to inflict {TalismanDetonateBaseDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.None)
@@ -37,7 +37,7 @@ public partial class TalismanDetonateCard()
             new CustomVar(
                 nameof(FullControl),
                 0,
-                _ => Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
+                _ => Owner.Creature.HasPower<FullControlPower>() is true ? 1 : 0
             ),
             new TalismanDetonateBaseDamageVar(12M),
             new DynamicVar(nameof(Vulnerable), 1M),

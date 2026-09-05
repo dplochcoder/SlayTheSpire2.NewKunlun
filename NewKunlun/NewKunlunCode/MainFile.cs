@@ -3,9 +3,6 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
-using NewKunlun.NewKunlunCode.Localization;
-using SmartFormat;
-using SmartFormat.Core.Extensions;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace NewKunlun.NewKunlunCode;

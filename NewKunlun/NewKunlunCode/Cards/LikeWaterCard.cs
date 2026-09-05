@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -28,10 +29,7 @@ public partial class LikeWaterCard()
             ),
         ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tip.TalismanDetonateCardWithTips(Owner);
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDetonateCard(Owner)];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 

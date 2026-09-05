@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Talisman",
-    description: "{TalismanDetonate:cardName()} can be activated on this enemy. Removed after 2 turns or on detonate.",
+    description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after 2 turns or on detonate.",
     smartDescription: "{TalismanDetonate:cardName()} can be activated on this enemy. Removed after {TurnsRemaining} {TurnsRemaining:plural:turns|turn} or on detonate.",
     remoteDescription: "Another player can activate {TalismanDetonate:cardName()} on this enemy."
 )]

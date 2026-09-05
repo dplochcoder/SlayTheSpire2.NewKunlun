@@ -18,9 +18,14 @@ public class InternalDamageHealVar(string name, decimal damage) : DynamicVar(nam
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks
-    ) =>
-        PreviewValue = IInternalDamageListener.ModifyInternalDamageHealed(
-            card.Owner.Creature,
-            BaseValue
-        );
+    )
+    {
+        if (runGlobalHooks)
+            PreviewValue = IInternalDamageListener.ModifyInternalDamageHealed(
+                card.Owner.Creature,
+                BaseValue
+            );
+        else
+            PreviewValue = BaseValue;
+    }
 }

@@ -15,10 +15,15 @@ public class TalismanDetonateBaseDamageVar(decimal damage)
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks
-    ) =>
-        PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
-            card.CombatState!,
-            BaseValue,
-            card.Owner.Creature
-        );
+    )
+    {
+        if (runGlobalHooks && card.CombatState != null)
+            PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
+                card.CombatState,
+                BaseValue,
+                card.Owner.Creature
+            );
+        else
+            PreviewValue = BaseValue;
+    }
 }

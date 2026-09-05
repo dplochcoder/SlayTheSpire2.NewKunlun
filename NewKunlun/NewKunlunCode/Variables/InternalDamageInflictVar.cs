@@ -18,12 +18,17 @@ public class InternalDamageInflictVar(string name, decimal damage) : DynamicVar(
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks
-    ) =>
-        PreviewValue = IInternalDamageListener.ModifyInternalDamageInflicted(
-            card.CombatState!,
-            ModifyTarget(card, target),
-            BaseValue,
-            card.Owner.Creature,
-            card
-        );
+    )
+    {
+        if (runGlobalHooks && card.CombatState != null)
+            PreviewValue = IInternalDamageListener.ModifyInternalDamageInflicted(
+                card.CombatState,
+                ModifyTarget(card, target),
+                BaseValue,
+                card.Owner.Creature,
+                card
+            );
+        else
+            PreviewValue = BaseValue;
+    }
 }

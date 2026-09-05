@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
+using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
-using SmartFormat;
 using SmartFormat.Core.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Variables;
@@ -25,7 +25,9 @@ public class CardNameVar<TOwner, TCard>(string name, Func<TOwner, bool> upgraded
     }
 
     public string FormatCardName() =>
-        _owner != null && upgraded(_owner) ? $"[green]{Title}+[/green]" : $"[gold]{Title}[/gold]";
+        _owner != null && CustomVar.CanCalculate(_owner) && upgraded(_owner)
+            ? $"[green]{Title}+[/green]"
+            : $"[gold]{Title}[/gold]";
 }
 
 public class TalismanDashVar<TOwner>(Func<TOwner, bool> upgraded)
@@ -39,12 +41,9 @@ public class TalismanDetonateVar<TOwner>(Func<TOwner, bool> upgraded)
 file interface ICardNameVar
 {
     public string FormatCardName();
-
-    static ICardNameVar() => Smart.Default.AddExtensions(new CardNameVarFormatter());
 }
 
-[CustomFormatter]
-file class CardNameVarFormatter : IFormatter
+file class CardNameVarFormatter : IAutoRegisterFormatSpecifier
 {
     public string Name
     {

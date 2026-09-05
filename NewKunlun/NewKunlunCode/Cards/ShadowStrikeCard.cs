@@ -13,7 +13,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Shadow Strike",
-    description: "Deal {Damage:diff()} damage. Hits twice if the enemy is not attacking this turn. Thrice if the enemy is stunned."
+    description: "Deal {Damage:diff()} damage.\nHit again if the enemy is not attacking.\nHit again if the enemy is stunned."
 )]
 public partial class ShadowStrikeCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

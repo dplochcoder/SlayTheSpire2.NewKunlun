@@ -1,7 +1,7 @@
 {
   "NEWKUNLUN-AIR_DASH_POWER.description": "Gain {Amount} [gold]Dexterity[/gold] this turn.",
   "NEWKUNLUN-AIR_DASH_POWER.title": "Air Dash",
-  "NEWKUNLUN-AVARICE_JADE_POWER.description": "Whenever a fatal blow is dealt, gain {Amount} gold.",
+  "NEWKUNLUN-AVARICE_JADE_POWER.description": "Whenever a [gold]Fatal[/gold] blow is dealt, gain {Amount} gold.",
   "NEWKUNLUN-AVARICE_JADE_POWER.title": "Avarice Jade",
   "NEWKUNLUN-AZURE_SAND_POWER.description": "Resource spent to fire the [gold]Azure Bow[/gold]. Spawns the bow into your hand if you do not have it yet.",
   "NEWKUNLUN-AZURE_SAND_POWER.title": "Azure Sand",
@@ -85,7 +85,7 @@
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one {TalismanDetonate:cardName()} to your hand.",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.smartDescription": "Next turn, add one {TalismanDetonate:cardName()} to your hand.",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.title": "Talisman Detonate",
-  "NEWKUNLUN-TALISMAN_POWER.description": "{TalismanDetonate:cardName()} can be activated on this enemy. Removed after 2 turns or on detonate.",
+  "NEWKUNLUN-TALISMAN_POWER.description": "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after 2 turns or on detonate.",
   "NEWKUNLUN-TALISMAN_POWER.remoteDescription": "Another player can activate {TalismanDetonate:cardName()} on this enemy.",
   "NEWKUNLUN-TALISMAN_POWER.smartDescription": "{TalismanDetonate:cardName()} can be activated on this enemy. Removed after {TurnsRemaining} {TurnsRemaining:plural:turns|turn} or on detonate.",
   "NEWKUNLUN-TALISMAN_POWER.title": "Talisman",
