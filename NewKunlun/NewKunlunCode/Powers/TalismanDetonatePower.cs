@@ -14,8 +14,8 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Talisman Detonate",
-    description: "Next turn, add one {TalismanDetonate:cardName} to your hand.",
-    smartDescription: "Next turn, add one {TalismanDetonate:cardName} to your hand."
+    description: "Next turn, add one {TalismanDetonate:cardName()} to your hand.",
+    smartDescription: "Next turn, add one {TalismanDetonate:cardName()} to your hand."
 )]
 public partial class TalismanDetonatePower : NewKunlunPower
 {

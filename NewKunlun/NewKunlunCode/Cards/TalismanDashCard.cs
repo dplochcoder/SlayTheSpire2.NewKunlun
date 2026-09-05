@@ -20,7 +20,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Dash",
-    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Inflict [gold]Talisman[/gold]. Next turn, add a {TalismanDetonate:cardName} into your hand."
+    description: "Deal {Damage} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. Inflict [gold]Talisman[/gold]. Next turn, add a {TalismanDetonate:cardName()} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)

@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Short Circuit",
-    description: "Deal {Damage:diff()} damage. If the target has [gold]Talisman[/gold], play {TalismanDetonate:cardName}."
+    description: "Deal {Damage:diff()} damage. If the target has [gold]Talisman[/gold], play {TalismanDetonate:cardName()}."
 )]
 public partial class ShortCircuitCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

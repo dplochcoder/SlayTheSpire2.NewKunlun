@@ -8,7 +8,7 @@ namespace NewKunlun.NewKunlunCode.Variables;
 public class CustomVar(string name, decimal origValue, Func<Creature?, decimal> fn)
     : DynamicVar(name, origValue)
 {
-    public decimal Calculate(Creature? target = null) => fn(target);
+    public decimal Calculate(Creature? target = null) => _owner != null ? fn(target) : BaseValue;
 
     public override void UpdateCardPreview(
         CardModel card,

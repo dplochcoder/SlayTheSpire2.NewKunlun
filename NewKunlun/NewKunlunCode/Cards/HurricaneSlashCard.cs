@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Hurricane Slash",
-    description: "Deal {Damage:diff()} damage {HitCount:diff()} times to all enemies. Deals damage an additional time for each time you played {TalismanDash:cardName} this combat."
+    description: "Deal {Damage:diff()} damage {HitCount:diff()} times to all enemies. Deals damage an additional time for each time you played {TalismanDash:cardName()} this combat."
 )]
 public partial class HurricaneSlashCard()
     : NewKunlunCard(3, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)

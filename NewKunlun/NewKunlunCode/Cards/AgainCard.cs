@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Again",
-    description: "Pull {TalismanDash:cardName} into your hand. It is free to play this turn."
+    description: "Pull {TalismanDash:cardName()} into your hand. It is free to play this turn."
 )]
 public partial class AgainCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

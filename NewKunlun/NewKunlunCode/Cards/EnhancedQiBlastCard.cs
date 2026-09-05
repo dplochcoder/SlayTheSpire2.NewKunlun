@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Enhanced Qi Blast",
-    description: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName}, place 1 {IfUpgraded:show:[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
+    description: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName()}, place 1 {IfUpgraded:show:[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
 )]
 public partial class EnhancedQiBlastCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

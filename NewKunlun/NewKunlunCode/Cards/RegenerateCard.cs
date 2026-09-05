@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Regenerate",
-    description: "Whenever you play {TalismanDetonate:cardName}, gain 1 [gold]Qi Charge[/gold]."
+    description: "Whenever you play {TalismanDetonate:cardName()}, gain 1 [gold]Qi Charge[/gold]."
 )]
 public partial class RegenerateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

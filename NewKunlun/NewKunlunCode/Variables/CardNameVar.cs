@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
+using SmartFormat;
 using SmartFormat.Core.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Variables;
@@ -38,6 +39,8 @@ public class TalismanDetonateVar<TOwner>(Func<TOwner, bool> upgraded)
 file interface ICardNameVar
 {
     public string FormatCardName();
+
+    static ICardNameVar() => Smart.Default.AddExtensions(new CardNameVarFormatter());
 }
 
 [CustomFormatter]

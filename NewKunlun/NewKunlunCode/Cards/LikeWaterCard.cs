@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Like Water",
-    description: "{TalismanDetonate:cardName} costs 1 less {Energy:energyIcons()}."
+    description: "{TalismanDetonate:cardName()} costs 1 less {Energy:energyIcons()}."
 )]
 public partial class LikeWaterCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

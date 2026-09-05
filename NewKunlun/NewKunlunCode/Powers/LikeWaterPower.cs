@@ -10,7 +10,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Like Water",
-    description: "{TalismanDetonate:cardName} costs {Amount} less energy."
+    description: "{TalismanDetonate:cardName()} costs {Amount} less energy."
 )]
 public partial class LikeWaterPower : NewKunlunPower
 {

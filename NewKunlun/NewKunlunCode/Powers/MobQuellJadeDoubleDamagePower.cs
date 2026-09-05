@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Mob Quell Jade",
-    description: "Your next {Amount} uses of {TalismanDetonate:cardName} deal double damage."
+    description: "Your next {Amount} uses of {TalismanDetonate:cardName()} deal double damage."
 )]
 public partial class MobQuellJadeDoubleDamagePower : NewKunlunPower, ITalismanDetonateListener
 {

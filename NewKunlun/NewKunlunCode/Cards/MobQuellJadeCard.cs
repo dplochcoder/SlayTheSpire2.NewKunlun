@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Mob Quell Jade",
-    description: "{TalismanDash:cardName} targets all enemies. Your next {IfUpgraded:show:2 {TalismanDetonate:cardName}s deal|{TalismanDetonate:cardName} deals} double damage."
+    description: "{TalismanDash:cardName()} targets all enemies. Your next {IfUpgraded:show:2 {TalismanDetonate:cardName()}s deal|{TalismanDetonate:cardName()} deals} double damage."
 )]
 public partial class MobQuellJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)

@@ -23,19 +23,10 @@ public partial class MainFile : Node
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        Smart.Default.AddExtensions([
-            .. assembly
-                .GetTypes()
-                .Where(t => t.GetCustomAttribute<CustomFormatterAttribute>() != null)
-                .Select(Activator.CreateInstance)
-                .OfType<IFormatter>(),
-        ]);
-
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);
 
         Harmony harmony = new(ModId);
-
         harmony.PatchAll(assembly);
     }
 }

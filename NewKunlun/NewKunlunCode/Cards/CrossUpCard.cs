@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cross Up",
-    description: "Deal {Damage:diff()} damage.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold].\nPull {TalismanDash:cardName} into your hand."
+    description: "Deal {Damage:diff()} damage.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold].\nPull {TalismanDash:cardName()} into your hand."
 )]
 public partial class CrossUpCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)

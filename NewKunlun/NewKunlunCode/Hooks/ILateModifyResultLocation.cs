@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -17,20 +18,14 @@ public interface ILateModifyResultLocation
         [HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> src)
         {
-            var earlyCall = AccessTools.Method(typeof(CardModel), "GetResultLocationForCardPlay");
-
-            var instructions = src.ToList();
-            var earlyCallIndex = instructions.FindIndex(i => i.Calls(earlyCall));
-            if (earlyCallIndex <= 0 || earlyCallIndex >= instructions.Count - 1)
-                throw new InvalidOperationException(
-                    "Could not find GetResultLocationForCardPlay() call."
-                );
-
-            var cardLocalIndex = instructions[earlyCallIndex - 1].LocalIndex();
-            var resultLocationLocalIndex = instructions[earlyCallIndex + 1].LocalIndex();
-            if (cardLocalIndex < 0 || resultLocationLocalIndex < 0)
-                throw new InvalidOperationException("Could not find required locals.");
-
+            var stateMachineType = typeof(CardModel)
+                .GetMethod(nameof(CardModel.OnPlayWrapper))
+                ?.GetCustomAttribute<AsyncStateMachineAttribute>()
+                ?.StateMachineType;
+            var getResultLocationMethod = AccessTools.Method(
+                typeof(CardModel),
+                "GetResultLocationForCardPlay"
+            );
             var endMethod = AccessTools.Method(
                 typeof(CombatManager),
                 nameof(CombatManager.EndCardOrPotionEffect)
@@ -39,34 +34,53 @@ public interface ILateModifyResultLocation
                 typeof(CombatManager),
                 nameof(CombatManager.Instance)
             );
+
+            var foundEarlyCall = false;
+            var readFieldName = false;
+            var resultLocationFieldName = "";
             var foundEndMethod = false;
             var injectedCall = false;
-            foreach (var instruction in instructions)
+            foreach (var instruction in src)
             {
-                if (injectedCall)
-                    yield return instruction;
-                else if (!foundEndMethod && instruction.Calls(endMethod))
+                if (!foundEarlyCall)
                 {
-                    foundEndMethod = true;
-                    continue;
+                    if (instruction.Calls(getResultLocationMethod))
+                        foundEarlyCall = true;
                 }
-                else if (foundEndMethod && instruction.Calls(instanceGetter))
+                else if (!readFieldName)
                 {
-                    var loadCard = CodeInstruction.LoadLocal(cardLocalIndex);
-                    instruction.MoveLabelsTo(loadCard);
-
-                    yield return loadCard;
-                    yield return CodeInstruction.LoadLocal(resultLocationLocalIndex);
-                    yield return CodeInstruction.Call(
-                        (CardModel self, CardLocation resultLocation) =>
-                            MaybeLateModifyResultLocation(self, resultLocation)
-                    );
-                    yield return CodeInstruction.StoreLocal(resultLocationLocalIndex);
-
-                    injectedCall = true;
+                    resultLocationFieldName = (string)instruction.operand;
+                    readFieldName = true;
                 }
-                else
-                    yield return instruction;
+                else if (!foundEndMethod)
+                {
+                    if (instruction.Calls(endMethod))
+                        foundEndMethod = true;
+                }
+                else if (!injectedCall)
+                {
+                    if (instruction.Calls(instanceGetter))
+                    {
+                        yield return CodeInstruction.LoadArgument(0); // this
+                        yield return CodeInstruction.LoadLocal(1); // cardModel
+                        yield return CodeInstruction.LoadField(
+                            stateMachineType,
+                            resultLocationFieldName
+                        );
+                        yield return CodeInstruction.Call(
+                            (CardModel self, CardLocation resultLocation) =>
+                                MaybeLateModifyResultLocation(self, resultLocation)
+                        );
+                        yield return CodeInstruction.StoreField(
+                            stateMachineType,
+                            resultLocationFieldName
+                        );
+
+                        injectedCall = true;
+                    }
+                }
+
+                yield return instruction;
             }
 
             if (!injectedCall)

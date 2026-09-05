@@ -25,7 +25,7 @@ Attacks:
  *Thunder Buster 0 -> At the end of your next 3 turns, deal 8 damage 3 times to all enemies. Deals damage an additional time each turn for every Dark Steel.
  
 Skills:
- *Talisman Detonate 1 -> Ethereal. Spend up to 3 Qi Charges to inflict 10(15) unblockable damage per charge, and 1(2) Vulnerable, to each enemy afflicted with [gold]Talisman[/gold]. Exhaust.
+ *Talisman Detonate 1 -> Ethereal. Spend up to 3 Qi Charges to inflict 12(16) unblockable damage per charge, and 1(2) Vulnerable, to each enemy afflicted with [gold]Talisman[/gold]. Exhaust.
  *Azure Sand 1 -> Gain 1 Azure Sand. (Draw 1 card.) Exhaust.
 
 Powers:

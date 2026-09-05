@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Rhythm Chop",
-    description: "Whenever you have 3 or more [gold]Qi Charges[/gold] at the start of your turn, pull {TalismanDash:cardName} into your hand."
+    description: "Whenever you have 3 or more [gold]Qi Charges[/gold] at the start of your turn, pull {TalismanDash:cardName()} into your hand."
 )]
 public partial class RhythmChopPower : NewKunlunPower
 {

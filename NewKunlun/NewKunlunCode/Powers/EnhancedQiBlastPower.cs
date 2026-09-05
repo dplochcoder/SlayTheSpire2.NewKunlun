@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 [PowerLocalization(
     title: "Enhanced Qi Blast",
     description: "",
-    smartDescription: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName}, place 1 {Upgraded:cond:>0?[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
+    smartDescription: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName()}, place 1 {Upgraded:cond:>0?[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
 )]
 public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateListener
 {

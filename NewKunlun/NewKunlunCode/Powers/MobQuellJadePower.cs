@@ -11,7 +11,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Mob Quell Jade",
-    description: "{TalismanDash:cardName} targets all enemies."
+    description: "{TalismanDash:cardName()} targets all enemies."
 )]
 public partial class MobQuellJadePower : NewKunlunPower, ITalismanDetonateListener
 {

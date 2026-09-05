@@ -19,7 +19,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Full Control",
-    description: "{TalismanDetonate:cardName} deals {Amount} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, and can spend any number."
+    description: "{TalismanDetonate:cardName()} deals {Amount} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, and can spend any number."
 )]
 public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListener
 {
