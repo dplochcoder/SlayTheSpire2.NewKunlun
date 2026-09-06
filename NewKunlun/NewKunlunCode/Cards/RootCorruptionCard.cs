@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Root Corruption",
-    description: "At the start of your turn:\nGain {1:energyIcons()}.\ndraw {CardDraw:diff()} {CardDraw:cond:>1?cards|card}.\nTransform 1 card in your hand into [gold]Malfunction[/gold] and discard it."
+    description: "At the start of your turn:\nGain {1:energyIcons()}.\nDraw {CardDraw:diff()} {CardDraw:cond:>1?cards|card}.\nTransform 1 card in your hand into [gold]Malfunction[/gold] and discard it."
 )]
 public partial class RootCorruptionCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)

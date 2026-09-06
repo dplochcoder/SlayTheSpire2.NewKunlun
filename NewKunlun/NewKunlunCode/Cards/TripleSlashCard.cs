@@ -30,14 +30,14 @@ public partial class TripleSlashCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
-            new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
             new CustomDamageVar<TripleSlashCard>(
                 nameof(Damage),
-                5M,
+                7M,
                 ValueProp.Move,
                 _ => CalculateBaseDamage()
             ),
+            new DamageVar(nameof(SmallHitDamage), 7M, ValueProp.Move),
+            new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
@@ -53,9 +53,9 @@ public partial class TripleSlashCard()
 
     protected override void OnUpgrade()
     {
+        Damage.UpgradeValueTo(9M);
         SmallHitDamage.UpgradeValueTo(9M);
         BigHitDamage.UpgradeValueTo(18M);
-        Damage.UpgradeValueTo(8M);
     }
 
     protected override void AfterCloned() => _playsThisTurn = 0;
