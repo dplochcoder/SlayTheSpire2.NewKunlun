@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -20,14 +21,14 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Dash",
-    description: "{MobQuellJade:cond:>0?Targets all enemies.\n}Deal {Damage} damage.{IfUpgraded:show: [gold]Boost[/gold] {Boost:diff()}.|}\nInflict {Weak:diff()} [gold]Weak[/gold].\n[gold]Mark[/gold]. Next turn, add {TalismanDetonate:cardName()} into your hand."
+    description: "{MobQuellJade:cond:>0?Targets all enemies.\n|}[gold]Lock[/gold] 1. Deal {Damage:diff()} damage.\n{IfUpgraded:show:[gold]Boost[/gold] {Boost:diff()}.\n|}Inflict {Weak:diff()} [gold]Weak[/gold].\n[gold]Mark[/gold]. Next turn, add {TalismanDetonate:cardName()} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(6M, ValueProp.Move),
+            new DamageVar(1M, ValueProp.Move),
             new DynamicVar(nameof(Weak), 1M),
             new DynamicVar(nameof(Boost), 0M),
             new CardNameVar<TalismanDetonateCard>(() => IsUpgraded),
@@ -45,11 +46,20 @@ public partial class TalismanDashCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
+            Tip.Lock(),
+            Tip.QiCharge(),
             Tip.Weak(),
             .. BoostTip(),
             Tip.Mark(),
             Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded),
         ];
+
+    protected override bool IsPlayable =>
+        QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked) >= 1;
+
+    protected override bool ShouldGlowRedInternal => !IsPlayable;
+
+    protected override bool ShouldGlowGoldInternal => IsPlayable;
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null
@@ -59,13 +69,17 @@ public partial class TalismanDashCard()
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(3M);
+        Damage.UpgradeValueTo(6M);
         Weak.UpgradeValueTo(2M);
         Boost.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        var locked = QiChargeCmd.Lock(Owner.Creature, 1);
+        if (!locked)
+            return;
+
         var attack = DamageCmd.Attack(Damage.BaseValue).FromCard(this, cardPlay);
         attack =
             TargetType == TargetType.AllEnemies

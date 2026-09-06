@@ -13,7 +13,6 @@ using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -98,8 +97,12 @@ public partial class TripleSlashCard()
         var multiplier = 1;
         if (
             cardSource == this
+            && dealer != null
             && IsBigHitTurn
-            && (_justConsumedQiCharge || dealer?.GetPowerAmount<QiChargePower>() > 0)
+            && (
+                _justConsumedQiCharge
+                || QiChargeCmd.GetAvailable(dealer, QiChargeCmd.Locked.ExcludeLocked) > 0
+            )
         )
             multiplier = 2;
 
@@ -114,6 +117,7 @@ public partial class TripleSlashCard()
                 choiceContext,
                 Owner.Creature,
                 1,
+                QiChargeCmd.Locked.ExcludeLocked,
                 Owner.Creature,
                 this
             );

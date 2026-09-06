@@ -44,6 +44,7 @@ public partial class QiBurstCard()
             choiceContext,
             Owner.Creature,
             int.MaxValue,
+            QiChargeCmd.Locked.ExcludeLocked,
             Owner.Creature,
             this
         );

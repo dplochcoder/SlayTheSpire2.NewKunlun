@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Cards;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
@@ -39,7 +40,7 @@ public partial class RhythmChopPower : NewKunlunPower
         ICombatState combatState
     )
     {
-        if (player.Creature.GetPowerAmount<QiChargePower>() < 3)
+        if (QiChargeCmd.GetAvailable(player.Creature, QiChargeCmd.Locked.IncludeLocked) < 3)
             return;
 
         var card = player.FindCard<TalismanDashCard>([

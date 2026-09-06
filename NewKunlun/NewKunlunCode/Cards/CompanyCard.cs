@@ -27,7 +27,8 @@ public partial class CompanyCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Reload()];
 
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+    public override CardMultiplayerConstraint MultiplayerConstraint =>
+        CardMultiplayerConstraint.MultiplayerOnly;
 
     protected override void OnUpgrade() => ReloadCount.UpgradeValueTo(2M);
 

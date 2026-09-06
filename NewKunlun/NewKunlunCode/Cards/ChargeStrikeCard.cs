@@ -9,7 +9,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -32,7 +31,7 @@ public partial class ChargeStrikeCard()
                 8M,
                 ValueProp.Move,
                 _ =>
-                    Owner.Creature.GetPowerAmount<QiChargePower>() > 0
+                    QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.ExcludeLocked) > 0
                         ? ChargeDamage.BaseValue
                         : Damage.BaseValue
             ),
@@ -54,6 +53,7 @@ public partial class ChargeStrikeCard()
             choiceContext,
             Owner.Creature,
             1,
+            QiChargeCmd.Locked.ExcludeLocked,
             Owner.Creature,
             this
         );

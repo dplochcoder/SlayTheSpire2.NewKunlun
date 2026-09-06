@@ -56,7 +56,7 @@
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.description": "INTERNAL",
   "NEWKUNLUN-QI_CHARGE_CAPACITY_POWER.title": "Qi Charge Capacity",
   "NEWKUNLUN-QI_CHARGE_POWER.description": "Energy used to accelerate damage.\nConsumed by cards with the [gold]Discharge[/gold] keyword.",
-  "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "",
+  "NEWKUNLUN-QI_CHARGE_POWER.smartDescription": "Energy used to accelerate damage.\nConsumed by cards with the [gold]Discharge[/gold] keyword.{LockedCount:cond:>0?\n{LockedCount} {LockedCount:plural:charge is|charges are} [gold]Locked[/gold] {LockedTurnsRemaining:cond:>1?for 2 turns|until next turn}.|}",
   "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges",
   "NEWKUNLUN-QI_SWIPE_JADE_POWER.description": "Whenever you successfully [gold]Parry[/gold], gain {Amount:plural:an extra [gold]Qi Charge[/gold]|{Amount} extra [gold]Qi Charges[/gold]}.",
   "NEWKUNLUN-QI_SWIPE_JADE_POWER.title": "Qi Swipe Jade",

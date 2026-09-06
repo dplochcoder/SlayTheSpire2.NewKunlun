@@ -47,6 +47,7 @@ public partial class LungeCard()
             choiceContext,
             Owner.Creature,
             1,
+            QiChargeCmd.Locked.ExcludeLocked,
             Owner.Creature,
             this
         );

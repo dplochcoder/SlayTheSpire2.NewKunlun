@@ -1,4 +1,5 @@
-﻿using BaseLib.Utils;
+﻿using System.Buffers;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -27,7 +28,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Detonate",
-    description: "Requires 1 [gold]Qi Charge[/gold]. [gold]Discharge[/gold] {FullControl:cond:>0?any|3}.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold] on [gold]Marked[/gold] enemies.\n[gold]Detonate[/gold] {TalismanDetonateBaseDamage:diff()} per [gold]Discharge[/gold]{TotalDamage:cond:>0? ({TotalDamage} damage)|}."
+    description: "[gold]Discharge[/gold] {FullControl:cond:>0?any|3}.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold] on [gold]Marked[/gold] enemies.\n[gold]Detonate[/gold] {TalismanDetonateBaseDamage:diff()} per [gold]Discharge[/gold]{TotalDamage:cond:>0? ({TotalDamage} damage)|}."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.None)
@@ -60,7 +61,7 @@ public partial class TalismanDetonateCard()
             Owner.Creature
         );
 
-        var charges = Owner.Creature.GetPowerAmount<QiChargePower>();
+        var charges = QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked);
         return Math.Min(charges, 3) * modifiedDamage;
     }
 
@@ -76,7 +77,8 @@ public partial class TalismanDetonateCard()
     private bool AnyMarked() =>
         CombatState?.Enemies.Any(e => e.IsHittable && e.HasTalismanFor(Owner)) ?? false;
 
-    protected override bool IsPlayable => Owner.Creature.GetPowerAmount<QiChargePower>() > 0;
+    protected override bool IsPlayable =>
+        QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked) > 0;
 
     protected override bool ShouldGlowGoldInternal => IsPlayable && AnyMarked();
 
@@ -94,7 +96,7 @@ public partial class TalismanDetonateCard()
         ICombatState combatState
     )
     {
-        if (player.Creature.GetPowerAmount<QiChargePower>() == 0)
+        if (QiChargeCmd.GetAvailable(player.Creature, QiChargeCmd.Locked.IncludeLocked) <= 0)
             return;
 
         var card = player.FindCard<TalismanDetonateCard>([
@@ -116,7 +118,7 @@ public partial class TalismanDetonateCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var player = cardPlay.Player.Creature;
-        if (Owner.Creature.GetPowerAmount<QiChargePower>() <= 0)
+        if (QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked) <= 0)
             return;
 
         IReadOnlyList<Creature> eligibleCreatures =
@@ -136,6 +138,7 @@ public partial class TalismanDetonateCard()
                 choiceContext,
                 Owner.Creature,
                 3,
+                QiChargeCmd.Locked.IncludeLocked,
                 Owner.Creature,
                 this
             );

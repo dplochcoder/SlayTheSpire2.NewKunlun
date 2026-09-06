@@ -19,6 +19,7 @@ public partial class CropperControl : UserControl
     private int _sourceWidth;
     private int _sourceHeight;
     private double _frameRate = 30;
+    private bool _hasViewTransform;
 
     public CropperControl()
     {
@@ -63,51 +64,27 @@ public partial class CropperControl : UserControl
         if (!HasSource)
             throw new InvalidOperationException("No gallery content is selected.");
 
-        BitmapSource source;
         if (_isVideo)
-        {
             SourceVideo.Position = TimeSpan.FromSeconds(VideoSlider.Value);
-            SourceVideo.Width = _sourceWidth;
-            SourceVideo.Height = _sourceHeight;
-            SourceVideo.Measure(new Size(_sourceWidth, _sourceHeight));
-            SourceVideo.Arrange(new Rect(0, 0, _sourceWidth, _sourceHeight));
-            SourceVideo.UpdateLayout();
-            var videoFrame = new RenderTargetBitmap(
-                _sourceWidth,
-                _sourceHeight,
-                96,
-                96,
-                PixelFormats.Pbgra32
-            );
-            videoFrame.Render(SourceVideo);
-            videoFrame.Freeze();
-            source = videoFrame;
-        }
-        else
-        {
-            source = _sourceBitmap!;
-        }
 
-        var frameWidth = CropFrame.ActualWidth;
-        var frameHeight = CropFrame.ActualHeight;
-        var frameLeft = (Viewport.ActualWidth - frameWidth) / 2;
-        var frameTop = (Viewport.ActualHeight - frameHeight) / 2;
-        var mediaLeft = Viewport.ActualWidth / 2 + _pan.X - _sourceWidth * _zoom / 2;
-        var mediaTop = Viewport.ActualHeight / 2 + _pan.Y - _sourceHeight * _zoom / 2;
-        var targetScaleX = width / frameWidth;
-        var targetScaleY = height / frameHeight;
-        var destination = new Rect(
-            (mediaLeft - frameLeft) * targetScaleX,
-            (mediaTop - frameTop) * targetScaleY,
-            _sourceWidth * _zoom * targetScaleX,
-            _sourceHeight * _zoom * targetScaleY
-        );
+        // Render the same visual tree shown beneath the crop frame so saving uses WPF's
+        // exact layout and transforms instead of a separate coordinate calculation.
+        Viewport.UpdateLayout();
+        var frameBounds = CropFrame
+            .TransformToAncestor(Viewport)
+            .TransformBounds(new Rect(CropFrame.RenderSize));
+        var cropBrush = new VisualBrush(MediaCanvas)
+        {
+            Viewbox = frameBounds,
+            ViewboxUnits = BrushMappingMode.Absolute,
+            Stretch = Stretch.Fill,
+        };
 
         var drawing = new DrawingVisual();
         using (var context = drawing.RenderOpen())
         {
             context.DrawRectangle(Brushes.Black, null, new Rect(0, 0, width, height));
-            context.DrawImage(source, destination);
+            context.DrawRectangle(cropBrush, null, new Rect(0, 0, width, height));
         }
 
         var result = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
@@ -125,7 +102,7 @@ public partial class CropperControl : UserControl
         _aspectRatio = aspectRatio;
         ResizeCropFrame(Viewport.ActualWidth, Viewport.ActualHeight);
         if (HasSource)
-            InitializeMediaLayout();
+            UpdateMediaTransform();
     }
 
     private static BitmapImage LoadBitmap(string path)
@@ -152,17 +129,19 @@ public partial class CropperControl : UserControl
         _sourceBitmap = null;
         _sourceWidth = 0;
         _sourceHeight = 0;
-        _zoom = 1;
-        _pan = default;
     }
 
     private void InitializeMediaLayout()
     {
         EmptyMessage.Visibility = Visibility.Collapsed;
-        var frameWidth = Math.Max(1, CropFrame.ActualWidth);
-        var frameHeight = Math.Max(1, CropFrame.ActualHeight);
-        _zoom = Math.Max(frameWidth / _sourceWidth, frameHeight / _sourceHeight);
-        _pan = default;
+        if (!_hasViewTransform)
+        {
+            var frameWidth = Math.Max(1, CropFrame.ActualWidth);
+            var frameHeight = Math.Max(1, CropFrame.ActualHeight);
+            _zoom = Math.Max(frameWidth / _sourceWidth, frameHeight / _sourceHeight);
+            _pan = default;
+            _hasViewTransform = true;
+        }
         UpdateMediaTransform();
         Focus();
     }
@@ -209,7 +188,23 @@ public partial class CropperControl : UserControl
     {
         if (!HasSource)
             return;
+
+        var element = _isVideo ? (FrameworkElement)SourceVideo : SourceImage;
+        var cursor = e.GetPosition(Viewport);
+        var viewportTransform = element.TransformToAncestor(Viewport);
+        var inverseTransform = viewportTransform.Inverse;
+        if (inverseTransform is null)
+            return;
+
+        // Remember the exact image-space point beneath the cursor. After changing scale,
+        // compensate with pan so that point remains at the same viewport coordinate.
+        var imagePoint = inverseTransform.Transform(cursor);
         _zoom = Math.Clamp(_zoom * (e.Delta > 0 ? 1.1 : 1 / 1.1), 0.02, 40);
+        UpdateMediaTransform();
+        Viewport.UpdateLayout();
+
+        var movedPoint = element.TransformToAncestor(Viewport).Transform(imagePoint);
+        _pan += cursor - movedPoint;
         UpdateMediaTransform();
         e.Handled = true;
     }

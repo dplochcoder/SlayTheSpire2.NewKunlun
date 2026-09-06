@@ -29,8 +29,15 @@ public static class CustomStaticHoverTip
 
     [CustomEnum]
     [StaticHoverTipLocalization(
+        title: "Lock",
+        description: "Reserve a [gold]Qi Charge[/gold] to be [gold]Discharged[/gold] on [gold]Detonation[/gold].\nForfeit the [gold]Qi Charge[/gold] if you do not [gold]Detonate[/gold] next turn."
+    )]
+    public static StaticHoverTip Lock;
+
+    [CustomEnum]
+    [StaticHoverTipLocalization(
         title: "Mark",
-        description: "Mark the enemy with your [gold]Talisman[/gold]\n[gold]Talisman[/gold] disappears after 2 turns, when you [gold]Mark[/gold] again, or when you [gold]Detonate[/gold]."
+        description: "Mark the enemy with your [gold]Talisman[/gold].\n[gold]Talisman[/gold] disappears after 2 turns, when you [gold]Mark[/gold] again, or when you [gold]Detonate[/gold]."
     )]
     public static StaticHoverTip Mark;
 

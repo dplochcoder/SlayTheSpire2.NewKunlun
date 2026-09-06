@@ -30,7 +30,7 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
         TalismanDetonateCard cardSource
     )
     {
-        var available = player.Creature.GetPowerAmount<QiChargePower>();
+        var available = QiChargeCmd.GetAvailable(player.Creature, QiChargeCmd.Locked.IncludeLocked);
         if (available <= 1)
             return available;
 
@@ -51,6 +51,7 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
             choiceContext,
             player.Creature,
             toSpend,
+            QiChargeCmd.Locked.IncludeLocked,
             player.Creature,
             cardSource
         );

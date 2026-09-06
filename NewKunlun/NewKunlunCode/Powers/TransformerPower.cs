@@ -30,7 +30,9 @@ public class TransformerPower : NewKunlunPower
         )
             return;
 
-        var space = QiChargeCmd.GetCapacity(Owner) - Owner.GetPowerAmount<QiChargePower>();
+        var space =
+            QiChargeCmd.GetCapacity(Owner)
+            - QiChargeCmd.GetAvailable(Owner, QiChargeCmd.Locked.IncludeLocked);
         var energy = player.PlayerCombatState.Energy;
         var toConsume = Math.Min(energy, space + (Amount - 1) / Amount);
         if (toConsume <= 0)

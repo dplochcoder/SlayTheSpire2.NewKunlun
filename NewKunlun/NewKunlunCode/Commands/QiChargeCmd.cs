@@ -42,10 +42,23 @@ public static class QiChargeCmd
             target.GetPower<QiChargePower>()?.Flash();
     }
 
+    public enum Locked
+    {
+        IncludeLocked,
+        ExcludeLocked,
+    }
+
+    public static int GetAvailable(Creature target, Locked locked) =>
+        target.GetPower<QiChargePower>()?.Available(locked) ?? 0;
+
+    public static bool Lock(Creature target, int toLock) =>
+        target.GetPower<QiChargePower>()?.Lock(toLock) ?? false;
+
     public static async Task<int> Discharge(
         PlayerChoiceContext choiceContext,
         Creature target,
         int maximum,
+        Locked locked,
         Creature? applier,
         CardModel? cardSource
     )
@@ -55,12 +68,7 @@ public static class QiChargeCmd
         if (target.GetPower<QiChargePower>() is not { } qiChargePower)
             return 0;
 
-        var toConsume = Math.Min(maximum, qiChargePower.Amount);
-        if (toConsume <= 0)
-            return 0;
-
-        await PowerCmd.ModifyAmount(choiceContext, qiChargePower, -toConsume, applier, cardSource);
-        return toConsume;
+        return await qiChargePower.Discharge(choiceContext, maximum, locked, cardSource);
     }
 
     public static async Task IncreaseQiChargeCapacity(

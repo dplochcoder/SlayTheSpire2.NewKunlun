@@ -50,6 +50,8 @@ public static class Tip
 
     public static IHoverTip InternalDamage() => Power<InternalDamagePower>();
 
+    public static IHoverTip Lock() => Static(CustomStaticHoverTip.Lock);
+
     public static IHoverTip Malfunction() => Card<MalfunctionCard>();
 
     public static IHoverTip Mark() => Static(CustomStaticHoverTip.Mark);
