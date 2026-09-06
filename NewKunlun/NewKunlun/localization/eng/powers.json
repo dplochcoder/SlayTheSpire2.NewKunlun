@@ -33,8 +33,6 @@
   "NEWKUNLUN-INTERNAL_DAMAGE_POWER.title": "Internal Damage",
   "NEWKUNLUN-IRON_SKIN_JADE_POWER.description": "When receiving unblocked damage, convert up to {Amount} to [gold]Internal Damage[/gold].",
   "NEWKUNLUN-IRON_SKIN_JADE_POWER.title": "Iron Skin Jade",
-  "NEWKUNLUN-LIKE_WATER_POWER.description": "{TalismanDetonate:cardName()} costs {Amount} less energy.",
-  "NEWKUNLUN-LIKE_WATER_POWER.title": "Like Water",
   "NEWKUNLUN-MENDING_POWER.description": "Whenever you would take [gold]Internal Damage[/gold], take {Amount} less.",
   "NEWKUNLUN-MENDING_POWER.title": "Mending",
   "NEWKUNLUN-MOB_QUELL_JADE_DAMAGE_MULTIPLIER_POWER.description": "Your next {Amount:plural:{Amount}|} [gold]Detonate[/gold]{Amount:plural:s|} deal 50% more damage.",
@@ -97,5 +95,9 @@
   "NEWKUNLUN-THUNDER_BUSTER_POWER.smartDescription": "At the end of your next {Amount:plural:turn|{Amount} turns}, deal {Damage} {HitCount} times to all enemies.",
   "NEWKUNLUN-THUNDER_BUSTER_POWER.title": "Thunder Buster",
   "NEWKUNLUN-TIANHUO_POWER.description": "Foo",
-  "NEWKUNLUN-TIANHUO_POWER.title": "Tianhuo Virus"
+  "NEWKUNLUN-TIANHUO_POWER.title": "Tianhuo Virus",
+  "NEWKUNLUN-TRANSFORMER_POWER.description": "At the end of your turn, transform leftover {1:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}.",
+  "NEWKUNLUN-TRANSFORMER_POWER.title": "Transformer",
+  "NEWKUNLUN-WATERFLOW_POWER.description": "{TalismanDetonate:cardName()} costs {Amount} less energy.",
+  "NEWKUNLUN-WATERFLOW_POWER.title": "Waterflow"
 }

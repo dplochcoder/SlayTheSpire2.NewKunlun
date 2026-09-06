@@ -36,7 +36,11 @@ public partial class SparCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.Strength(), Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(12M);
+    protected override void OnUpgrade()
+    {
+        Damage.UpgradeValueTo(11M);
+        Block.UpgradeValueTo(5M);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

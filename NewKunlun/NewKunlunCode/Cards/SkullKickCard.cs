@@ -23,7 +23,7 @@ public partial class SkullKickCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(12M, ValueProp.Move),
+            new DamageVar(16M, ValueProp.Move),
             new DynamicVar(nameof(Weak), 1M),
             new DynamicVar(nameof(StrengthLoss), 1M),
         ];
@@ -35,7 +35,6 @@ public partial class SkullKickCard()
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(16M);
         Weak.UpgradeValueTo(2M);
         StrengthLoss.UpgradeValueTo(2M);
     }

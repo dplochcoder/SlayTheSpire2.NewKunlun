@@ -1,6 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Powers;
@@ -9,7 +10,10 @@ namespace NewKunlun.NewKunlunCode.Commands;
 
 public static class QiChargeCmd
 {
-    private const int DefaultMaxCharges = 3;
+    private const int DefaultMaxCharges = 5;
+
+    public static int GetCapacity(Creature target) =>
+        target.GetPower<QiChargeCapacityPower>()?.Amount ?? DefaultMaxCharges;
 
     public static async Task GainQiCharges(
         PlayerChoiceContext choiceContext,
@@ -22,22 +26,11 @@ public static class QiChargeCmd
         if (CombatManager.Instance.IsOverOrEnding || amount <= 0)
             return;
 
-        var max = target.GetPowerAmount<QiChargeCapacityPower>();
-        if (max == 0)
-        {
-            await PowerCmd.Apply<QiChargeCapacityPower>(
-                choiceContext,
-                target,
-                DefaultMaxCharges,
-                applier,
-                cardSource,
-                silent: true
-            );
-            max = DefaultMaxCharges;
-        }
-
         var curValue = target.GetPowerAmount<QiChargePower>();
-        var newValue = Math.Min(target.GetPowerAmount<QiChargePower>() + amount, max);
+        var newValue = Math.Min(
+            target.GetPowerAmount<QiChargePower>() + amount,
+            GetCapacity(target)
+        );
         if (newValue > curValue)
             await PowerCmd.Apply<QiChargePower>(
                 choiceContext,

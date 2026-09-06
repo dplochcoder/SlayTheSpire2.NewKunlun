@@ -109,7 +109,7 @@
   <Target
     Name="GenerateCardSummary"
     AfterTargets="CoreCompile"
-    Condition="'$(DesignTimeBuild)' != 'true'"
+    Condition="'$(DesignTimeBuild)' != 'true' And '$(SkipCardSummary)' != 'true'"
   >
     <Exec Command="dotnet &quot;$(CardSummaryToolDll)&quot; &quot;$(MSBuildProjectDirectory)\..&quot; &quot;$(TargetPath)&quot;" />
   </Target>

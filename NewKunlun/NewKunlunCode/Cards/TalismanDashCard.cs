@@ -26,8 +26,6 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CustomCardKeyword.Mark];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(6M, ValueProp.Move),
@@ -44,8 +42,15 @@ public partial class TalismanDashCard()
     public override TargetType TargetType =>
         Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
+    private IEnumerable<IHoverTip> BoostTip() => IsUpgraded ? [Tip.Boost()] : [];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Weak(), Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded)];
+        [
+            Tip.Weak(),
+            .. BoostTip(),
+            Tip.Mark(),
+            Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded),
+        ];
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null

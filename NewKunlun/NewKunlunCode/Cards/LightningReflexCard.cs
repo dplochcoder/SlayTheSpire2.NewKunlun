@@ -37,7 +37,6 @@ public partial class LightningReflexCard()
     protected override void OnUpgrade()
     {
         Block.UpgradeValueTo(4M);
-        NumCards.UpgradeValueTo(4M);
         AdroitAmount.UpgradeValueTo(4M);
     }
 

@@ -10,25 +10,28 @@ using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Regenerate",
-    description: "{IfUpgraded:show:[gold]Boost[/gold] {Boost:diff()}.\n|}Whenever you [gold]Detonate[/gold], gain 1 [gold]Qi Charge[/gold]."
+    title: "Qi Boost",
+    description: "[gold]Boost[/gold] {Boost:diff()}.\nNext turn, pull {TalismanDash:cardName()} into your hand."
 )]
-public partial class RegenerateCard()
-    : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+public partial class QiBoostCard()
+    : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Boost), 0M)];
-
-    private IEnumerable<IHoverTip> BoostTip() => IsUpgraded ? [Tip.Boost()] : [];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new DynamicVar(nameof(Boost), 7),
+            new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
+        ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [.. BoostTip(), Tip.Detonate(), Tip.QiCharge()];
+        [Tip.Boost(), Tip.TalismanDashCard(Owner)];
 
-    protected override void OnUpgrade() => Boost.UpgradeValueTo(2M);
+    protected override void OnUpgrade() => Boost.UpgradeValueTo(10M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -36,13 +39,6 @@ public partial class RegenerateCard()
             choiceContext,
             Owner.Creature,
             Boost.BaseValue,
-            Owner.Creature,
-            this
-        );
-        await PowerCmd.Apply<RegeneratePower>(
-            choiceContext,
-            Owner.Creature,
-            1M,
             Owner.Creature,
             this
         );

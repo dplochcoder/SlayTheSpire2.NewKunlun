@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -14,17 +15,7 @@ string repositoryRoot = FindRepositoryRoot(args.FirstOrDefault() ?? AppContext.B
 string cardsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Cards");
 string outputPath = Path.Combine(repositoryRoot, "NewKunlun", outputFileName);
 string projectAssemblyPath =
-    args.ElementAtOrDefault(1)
-    ?? Path.Combine(
-        repositoryRoot,
-        "NewKunlun",
-        ".godot",
-        "mono",
-        "temp",
-        "bin",
-        "Debug",
-        "NewKunlun.dll"
-    );
+    args.ElementAtOrDefault(1) ?? FindNewestProjectAssembly(repositoryRoot);
 
 if (!Directory.Exists(cardsDirectory))
 {
@@ -38,6 +29,23 @@ if (!File.Exists(projectAssemblyPath))
             + "Build NewKunlun first, or pass its assembly path as the second argument."
     );
     return 1;
+}
+
+DateTime assemblyWriteTime = File.GetLastWriteTimeUtc(projectAssemblyPath);
+string? newerSourcePath = Directory
+    .EnumerateFiles(
+        Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode"),
+        "*.cs",
+        SearchOption.AllDirectories
+    )
+    .FirstOrDefault(path => File.GetLastWriteTimeUtc(path) > assemblyWriteTime);
+if (newerSourcePath is not null)
+{
+    Console.WriteLine(
+        $"The compiled mod assembly is older than {Path.GetRelativePath(repositoryRoot, newerSourcePath)}; rebuilding NewKunlun."
+    );
+    if (!TryBuildProject(repositoryRoot, projectAssemblyPath))
+        return 1;
 }
 
 var sourceCards = ReadSourceCards(Path.GetDirectoryName(outputPath)!, cardsDirectory);
@@ -54,6 +62,44 @@ if (cards.Length == 0)
 File.WriteAllText(outputPath, RenderMarkdown(cards), new UTF8Encoding(false));
 Console.WriteLine($"Wrote {cards.Length} cards to {outputPath}.");
 return 0;
+
+static bool TryBuildProject(string repositoryRoot, string assemblyPath)
+{
+    string configuration = new DirectoryInfo(Path.GetDirectoryName(assemblyPath)!).Name;
+    if (configuration.Equals("publish", StringComparison.OrdinalIgnoreCase))
+        configuration = new DirectoryInfo(Path.GetDirectoryName(assemblyPath)!).Parent!.Name;
+
+    var startInfo = new ProcessStartInfo("dotnet") { UseShellExecute = false };
+    startInfo.ArgumentList.Add("build");
+    startInfo.ArgumentList.Add(Path.Combine(repositoryRoot, "NewKunlun", "NewKunlun.csproj"));
+    startInfo.ArgumentList.Add("--configuration");
+    startInfo.ArgumentList.Add(configuration);
+    startInfo.ArgumentList.Add("--no-restore");
+    startInfo.ArgumentList.Add("-p:SkipCardSummary=true");
+    startInfo.ArgumentList.Add("-p:BuildProjectReferences=false");
+
+    using var process = Process.Start(startInfo);
+    process?.WaitForExit();
+    if (process?.ExitCode == 0)
+        return true;
+
+    Console.Error.WriteLine(
+        "Could not rebuild NewKunlun. Build the mod project successfully, then rerun CardSummaryTool."
+    );
+    return false;
+}
+
+static string FindNewestProjectAssembly(string repositoryRoot)
+{
+    string buildRoot = Path.Combine(repositoryRoot, "NewKunlun", ".godot", "mono", "temp", "bin");
+    return Directory.Exists(buildRoot)
+        ? Directory
+            .EnumerateFiles(buildRoot, "NewKunlun.dll", SearchOption.AllDirectories)
+            .OrderByDescending(File.GetLastWriteTimeUtc)
+            .FirstOrDefault()
+            ?? Path.Combine(buildRoot, "Debug", "NewKunlun.dll")
+        : Path.Combine(buildRoot, "Debug", "NewKunlun.dll");
+}
 
 static string FindRepositoryRoot(string startPath)
 {

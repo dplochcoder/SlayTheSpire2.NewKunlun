@@ -21,11 +21,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class BreathingExerciseCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(14M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(10M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(22M);
+    protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(16M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

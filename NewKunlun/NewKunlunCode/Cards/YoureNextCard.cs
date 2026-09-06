@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "You're Next",
-    description: "Deal {Damage:diff()} damage.\nIf this attack kills an enemy, add one [green]Azure Sand+[/green] on top of your draw pile."
+    description: "Deal {Damage:diff()} damage.\nIf this attack kills an enemy, add one [green]Azure Sand+[/green] to the top of your draw pile."
 )]
 public partial class YoureNextCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)

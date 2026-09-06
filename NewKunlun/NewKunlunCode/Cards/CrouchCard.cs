@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
@@ -32,6 +33,8 @@ public partial class CrouchCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDashCard(Owner)];
+
+    protected override void OnUpgrade() => Block.UpgradeValueTo(16M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

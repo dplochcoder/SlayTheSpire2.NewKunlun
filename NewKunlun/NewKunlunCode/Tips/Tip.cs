@@ -31,15 +31,17 @@ public static class Tip
 
     public static IHoverTip Block() => Static(StaticHoverTip.Block);
 
+    public static IHoverTip Boost() => Static(CustomStaticHoverTip.Boost);
+
     public static IHoverTip CloudPiercer() => Card<CloudPiercerCard>();
 
     public static IHoverTip DarkSteel(bool upgrade = false) => Card<DarkSteelCard>(upgrade);
 
-    public static IHoverTip Detonate() => Keyword(CustomCardKeyword.Detonate);
+    public static IHoverTip Detonate() => Static(CustomStaticHoverTip.Detonate);
 
     public static IHoverTip Dexterity() => Power<DexterityPower>();
 
-    public static IHoverTip Discharge() => Keyword(CustomCardKeyword.Discharge);
+    public static IHoverTip Discharge() => Static(CustomStaticHoverTip.Discharge);
 
     public static IHoverTip Exhaust() => Keyword(CardKeyword.Exhaust);
 
@@ -51,7 +53,7 @@ public static class Tip
 
     public static IHoverTip Malfunction() => Card<MalfunctionCard>();
 
-    public static IHoverTip Mark() => Keyword(CustomCardKeyword.Mark);
+    public static IHoverTip Mark() => Static(CustomStaticHoverTip.Mark);
 
     public static IHoverTip Parry() => Power<ParryPower>();
 
@@ -61,6 +63,8 @@ public static class Tip
 
     public static IHoverTip Purge() => Keyword(BaseLibKeywords.Purge);
 
+    public static IHoverTip Reload() => Static(CustomStaticHoverTip.Reload);
+
     public static IHoverTip Talisman() => Power<TalismanPower>();
 
     public static IHoverTip QiCharge() => Power<QiChargePower>();
@@ -69,7 +73,7 @@ public static class Tip
 
     public static IHoverTip ShadowHunter() => Card<ShadowHunterCard>();
 
-    public static IHoverTip Sharpen() => Keyword(CustomCardKeyword.Sharpen);
+    public static IHoverTip Sharpen() => Static(CustomStaticHoverTip.Sharpen);
 
     public static IHoverTip Smolder() => Card<SmolderCard>();
 

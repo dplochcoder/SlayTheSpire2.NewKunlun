@@ -23,12 +23,12 @@ public partial class InvigorateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 5M), new InternalDamageSelfInflictVar(16M)];
+        [new DynamicVar(nameof(Strength), 4M), new InternalDamageSelfInflictVar(13M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.Strength(), Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => Strength.UpgradeValueTo(7M);
+    protected override void OnUpgrade() => Strength.UpgradeValueTo(5M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

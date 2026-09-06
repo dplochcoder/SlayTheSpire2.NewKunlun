@@ -9,10 +9,10 @@ using NewKunlun.NewKunlunCode.Variables;
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
-    title: "Like Water",
+    title: "Waterflow",
     description: "{TalismanDetonate:cardName()} costs {Amount} less energy."
 )]
-public partial class LikeWaterPower : NewKunlunPower
+public partial class WaterflowPower : NewKunlunPower
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

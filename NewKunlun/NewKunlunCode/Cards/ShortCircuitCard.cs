@@ -23,7 +23,7 @@ public partial class ShortCircuitCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(15M, ValueProp.Move),
+            new DamageVar(14M, ValueProp.Move),
             new CardNameVar<TalismanDetonateCard>(() =>
                 TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
@@ -32,7 +32,7 @@ public partial class ShortCircuitCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.Mark(), Tip.TalismanDetonateCard(Owner)];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(20M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.HasTalismanFor(Owner)) ?? false;

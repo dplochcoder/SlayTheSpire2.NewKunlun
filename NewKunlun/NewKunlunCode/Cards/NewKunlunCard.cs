@@ -1,7 +1,14 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -31,4 +38,58 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
     public override string BetaPortraitPath =>
         $"beta/{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
+
+    protected override CardLocation GetResultLocationForCardPlay()
+    {
+        var result = base.GetResultLocationForCardPlay();
+        if (Keywords.Contains(CustomCardKeyword.Ephemeral))
+            result.pileType = PileType.Exhaust;
+
+        return result;
+    }
+
+    //Ephemeral handling.
+    public override async Task AfterCardDiscarded(PlayerChoiceContext choiceContext, CardModel card)
+    {
+        await base.AfterCardDiscarded(choiceContext, card);
+
+        if (card == this && card.Keywords.Contains(CustomCardKeyword.Ephemeral))
+            await CardCmd.Exhaust(choiceContext, card, causedByEthereal: true);
+    }
+
+    [SavedProperty]
+    public bool ExhaustAtEndOfTurn
+    {
+        get;
+        set
+        {
+            AssertMutable();
+            field = value;
+        }
+    } = false;
+
+    public override async Task AfterCardDrawn(
+        PlayerChoiceContext choiceContext,
+        CardModel card,
+        bool fromHandDraw
+    )
+    {
+        if (card == this && card.Keywords.Contains(CustomCardKeyword.Ephemeral))
+            ExhaustAtEndOfTurn = true;
+
+        await base.AfterCardDrawn(choiceContext, card, fromHandDraw);
+    }
+
+    public override async Task AfterSideTurnEnd(
+        PlayerChoiceContext choiceContext,
+        CombatSide side,
+        IEnumerable<Creature> participants
+    )
+    {
+        IReadOnlyList<Creature> participantsList = [.. participants];
+        if (ExhaustAtEndOfTurn && participantsList.Contains(Owner.Creature))
+            await CardCmd.Exhaust(choiceContext, this);
+
+        await base.AfterSideTurnEnd(choiceContext, side, participantsList);
+    }
 }

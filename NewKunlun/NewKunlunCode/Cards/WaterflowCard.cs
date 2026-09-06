@@ -14,10 +14,10 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Like Water",
+    title: "Waterflow",
     description: "{TalismanDetonate:cardName()} costs 1 less {Energy:energyIcons()}."
 )]
-public partial class LikeWaterCard()
+public partial class WaterflowCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -34,7 +34,7 @@ public partial class LikeWaterCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<LikeWaterPower>(
+        await PowerCmd.Apply<WaterflowPower>(
             choiceContext,
             Owner.Creature,
             1M,

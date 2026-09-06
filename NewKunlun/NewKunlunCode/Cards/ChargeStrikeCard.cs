@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
@@ -10,6 +11,7 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -23,8 +25,6 @@ public partial class ChargeStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CustomCardKeyword.Discharge];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -40,6 +40,8 @@ public partial class ChargeStrikeCard()
             new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
             new DamageVar(nameof(ChargeDamage), 17M, ValueProp.Move),
         ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge()];
 
     protected override void OnUpgrade()
     {

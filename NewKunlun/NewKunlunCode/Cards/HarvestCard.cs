@@ -22,12 +22,10 @@ public partial class HarvestCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(15M, ValueProp.Move), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
+        [new DamageVar(14M, ValueProp.Move), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.AzureSand(upgrade: IsUpgraded)];
-
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(20M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

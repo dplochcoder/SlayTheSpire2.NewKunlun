@@ -32,7 +32,7 @@ public partial class MedicinePipeCard()
             new DynamicVar(nameof(RemainingUses), 3M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage(), Tip.Purge()];
 
     [SavedProperty]
     public int TimesUsed

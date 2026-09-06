@@ -5,6 +5,8 @@
   "NEWKUNLUN-DETONATE.title": "Detonate",
   "NEWKUNLUN-DISCHARGE.description": "Spend X [gold]Qi Charges[/gold] or as many as you have, whichever is fewer.\nThe associated effect is conditional on spend.",
   "NEWKUNLUN-DISCHARGE.title": "Discharge",
+  "NEWKUNLUN-EPHEMERAL.description": "Once drawn, [gold]Exhausts[/gold] after it's played, discarded, or at the end of the turn.",
+  "NEWKUNLUN-EPHEMERAL.title": "Ephemeral",
   "NEWKUNLUN-MARK.description": "Mark the enemy with your [gold]Talisman[/gold]\n[gold]Talisman[/gold] disappears after 2 turns, when you [gold]Mark[/gold] again, or when you [gold]Detonate[/gold].",
   "NEWKUNLUN-MARK.title": "Mark",
   "NEWKUNLUN-PARRY_CARD.description": "Any card which grants the Parry power is considered a Parry Card.",

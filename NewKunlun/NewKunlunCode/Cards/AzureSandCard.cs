@@ -19,15 +19,15 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "[gold]Reload[/gold] {ReloadCount:diff()}.\nDraw 1 card."
 )]
 public partial class AzureSandCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Token, TargetType.Self)
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Ethereal, CardKeyword.Exhaust, CustomCardKeyword.Reload];
+        [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar(nameof(ReloadCount), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.AzureBow()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Reload(), Tip.AzureBow()];
 
     protected override void OnUpgrade() => ReloadCount.UpgradeValueTo(2M);
 
