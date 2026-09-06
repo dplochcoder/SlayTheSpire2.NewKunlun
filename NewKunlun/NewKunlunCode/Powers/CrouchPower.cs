@@ -26,8 +26,8 @@ public partial class CrouchPower : NewKunlunPower
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new TalismanDashVar<CrouchPower>(card =>
-                TalismanDashCard.IsUpgradedAnywhere(card.Owner.Player)
+            new CardNameVar<TalismanDashCard>(() =>
+                TalismanDashCard.IsUpgradedAnywhere(Owner.Player)
             ),
         ];
 

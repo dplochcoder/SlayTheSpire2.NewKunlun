@@ -26,9 +26,7 @@ public partial class CrossUpCard()
         [
             new DamageVar(7M, ValueProp.Move),
             new DynamicVar(nameof(Vulnerable), 1M),
-            new TalismanDashVar<CrossUpCard>(card =>
-                TalismanDashCard.IsUpgradedAnywhere(card.Owner)
-            ),
+            new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

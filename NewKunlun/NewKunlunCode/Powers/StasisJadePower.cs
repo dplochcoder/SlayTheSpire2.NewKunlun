@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
-using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
 
@@ -12,14 +11,14 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Stasis Jade",
-    description: "Take half damage from enemies who had [gold]Talisman[/gold] this turn."
+    description: "Take half damage from enemies who are [gold]Marked[/gold] or were [gold]Detonated[/gold] this turn."
 )]
 public class StasisJadePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Talisman()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Talisman()];
 
     public override decimal ModifyDamageMultiplicative(
         Creature? target,
@@ -33,7 +32,11 @@ public class StasisJadePower : NewKunlunPower
         if (
             target == Owner
             && props.IsPoweredAttack()
-            && dealer?.HadTalismanThisTurnFor(Owner) is true
+            && dealer != null
+            && (
+                dealer.HasPower<TalismanPower>()
+                || dealer.HasPower<TalismanDetonatedThisTurnPower>()
+            )
         )
             return amount / 2;
 

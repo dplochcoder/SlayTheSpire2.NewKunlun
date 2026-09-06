@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 [PowerLocalization(
     title: "Parry Next Turn",
     description: "Gain {Amount} [gold]Parry[/gold] at the end of your next turn.",
-    smartDescription: "Gain {Amount} [gold]Parry[/gold] at the end {TurnsRemaining:cond:>1?your next|this} turn."
+    smartDescription: "Gain {Amount} [gold]Parry[/gold] at the end of {TurnsRemaining:cond:>1?your next|this} turn."
 )]
 public partial class ParryNextTurnPower : NewKunlunPower
 {

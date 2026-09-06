@@ -15,20 +15,20 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Stagger",
-    description: "Deal {Damage:diff()} damage. If the target is afflicted with [gold]Talisman[/gold], hit {IfUpgraded:show:three times|twice}."
+    description: "Deal {Damage:diff()} damage.\nIf the enemy is [gold]Marked[/gold], hit {HitCount:diff()} times."
 )]
 public partial class StaggerCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(9M, ValueProp.Move), new DynamicVar(nameof(Repeat), 2M)];
+        [new DamageVar(9M, ValueProp.Move), new DynamicVar(nameof(HitCount), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Talisman()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark()];
 
     protected override void OnUpgrade()
     {
         Damage.UpgradeValueTo(11M);
-        Repeat.UpgradeValueTo(3M);
+        HitCount.UpgradeValueTo(3M);
     }
 
     protected override bool ShouldGlowGoldInternal =>
@@ -36,7 +36,7 @@ public partial class StaggerCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var times = cardPlay.Target?.HasTalismanFor(Owner) ?? false ? Repeat.IntValue : 1;
+        var times = cardPlay.Target?.HasTalismanFor(Owner) is true ? HitCount.IntValue : 1;
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)

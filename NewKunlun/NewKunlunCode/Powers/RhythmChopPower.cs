@@ -4,10 +4,12 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
@@ -18,15 +20,18 @@ namespace NewKunlun.NewKunlunCode.Powers;
 )]
 public partial class RhythmChopPower : NewKunlunPower
 {
+    public override PowerType Type => PowerType.Buff;
+    public override PowerStackType StackType => PowerStackType.Single;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new TalismanDashVar<RhythmChopPower>(power =>
-                TalismanDashCard.IsUpgradedAnywhere(power.Owner.Player)
+            new CardNameVar<TalismanDashCard>(() =>
+                TalismanDashCard.IsUpgradedAnywhere(Owner.Player)
             ),
         ];
 
-    public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [Tip.QiCharge(), Tip.TalismanDashCard(Owner.Player)];
 
     public override async Task BeforeHandDraw(
         Player player,

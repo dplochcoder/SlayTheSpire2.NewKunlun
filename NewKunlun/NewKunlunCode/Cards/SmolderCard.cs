@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Smolder",
-    description: "Take {OnExhaustDamage} damage. If this is in your hand at the end of your turn, lose {EndOfTurnDamage:inverseDiff()} and add 1 [gold]Smolder[/gold] to your discard pile."
+    description: "Take {OnExhaustDamage} damage.\nIf this is in your hand at the end of your turn, lose {EndOfTurnDamage:inverseDiff()} HP and add 1 [gold]Smolder[/gold] to your discard pile."
 )]
 public partial class SmolderCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.None)
@@ -33,7 +33,7 @@ public partial class SmolderCard()
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<SmolderCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Smolder()];
 
     public override bool HasTurnEndInHandEffect => true;
 

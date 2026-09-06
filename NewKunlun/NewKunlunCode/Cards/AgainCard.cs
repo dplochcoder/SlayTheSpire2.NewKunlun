@@ -15,13 +15,13 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Again",
-    description: "Pull {TalismanDash:cardName()} into your hand. It is free to play this turn."
+    description: "Pull {TalismanDash:cardName()} into your hand.\nIt is free to play this turn."
 )]
 public partial class AgainCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new TalismanDashVar<AgainCard>(card => TalismanDashCard.IsUpgradedAnywhere(card.Owner))];
+        [new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner))];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

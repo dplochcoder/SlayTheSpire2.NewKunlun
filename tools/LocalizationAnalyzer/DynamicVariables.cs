@@ -12,7 +12,10 @@ public static class DynamicVariables
         RegexOptions.Compiled
     );
 
-    public static HashSet<string> FindDynamicVariables(ClassDeclarationSyntax clazz)
+    public static HashSet<string> FindDynamicVariables(
+        ClassDeclarationSyntax clazz,
+        SemanticModel semanticModel
+    )
     {
         HashSet<string> names = [];
         var canonicalVars = clazz
@@ -33,6 +36,11 @@ public static class DynamicVariables
                 continue;
 
             var defaultName = typeName.Substring(0, typeName.Length - 3);
+            if (
+                semanticModel.GetTypeInfo(creation).Type is INamedTypeSymbol variableType
+                && FindCardNameVariableName(variableType) is { } cardName
+            )
+                defaultName = cardName;
             var firstArgument = creation.ArgumentList?.Arguments.FirstOrDefault()?.Expression;
             switch (firstArgument)
             {
@@ -56,6 +64,19 @@ public static class DynamicVariables
         }
 
         return names;
+    }
+
+    private static string? FindCardNameVariableName(INamedTypeSymbol variableType)
+    {
+        if (variableType.Name != "CardNameVar" || variableType.TypeArguments.Length == 0)
+            return null;
+
+        var cardTypeName = variableType.TypeArguments[variableType.TypeArguments.Length - 1].Name;
+        return
+            cardTypeName.EndsWith("Card", StringComparison.Ordinal)
+            && cardTypeName.Length > "Card".Length
+            ? cardTypeName.Substring(0, cardTypeName.Length - "Card".Length)
+            : null;
     }
 
     private static string? GetUnqualifiedTypeName(TypeSyntax type) =>

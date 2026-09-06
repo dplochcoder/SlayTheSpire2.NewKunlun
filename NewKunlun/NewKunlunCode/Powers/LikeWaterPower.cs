@@ -16,8 +16,8 @@ public partial class LikeWaterPower : NewKunlunPower
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new TalismanDetonateVar<LikeWaterPower>(power =>
-                TalismanDetonateCard.IsUpgradedAnywhere(power.Owner.Player)
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner.Player)
             ),
         ];
 

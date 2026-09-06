@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -24,8 +23,8 @@ public partial class LikeWaterCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new EnergyVar(1),
-            new TalismanDetonateVar<LikeWaterCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
         ];
 

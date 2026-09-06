@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Surge",
-    description: "Deal {Damage:diff()} damage. Add 1 [gold]Malfunction[/gold] to your discard pile."
+    description: "Deal {Damage:diff()} damage.\nAdd 1 [gold]Malfunction[/gold] to your discard pile."
 )]
 public partial class SurgeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)

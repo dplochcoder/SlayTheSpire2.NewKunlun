@@ -21,11 +21,7 @@ public partial class RhythmChopCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new TalismanDashVar<RhythmChopCard>(card =>
-                TalismanDashCard.IsUpgradedAnywhere(card.Owner)
-            ),
-        ];
+        [new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner))];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.QiCharge(), Tip.TalismanDashCard(Owner)];

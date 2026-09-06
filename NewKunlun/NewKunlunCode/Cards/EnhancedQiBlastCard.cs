@@ -15,30 +15,34 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Enhanced Qi Blast",
-    description: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName()}, place 1 {IfUpgraded:show:[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
+    description: "Whenever you [gold]Discharge[/gold] 3 or more while [gold]Detonating[/gold], add 1 {AzureSand:cardName()} on top of your draw pile."
 )]
 public partial class EnhancedQiBlastCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new TalismanDetonateVar<EnhancedQiBlastCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
-            ),
-        ];
+        [new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.QiCharge(), Tip.TalismanDetonateCard(Owner), Tip.AzureSandCard(upgrade: IsUpgraded)];
+        [Tip.Discharge(), Tip.Detonate(), Tip.AzureSand(upgrade: IsUpgraded)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var power = await PowerCmd.Apply<EnhancedQiBlastPower>(
-            choiceContext,
-            Owner.Creature,
-            1M,
-            Owner.Creature,
-            this
-        );
-        power?.Upgraded.BaseValue = IsUpgraded ? 1 : 0;
+        var existing = Owner
+            .Creature.GetPowerInstances<EnhancedQiBlastPower>()
+            .FirstOrDefault(p => p.IsUpgraded == IsUpgraded);
+        if (existing != null)
+            await PowerCmd.ModifyAmount(choiceContext, existing, 1M, Owner.Creature, this);
+        else
+        {
+            var power = await PowerCmd.Apply<EnhancedQiBlastPower>(
+                choiceContext,
+                Owner.Creature,
+                1M,
+                Owner.Creature,
+                this
+            );
+            power?.IsUpgraded = IsUpgraded;
+        }
     }
 }

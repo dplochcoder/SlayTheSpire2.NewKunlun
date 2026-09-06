@@ -22,7 +22,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Triple Slash",
-    description: "Deal {Damage:diff()} damage. Return to your hand the first two times played this turn. On the third play, deal {BigHitDamage:diff()} damage, or spend 1 [gold]Qi Charge[/gold] to deal double."
+    description: "Deal {Damage:diff()} damage.\nReturns to your hand twice this turn.\nOn the third play, deals {BigHitDamage:diff()} damage, [gold]Discharging[/gold] 1 to deal double."
 )]
 public partial class TripleSlashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy),
@@ -110,10 +110,10 @@ public partial class TripleSlashCard()
     {
         if (IsBigHitTurn)
         {
-            var charge = await QiChargeCmd.ConsumeQiCharges(
+            var charge = await QiChargeCmd.Discharge(
                 choiceContext,
                 Owner.Creature,
-                1M,
+                1,
                 Owner.Creature,
                 this
             );
@@ -127,6 +127,7 @@ public partial class TripleSlashCard()
         attack = IsBigHitTurn ? attack.WithHeavySlashVfx() : attack.WithSlashVfx();
         await attack.Execute(choiceContext);
 
+        _justConsumedQiCharge = false;
         ++_playsThisTurn;
     }
 }

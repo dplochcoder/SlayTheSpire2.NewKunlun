@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Destabilize",
-    description: "Inflict {Imperfect:diff()} [gold]Imperfect[/gold]. Deal {Damage:diff()} damage. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+    description: "Inflict {Imperfect:diff()} [gold]Imperfect[/gold].\nDeal {Damage:diff()} damage.\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class DestabilizeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)

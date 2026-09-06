@@ -1,30 +1,24 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Variables;
+using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Regenerate",
-    description: "Whenever you play {TalismanDetonate:cardName()}, gain {Amount} {Amount:plural:[gold]Qi Charges[/gold]|[gold]Qi Charge[/gold]}."
+    description: "Whenever you [gold]Detonate[/gold], gain {Amount} {Amount:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
 )]
 public partial class RegeneratePower : NewKunlunPower, ITalismanDetonateListener
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new TalismanDetonateVar<RegeneratePower>(power =>
-                TalismanDetonateCard.IsUpgradedAnywhere(power.Owner.Player)
-            ),
-        ];
-
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Detonate(), Tip.QiCharge()];
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,

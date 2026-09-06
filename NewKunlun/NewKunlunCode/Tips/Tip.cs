@@ -1,48 +1,45 @@
-﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using BaseLib.Cards;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Cards;
+using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Powers;
 using ParryPower = NewKunlun.NewKunlunCode.Powers.ParryPower;
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
 
 namespace NewKunlun.NewKunlunCode.Tips;
 
 public static class Tip
 {
-    private static HoverTip CustomKeywordHoverTip(string name)
-    {
-        LocString title = new("card_keywords", $"NEWKUNLUN-{name}.title");
-        LocString description = new("card_keywords", $"NEWKUNLUN-{name}.description");
-        return new HoverTip(title, description);
-    }
-
-    public static IHoverTip ParryCardKeyword() => CustomKeywordHoverTip("PARRY_CARD");
-
-    public static IHoverTip PreciseParryKeyword() => CustomKeywordHoverTip("PRECISE_PARRY");
-
     public static IHoverTip TalismanDashCard(Player? player) =>
-        Card<TalismanDashCard>(upgraded: Cards.TalismanDashCard.IsUpgradedAnywhere(player));
+        Card<TalismanDashCard>(upgrade: Cards.TalismanDashCard.IsUpgradedAnywhere(player));
 
     public static IEnumerable<IHoverTip> TalismanDashCardWithTips(Player? player) =>
         CardWithTips<TalismanDashCard>(upgrade: Cards.TalismanDashCard.IsUpgradedAnywhere(player));
 
     public static IEnumerable<IHoverTip> Adroit() => Enchantment<Adroit>();
 
-    public static IHoverTip AzureSandCard(bool upgrade = false) => Card<AzureSandCard>(upgrade);
+    public static IHoverTip AzureBow() => Card<AzureBowCard>();
 
-    public static IHoverTip AzureSandPower() => Power<AzureSandPower>();
+    public static IHoverTip AzureSand(bool upgrade = false) => Card<AzureSandCard>(upgrade);
 
-    public static IHoverTip CloudPiercerCard() => Card<CloudPiercerCard>();
+    public static IHoverTip AzureSandMagazine() => Power<AzureSandMagazinePower>();
 
-    public static IHoverTip DarkSteelCard(bool upgraded = false) => Card<DarkSteelCard>(upgraded);
+    public static IHoverTip Block() => Static(StaticHoverTip.Block);
 
-    public static IHoverTip DarkSteelPower() => Power<DarkSteelPower>();
+    public static IHoverTip CloudPiercer() => Card<CloudPiercerCard>();
+
+    public static IHoverTip DarkSteel(bool upgrade = false) => Card<DarkSteelCard>(upgrade);
+
+    public static IHoverTip Detonate() => Keyword(CustomCardKeyword.Detonate);
 
     public static IHoverTip Dexterity() => Power<DexterityPower>();
+
+    public static IHoverTip Discharge() => Keyword(CustomCardKeyword.Discharge);
 
     public static IHoverTip Exhaust() => Keyword(CardKeyword.Exhaust);
 
@@ -54,7 +51,15 @@ public static class Tip
 
     public static IHoverTip Malfunction() => Card<MalfunctionCard>();
 
+    public static IHoverTip Mark() => Keyword(CustomCardKeyword.Mark);
+
     public static IHoverTip Parry() => Power<ParryPower>();
+
+    public static IHoverTip ParryCard() => Static(CustomStaticHoverTip.ParryCard);
+
+    public static IHoverTip PreciseParry() => Static(CustomStaticHoverTip.PreciseParry);
+
+    public static IHoverTip Purge() => Keyword(BaseLibKeywords.Purge);
 
     public static IHoverTip Talisman() => Power<TalismanPower>();
 
@@ -62,13 +67,15 @@ public static class Tip
 
     public static IHoverTip Retain() => Keyword(CardKeyword.Retain);
 
-    public static IHoverTip ShadowHunterCard() => Card<ShadowHunterCard>();
+    public static IHoverTip ShadowHunter() => Card<ShadowHunterCard>();
+
+    public static IHoverTip Sharpen() => Keyword(CustomCardKeyword.Sharpen);
 
     public static IHoverTip Smolder() => Card<SmolderCard>();
 
     public static IHoverTip Strength() => Power<StrengthPower>();
 
-    public static IHoverTip ThunderBusterCard() => Card<ThunderBusterCard>();
+    public static IHoverTip ThunderBuster() => Card<ThunderBusterCard>();
 
     public static IHoverTip Void() => Card<MegaCrit.Sts2.Core.Models.Cards.Void>();
 
@@ -77,15 +84,15 @@ public static class Tip
     public static IHoverTip Weak() => Power<WeakPower>();
 
     public static IHoverTip TalismanDetonateCard(Player? player) =>
-        Card<TalismanDetonateCard>(upgraded: Cards.TalismanDetonateCard.IsUpgradedAnywhere(player));
+        Card<TalismanDetonateCard>(upgrade: Cards.TalismanDetonateCard.IsUpgradedAnywhere(player));
 
     public static IEnumerable<IHoverTip> TalismanDetonateCardWithTips(Player? player) =>
         CardWithTips<TalismanDetonateCard>(
             upgrade: Cards.TalismanDetonateCard.IsUpgradedAnywhere(player)
         );
 
-    public static IHoverTip Card<T>(bool upgraded = false)
-        where T : CardModel => HoverTipFactory.FromCard<T>(upgraded);
+    public static IHoverTip Card<T>(bool upgrade = false)
+        where T : CardModel => HoverTipFactory.FromCard<T>(upgrade);
 
     private static IEnumerable<IHoverTip> CardWithTips<T>(bool upgrade = false)
         where T : CardModel => HoverTipFactory.FromCardWithCardHoverTips<T>(upgrade);

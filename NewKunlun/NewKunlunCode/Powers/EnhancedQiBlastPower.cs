@@ -16,21 +16,25 @@ namespace NewKunlun.NewKunlunCode.Powers;
 [PowerLocalization(
     title: "Enhanced Qi Blast",
     description: "",
-    smartDescription: "Whenever you spend 3 or more [gold]Qi Charges[/gold] on {TalismanDetonate:cardName()}, place 1 {Upgraded:cond:>0?[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} on top of your draw pile."
+    smartDescription: "Whenever you [gold]Discharge[/gold] 3 or more while [gold]Detonating[/gold], add 1 {AzureSand:cardName()} on top of your draw pile."
 )]
 public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateListener
 {
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Upgraded), 0M),
-            new TalismanDetonateVar<EnhancedQiBlastPower>(power =>
-                TalismanDetonateCard.IsUpgradedAnywhere(power.Owner.Player)
-            ),
+            new DynamicVar(nameof(UpgradeLevel), 0M),
+            new CardNameVar<AzureSandCard>(() => IsUpgraded),
         ];
+
+    public bool IsUpgraded
+    {
+        get => UpgradeLevel.BaseValue > 0;
+        set => UpgradeLevel.BaseValue = value ? 1 : 0;
+    }
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,
@@ -45,10 +49,7 @@ public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateLis
         List<CardModel> cards = [];
         for (var i = 0; i < Amount; i++)
             cards.Add(
-                CombatState.CreateUpgradedCard<AzureSandCard>(
-                    Owner.Player,
-                    upgrade: Upgraded.BaseValue > 0
-                )
+                CombatState.CreateUpgradedCard<AzureSandCard>(Owner.Player, upgrade: IsUpgraded)
             );
 
         CardCmd.PreviewCardPileAdd(

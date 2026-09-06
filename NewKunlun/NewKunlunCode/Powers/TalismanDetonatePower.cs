@@ -25,14 +25,14 @@ public partial class TalismanDetonatePower : NewKunlunPower
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(UpgradeCount), 0M),
-            new TalismanDetonateVar<TalismanDetonatePower>(power => power.Upgraded),
+            new DynamicVar(nameof(UpgradeLevel), 0M),
+            new CardNameVar<TalismanDetonateCard>(() => IsUpgraded),
         ];
 
-    public bool Upgraded
+    public bool IsUpgraded
     {
-        get => UpgradeCount.BaseValue > 0;
-        set => UpgradeCount.BaseValue = value ? 1 : 0;
+        get => UpgradeLevel.BaseValue > 0;
+        set => UpgradeLevel.BaseValue = value ? 1 : 0;
     }
 
     public override async Task BeforeHandDraw(
@@ -45,7 +45,7 @@ public partial class TalismanDetonatePower : NewKunlunPower
             return;
 
         var card = combatState.CreateCard<TalismanDetonateCard>(player);
-        if (Upgraded)
+        if (IsUpgraded)
             CardCmd.Upgrade(card, CardPreviewStyle.None);
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
         await PowerCmd.Remove(this);

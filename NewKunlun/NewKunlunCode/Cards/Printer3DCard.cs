@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "3D Printer",
-    description: "Spend {Cost} gold. Choose a card in your hand. Add a copy of it into your hand. Permanently increase this cost by {CostIncrement:inverseDiff()} gold.",
+    description: "Spend {Cost} gold.\nChoose a card in your hand.\nAdd a copy of it into your hand.\nPermanently increase this cost by {CostIncrement:inverseDiff()} gold.",
     selectionScreenPrompt: "Choose a card to 3D Print into your hand."
 )]
 public partial class Printer3DCard()
@@ -49,6 +49,8 @@ public partial class Printer3DCard()
     private void UpdateValues() => Cost.BaseValue = 5 + CostIncrease;
 
     protected override bool IsPlayable => Owner.Gold >= Cost.BaseValue;
+
+    protected override bool ShouldGlowRedInternal => !IsPlayable;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

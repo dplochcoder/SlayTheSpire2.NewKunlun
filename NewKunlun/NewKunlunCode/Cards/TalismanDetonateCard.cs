@@ -26,7 +26,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Detonate",
-    description: "{TotalDamage:cond:>0?Deal [green]{TotalDamage}[/green] unblockable damage.\n|}Spend {FullControl:cond:<1?up to 3 |}[gold]Qi Charges[/gold] to inflict {TalismanDetonateBaseDamage:diff()} unblockable damage per charge, and {Vulnerable:diff()} [gold]Vulnerable[/gold], to each enemy afflicted with [gold]Talisman[/gold]."
+    description: "Requires 1 [gold]Qi Charge[/gold]. [gold]Discharge[/gold] {FullControl:cond:>0?any|3}.\nInflict {Vulnerable:diff()} [gold]Vulnerable[/gold] on [gold]Marked[/gold] enemies.\n[gold]Detonate[/gold] {TalismanDetonateBaseDamage:diff()} per [gold]Discharge[/gold]{TotalDamage:cond:>0? ({TotalDamage} damage)|}."
 )]
 public partial class TalismanDetonateCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Basic, TargetType.None)
@@ -37,7 +37,7 @@ public partial class TalismanDetonateCard()
             new CustomVar(
                 nameof(FullControl),
                 0,
-                _ => Owner.Creature.HasPower<FullControlPower>() is true ? 1 : 0
+                _ => Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
             ),
             new TalismanDetonateBaseDamageVar(12M),
             new DynamicVar(nameof(Vulnerable), 1M),
@@ -73,11 +73,14 @@ public partial class TalismanDetonateCard()
             : cards.Any(c => c is TalismanDashCard { IsUpgraded: true });
     }
 
-    protected override bool IsPlayable =>
-        Owner.Creature.GetPowerAmount<QiChargePower>() > 0
-        && (CombatState?.Enemies.Any(e => e.IsHittable && e.HasTalismanFor(Owner)) ?? false);
+    private bool AnyMarked() =>
+        CombatState?.Enemies.Any(e => e.IsHittable && e.HasTalismanFor(Owner)) ?? false;
 
-    protected override bool ShouldGlowGoldInternal => IsPlayable;
+    protected override bool IsPlayable => Owner.Creature.GetPowerAmount<QiChargePower>() > 0;
+
+    protected override bool ShouldGlowGoldInternal => IsPlayable && AnyMarked();
+
+    protected override bool ShouldGlowRedInternal => !AnyMarked();
 
     protected override void OnUpgrade()
     {
@@ -113,6 +116,8 @@ public partial class TalismanDetonateCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var player = cardPlay.Player.Creature;
+        if (Owner.Creature.GetPowerAmount<QiChargePower>() <= 0)
+            return;
 
         IReadOnlyList<Creature> eligibleCreatures =
         [
@@ -121,28 +126,21 @@ public partial class TalismanDetonateCard()
             ),
         ];
         if (eligibleCreatures.Count == 0)
-        {
-            await ClearPowers();
             return;
-        }
 
         decimal qiCharges;
         if (Owner.Creature.GetPower<FullControlPower>() is { } fullControl)
-            qiCharges = await fullControl.ConsumeQiCharges(choiceContext, Owner, this);
+            qiCharges = await fullControl.Discharge(choiceContext, Owner, this);
         else
-            qiCharges = await QiChargeCmd.ConsumeQiCharges(
+            qiCharges = await QiChargeCmd.Discharge(
                 choiceContext,
                 Owner.Creature,
-                3M,
+                3,
                 Owner.Creature,
                 this
             );
-
-        if (qiCharges == 0)
-        {
-            await ClearPowers();
+        if (qiCharges <= 0)
             return;
-        }
 
         await PowerCmd.Apply<VulnerablePower>(
             choiceContext,
@@ -157,7 +155,7 @@ public partial class TalismanDetonateCard()
             NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(
                 NFireSmokePuffVfx.Create(creature)
             );
-        await ClearPowers();
+        await TalismanPower.DetonateAll(choiceContext, this);
 
         var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
             CombatState!,
@@ -181,20 +179,5 @@ public partial class TalismanDetonateCard()
             totalDamage,
             Owner.Creature
         );
-        return;
-
-        async Task ClearPowers()
-        {
-            IReadOnlyList<TalismanPower> powers =
-            [
-                .. CombatState?.Enemies.SelectMany(e =>
-                    e.GetPowerInstances<TalismanPower>().Where(p => p.Applier == player)
-                )
-                    ?? [],
-            ];
-
-            foreach (var power in powers)
-                await PowerCmd.Remove(power);
-        }
     }
 }

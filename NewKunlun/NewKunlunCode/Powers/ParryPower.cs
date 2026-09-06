@@ -23,7 +23,8 @@ public class ParryPower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [Tip.QiCharge(), Tip.PreciseParry()];
 
     private int _parries = 0;
     private int _preciseParries = 0;

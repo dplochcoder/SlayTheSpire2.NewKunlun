@@ -16,14 +16,14 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Skull Kick",
-    description: "Deal {Damage:diff()} damage. Inflict {Weak:diff()} [gold]Weak[/gold]. If the enemy intends to attack, it loses {StrengthLoss:diff()} [gold]Strength[/gold]."
+    description: "Deal {Damage:diff()} damage.[/gold]Inflict {Weak:diff()} [gold]Weak[/gold].\n[/gold]If the enemy intends to attack, it loses {StrengthLoss:diff()} [gold]Strength[/gold]."
 )]
 public partial class SkullKickCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(14M, ValueProp.Move),
+            new DamageVar(12M, ValueProp.Move),
             new DynamicVar(nameof(Weak), 1M),
             new DynamicVar(nameof(StrengthLoss), 1M),
         ];
@@ -35,8 +35,9 @@ public partial class SkullKickCard()
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(18M);
+        Damage.UpgradeValueTo(16M);
         Weak.UpgradeValueTo(2M);
+        StrengthLoss.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

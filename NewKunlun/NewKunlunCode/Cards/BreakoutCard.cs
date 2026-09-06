@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Breakout",
-    description: "Deal {Damage:diff()} damage {IfUpgraded:[green]three times[/green]|twice} to two different random enemies."
+    description: "Deal {Damage:diff()} damage {HitCount:diff()} times to two different random enemies."
 )]
 public partial class BreakoutCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy)

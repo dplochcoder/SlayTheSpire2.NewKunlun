@@ -100,6 +100,8 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
                 continue;
 
             var propertyName = FindExplicitName(creation);
+            if (propertyName is null)
+                propertyName = FindCardNameVariableName(variableType);
             if (propertyName is null && variableType.Name != "DynamicVar")
                 propertyName = variableType.Name.Substring(0, variableType.Name.Length - 3);
 
@@ -126,6 +128,19 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
             $"{SanitizeHintName(classSymbol.ToDisplayString())}.CanonicalVars.g.cs",
             SourceText.From(source, Encoding.UTF8)
         );
+    }
+
+    private static string? FindCardNameVariableName(INamedTypeSymbol variableType)
+    {
+        if (variableType.Name != "CardNameVar" || variableType.TypeArguments.Length == 0)
+            return null;
+
+        var cardTypeName = variableType.TypeArguments[variableType.TypeArguments.Length - 1].Name;
+        return
+            cardTypeName.EndsWith("Card", StringComparison.Ordinal)
+            && cardTypeName.Length > "Card".Length
+            ? cardTypeName.Substring(0, cardTypeName.Length - "Card".Length)
+            : null;
     }
 
     private static string? FindExplicitName(ObjectCreationExpressionSyntax creation)

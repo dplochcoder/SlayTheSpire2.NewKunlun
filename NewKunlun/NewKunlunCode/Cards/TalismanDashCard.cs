@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
@@ -20,23 +21,31 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Talisman Dash",
-    description: "Deal {Damage} damage.\nInflict {Weak:diff()} [gold]Weak[/gold].\nInflict [gold]Talisman[/gold].\nNext turn, add {TalismanDetonate:cardName()} into your hand."
+    description: "{MobQuellJade:cond:>0?Targets all enemies.\n}Deal {Damage} damage.{IfUpgraded:show: [gold]Boost[/gold] {Boost:diff()}.|}\nInflict {Weak:diff()} [gold]Weak[/gold].\n[gold]Mark[/gold]. Next turn, add {TalismanDetonate:cardName()} into your hand."
 )]
 public partial class TalismanDashCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CustomCardKeyword.Mark];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(6M, ValueProp.Move),
             new DynamicVar(nameof(Weak), 1M),
-            new TalismanDetonateVar<TalismanDashCard>(card => card.IsUpgraded),
+            new DynamicVar(nameof(Boost), 0M),
+            new CardNameVar<TalismanDetonateCard>(() => IsUpgraded),
+            new CustomVar(
+                nameof(MobQuellJade),
+                0M,
+                _ => Owner.Creature.HasPower<MobQuellJadePower>() ? 1 : 0
+            ),
         ];
 
     public override TargetType TargetType =>
         Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Weak(), Tip.Talisman(), Tip.Card<TalismanDetonateCard>(upgraded: IsUpgraded)];
+        [Tip.Weak(), Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded)];
 
     public static bool IsUpgradedAnywhere(Player? player) =>
         player != null
@@ -48,6 +57,7 @@ public partial class TalismanDashCard()
     {
         Damage.UpgradeValueTo(3M);
         Weak.UpgradeValueTo(2M);
+        Boost.UpgradeValueTo(2M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -74,6 +84,7 @@ public partial class TalismanDashCard()
             Owner.Creature,
             this
         );
+        await TalismanPower.RemoveAll(Owner);
         await PowerCmd.Apply<TalismanPower>(choiceContext, targets, 1M, Owner.Creature, this);
 
         var detonatePower = await PowerCmd.Apply<TalismanDetonatePower>(
@@ -83,6 +94,6 @@ public partial class TalismanDashCard()
             Owner.Creature,
             this
         );
-        detonatePower?.Upgraded = IsUpgraded;
+        detonatePower?.IsUpgraded = IsUpgraded;
     }
 }

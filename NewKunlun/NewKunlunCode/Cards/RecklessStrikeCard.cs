@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Reckless Strike",
-    description: "Deal {Damage:diff()} damage. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage.\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class RecklessStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

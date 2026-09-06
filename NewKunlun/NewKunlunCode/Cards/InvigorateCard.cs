@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Invigorate",
-    description: "Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+    description: "Gain {Strength:diff()} [gold]Strength[/gold].\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class InvigorateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

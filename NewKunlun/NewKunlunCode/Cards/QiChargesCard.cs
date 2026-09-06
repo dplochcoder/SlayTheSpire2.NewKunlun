@@ -12,13 +12,13 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Qi Charges",
-    description: "Spend {QiCharges} {QiCharges:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}."
+    description: "[gold]Discharge[/gold] {QiCharges}.\n[gold]Detonate[/gold] {DetonateDamage}."
 )]
 public partial class QiChargesCard()
     : NewKunlunCard(1, CardType.None, CardRarity.Token, TargetType.None)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(QiCharges), 1M)];
+        [new DynamicVar(nameof(QiCharges), 0M), new DynamicVar(nameof(DetonateDamage), 0M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
 }

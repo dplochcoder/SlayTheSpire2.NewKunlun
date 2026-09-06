@@ -17,30 +17,37 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Full Control",
-    description: "{TalismanDetonate:cardName()} deals {Damage:diff()} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, without limit."
+    description: "[gold]Boost[/gold] {Boost:diff()}.\nYou choose how many [gold]Qi Charges[/gold] to [gold]Discharge[/gold], without limit."
 )]
 public partial class FullControlCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(2M, ValueProp.Unpowered),
-            new TalismanDetonateVar<FullControlCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            new DamageVar(nameof(Boost), 2M, ValueProp.Unpowered),
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tip.TalismanDetonateCardWithTips(Owner);
+        [Tip.TalismanDetonateCard(Owner), Tip.Discharge(), Tip.QiCharge()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(5M);
+    protected override void OnUpgrade() => Boost.UpgradeValueTo(4M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await PowerCmd.Apply<BoostPower>(
+            choiceContext,
+            Owner.Creature,
+            Boost.BaseValue,
+            Owner.Creature,
+            this
+        );
         await PowerCmd.Apply<FullControlPower>(
             choiceContext,
             Owner.Creature,
-            Damage.BaseValue,
+            1M,
             Owner.Creature,
             this
         );

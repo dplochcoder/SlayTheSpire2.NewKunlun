@@ -5,35 +5,39 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Regenerate",
-    description: "Whenever you play {TalismanDetonate:cardName()}, gain 1 [gold]Qi Charge[/gold]."
+    description: "[gold]Boost[/gold] {Boost:diff()}.\nWhenever you [gold]Detonate[/gold], gain 1 [gold]Qi Charge[/gold]."
 )]
 public partial class RegenerateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new TalismanDetonateVar<RegenerateCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
-            ),
-        ];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CustomCardKeyword.Boost];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tip.TalismanDetonateCardWithTips(Owner);
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Boost), 2M)];
 
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Detonate(), Tip.QiCharge()];
+
+    protected override void OnUpgrade() => Boost.UpgradeValueTo(4M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        await PowerCmd.Apply<BoostPower>(
+            choiceContext,
+            Owner.Creature,
+            Boost.BaseValue,
+            Owner.Creature,
+            this
+        );
         await PowerCmd.Apply<RegeneratePower>(
             choiceContext,
             Owner.Creature,

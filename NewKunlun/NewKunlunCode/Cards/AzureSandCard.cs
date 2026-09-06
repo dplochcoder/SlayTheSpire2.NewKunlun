@@ -3,8 +3,10 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
@@ -14,20 +16,27 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Azure Sand",
-    description: "Gain 1 [gold]Azure Sand[/gold].{IfUpgraded:show: [green]Draw 1 card.[/green]|}"
+    description: "[gold]Reload[/gold] {ReloadCount:diff()}.\nDraw 1 card."
 )]
-public class AzureSandCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Token, TargetType.Self)
+public partial class AzureSandCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Token, TargetType.Self)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [CardKeyword.Ethereal, CardKeyword.Exhaust, CustomCardKeyword.Reload];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.AzureSandPower()];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar(nameof(ReloadCount), 1M)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.AzureBow()];
+
+    protected override void OnUpgrade() => ReloadCount.UpgradeValueTo(2M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<AzureSandPower>(
+        await PowerCmd.Apply<AzureSandMagazinePower>(
             choiceContext,
             Owner.Creature,
-            1M,
+            ReloadCount.BaseValue,
             Owner.Creature,
             this
         );
@@ -39,7 +48,6 @@ public class AzureSandCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Token
                 position: CardPilePosition.Top
             );
 
-        if (IsUpgraded)
-            await CardPileCmd.Draw(choiceContext, Owner);
+        await CardPileCmd.Draw(choiceContext, Owner);
     }
 }

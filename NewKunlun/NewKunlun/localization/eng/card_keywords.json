@@ -1,6 +1,20 @@
 {
+  "NEWKUNLUN-BOOST.description": "Deal more damage for each [gold]Discharge[/gold] when you [gold]Detonate[/gold].",
+  "NEWKUNLUN-BOOST.title": "Boost",
+  "NEWKUNLUN-DETONATE.description": "Deal unblockable damage to [gold]Marked[/gold] enemies.",
+  "NEWKUNLUN-DETONATE.title": "Detonate",
+  "NEWKUNLUN-DISCHARGE.description": "Spend X [gold]Qi Charges[/gold] or as many as you have, whichever is fewer.\nThe associated effect is conditional on spend.",
+  "NEWKUNLUN-DISCHARGE.title": "Discharge",
+  "NEWKUNLUN-MARK.description": "Mark the enemy with your [gold]Talisman[/gold]\n[gold]Talisman[/gold] disappears after 2 turns, when you [gold]Mark[/gold] again, or when you [gold]Detonate[/gold].",
+  "NEWKUNLUN-MARK.title": "Mark",
   "NEWKUNLUN-PARRY_CARD.description": "Any card which grants the Parry power is considered a Parry Card.",
   "NEWKUNLUN-PARRY_CARD.title": "Parry Card",
-  "NEWKUNLUN-PRECISE_PARRY.description": "[gold]Parry[/gold] an attack with full block to preserve block.",
-  "NEWKUNLUN-PRECISE_PARRY.title": "Precise Parry"
+  "NEWKUNLUN-PARRYCARD.description": "Any card which grants the [gold]Parry[/gold] effect.",
+  "NEWKUNLUN-PARRYCARD.title": "Parry Card",
+  "NEWKUNLUN-PRECISEPARRY.description": "Full-block an attack with at least one [gold]Parry[/gold].",
+  "NEWKUNLUN-PRECISEPARRY.title": "Precise Parry",
+  "NEWKUNLUN-RELOAD.description": "Load an [gold]Azure Sand Magazine[/gold].\nAdd the [gold]Azure Bow[/gold] to your hand if not in your deck.",
+  "NEWKUNLUN-RELOAD.title": "Reload",
+  "NEWKUNLUN-SHARPEN.description": "Increase the power of the [gold]Azure Bow[/gold].\nThe effect is different on each [gold]Arrow[/gold].",
+  "NEWKUNLUN-SHARPEN.title": "Sharpen"
 }

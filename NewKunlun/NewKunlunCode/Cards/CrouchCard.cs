@@ -28,9 +28,7 @@ public partial class CrouchCard()
         [
             new BlockVar(10M, ValueProp.Move),
             new EnergyVar(1),
-            new TalismanDashVar<CrouchCard>(card =>
-                TalismanDashCard.IsUpgradedAnywhere(card.Owner)
-            ),
+            new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDashCard(Owner)];

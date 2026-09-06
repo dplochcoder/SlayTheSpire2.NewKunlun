@@ -1,3 +1,6 @@
 {
-  
+  "NEWKUNLUN-PARRYCARD.description": "Any card which grants the [gold]Parry[/gold] effect.",
+  "NEWKUNLUN-PARRYCARD.title": "Parry Card",
+  "NEWKUNLUN-PRECISEPARRY.description": "Full-block an attack with at least one [gold]Parry[/gold].\nThis preserves block.",
+  "NEWKUNLUN-PRECISEPARRY.title": "Precise Parry"
 }

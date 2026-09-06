@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Qi Swipe Jade",
-    description: "Increase [gold]Qi Charge[/gold] capacity by 2. Whenever you successfully [gold]Parry[/gold], gain an extra [gold]Qi Charge[/gold]."
+    description: "Increase [gold]Qi Charge[/gold] capacity by 2.\nWhenever you successfully [gold]Parry[/gold], gain an extra [gold]Qi Charge[/gold]."
 )]
 public class QiSwipeJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

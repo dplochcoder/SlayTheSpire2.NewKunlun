@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Shadow Hunter",
-    description: "Deal {Damage:diff()} damage {HitCount:diff()} times. Deals damage one additional time for every [gold]Dark Steel[/gold]."
+    description: "Deal {Damage:diff()} damage {HitCount:diff()} times.\n[gold]Sharpening[/gold] deals damage an additional time."
 )]
 public partial class ShadowHunterCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy),
@@ -29,11 +29,11 @@ public partial class ShadowHunterCard()
             new CustomVar(
                 nameof(HitCount),
                 5M,
-                _ => 5M + Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 5M + Owner.Creature.GetPowerAmount<SharpenedPower>()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.DarkSteelPower()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Sharpen()];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -9,22 +9,23 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Harvest",
-    description: "Deal {Damage:diff()} damage. Shuffle an {IfUpgraded:show:[green]Azure Sand+[/green]|[gold]Azure Sand[/gold]} into your discard pile."
+    description: "Deal {Damage:diff()} damage.\nShuffle an {AzureSand:cardName()} into your discard pile."
 )]
 public partial class HarvestCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(15M, ValueProp.Move)];
+        [new DamageVar(15M, ValueProp.Move), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.AzureSandCard(upgrade: IsUpgraded)];
+        [Tip.AzureSand(upgrade: IsUpgraded)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(20M);
 

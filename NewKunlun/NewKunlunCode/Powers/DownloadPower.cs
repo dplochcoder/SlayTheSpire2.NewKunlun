@@ -15,5 +15,5 @@ public class DownloadPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.PreciseParryKeyword(), Tip.Strength()];
+        [Tip.PreciseParry(), Tip.Strength()];
 }

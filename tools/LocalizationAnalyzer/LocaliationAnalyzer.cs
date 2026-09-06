@@ -13,6 +13,8 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
     public const string UnknownVariableId = "NKLOC002";
     public const string UnnamedArgumentId = "NKLOC003";
     public const string MissingOrMismatchedLocalizationId = "NKLOC004";
+    public const string InvalidKeywordLocalizationTargetId = "NKLOC005";
+    public const string InvalidStaticHoverTipLocalizationTargetId = "NKLOC006";
 
     private static readonly DiagnosticDescriptor InvalidLocalization = new(
         InvalidLocalizationId,
@@ -54,12 +56,32 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         description: "Every localized model must declare the localization attribute matching its model hierarchy."
     );
 
+    private static readonly DiagnosticDescriptor InvalidKeywordLocalizationTarget = new(
+        InvalidKeywordLocalizationTargetId,
+        "Invalid keyword localization target",
+        "[KeywordLocalization] may only be applied to static CardKeyword fields",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true
+    );
+
+    private static readonly DiagnosticDescriptor InvalidStaticHoverTipLocalizationTarget = new(
+        InvalidStaticHoverTipLocalizationTargetId,
+        "Invalid static hover-tip localization target",
+        "[StaticHoverTipLocalization] may only be applied to static StaticHoverTip fields declared with [CustomEnum]",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true
+    );
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         ImmutableArray.Create(
             InvalidLocalization,
             UnknownVariable,
             UnnamedArgument,
-            MissingOrMismatchedLocalization
+            MissingOrMismatchedLocalization,
+            InvalidKeywordLocalizationTarget,
+            InvalidStaticHoverTipLocalizationTarget
         );
 
     public override void Initialize(AnalysisContext context)
@@ -67,7 +89,72 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
         context.RegisterSyntaxNodeAction(AnalyzeClass, SyntaxKind.ClassDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeField, SyntaxKind.FieldDeclaration);
     }
+
+    private static void AnalyzeField(SyntaxNodeAnalysisContext context)
+    {
+        var field = (FieldDeclarationSyntax)context.Node;
+        var attributes = field.AttributeLists.SelectMany(list => list.Attributes).ToArray();
+        var attribute = attributes.FirstOrDefault(candidate =>
+            IsNamedAttribute(candidate, "KeywordLocalization")
+            || IsNamedAttribute(candidate, "StaticHoverTipLocalization")
+        );
+        if (attribute is null)
+            return;
+
+        var isStatic = field.Modifiers.Any(SyntaxKind.StaticKeyword);
+        var fieldTypeName = context.SemanticModel.GetTypeInfo(field.Declaration.Type).Type?.Name;
+        var isStaticHoverTip = IsNamedAttribute(attribute, "StaticHoverTipLocalization");
+        var validTarget = isStaticHoverTip
+            ? isStatic
+                && fieldTypeName == "StaticHoverTip"
+                && attributes.Any(candidate => IsNamedAttribute(candidate, "CustomEnum"))
+            : isStatic && fieldTypeName == "CardKeyword";
+        if (!validTarget)
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    isStaticHoverTip
+                        ? InvalidStaticHoverTipLocalizationTarget
+                        : InvalidKeywordLocalizationTarget,
+                    attribute.GetLocation()
+                )
+            );
+
+        var arguments = attribute.ArgumentList?.Arguments ?? default;
+        foreach (var argument in arguments.Where(argument => argument.NameColon is null))
+            context.ReportDiagnostic(
+                Diagnostic.Create(UnnamedArgument, argument.Expression.GetLocation())
+            );
+
+        var namedArguments = arguments.Where(argument => argument.NameColon is not null).ToArray();
+        var title = namedArguments.FirstOrDefault(argument =>
+            argument.NameColon!.Name.Identifier.ValueText == "title"
+        );
+        var description = namedArguments.FirstOrDefault(argument =>
+            argument.NameColon!.Name.Identifier.ValueText == "description"
+        );
+        if (
+            namedArguments.Length != 2
+            || title is null
+            || description is null
+            || !IsStringLiteral(title.Expression)
+            || !IsStringLiteral(description.Expression)
+        )
+            context.ReportDiagnostic(
+                Diagnostic.Create(InvalidLocalization, attribute.GetLocation())
+            );
+    }
+
+    private static bool IsStringLiteral(ExpressionSyntax expression) =>
+        expression is LiteralExpressionSyntax literal
+        && literal.IsKind(SyntaxKind.StringLiteralExpression);
+
+    private static bool IsNamedAttribute(AttributeSyntax attribute, string name) =>
+        attribute.Name.ToString() == name
+        || attribute.Name.ToString() == $"{name}Attribute"
+        || attribute.Name.ToString().EndsWith($".{name}")
+        || attribute.Name.ToString().EndsWith($".{name}Attribute");
 
     private static void AnalyzeClass(SyntaxNodeAnalysisContext context)
     {
@@ -128,7 +215,7 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var validVariables = DynamicVariables.FindDynamicVariables(clazz);
+        var validVariables = DynamicVariables.FindDynamicVariables(clazz, context.SemanticModel);
         foreach (
             var localizationString in localizationStrings.Where(localization =>
                 localization.Name != "title"

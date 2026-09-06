@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Sabotage",
-    description: "Deal {InternalDamageEnemy:diff()} [gold]Internal Damage[/gold]. Take {InternalDamageSelf:inverseDiff()} [gold]Internal Damage[/gold]."
+    description: "Deal {InternalDamageEnemy:diff()} [gold]Internal Damage[/gold].\nTake {InternalDamageSelf:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class SabotageCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)

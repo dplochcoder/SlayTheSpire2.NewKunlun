@@ -17,8 +17,8 @@ public partial class MobQuellJadePower : NewKunlunPower, ITalismanDetonateListen
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new TalismanDashVar<MobQuellJadePower>(power =>
-                TalismanDashCard.IsUpgradedAnywhere(power.Owner.Player)
+            new CardNameVar<TalismanDashCard>(() =>
+                TalismanDashCard.IsUpgradedAnywhere(Owner.Player)
             ),
         ];
 

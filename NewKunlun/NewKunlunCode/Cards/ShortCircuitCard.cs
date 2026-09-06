@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Short Circuit",
-    description: "Deal {Damage:diff()} damage. If the target has [gold]Talisman[/gold], play {TalismanDetonate:cardName()}."
+    description: "Deal {Damage:diff()} damage.\nIf the target is [gold]Marked[/gold], play {TalismanDetonate:cardName()}."
 )]
 public partial class ShortCircuitCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -24,13 +24,13 @@ public partial class ShortCircuitCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(15M, ValueProp.Move),
-            new TalismanDetonateVar<ShortCircuitCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Talisman(), Tip.TalismanDetonateCard(Owner)];
+        [Tip.Mark(), Tip.TalismanDetonateCard(Owner)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(20M);
 

@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Return to the Tao",
-    description: "Whenever [gold]Internal Damage[/gold] resolves on enemies this turn, immediately reapply it{Amount:cond:>1? {Amount} times|}."
+    description: "Whenever [gold]Internal Damage[/gold] resolves on enemies this turn, immediately reapply it{Amount:plural:| {Amount} times}."
 )]
 public class ReturnToTheTaoPower : NewKunlunPower, IInternalDamageListener
 {
@@ -38,12 +38,13 @@ public class ReturnToTheTaoPower : NewKunlunPower, IInternalDamageListener
     )
     {
         if (Owner.CombatState?.Enemies.Contains(target) ?? false)
-            await InternalDamageCmd.Inflict(
-                choiceContext,
-                target,
-                new InternalDamageInflictVar(amount),
-                Owner,
-                null
-            );
+            for (var i = 0; i < Amount; i++)
+                await InternalDamageCmd.Inflict(
+                    choiceContext,
+                    target,
+                    new InternalDamageInflictVar(amount),
+                    Owner,
+                    null
+                );
     }
 }

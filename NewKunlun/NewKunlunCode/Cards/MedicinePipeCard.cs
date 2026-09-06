@@ -1,4 +1,5 @@
-﻿using BaseLib.Utils;
+﻿using BaseLib.Cards;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -17,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Medicine Pipe",
-    description: "Heal {Heal:diff()} hp. Heal all [gold]Internal Damage[/gold]. After {RemainingUses:diff()} more uses, this card is removed from your deck."
+    description: "Heal {Heal:diff()} hp.\nHeal all [gold]Internal Damage[/gold].\n{RemainingUses:cond:>1?After {RemainingUses:diff()} more uses, [gold]Purge[/gold] this card.|}"
 )]
 public partial class MedicinePipeCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
@@ -45,14 +46,21 @@ public partial class MedicinePipeCard()
         }
     }
 
-    private void UpdateValues() =>
+    private void UpdateValues()
+    {
         RemainingUses.BaseValue = Math.Max(0, TotalUses.BaseValue - TimesUsed);
+        if (RemainingUses.BaseValue > 1 && Keywords.Contains(BaseLibKeywords.Purge))
+            RemoveKeyword(BaseLibKeywords.Purge);
+        else if (RemainingUses.BaseValue <= 1 && !Keywords.Contains(BaseLibKeywords.Purge))
+            AddKeyword(BaseLibKeywords.Purge);
+    }
 
     protected override void OnUpgrade()
     {
         Heal.UpgradeValueTo(16M);
         TotalUses.UpgradeValueTo(4M);
         RemainingUses.UpgradeValueBy(1M);
+        UpdateValues();
     }
 
     protected override void AfterDowngraded() => UpdateValues();
@@ -67,9 +75,6 @@ public partial class MedicinePipeCard()
             Owner.Creature,
             this
         );
-
-        var deckVersion = this.Permanently(c => ++c.TimesUsed);
-        if (deckVersion is { RemainingUses.BaseValue: 0 })
-            await CardPileCmd.RemoveFromDeck(deckVersion);
+        this.Permanently(c => ++c.TimesUsed);
     }
 }

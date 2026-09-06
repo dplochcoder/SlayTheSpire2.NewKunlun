@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Power Bank",
-    description: "Draw {NumCards:diff()} cards. Add a [gold]Void[/gold] on top of your draw pile."
+    description: "Draw {NumCards:diff()} cards.\nAdd a [gold]Void[/gold] on top of your draw pile."
 )]
 public partial class PowerBankCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

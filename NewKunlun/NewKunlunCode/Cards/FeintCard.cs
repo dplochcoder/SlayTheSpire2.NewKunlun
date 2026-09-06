@@ -14,15 +14,15 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Feint",
-    description: "Deal {Damage:diff()} damage. {IfUpgraded:show:[green]Draw 1 card.[/green] |}Place 1 card from your hand on top of your draw pile.",
+    description: "Deal {Damage:diff()} damage.\n{IfUpgraded:show:[green]Draw 1 card.[/green]\n|}Place 1 card from your hand on top of your draw pile.",
     selectionScreenPrompt: "Choose a card to place on top of your draw pile."
 )]
 public partial class FeintCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(2M, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3M, ValueProp.Move)];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(4M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(5M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

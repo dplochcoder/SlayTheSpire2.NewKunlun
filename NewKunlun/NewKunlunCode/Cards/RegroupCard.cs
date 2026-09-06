@@ -14,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Regroup",
-    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]. Keep your energy this turn."
+    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold].\nKeep your energy this turn."
 )]
 public partial class RegroupCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

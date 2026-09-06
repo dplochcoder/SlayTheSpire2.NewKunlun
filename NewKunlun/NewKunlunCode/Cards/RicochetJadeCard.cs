@@ -21,11 +21,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class RicochetJadeCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageInflictVar(4M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageInflictVar(5M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 
-    protected override void OnUpgrade() => InternalDamageInflict.UpgradeValueTo(7M);
+    protected override void OnUpgrade() => InternalDamageInflict.UpgradeValueTo(8M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

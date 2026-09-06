@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Unbounded Strike",
-    description: "Deal {Damage:diff()} damage. Add 1 [gold]Smolder[/gold] each to your draw and discard piles."
+    description: "Deal {Damage:diff()} damage.\nShuffle 1 [gold]Smolder[/gold] into your draw pile."
 )]
 public partial class UnboundedStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -23,11 +23,11 @@ public partial class UnboundedStrikeCard()
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(18M, ValueProp.Move)];
+        [new DamageVar(17M, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<SmolderCard>()];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(24M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(23M);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -37,7 +37,9 @@ public partial class UnboundedStrikeCard()
             .WithSlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Draw);
-        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Discard);
+        await this.AddGeneratedCardToPile<SmolderCard>(
+            PileType.Draw,
+            position: CardPilePosition.Random
+        );
     }
 }

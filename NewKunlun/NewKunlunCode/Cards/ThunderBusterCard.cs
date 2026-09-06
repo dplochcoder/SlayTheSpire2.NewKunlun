@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Thunder Buster",
-    description: "At the end of your next {TurnCount:diff()} turns, deal {Damage:diff()} damage {HitCount:diff()} times to all enemies. Deals damage an additional time each turn for every [gold]Dark Steel[/gold]."
+    description: "At the end of each of your next {TurnCount:diff()} turns, deal {Damage:diff()} damage {HitCount:diff()} times to all enemies.\n[gold]Sharpening[/gold] deals damage an additional time each turn."
 )]
 public partial class ThunderBusterCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AllEnemies),
@@ -29,11 +29,11 @@ public partial class ThunderBusterCard()
             new CustomVar(
                 nameof(HitCount),
                 3M,
-                _ => 3M + Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 3M + Owner.Creature.GetPowerAmount<SharpenedPower>()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.DarkSteelPower()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Sharpen()];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

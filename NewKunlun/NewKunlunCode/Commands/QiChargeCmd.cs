@@ -50,10 +50,10 @@ public static class QiChargeCmd
             target.GetPower<QiChargePower>()?.Flash();
     }
 
-    public static async Task<decimal> ConsumeQiCharges(
+    public static async Task<int> Discharge(
         PlayerChoiceContext choiceContext,
         Creature target,
-        decimal maximum,
+        int maximum,
         Creature? applier,
         CardModel? cardSource
     )

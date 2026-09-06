@@ -1,7 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using NewKunlun.NewKunlunCode.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -16,9 +15,6 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
     : CustomCardModel(cost, type, rarity, target)
 {
     public virtual bool IsParryCard => false;
-
-    // `Owner` is annotated as non-nullable but this is a lie.
-    protected Player? MaybeOwner => Owner;
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)

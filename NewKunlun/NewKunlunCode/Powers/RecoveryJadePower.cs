@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Recovery Jade",
-    description: "Heal {Amount} [gold]Internal Damage[/gold] at the end of your turn."
+    description: "At the end of your turn, heal {Amount} [gold]Internal Damage[/gold]."
 )]
 public class RecoveryJadePower : NewKunlunPower
 {

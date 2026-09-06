@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cloud Piercer",
-    description: "Remove all enemy [gold]Block[/gold]. Apply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold]. Deal {Damage:diff()} damage. Deals {ExtraDamage:diff()} additional damage for every [icon]Dark Steel[/icon]."
+    description: "Remove all enemy [gold]Block[/gold].\nApply {Weak} [gold]Weak[/gold] and {Vulnerable} [gold]Vulnerable[/gold].\nDeal {Damage:diff()} damage.\n[gold]Sharpening[/gold] deals {ExtraDamage:diff()} additional damage."
 )]
 public partial class CloudPiercerCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy),
@@ -32,13 +32,13 @@ public partial class CloudPiercerCard()
                 nameof(Damage),
                 36M,
                 ValueProp.Move,
-                _ => 36M + ExtraDamage.BaseValue * Owner.Creature.GetPowerAmount<DarkSteelPower>()
+                _ => 36M + ExtraDamage.BaseValue * Owner.Creature.GetPowerAmount<SharpenedPower>()
             ),
             new DynamicVar(nameof(ExtraDamage), 8M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Weak(), Tip.Vulnerable(), Tip.DarkSteelPower()];
+        [Tip.Block(), Tip.Weak(), Tip.Vulnerable(), Tip.Sharpen()];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

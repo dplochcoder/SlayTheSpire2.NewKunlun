@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Recovery Jade",
-    description: "Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold] at the end of your turn."
+    description: "At the end of your turn, Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class RecoveryJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)

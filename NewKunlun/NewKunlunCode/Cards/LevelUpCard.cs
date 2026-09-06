@@ -11,7 +11,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Level Up",
-    description: "Choose a power from your deck and pull it into your hand. It gains Retain this turn.",
+    description: "Choose a power from your deck and pull it into your hand.\nIt gains Retain this turn.",
     selectionScreenPrompt: "Choose a power to add to your hand."
 )]
 public class LevelUpCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Immortal Dash",
-    description: "Gain {Block:diff()} [gold]Block[/gold]. Gain {Dexterity:diff()} [gold]Dexterity[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold].\nGain {Dexterity:diff()} [gold]Dexterity[/gold]."
 )]
 public partial class ImmortalDashCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

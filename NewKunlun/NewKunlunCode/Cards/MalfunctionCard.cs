@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Malfunction",
-    description: "Take {OnExhaustDamage:inverseDiff()} [gold]Internal Damage[/gold].\nDraw 1 card.\nIf this is in your hand at the end of your turn, take {EndOfTurnDamage:inverseDiff()} [gold]Internal Damage[/gold] and increase damage values by {DamageIncrement}."
+    description: "Draw 1 card.\nIf this is in your hand at the end of your turn, take {Damage:inverseDiff()} [gold]Internal Damage[/gold] and increase damage by {DamageIncrement:inverseDiff()}."
 )]
 public partial class MalfunctionCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.Self)
@@ -26,9 +26,8 @@ public partial class MalfunctionCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new InternalDamageSelfInflictVar(nameof(EndOfTurnDamage), 2M),
-            new InternalDamageSelfInflictVar(nameof(OnExhaustDamage), 4M),
-            new DynamicVar(nameof(DamageIncrement), 2M),
+            new InternalDamageSelfInflictVar(nameof(Damage), 4M),
+            new DynamicVar(nameof(DamageIncrement), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
@@ -37,15 +36,10 @@ public partial class MalfunctionCard()
 
     protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
     {
-        await InternalDamageCmd.Inflict(choiceContext, Owner.Creature, EndOfTurnDamage, null, this);
-
-        EndOfTurnDamage.BaseValue += DamageIncrement.BaseValue;
-        OnExhaustDamage.BaseValue += DamageIncrement.BaseValue;
+        await InternalDamageCmd.Inflict(choiceContext, Owner.Creature, Damage, null, this);
+        Damage.BaseValue += DamageIncrement.BaseValue;
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-    {
-        await InternalDamageCmd.Inflict(choiceContext, Owner.Creature, OnExhaustDamage, null, this);
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
         await CardPileCmd.Draw(choiceContext, Owner);
-    }
 }

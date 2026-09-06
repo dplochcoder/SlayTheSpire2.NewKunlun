@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Overcharge",
-    description: "Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]. Gain {Energy:energyIcons()}."
+    description: "Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold].\nGain {Energy:energyIcons()}."
 )]
 public partial class OverchargeCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Common, TargetType.Self)

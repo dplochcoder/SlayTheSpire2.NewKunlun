@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Brace",
-    description: "Gain {Block:diff()} [gold]Block[/gold]. Take {Imperfect:diff()} [gold]Imperfect[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold].\nTake {Imperfect:diff()} [gold]Imperfect[/gold]."
 )]
 public partial class BraceCard()
     : NewKunlunCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

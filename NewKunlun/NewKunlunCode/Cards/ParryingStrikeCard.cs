@@ -16,9 +16,9 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Parrying Strike",
-    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} [gold]Block[/gold]. The next [gold]Parry Card[/gold] you play is free."
+    description: "Deal {Damage:diff()} damage\nGain {Block:diff()} [gold]Block[/gold].\nThe next [gold]Parry Card[/gold] you play this turn is free."
 )]
-public partial class ParryingStrike()
+public partial class ParryingStrikeCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
@@ -26,13 +26,13 @@ public partial class ParryingStrike()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(11M, ValueProp.Move), new BlockVar(4M, ValueProp.Move)];
+        [new DamageVar(15M, ValueProp.Move), new BlockVar(4M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCardKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCard()];
 
     protected override void OnUpgrade()
     {
-        Damage.UpgradeValueTo(16M);
+        Damage.UpgradeValueTo(20M);
         Block.UpgradeValueTo(6M);
     }
 

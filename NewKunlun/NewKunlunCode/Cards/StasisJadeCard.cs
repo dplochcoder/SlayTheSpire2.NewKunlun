@@ -13,12 +13,12 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Stasis Jade",
-    description: "Take half damage from enemies how had the [gold]Talisman[/gold] debuff this turn."
+    description: "Take half damage from enemies who are [gold]Marked[/gold] or were [gold]Detonated[/gold] this turn."
 )]
 public class StasisJadeCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Talisman()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Detonate()];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

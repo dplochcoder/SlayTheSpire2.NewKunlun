@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Mob Quell Jade",
-    description: "{TalismanDash:cardName()} targets all enemies. Your next {IfUpgraded:show:2 {TalismanDetonate:cardName()}s deal|{TalismanDetonate:cardName()} deals} double damage."
+    description: "{TalismanDash:cardName()} targets all enemies.\nYour next {IfUpgraded:show:2 |}{TalismanDetonate:cardName()}{IfUpgraded:show:s deal| deals} 50% more damage."
 )]
 public partial class MobQuellJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
@@ -24,11 +24,9 @@ public partial class MobQuellJadeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DynamicVar(nameof(DoubleDamages), 1M),
-            new TalismanDashVar<MobQuellJadeCard>(card =>
-                TalismanDashCard.IsUpgradedAnywhere(card.Owner)
-            ),
-            new TalismanDetonateVar<MobQuellJadeCard>(card =>
-                TalismanDetonateCard.IsUpgradedAnywhere(card.Owner)
+            new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
         ];
 
@@ -46,7 +44,7 @@ public partial class MobQuellJadeCard()
             Owner.Creature,
             this
         );
-        await PowerCmd.Apply<MobQuellJadeDoubleDamagePower>(
+        await PowerCmd.Apply<MobQuellJadeDamageMultiplierPower>(
             choiceContext,
             Owner.Creature,
             DoubleDamages.BaseValue,

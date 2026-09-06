@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Thieving Strike",
-    description: "Deal {Damage:diff()} damage. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage.\nHeal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class ThievingStrikeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)

@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Take You With Me",
-    description: "Deal {Damage:diff()} damage. Deals {ExtraDamage:diff()} additional damage for each [gold]Internal Damage[/gold] you have."
+    description: "Deal {Damage:diff()} damage.\nDeals {ExtraDamage:diff()} additional damage for each [gold]Internal Damage[/gold] you have."
 )]
 public partial class TakeYouWithMeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)

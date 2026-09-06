@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Controlled Burn",
-    description: "Transform 2 cards in your hand into [gold]Smolder[/gold]. Gain {Energy:energyIcons()}. Add 1 [gold]Smolder[/gold] to your discard pile."
+    description: "Transform 2 cards in your hand into [gold]Smolder[/gold].\nGain {Energy:energyIcons()}.\nAdd 1 [gold]Smolder[/gold] to your discard pile."
 )]
 public partial class ControlledBurnCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)

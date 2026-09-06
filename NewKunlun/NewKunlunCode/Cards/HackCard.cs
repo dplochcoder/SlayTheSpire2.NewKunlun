@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Hack",
-    description: "Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]. Inflict [gold]Internal Damage[/gold] equal to their current total."
+    description: "Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold].\nInflict [gold]Internal Damage[/gold] equal to the target's total."
 )]
 public partial class HackCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)

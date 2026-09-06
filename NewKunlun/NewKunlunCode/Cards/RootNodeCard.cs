@@ -20,7 +20,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Root Node",
-    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP. Heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold]. Gain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold]. Select up to {TopDeckCards:diff()} {TopDeckCards:plural:card|cards} from your deck and place {TopDeckCards:cond:>1?them|it} on top. {UpgradesRemaining:cond:>0?Can be upgraded {UpgradesRemaining:diff()} {UpgradesRemaining:plural:more time|more times}|}.",
+    description: "Heal {HealHP:diff()}. Gain {GainMaxHP:diff()} max HP.\nHeal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold].\nGain {Strength:diff()} [gold]Strength[/gold] and {Dexterity:diff()} [gold]Dexterity[/gold].\nSelect up to {TopDeckCards:diff()} {TopDeckCards:plural:card|cards} from your draw pile and place {TopDeckCards:cond:>1?them|it} on top.{UpgradesRemaining:cond:>0?\nCan be upgraded {UpgradesRemaining:diff()} {UpgradesRemaining:plural:more time|more times}.|}",
     selectionScreenPrompt: "Select up to {TopDeckCards} {TopDeckCards:plural:card|cards} to place at the top of your deck."
 )]
 public partial class RootNodeCard()

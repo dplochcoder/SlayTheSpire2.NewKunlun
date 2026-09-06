@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Spar",
-    description: "Deal {Damage:diff()} damage. Gain {Block:diff()} [gold]Block[/gold]. Gain {Strength:diff()} [gold]Strength[/gold]. Take {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage.\nGain {Block:diff()} [gold]Block[/gold].\nGain {Strength:diff()} [gold]Strength[/gold].\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
 )]
 public partial class SparCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
@@ -28,9 +28,9 @@ public partial class SparCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(8M, ValueProp.Move),
-            new BlockVar(4M, ValueProp.Move),
+            new BlockVar(3M, ValueProp.Move),
             new DynamicVar(nameof(Strength), 1M),
-            new InternalDamageSelfInflictVar(4M),
+            new InternalDamageSelfInflictVar(3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

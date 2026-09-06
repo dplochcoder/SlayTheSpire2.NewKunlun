@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Oppress",
-    description: "Whenever the enemy takes damage this turn, it takes {InternalDamage:diff()} [gold]Internal Damage[/gold]. Deal {Damage:diff()} damage."
+    description: "Whenever the enemy takes damage this turn, it takes {InternalDamage:diff()} [gold]Internal Damage[/gold].\nDeal {Damage:diff()} damage."
 )]
 public partial class OppressCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cut Through",
-    description: "Deal {Damage:diff()} damage. Inflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
+    description: "Deal {Damage:diff()} damage.\nInflict {InternalDamageInflict:diff()} [gold]Internal Damage[/gold]."
 )]
 public partial class CutThroughCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)

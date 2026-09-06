@@ -1,54 +1,33 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Full Control",
-    description: "{TalismanDetonate:cardName()} deals {Amount} additional damage per [gold]Qi Charge[/gold]. You can choose how many [gold]Qi Charges[/gold] to spend on detonation, and can spend any number."
+    description: "[gold]Discharge[/gold] any number of [gold]Qi Charges[/gold] when you [gold]Detonate[/gold]."
 )]
 public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListener
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new TalismanDetonateVar<FullControlPower>(power =>
-                TalismanDetonateCard.IsUpgradedAnywhere(power.Owner.Player)
-            ),
-        ];
-
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerStackType StackType => PowerStackType.Single;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tip.TalismanDetonateCardWithTips(Owner.Player);
+        [Tip.Discharge(), Tip.QiCharge(), Tip.Detonate()];
 
-    public override decimal ModifyDamageAdditive(
-        Creature? target,
-        decimal amount,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource,
-        CardPlay? cardPlay
-    ) => Owner == dealer && cardSource is TalismanDetonateCard ? Amount : 0;
-
-    public async Task<decimal> ConsumeQiCharges(
+    public async Task<int> Discharge(
         PlayerChoiceContext choiceContext,
         Player player,
-        CardModel? cardSource
+        TalismanDetonateCard cardSource
     )
     {
         var available = player.Creature.GetPowerAmount<QiChargePower>();
@@ -60,13 +39,15 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
         {
             var card = CombatState.CreateCard<QiChargesCard>(player);
             card.QiCharges.BaseValue = i + 1;
+            card.DetonateDamage.BaseValue =
+                (i + 1) * cardSource.TalismanDetonateBaseDamage.Calculate(cardSource);
             cards.Add(card);
         }
 
         var selected = await CardSelectCmd.FromChooseACardScreen(choiceContext, cards, player);
-        var toSpend = ((QiChargesCard)selected!).QiCharges.BaseValue;
+        var toSpend = ((QiChargesCard)selected!).QiCharges.IntValue;
 
-        var actualSpent = await QiChargeCmd.ConsumeQiCharges(
+        var actualSpent = await QiChargeCmd.Discharge(
             choiceContext,
             player.Creature,
             toSpend,
@@ -75,9 +56,4 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
         );
         return actualSpent;
     }
-
-    decimal ITalismanDetonateListener.BaseDamageAdditiveModifier(
-        decimal amount,
-        Creature? dealer
-    ) => dealer == Owner ? Amount : 0;
 }

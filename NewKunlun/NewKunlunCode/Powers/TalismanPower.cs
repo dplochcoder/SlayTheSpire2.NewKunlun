@@ -1,23 +1,22 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Cards;
-using NewKunlun.NewKunlunCode.Combat.History;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Talisman",
-    description: "[gold]Talisman Detonate[/gold] can be activated on this enemy. Removed after 2 turns or on detonate.",
-    smartDescription: "{TalismanDetonate:cardName()} can be activated on this enemy. Removed after {TurnsRemaining} {TurnsRemaining:plural:turns|turn} or on detonate.",
-    remoteDescription: "Another player can activate {TalismanDetonate:cardName()} on this enemy."
+    description: "[gold]Marked[/gold] by your Talisman.\nRemoved after 2 turns, or when you [gold]Detonate[/gold].",
+    smartDescription: "[gold]Marked[/gold] by your Talisman.\nRemoved after {TurnsRemaining} {TurnsRemaining:plural:turn|turns}, or when you [gold]Detonate[/gold].",
+    remoteDescription: "[gold]Marked[/gold] by another player's Talisman."
 )]
 public partial class TalismanPower : NewKunlunPower
 {
@@ -26,36 +25,45 @@ public partial class TalismanPower : NewKunlunPower
     public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar(nameof(TurnsRemaining), 2M)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Detonate()];
+
+    private static IReadOnlyList<TalismanPower> GetAll(Player player)
+    {
+        if (player.Creature.CombatState == null)
+            return [];
+
+        return
         [
-            new DynamicVar(nameof(TurnsRemaining), 2M),
-            new TalismanDetonateVar<TalismanPower>(power =>
-                TalismanDetonateCard.IsUpgradedAnywhere(power.Applier?.Player)
+            .. player.Creature.CombatState.Enemies.SelectMany(e =>
+                e.GetPowerInstances<TalismanPower>().Where(p => p.Applier == player.Creature)
             ),
         ];
+    }
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.TalismanDetonateCard(Applier?.Player)];
-
-    public override Task AfterRemoved(Creature oldOwner)
+    public static async Task RemoveAll(Player player)
     {
-        var combatState = oldOwner.CombatState;
-        if (combatState is null)
-            return Task.CompletedTask;
+        foreach (var power in GetAll(player))
+            await PowerCmd.Remove(power);
+    }
 
-        var history = CombatManager.Instance.History;
-        history.Add(
-            combatState,
-            new TalismanRemovedEntry(
-                oldOwner,
-                Applier,
-                combatState.RoundNumber,
-                combatState.CurrentSide,
-                history,
-                combatState.Players
-            )
-        );
-
-        return Task.CompletedTask;
+    public static async Task DetonateAll(
+        PlayerChoiceContext choiceContext,
+        TalismanDetonateCard cardSource
+    )
+    {
+        foreach (var power in GetAll(cardSource.Owner))
+        {
+            await PowerCmd.Apply<TalismanDetonatedThisTurnPower>(
+                choiceContext,
+                power.Owner,
+                1M,
+                cardSource.Owner.Creature,
+                cardSource
+            );
+            await PowerCmd.Remove(power);
+        }
     }
 
     public override async Task AfterSideTurnEnd(

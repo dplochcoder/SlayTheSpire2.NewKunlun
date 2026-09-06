@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Perfect Parry",
-    description: "Gain {Block:diff()} [gold]Block[/gold]. Draw 1 card. Gain 1 [gold]Parry[/gold]."
+    description: "Gain {Block:diff()} [gold]Block[/gold].\nDraw 1 card.\nGain 1 [gold]Parry[/gold]."
 )]
 public partial class PerfectParryCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.Self)

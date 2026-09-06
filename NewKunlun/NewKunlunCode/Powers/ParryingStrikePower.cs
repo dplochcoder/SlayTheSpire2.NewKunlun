@@ -14,14 +14,14 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Parrying Strike",
-    description: "The next {Amount:cond:>1?{Amount} [gold]Parry Cards[/gold]|[gold]Parry Card[/gold]} you play {Amount:cond:>1?are|is} free."
+    description: "The next {Amount:plural:{Amount}|} [gold]Parry Card{Amount:plural:s|}[/gold] you play {Amount:plural:are|is} free."
 )]
 public class ParryingStrikePower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCardKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCard()];
 
     private bool ShouldCardBeFree(CardModel card) =>
         card.Pile?.Type is PileType.Hand or PileType.Play

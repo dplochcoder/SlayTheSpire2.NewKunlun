@@ -10,20 +10,19 @@ namespace NewKunlun.NewKunlunCode.Variables;
 public class TalismanDetonateBaseDamageVar(decimal damage)
     : DamageVar("TalismanDetonateBaseDamage", damage, ValueProp.Unblockable | ValueProp.Unpowered)
 {
+    public decimal Calculate(CardModel card) =>
+        card.CombatState != null
+            ? ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
+                card.CombatState,
+                BaseValue,
+                card.Owner.Creature
+            )
+            : BaseValue;
+
     public override void UpdateCardPreview(
         CardModel card,
         CardPreviewMode previewMode,
         Creature? target,
         bool runGlobalHooks
-    )
-    {
-        if (runGlobalHooks && card.CombatState != null)
-            PreviewValue = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
-                card.CombatState,
-                BaseValue,
-                card.Owner.Creature
-            );
-        else
-            PreviewValue = BaseValue;
-    }
+    ) => PreviewValue = runGlobalHooks ? Calculate(card) : BaseValue;
 }

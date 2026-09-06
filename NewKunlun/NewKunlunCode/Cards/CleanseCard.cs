@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Cleanse",
-    description: "At the end of your next {Turns:diff()} turns, heal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold] and [gold]Exhaust[/gold] 1 card from your hand."
+    description: "At the end of your next {Turns:diff()} turns:\nHeal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold].\n[gold]Exhaust[/gold] 1 card from your hand."
 )]
 public partial class CleanseCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
