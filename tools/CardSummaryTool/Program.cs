@@ -170,16 +170,18 @@ static IReadOnlyList<string> ReadCanonicalKeywords(ClassDeclarationSyntax declar
 
     SyntaxNode valueNode =
         property.ExpressionBody?.Expression ?? (SyntaxNode?)property.AccessorList ?? property;
-    return valueNode
-        .DescendantNodesAndSelf()
-        .OfType<MemberAccessExpressionSyntax>()
-        .Where(member =>
-            member.Expression.ToString().EndsWith("CardKeyword", StringComparison.Ordinal)
-            || member.Expression.ToString().EndsWith("Keywords", StringComparison.Ordinal)
-        )
-        .Select(member => SplitPascalCase(member.Name.Identifier.ValueText))
-        .Distinct(StringComparer.OrdinalIgnoreCase)
-        .ToArray();
+    return
+    [
+        .. valueNode
+            .DescendantNodesAndSelf()
+            .OfType<MemberAccessExpressionSyntax>()
+            .Where(member =>
+                member.Expression.ToString().EndsWith("CardKeyword", StringComparison.Ordinal)
+                || member.Expression.ToString().EndsWith("Keywords", StringComparison.Ordinal)
+            )
+            .Select(member => SplitPascalCase(member.Name.Identifier.ValueText))
+            .Distinct(StringComparer.OrdinalIgnoreCase),
+    ];
 }
 
 static SmartFormatter CreateGameSmartFormatter(Assembly projectAssembly)
@@ -229,7 +231,7 @@ static SmartFormatter CreateGameSmartFormatter(Assembly projectAssembly)
     }
 
     if (customFormatters.Count > 0)
-        formatter.AddExtensions(customFormatters.ToArray());
+        formatter.AddExtensions([.. customFormatters]);
     return formatter;
 }
 
@@ -371,7 +373,7 @@ static IReadOnlyList<string> ReadEffectiveKeywords(
                 result.Add(SplitPascalCase(name));
         }
 
-    return result.ToArray();
+    return [.. result];
 }
 
 static bool HasBaseType(Type type, string baseTypeName)

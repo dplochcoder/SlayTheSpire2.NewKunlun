@@ -35,6 +35,6 @@ public partial class SurgeCard()
             .Targeting(cardPlay.Target!)
             .WithHeavySlashVfx()
             .Execute(choiceContext);
-        await this.AddGeneratedCardToPile<MalfunctionCard>(PileType.Discard);
+        await Owner.AddGeneratedCardToPile<MalfunctionCard>(PileType.Discard);
     }
 }

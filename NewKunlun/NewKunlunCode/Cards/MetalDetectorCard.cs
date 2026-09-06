@@ -15,11 +15,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "Scrap Heap",
+    title: "Metal Detector",
     description: "Choose 1 of 3 random cards in your discard pile to transform into {DarkSteel:cardName()}."
 )]
-public partial class ScrapHeapCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public partial class MetalDetectorCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

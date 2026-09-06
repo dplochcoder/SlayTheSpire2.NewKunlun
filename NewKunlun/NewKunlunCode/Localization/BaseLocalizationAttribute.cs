@@ -7,7 +7,8 @@ public abstract class BaseLocalizationAttribute(
     string? customPromptA = null,
     string? customPromptB = null,
     string? customPromptC = null,
-    string? customPromptD = null
+    string? customPromptD = null,
+    bool skipValidation = false
 ) : Attribute
 {
     public string Title { get; } = title;
@@ -16,4 +17,5 @@ public abstract class BaseLocalizationAttribute(
     public string? CustomPromptB { get; } = customPromptB;
     public string? CustomPromptC { get; } = customPromptC;
     public string? CustomPromptD { get; } = customPromptD;
+    public bool SkipValidation { get; } = skipValidation;
 }

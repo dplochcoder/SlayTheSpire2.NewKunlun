@@ -70,8 +70,6 @@
   "NEWKUNLUN-RETURN_TO_THE_TAO_POWER.title": "Return to the Tao",
   "NEWKUNLUN-RHYTHM_CHOP_POWER.description": "Whenever you have 3 or more [gold]Qi Charges[/gold] at the start of your turn, pull {TalismanDash:cardName()} into your hand.",
   "NEWKUNLUN-RHYTHM_CHOP_POWER.title": "Rhythm Chop",
-  "NEWKUNLUN-RICOCHET_JADE_POWER.description": "Every time you fully block an attack, inflict {Amount} [gold]Internal Damage[/gold] to the attacker.",
-  "NEWKUNLUN-RICOCHET_JADE_POWER.title": "Ricochet Jade",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.description": "",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.selectionScreenPrompt": "Select {Amount} {Amount:plural:card|cards} to transform into [gold]Malfunction[/gold].",
   "NEWKUNLUN-ROOT_CORRUPTION_POWER.smartDescription": "At the start of your turn, gain {Amount:energyIcons()}, draw {CardDraw} {CardDraw:plural:card|cards}, transform {Amount} {Amount:plural:card|cards} in your hand into [gold]Malfunction[/gold] and discard {Amount:plural:it|them}.",
@@ -80,6 +78,8 @@
   "NEWKUNLUN-SCHEMATICS_POWER.title": "Schematics",
   "NEWKUNLUN-SHARPENED_POWER.description": "Increases the power of the [gold]Azure Bow[/gold].",
   "NEWKUNLUN-SHARPENED_POWER.title": "Sharpened",
+  "NEWKUNLUN-SPEED_POWER.description": "At the start of your next 3 turns, draw {Amount:plural:1 additional card|{Amount} additional cards}.",
+  "NEWKUNLUN-SPEED_POWER.title": "Speed",
   "NEWKUNLUN-STASIS_JADE_POWER.description": "Take half damage from enemies who are [gold]Marked[/gold] or were [gold]Detonated[/gold] this turn.",
   "NEWKUNLUN-STASIS_JADE_POWER.title": "Stasis Jade",
   "NEWKUNLUN-TALISMAN_DETONATE_POWER.description": "Next turn, add one {TalismanDetonate:cardName()} to your hand.",
@@ -98,6 +98,9 @@
   "NEWKUNLUN-TIANHUO_POWER.title": "Tianhuo Virus",
   "NEWKUNLUN-TRANSFORMER_POWER.description": "At the end of your turn, transform leftover {1:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}.",
   "NEWKUNLUN-TRANSFORMER_POWER.title": "Transformer",
+  "NEWKUNLUN-VITALITY_POWER.description": "At the start of your next 3 turns, gain {Amount:energyIcons()}.",
+  "NEWKUNLUN-VITALITY_POWER.smartDescription": "At the start of your next {TurnsRemaining:plural:turn|{TurnsRemaining} turns}, gain {Amount:energyIcons()}.",
+  "NEWKUNLUN-VITALITY_POWER.title": "Vitality",
   "NEWKUNLUN-WATERFLOW_POWER.description": "{TalismanDetonate:cardName()} costs {Amount} less energy.",
   "NEWKUNLUN-WATERFLOW_POWER.title": "Waterflow"
 }

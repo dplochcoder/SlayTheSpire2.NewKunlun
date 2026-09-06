@@ -80,9 +80,11 @@ public static class Localization
     public static bool GetLocalizationStrings(
         AttributeSyntax attr,
         LocalizedModelKind kind,
-        out IReadOnlyList<LocalizationString> values
+        out IReadOnlyList<LocalizationString> values,
+        out bool skipValidation
     )
     {
+        skipValidation = false;
         IReadOnlyList<string> requiredParameterNames = kind switch
         {
             LocalizedModelKind.Card => ["title", "description"],
@@ -92,7 +94,7 @@ public static class Localization
         };
         if (attr.ArgumentList is not { } argumentList)
         {
-            values = Array.Empty<LocalizationString>();
+            values = [];
             return false;
         }
 
@@ -101,9 +103,21 @@ public static class Localization
         {
             var argument = argumentList.Arguments[index];
             var parameterName = argument.NameColon?.Name.Identifier.ValueText;
+            if (parameterName == "skipValidation")
+            {
+                if (!TryReadBool(argument.Expression, out var boolValue))
+                {
+                    values = [];
+                    return false;
+                }
+
+                skipValidation = boolValue;
+                continue;
+            }
+
             if (!TryReadString(argument.Expression, out var value))
             {
-                values = Array.Empty<LocalizationString>();
+                values = [];
                 return false;
             }
             if (
@@ -111,7 +125,7 @@ public static class Localization
                 || result.Any(localization => localization.Name == parameterName)
             )
             {
-                values = Array.Empty<LocalizationString>();
+                values = [];
                 return false;
             }
 
@@ -138,7 +152,7 @@ public static class Localization
             )
         )
         {
-            values = Array.Empty<LocalizationString>();
+            values = [];
             return false;
         }
 
@@ -164,6 +178,24 @@ public static class Localization
         }
 
         value = "";
+        return false;
+    }
+
+    private static bool TryReadBool(ExpressionSyntax expression, out bool value)
+    {
+        if (
+            expression is LiteralExpressionSyntax literal
+            && (
+                literal.IsKind(SyntaxKind.TrueLiteralExpression)
+                || literal.IsKind(SyntaxKind.FalseLiteralExpression)
+            )
+        )
+        {
+            value = literal.IsKind(SyntaxKind.TrueLiteralExpression);
+            return true;
+        }
+
+        value = false;
         return false;
     }
 }

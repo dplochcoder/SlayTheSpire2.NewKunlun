@@ -136,9 +136,7 @@ internal static class CardDiscovery
             }
         }
 
-        return result
-            .OrderBy(card => card.Title, StringComparer.CurrentCultureIgnoreCase)
-            .ToArray();
+        return [.. result.OrderBy(card => card.Title, StringComparer.CurrentCultureIgnoreCase)];
     }
 
     private static bool DirectlyExtends(ClassDeclarationSyntax clazz, string baseName) =>

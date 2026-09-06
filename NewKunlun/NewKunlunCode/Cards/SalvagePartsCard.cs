@@ -9,44 +9,32 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
-    title: "You're Next",
-    description: "Deal {Damage:diff()} damage.\nIf this attack kills an enemy, add one [green]Azure Sand+[/green] to the top of your draw pile."
+    title: "Salvage Parts",
+    description: "Deal {Damage:diff()} damage.\nShuffle an {AzureSand:cardName()} into your discard pile."
 )]
-public partial class YoureNextCard()
+public partial class SalvagePartsCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(18M, ValueProp.Move)];
+        [new DamageVar(12M, ValueProp.Move), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.AzureSand()];
-
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(27M);
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [Tip.AzureSand(upgrade: IsUpgraded)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var attack = await DamageCmd
+        await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithHeavySlashVfx()
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        var kills = attack
-            .Results.SelectMany(list => list)
-            .Where(result => result.WasTargetKilled)
-            .Select(result => result.Receiver)
-            .Distinct()
-            .Count();
-
-        for (var i = 0; i < kills; i++)
-            await this.AddGeneratedCardToPile<AzureSandCard>(
-                PileType.Draw,
-                upgrade: true,
-                CardPilePosition.Top
-            );
+        await Owner.AddGeneratedCardToPile<AzureSandCard>(PileType.Discard, upgrade: IsUpgraded);
     }
 }

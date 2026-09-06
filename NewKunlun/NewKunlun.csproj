@@ -176,6 +176,10 @@
     <Content Include="NewKunlun\mod_image.png.import" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewKunlunCode\Rewards\" />
+  </ItemGroup>
+
   <Target Name="CheckDependencyPaths">
     <Error
       Text=" Slay the Spire 2 data not found at path '$(Sts2DataDir)'"

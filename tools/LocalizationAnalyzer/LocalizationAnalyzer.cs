@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace CardLocalizationAnalyzer;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
+public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
 {
     public const string InvalidLocalizationId = "NKLOC001";
     public const string UnknownVariableId = "NKLOC002";
@@ -75,14 +75,14 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
     );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(
+        [
             InvalidLocalization,
             UnknownVariable,
             UnnamedArgument,
             MissingOrMismatchedLocalization,
             InvalidKeywordLocalizationTarget,
-            InvalidStaticHoverTipLocalizationTarget
-        );
+            InvalidStaticHoverTipLocalizationTarget,
+        ];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -209,11 +209,21 @@ public sealed class LocaliationAnalyzer : DiagnosticAnalyzer
         if (unnamedArguments.Length > 0)
             return;
 
-        if (!Localization.GetLocalizationStrings(attr, kind, out var localizationStrings))
+        if (
+            !Localization.GetLocalizationStrings(
+                attr,
+                kind,
+                out var localizationStrings,
+                out var skipValidation
+            )
+        )
         {
             context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
             return;
         }
+
+        if (skipValidation)
+            return;
 
         var validVariables = DynamicVariables.FindDynamicVariables(clazz, context.SemanticModel);
         foreach (

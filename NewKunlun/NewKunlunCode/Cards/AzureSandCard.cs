@@ -5,10 +5,9 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
-using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
@@ -33,21 +32,7 @@ public partial class AzureSandCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<AzureSandMagazinePower>(
-            choiceContext,
-            Owner.Creature,
-            ReloadCount.BaseValue,
-            Owner.Creature,
-            this
-        );
-
-        var bow = Owner.FindCard<AzureBowCard>([PileType.Draw, PileType.Hand, PileType.Discard]);
-        if (bow == null)
-            await this.AddGeneratedCardToPile<AzureBowCard>(
-                PileType.Hand,
-                position: CardPilePosition.Top
-            );
-
+        await ReloadCmd.Reload(choiceContext, Owner, ReloadCount.IntValue, this);
         await CardPileCmd.Draw(choiceContext, Owner);
     }
 }

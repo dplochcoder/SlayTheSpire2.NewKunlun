@@ -29,6 +29,6 @@ public partial class PowerBankCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, NumCards.BaseValue, Owner);
-        await this.AddGeneratedCardToPile<Void>(PileType.Draw, position: CardPilePosition.Top);
+        await Owner.AddGeneratedCardToPile<Void>(PileType.Draw, position: CardPilePosition.Top);
     }
 }

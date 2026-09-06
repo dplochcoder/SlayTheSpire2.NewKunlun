@@ -55,6 +55,6 @@ public partial class ControlledBurnCard()
             await CardCmd.TransformTo<SmolderCard>(card);
 
         await PlayerCmd.GainEnergy(Energy.BaseValue, Owner);
-        await this.AddGeneratedCardToPile<SmolderCard>(PileType.Discard);
+        await Owner.AddGeneratedCardToPile<SmolderCard>(PileType.Discard);
     }
 }

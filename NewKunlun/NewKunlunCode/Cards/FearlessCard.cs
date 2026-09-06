@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
     title: "Fearless",
     description: "Whenever you take [gold]Internal Damage[/gold], draw 1 card."
 )]
-public class FearlessCard() : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+public class FearlessCard() : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
 

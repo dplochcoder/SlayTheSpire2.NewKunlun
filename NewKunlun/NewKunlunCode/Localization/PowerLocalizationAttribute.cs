@@ -10,15 +10,17 @@ public sealed class PowerLocalizationAttribute(
     string? customPromptA = null,
     string? customPromptB = null,
     string? customPromptC = null,
-    string? customPromptD = null
+    string? customPromptD = null,
+    bool skipValidation = false
 )
     : BaseLocalizationAttribute(
         title,
         description,
-        customPromptA,
-        customPromptB,
-        customPromptC,
-        customPromptD
+        customPromptA: customPromptA,
+        customPromptB: customPromptB,
+        customPromptC: customPromptC,
+        customPromptD: customPromptD,
+        skipValidation: skipValidation
     )
 {
     public string SmartDescription { get; } = smartDescription ?? description;

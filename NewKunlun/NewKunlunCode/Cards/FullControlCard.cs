@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
@@ -17,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Full Control",
-    description: "[gold]Boost[/gold] {Boost:diff()}.\nYou choose how many [gold]Qi Charges[/gold] to [gold]Discharge[/gold], without limit."
+    description: "[gold]Boost[/gold] {Boost:diff()}.\nChoose how many [gold]Qi Charges[/gold] to [gold]Discharge[/gold] when [gold]Detonating[/gold], without limit."
 )]
 public partial class FullControlCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
@@ -31,7 +30,7 @@ public partial class FullControlCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.TalismanDetonateCard(Owner), Tip.Discharge(), Tip.QiCharge()];
+        [Tip.Boost(), Tip.QiCharge(), Tip.Discharge(), Tip.Detonate()];
 
     protected override void OnUpgrade() => Boost.UpgradeValueTo(3M);
 
