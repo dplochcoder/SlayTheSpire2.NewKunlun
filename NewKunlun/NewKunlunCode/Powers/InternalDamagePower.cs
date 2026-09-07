@@ -62,7 +62,12 @@ public class InternalDamagePower : NewKunlunPower
             Owner
         );
 
-        await IInternalDamageListener.InvokeInternalDamageResolved(choiceContext, Owner, damage);
+        await IInternalDamageListener.InvokeInternalDamageResolved(
+            choiceContext,
+            Owner,
+            combatState,
+            damage
+        );
     }
 
     public override IEnumerable<HealthBarForecastSegment> GetHealthBarForecastSegments(

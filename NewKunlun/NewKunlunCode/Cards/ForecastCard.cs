@@ -13,7 +13,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Forecast",
-    description: "Look at 10 random cards from your deck, in order.\nDiscard up to 5 of them and preserve the rest."
+    description: "Look at 10 random cards from your deck, in order.\nDiscard up to 5 of them and preserve the rest.",
+    selectionScreenPrompt: "Select up to 5 cards to discard."
 )]
 public class ForecastCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {

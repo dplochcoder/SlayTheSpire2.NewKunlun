@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(StatusCardPool))]
 [CardLocalization(
     title: "Smolder",
-    description: "Take {OnExhaustDamage} damage.\nIf this is in your hand at the end of your turn, lose {EndOfTurnDamage:inverseDiff()} HP and add 1 [gold]Smolder[/gold] to your discard pile."
+    description: "Take {OnExhaustDamage} damage.\nDraw 1 card.\nIf this is in your hand at the end of your turn, lose {EndOfTurnDamage:inverseDiff()} HP and add 1 [gold]Smolder[/gold] to your discard pile."
 )]
 public partial class SmolderCard()
     : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.None)
@@ -57,5 +57,6 @@ public partial class SmolderCard()
     {
         SpawnFire();
         await CreatureCmd.Damage(choiceContext, Owner.Creature, OnExhaustDamage, this, cardPlay);
+        await CardPileCmd.Draw(choiceContext, Owner);
     }
 }

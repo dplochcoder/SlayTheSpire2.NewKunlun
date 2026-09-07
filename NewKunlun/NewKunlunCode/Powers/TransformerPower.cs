@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -10,12 +11,14 @@ namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
     title: "Transformer",
-    description: "At the end of your turn, transform leftover {1:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}."
+    description: "At the end of your turn, transform unspent {Energy:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}."
 )]
-public class TransformerPower : NewKunlunPower
+public partial class TransformerPower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

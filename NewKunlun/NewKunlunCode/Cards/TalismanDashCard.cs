@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
@@ -39,8 +40,11 @@ public partial class TalismanDashCard()
             ),
         ];
 
+    private bool HasMobQuellJade =>
+        IsMutable && Owner != null && Owner.Creature.HasPower<MobQuellJadePower>();
+
     public override TargetType TargetType =>
-        Owner.Creature.HasPower<MobQuellJadePower>() ? TargetType.AllEnemies : TargetType.AnyEnemy;
+        HasMobQuellJade ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
     private IEnumerable<IHoverTip> BoostTip() => IsUpgraded ? [Tip.Boost()] : [];
 
@@ -83,10 +87,9 @@ public partial class TalismanDashCard()
         if (CombatState == null)
             return;
         var attack = DamageCmd.Attack(Damage.BaseValue).FromCard(this, cardPlay);
-        attack =
-            TargetType == TargetType.AllEnemies
-                ? attack.TargetingAllOpponents(CombatState)
-                : attack.Targeting(cardPlay.Target!);
+        attack = HasMobQuellJade
+            ? attack.TargetingAllOpponents(CombatState)
+            : attack.Targeting(cardPlay.Target!);
         await attack.Execute(choiceContext);
 
         List<Creature> targets =

@@ -16,41 +16,27 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Controlled Burn",
-    description: "Transform 2 cards in your hand into [gold]Smolder[/gold].\nGain {Energy:energyIcons()}.\nAdd 1 [gold]Smolder[/gold] to your discard pile."
+    description: "Transform 2 cards in your hand into [gold]Smolder[/gold].\nGain {Energy:energyIcons()}.\nAdd 1 [gold]Smolder[/gold] to your discard pile.",
+    selectionScreenPrompt: "Choose 2 cards to transform into [gold]Smolder[/gold]"
 )]
 public partial class ControlledBurnCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Smolder()];
 
-    protected override void OnUpgrade() => Energy.UpgradeValueTo(2);
-
-    private bool IsEligibleCard(CardModel c) =>
-        c != this && c is not SmolderCard && c.IsTransformable;
-
-    private IEnumerable<CardModel> EligibleCards() =>
-        PileType.Hand.GetPile(Owner).Cards.Where(IsEligibleCard);
-
-    protected override bool IsPlayable => EligibleCards().Count() >= 2;
+    protected override void OnUpgrade() => Energy.UpgradeValueTo(3);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<CardModel> cards = [.. EligibleCards()];
-        if (cards.Count < 2)
-            return;
-
-        cards =
-        [
-            .. await CardSelectCmd.FromHand(
-                choiceContext,
-                Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, 2),
-                IsEligibleCard,
-                this
-            ),
-        ];
+        var cards = await CardSelectCmd.FromHand(
+            choiceContext,
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, 2),
+            c => c is not SmolderCard && c.IsTransformable,
+            this
+        );
         foreach (var card in cards)
             await CardCmd.TransformTo<SmolderCard>(card);
 

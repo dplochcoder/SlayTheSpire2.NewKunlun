@@ -17,7 +17,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Qi Burst",
-    description: "[gold]Discharge[/gold] X.\nDeal {DamageMultiplier:diff()}damage X times to all enemies.\n[glow]Boost[/glow] {BoostMultiplier:diff()}X."
+    description: "[gold]Discharge[/gold] X.\nDeal {DamageMultiplier:diff()} damage X times to all enemies.\n[gold]Boost[/gold] {BoostMultiplier:diff()}X."
 )]
 public partial class QiBurstCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)

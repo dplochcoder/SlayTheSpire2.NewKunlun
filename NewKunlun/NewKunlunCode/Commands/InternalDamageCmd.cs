@@ -71,7 +71,10 @@ public static class InternalDamageCmd
         bool silent = false
     )
     {
-        if (target.GetPower<InternalDamagePower>() is not { } power)
+        if (
+            target.GetPower<InternalDamagePower>() is not { } power
+            || target.CombatState is not { } combatState
+        )
             return 0;
 
         var amount = IInternalDamageListener.ModifyInternalDamageHealed(target, heal.BaseValue);
@@ -80,7 +83,7 @@ public static class InternalDamageCmd
             return 0;
 
         await PowerCmd.ModifyAmount(choiceContext, power, -amount, applier, cardSource, silent);
-        await IInternalDamageListener.InvokeInternalDamageHealed(target, amount);
+        await IInternalDamageListener.InvokeInternalDamageHealed(target, combatState, amount);
         return amount;
     }
 }

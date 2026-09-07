@@ -39,7 +39,7 @@ public partial class TalismanDetonateCard()
                 0,
                 _ => Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
             ),
-            new TalismanDetonateBaseDamageVar(12M),
+            new TalismanDetonateBaseDamageVar(15M),
             new DynamicVar(nameof(Vulnerable), 1M),
         ];
 
@@ -86,7 +86,7 @@ public partial class TalismanDetonateCard()
     protected override void OnUpgrade()
     {
         Vulnerable.UpgradeValueTo(2M);
-        TalismanDetonateBaseDamage.UpgradeValueTo(16M);
+        TalismanDetonateBaseDamage.UpgradeValueTo(20M);
     }
 
     public static async Task AutoPlay(

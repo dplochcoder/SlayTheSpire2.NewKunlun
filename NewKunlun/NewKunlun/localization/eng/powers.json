@@ -96,7 +96,7 @@
   "NEWKUNLUN-THUNDER_BUSTER_POWER.title": "Thunder Buster",
   "NEWKUNLUN-TIANHUO_POWER.description": "Foo",
   "NEWKUNLUN-TIANHUO_POWER.title": "Tianhuo Virus",
-  "NEWKUNLUN-TRANSFORMER_POWER.description": "At the end of your turn, transform leftover {1:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}.",
+  "NEWKUNLUN-TRANSFORMER_POWER.description": "At the end of your turn, transform unspent {Energy:energyIcons()} into {Amount:plural:|{Amount} }[gold]Qi Charges[/gold]{Amount:plural:| each}.",
   "NEWKUNLUN-TRANSFORMER_POWER.title": "Transformer",
   "NEWKUNLUN-VITALITY_POWER.description": "At the start of your next 3 turns, gain {Amount:energyIcons()}.",
   "NEWKUNLUN-VITALITY_POWER.smartDescription": "At the start of your next {TurnsRemaining:plural:turn|{TurnsRemaining} turns}, gain {Amount:energyIcons()}.",
