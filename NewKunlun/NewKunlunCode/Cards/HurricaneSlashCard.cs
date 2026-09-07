@@ -42,11 +42,13 @@ public partial class HurricaneSlashCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (CombatState == null)
+            return;
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithHitCount((int)HitCount.Calculate())
-            .TargetingAllOpponents(Owner.Creature.CombatState!)
+            .TargetingAllOpponents(CombatState)
             .Execute(choiceContext);
     }
 }

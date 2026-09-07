@@ -70,9 +70,12 @@ public interface IInternalDamageListener
         CardModel? cardSource
     )
     {
+        if (target.CombatState == null)
+            return;
+
         List<IInternalDamageListener> listeners =
         [
-            .. Hook.IterateCombatHookListeners(target.CombatState!)
+            .. Hook.IterateCombatHookListeners(target.CombatState)
                 .OfType<IInternalDamageListener>(),
         ];
         foreach (var listener in listeners)
@@ -88,13 +91,16 @@ public interface IInternalDamageListener
     public static async Task InvokeInternalDamageResolved(
         PlayerChoiceContext choiceContext,
         Creature target,
+        ICombatState combatState,
         decimal amount
     )
     {
+        if (target.CombatState == null)
+            return;
+
         List<IInternalDamageListener> listeners =
         [
-            .. Hook.IterateCombatHookListeners(target.CombatState!)
-                .OfType<IInternalDamageListener>(),
+            .. Hook.IterateCombatHookListeners(combatState).OfType<IInternalDamageListener>(),
         ];
         foreach (var listener in listeners)
             await listener.OnInternalDamageResolved(choiceContext, target, amount);
@@ -102,22 +108,25 @@ public interface IInternalDamageListener
 
     public static decimal ModifyInternalDamageHealed(Creature target, decimal amount)
     {
-        decimal add = 0;
-        foreach (
-            var model in Hook.IterateCombatHookListeners(target.CombatState!)
-                .OfType<IInternalDamageListener>()
-        )
-            add += model.HealingAdditiveModifier(target, amount);
+        if (target.CombatState == null)
+            return amount;
+
+        var add = Hook.IterateCombatHookListeners(target.CombatState)
+            .OfType<IInternalDamageListener>()
+            .Sum(model => model.HealingAdditiveModifier(target, amount));
 
         return Math.Max(0, amount + add);
     }
 
-    public static async Task InvokeInternalDamageHealed(Creature target, decimal amount)
+    public static async Task InvokeInternalDamageHealed(
+        Creature target,
+        ICombatState combatState,
+        decimal amount
+    )
     {
         List<IInternalDamageListener> listeners =
         [
-            .. Hook.IterateCombatHookListeners(target.CombatState!)
-                .OfType<IInternalDamageListener>(),
+            .. Hook.IterateCombatHookListeners(combatState).OfType<IInternalDamageListener>(),
         ];
         foreach (var listener in listeners)
             await listener.OnInternalDamageHealed(target, amount);

@@ -29,9 +29,12 @@ public partial class BreakoutCard()
         Creature? first = null;
         for (var i = 0; i < 2; i++)
         {
+            if (CombatState == null)
+                return;
+
             var firstCopy = first;
-            var target = CombatState!.RunState.Rng.CombatTargets.NextItem(
-                CombatState!.HittableEnemies.Where(e => e != firstCopy)
+            var target = CombatState.RunState.Rng.CombatTargets.NextItem(
+                CombatState.HittableEnemies.Where(e => e != firstCopy)
             );
             if (target == null)
                 return;

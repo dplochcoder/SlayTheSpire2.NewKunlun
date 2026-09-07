@@ -36,7 +36,10 @@ public partial class TalismanRelic : NewKunlunRelic
         ICombatState combatState
     )
     {
-        if (!participants.Contains(Owner.Creature) || Owner.PlayerCombatState!.TurnNumber > 1)
+        if (
+            !participants.Contains(Owner.Creature)
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+        )
             return;
         await QiChargeCmd.GainQiCharges(choiceContext, Owner.Creature, 1M, Owner.Creature, null);
     }
@@ -47,11 +50,15 @@ public partial class TalismanRelic : NewKunlunRelic
         ICombatState combatState
     )
     {
-        if (player != Owner || Owner.PlayerCombatState!.TurnNumber != 1)
+        if (
+            player != Owner
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+            || Owner.Creature.CombatState == null
+        )
             return;
 
         await CardPileCmd.AddGeneratedCardToCombat(
-            Owner.Creature.CombatState!.CreateCard<TalismanDashCard>(Owner),
+            Owner.Creature.CombatState.CreateCard<TalismanDashCard>(Owner),
             PileType.Draw,
             Owner,
             CardPilePosition.Random

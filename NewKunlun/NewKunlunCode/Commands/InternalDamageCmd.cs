@@ -19,8 +19,10 @@ public static class InternalDamageCmd
         bool silent = false
     )
     {
+        if (target.CombatState == null)
+            return;
         var amount = IInternalDamageListener.ModifyInternalDamageInflicted(
-            target.CombatState!,
+            target.CombatState,
             target,
             inflict.BaseValue,
             applier,

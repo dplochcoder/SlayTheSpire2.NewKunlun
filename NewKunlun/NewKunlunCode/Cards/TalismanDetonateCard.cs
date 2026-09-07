@@ -117,12 +117,15 @@ public partial class TalismanDetonateCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var player = cardPlay.Player.Creature;
-        if (QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked) <= 0)
+        if (
+            QiChargeCmd.GetAvailable(Owner.Creature, QiChargeCmd.Locked.IncludeLocked) <= 0
+            || CombatState == null
+        )
             return;
 
         IReadOnlyList<Creature> eligibleCreatures =
         [
-            .. CombatState!.HittableEnemies.Where(c =>
+            .. CombatState.HittableEnemies.Where(c =>
                 c.GetPowerInstances<TalismanPower>().Any(p => p.Applier == player)
             ),
         ];
@@ -159,8 +162,10 @@ public partial class TalismanDetonateCard()
             );
         await TalismanPower.DetonateAll(choiceContext, this);
 
+        if (CombatState == null)
+            return;
         var modifiedDamage = ITalismanDetonateListener.ModifyTalismanDetonateBaseDamage(
-            CombatState!,
+            CombatState,
             TalismanDetonateBaseDamage.BaseValue,
             Owner.Creature
         );

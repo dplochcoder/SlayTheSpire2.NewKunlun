@@ -37,10 +37,13 @@ public partial class ReturnToTheTaoCard()
             Owner.Creature,
             this
         );
+
+        if (CombatState == null)
+            return;
         await DamageCmd
             .Attack(Damage.BaseValue)
             .FromCard(this, cardPlay)
-            .TargetingAllOpponents(Owner.Creature.CombatState!)
+            .TargetingAllOpponents(CombatState)
             .WithHitCount(Repeats.IntValue)
             .Execute(choiceContext);
     }

@@ -14,8 +14,11 @@ public static class CreatureExtensions
         public async Task<decimal> ComputeBlockGain(BlockVar block, CardPlay? cardPlay = null)
         {
             var combatState = self.CombatState;
+            if (combatState == null)
+                return block.BaseValue;
+
             await Hook.BeforeBlockGained(
-                combatState!,
+                combatState,
                 self,
                 block.BaseValue,
                 block.Props,
@@ -23,7 +26,7 @@ public static class CreatureExtensions
             );
             var modifiedAmount = block.BaseValue;
             modifiedAmount = Hook.ModifyBlock(
-                combatState!,
+                combatState,
                 self,
                 modifiedAmount,
                 block.Props,
@@ -33,7 +36,7 @@ public static class CreatureExtensions
             );
             modifiedAmount = Math.Max(modifiedAmount, 0M);
             await Hook.AfterModifyingBlockAmount(
-                combatState!,
+                combatState,
                 modifiedAmount,
                 cardPlay?.Card,
                 cardPlay,
@@ -42,10 +45,8 @@ public static class CreatureExtensions
             return modifiedAmount;
         }
 
-        public bool HasTalismanFor(Creature applier) =>
-            self.GetPowerInstances<TalismanPower>().Any(p => p.Applier == applier);
-
-        public bool HasTalismanFor(Player player) => self.HasTalismanFor(player.Creature);
+        public bool HasTalismanFor(Player player) =>
+            self.GetPowerInstances<TalismanPower>().Any(p => p.Applier == player.Creature);
 
         public bool ShouldTriggerFatal() => self.Powers.All(p => p.ShouldOwnerDeathTriggerFatal());
     }

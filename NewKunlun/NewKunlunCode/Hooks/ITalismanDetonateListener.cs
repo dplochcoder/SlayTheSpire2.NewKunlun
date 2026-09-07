@@ -48,7 +48,7 @@ public interface ITalismanDetonateListener
     {
         List<ITalismanDetonateListener> listeners =
         [
-            .. Hook.IterateCombatHookListeners(combatState!).OfType<ITalismanDetonateListener>(),
+            .. Hook.IterateCombatHookListeners(combatState).OfType<ITalismanDetonateListener>(),
         ];
         foreach (var listener in listeners)
             await listener.OnTalismanDetonated(choiceContext, qiCharges, totalDamage, dealer);

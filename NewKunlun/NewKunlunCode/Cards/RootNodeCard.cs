@@ -108,7 +108,10 @@ public partial class RootNodeCard()
                 new CardSelectorPrefs(SelectionScreenPrompt, 0, TopDeckCards.IntValue)
             ),
         ];
-        cards.StableShuffle(CombatState!.RunState.Rng.CombatCardSelection);
+
+        if (CombatState == null)
+            return;
+        cards.StableShuffle(CombatState.RunState.Rng.CombatCardSelection);
         foreach (var card in cards)
             await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);
     }

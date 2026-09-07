@@ -80,10 +80,12 @@ public partial class TalismanDashCard()
         if (!locked)
             return;
 
+        if (CombatState == null)
+            return;
         var attack = DamageCmd.Attack(Damage.BaseValue).FromCard(this, cardPlay);
         attack =
             TargetType == TargetType.AllEnemies
-                ? attack.TargetingAllOpponents(CombatState!)
+                ? attack.TargetingAllOpponents(CombatState)
                 : attack.Targeting(cardPlay.Target!);
         await attack.Execute(choiceContext);
 

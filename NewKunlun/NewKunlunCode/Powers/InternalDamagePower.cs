@@ -49,6 +49,11 @@ public class InternalDamagePower : NewKunlunPower
         var damage = Amount;
         await PowerCmd.Remove(this);
         Flash();
+
+        var combatState = Owner.CombatState;
+        if (combatState == null)
+            return;
+
         await CreatureCmd.Damage(
             choiceContext,
             Owner,

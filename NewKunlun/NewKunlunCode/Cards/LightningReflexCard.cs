@@ -42,10 +42,13 @@ public partial class LightningReflexCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (CombatState == null)
+            return;
+
         List<CardModel> cards = [];
         for (var i = 0; i < NumCards.BaseValue; i++)
         {
-            var card = CombatState!.CreateCard<TwitchCard>(Owner);
+            var card = CombatState.CreateCard<TwitchCard>(Owner);
             CardCmd.Upgrade(card);
             CardCmd.Enchant<Adroit>(card, AdroitAmount.BaseValue);
             cards.Add(card);

@@ -36,16 +36,21 @@ public partial class DisruptionCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (CombatState == null)
+            return;
         await InternalDamageCmd.Inflict(
             choiceContext,
-            CombatState!.HittableEnemies,
+            CombatState.HittableEnemies,
             InternalDamageInflict,
             Owner.Creature,
             this
         );
+
+        if (CombatState == null)
+            return;
         await PowerCmd.Apply<ImperfectPower>(
             choiceContext,
-            CombatState!.HittableEnemies,
+            CombatState.HittableEnemies,
             Imperfect.BaseValue,
             Owner.Creature,
             this

@@ -36,7 +36,10 @@ public partial class EnhancedTalismanRelic : NewKunlunRelic
         ICombatState combatState
     )
     {
-        if (!participants.Contains(Owner.Creature) || Owner.PlayerCombatState!.TurnNumber > 1)
+        if (
+            !participants.Contains(Owner.Creature)
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+        )
             return;
 
         await QiChargeCmd.GainQiCharges(choiceContext, Owner.Creature, 3M, Owner.Creature, null);
@@ -48,11 +51,15 @@ public partial class EnhancedTalismanRelic : NewKunlunRelic
         ICombatState combatState
     )
     {
-        if (player != Owner || Owner.PlayerCombatState!.TurnNumber != 1)
+        if (
+            player != Owner
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+            || Owner.Creature.CombatState == null
+        )
             return;
 
         await CardPileCmd.AddGeneratedCardToCombat(
-            Owner.Creature.CombatState!.CreateUpgradedCard<TalismanDashCard>(Owner, upgrade: true),
+            Owner.Creature.CombatState.CreateUpgradedCard<TalismanDashCard>(Owner, upgrade: true),
             PileType.Hand,
             Owner,
             CardPilePosition.Top

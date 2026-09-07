@@ -40,7 +40,10 @@ public class AzureBowCard()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Creature.GetPower<AzureSandMagazinePower>() is not { } azureSandMagazinePower)
+        if (
+            CombatState == null
+            || Owner.Creature.GetPower<AzureSandMagazinePower>() is not { } azureSandMagazinePower
+        )
             return;
 
         await PowerCmd.Decrement(azureSandMagazinePower);
@@ -49,9 +52,9 @@ public class AzureBowCard()
         var card = await CardSelectCmd.FromChooseACardScreen(
             choiceContext,
             [
-                CombatState!.CreateCard<CloudPiercerCard>(Owner),
-                CombatState!.CreateCard<ThunderBusterCard>(Owner),
-                CombatState!.CreateCard<ShadowHunterCard>(Owner),
+                CombatState.CreateCard<CloudPiercerCard>(Owner),
+                CombatState.CreateCard<ThunderBusterCard>(Owner),
+                CombatState.CreateCard<ShadowHunterCard>(Owner),
             ],
             Owner
         );

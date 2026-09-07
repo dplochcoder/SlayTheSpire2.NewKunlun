@@ -45,7 +45,11 @@ public partial class ShortCircuitCard()
             .WithSlashVfx(heavy: cardPlay.Target?.HasTalismanFor(Owner) ?? false)
             .Targeting(cardPlay.Target!)
             .Execute(choiceContext);
-        if (cardPlay.Target!.IsHittable && cardPlay.Target!.HasTalismanFor(Owner))
-            await TalismanDetonateCard.AutoPlay(choiceContext, Owner, CombatState!);
+        if (
+            cardPlay.Target!.IsHittable
+            && cardPlay.Target!.HasTalismanFor(Owner)
+            && CombatState != null
+        )
+            await TalismanDetonateCard.AutoPlay(choiceContext, Owner, CombatState);
     }
 }

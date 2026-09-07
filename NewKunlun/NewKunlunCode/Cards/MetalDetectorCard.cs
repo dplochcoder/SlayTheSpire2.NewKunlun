@@ -41,10 +41,10 @@ public partial class MetalDetectorCard()
                 .Take(3),
         ];
         var card = await CardSelectCmd.FromChooseACardScreen(choiceContext, options, Owner);
-        if (card == null)
+        if (card == null || CombatState == null)
             return;
 
-        var replacement = CombatState!.CreateCard<DarkSteelCard>(Owner);
+        var replacement = CombatState.CreateCard<DarkSteelCard>(Owner);
         if (IsUpgraded)
             CardCmd.Upgrade(replacement);
 

@@ -24,9 +24,12 @@ public class ForecastCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, 
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        if (CombatState == null)
+            return;
+
         List<CardModel> drawPile = [.. PileType.Draw.GetPile(Owner).Cards];
         List<(CardModel card, int index)> cards = [.. drawPile.Select((t, i) => (t, i))];
-        cards.StableShuffle(CombatState!.RunState.Rng.CombatCardSelection);
+        cards.StableShuffle(CombatState.RunState.Rng.CombatCardSelection);
 
         var toDiscard = await CardSelectCmd.FromSimpleGrid(
             choiceContext,
