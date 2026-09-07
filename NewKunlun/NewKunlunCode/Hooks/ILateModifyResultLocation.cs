@@ -37,7 +37,7 @@ public interface ILateModifyResultLocation
 
             var foundEarlyCall = false;
             var readFieldName = false;
-            var resultLocationFieldName = "";
+            FieldInfo? resultLocationFieldInfo = null;
             var foundEndMethod = false;
             var injectedCall = false;
             foreach (var instruction in src)
@@ -49,7 +49,7 @@ public interface ILateModifyResultLocation
                 }
                 else if (!readFieldName)
                 {
-                    resultLocationFieldName = (string)instruction.operand;
+                    resultLocationFieldInfo = (FieldInfo)instruction.operand;
                     readFieldName = true;
                 }
                 else if (!foundEndMethod)
@@ -63,9 +63,10 @@ public interface ILateModifyResultLocation
                     {
                         yield return CodeInstruction.LoadArgument(0); // this
                         yield return CodeInstruction.LoadLocal(1); // cardModel
+                        yield return CodeInstruction.LoadArgument(0); // this
                         yield return CodeInstruction.LoadField(
                             stateMachineType,
-                            resultLocationFieldName
+                            resultLocationFieldInfo!.Name
                         );
                         yield return CodeInstruction.Call(
                             (CardModel self, CardLocation resultLocation) =>
@@ -73,7 +74,7 @@ public interface ILateModifyResultLocation
                         );
                         yield return CodeInstruction.StoreField(
                             stateMachineType,
-                            resultLocationFieldName
+                            resultLocationFieldInfo!.Name
                         );
 
                         injectedCall = true;

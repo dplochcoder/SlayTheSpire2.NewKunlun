@@ -26,8 +26,15 @@ public class ParryPower : NewKunlunPower
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.QiCharge(), Tip.PreciseParry()];
 
-    private int _parries = 0;
-    private int _preciseParries = 0;
+    private int _parries;
+    private int _preciseParries;
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        _parries = 0;
+        _preciseParries = 0;
+        return Task.CompletedTask;
+    }
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,
@@ -46,7 +53,7 @@ public class ParryPower : NewKunlunPower
         await QiChargeCmd.GainQiCharges(
             choiceContext,
             target,
-            _parries * (1 + qiSwipeJade?.Amount ?? 0),
+            _parries * (1 + (qiSwipeJade?.Amount ?? 0)),
             Owner,
             null
         );
