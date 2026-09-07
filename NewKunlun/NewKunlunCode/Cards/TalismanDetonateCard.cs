@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -17,7 +16,6 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
-using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
@@ -45,7 +43,8 @@ public partial class TalismanDetonateCard()
             new DynamicVar(nameof(Vulnerable), 1M),
         ];
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CustomCardKeyword.Ephemeral];
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.QiCharge(), Tip.Vulnerable(), Tip.Talisman()];

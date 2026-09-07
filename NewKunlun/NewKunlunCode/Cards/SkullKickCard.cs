@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Skull Kick",
-    description: "Deal {Damage:diff()} damage.[/gold]Inflict {Weak:diff()} [gold]Weak[/gold].\n[/gold]If the enemy intends to attack, it loses {StrengthLoss:diff()} [gold]Strength[/gold]."
+    description: "Deal {Damage:diff()} damage.\nInflict {Weak:diff()} [gold]Weak[/gold].\n[/gold]If the enemy intends to attack, it loses {StrengthLoss:diff()} [gold]Strength[/gold]."
 )]
 public partial class SkullKickCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)

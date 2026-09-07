@@ -9,7 +9,7 @@ namespace NewKunlun.NewKunlunCode;
 
 //You're recommended but not required to keep all your code in this package and all your assets in the NewKunlun folder.
 [ModInitializer(nameof(Initialize))]
-public partial class MainFile : Node
+public partial class NewKunlunMod : Node
 {
     public const string ModId = "NewKunlun"; //Used for resource filepath
     public const string ResPath = $"res://{ModId}";

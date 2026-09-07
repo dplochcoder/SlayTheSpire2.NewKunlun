@@ -19,11 +19,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
     description: "Deal {Damage:diff()} damage.\nIf the target is [gold]Marked[/gold], play {TalismanDetonate:cardName()}."
 )]
 public partial class ShortCircuitCard()
-    : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(14M, ValueProp.Move),
+            new DamageVar(7M, ValueProp.Move),
             new CardNameVar<TalismanDetonateCard>(() =>
                 TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
@@ -32,7 +32,7 @@ public partial class ShortCircuitCard()
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [Tip.Mark(), Tip.TalismanDetonateCard(Owner)];
 
-    protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(11M);
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.HasTalismanFor(Owner)) ?? false;

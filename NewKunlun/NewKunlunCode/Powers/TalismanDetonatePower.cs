@@ -48,6 +48,7 @@ public partial class TalismanDetonatePower : NewKunlunPower
         if (IsUpgraded)
             CardCmd.Upgrade(card, CardPreviewStyle.None);
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
+        card.ExhaustAtEndOfTurn = true;
         await PowerCmd.Remove(this);
         Flash();
     }

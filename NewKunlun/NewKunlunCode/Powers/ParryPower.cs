@@ -119,6 +119,7 @@ public class ParryPower : NewKunlunPower
                     return false;
                 }
             }
+
             return true;
         }
     }
