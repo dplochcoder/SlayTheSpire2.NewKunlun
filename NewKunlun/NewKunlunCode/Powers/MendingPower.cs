@@ -20,5 +20,5 @@ public class MendingPower : NewKunlunPower, IInternalDamageListener
         decimal amount,
         Creature? applier,
         CardModel? source
-    ) => (target == Owner) ? -Amount : 0;
+    ) => target == Owner ? -Amount : 0;
 }

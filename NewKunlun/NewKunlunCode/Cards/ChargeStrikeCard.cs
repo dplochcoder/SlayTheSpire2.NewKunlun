@@ -36,7 +36,7 @@ public partial class ChargeStrikeCard()
                         : Damage.BaseValue
             ),
             new DamageVar(nameof(BaseDamage), 8M, ValueProp.Move),
-            new DamageVar(nameof(ChargeDamage), 17M, ValueProp.Move),
+            new DamageVar(nameof(ChargeDamage), 26M, ValueProp.Move),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge()];
@@ -44,7 +44,7 @@ public partial class ChargeStrikeCard()
     protected override void OnUpgrade()
     {
         BaseDamage.UpgradeValueTo(11M);
-        ChargeDamage.UpgradeValueTo(23M);
+        ChargeDamage.UpgradeValueTo(34M);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

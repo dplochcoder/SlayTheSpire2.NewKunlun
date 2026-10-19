@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Power Bank",
-    description: "Draw {NumCards:diff()} cards.\nAdd a [gold]Void[/gold] on top of your draw pile."
+    description: "Draw {NumCards:diff()} cards.\nShuffle a [gold]Void[/gold] into your draw pile."
 )]
 public partial class PowerBankCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
@@ -29,6 +29,6 @@ public partial class PowerBankCard()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, NumCards.BaseValue, Owner);
-        await Owner.AddGeneratedCardToPile<Void>(PileType.Draw, position: CardPilePosition.Top);
+        await Owner.AddGeneratedCardToPile<Void>(PileType.Draw, position: CardPilePosition.Random);
     }
 }
