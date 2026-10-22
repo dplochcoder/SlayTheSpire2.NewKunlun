@@ -50,6 +50,16 @@ public static class StringExtensions
         return Path.Join(NewKunlunMod.ResPath, "images", "powers", "big", "power.png");
     }
 
+    public static string EnchantmentImagePath(this string path)
+    {
+        path = Path.Join(NewKunlunMod.ResPath, "images", "enchantments", path);
+        if (ResourceLoader.Exists(path))
+            return path;
+
+        NewKunlunMod.Logger.Info("Could not find enchantment image path: " + path);
+        return "res://images/enchantments/missing_enchantment.png";
+    }
+
     public static string RelicImagePath(this string path)
     {
         path = Path.Join(NewKunlunMod.ResPath, "images", "relics", path);

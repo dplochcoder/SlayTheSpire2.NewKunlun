@@ -34,6 +34,12 @@ public partial class RegroupCard()
             Owner.Creature,
             this
         );
-        await PowerCmd.Apply<RegroupPower>(choiceContext, Owner.Creature, 1M, Owner.Creature, this);
+        await PowerCmd.Apply<KeepEnergyThisTurnPower>(
+            choiceContext,
+            Owner.Creature,
+            1M,
+            Owner.Creature,
+            this
+        );
     }
 }

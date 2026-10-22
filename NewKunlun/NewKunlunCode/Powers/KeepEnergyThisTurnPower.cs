@@ -6,10 +6,10 @@ using NewKunlun.NewKunlunCode.Localization;
 namespace NewKunlun.NewKunlunCode.Powers;
 
 [PowerLocalization(
-    title: "Regroup",
+    title: "Keep Energy",
     description: "Keep your energy {Amount:cond:>1?the next {Amount} turns|this turn}."
 )]
-public class RegroupPower : NewKunlunPower
+public class KeepEnergyThisTurnPower : NewKunlunPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;

@@ -235,9 +235,13 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             HashSet<string> allowedVariables = [.. validVariables];
             switch (kind)
             {
+                case LocalizedModelKind.Affliction:
+                    allowedVariables.Add("Amount");
+                    break;
                 case LocalizedModelKind.Card:
                     allowedVariables.Add("IfUpgraded");
                     break;
+                case LocalizedModelKind.Enchantment:
                 case LocalizedModelKind.Power:
                     allowedVariables.Add("Amount");
                     break;

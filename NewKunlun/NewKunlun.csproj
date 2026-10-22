@@ -91,7 +91,9 @@
   <PropertyGroup>
     <CardSummaryToolDll>$(MSBuildProjectDirectory)\..\tools\CardSummaryTool\bin\$(Configuration)\net9.0\CardSummaryTool.dll</CardSummaryToolDll>
     <LocalizationToolDll>$(MSBuildProjectDirectory)\..\tools\LocalizationTool\bin\$(Configuration)\net9.0\LocalizationTool.dll</LocalizationToolDll>
+    <AfflictionsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\afflictions.json</AfflictionsLocalizationJson>
     <CardsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\cards.json</CardsLocalizationJson>
+    <EnchantmentsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\enchantments.json</EnchantmentsLocalizationJson>
     <PowersLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\powers.json</PowersLocalizationJson>
     <RelicsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\relics.json</RelicsLocalizationJson>
     <KeywordsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\card_keywords.json</KeywordsLocalizationJson>
@@ -103,7 +105,7 @@
     BeforeTargets="CoreCompile"
     Condition="'$(DesignTimeBuild)' != 'true'"
   >
-    <Exec Command="dotnet &quot;$(LocalizationToolDll)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --relics &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Relics&quot; --relics-json &quot;$(RelicsLocalizationJson)&quot; --keywords &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --keywords-json &quot;$(KeywordsLocalizationJson)&quot; --static-hover-tips &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --static-hover-tips-json &quot;$(StaticHoverTipsLocalizationJson)&quot; --prefix NEWKUNLUN" />
+    <Exec Command="dotnet &quot;$(LocalizationToolDll)&quot; --afflictions &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Afflictions&quot; --afflictions-json &quot;$(AfflictionsLocalizationJson)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --enchantments &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Enchantments&quot; --enchantments-json &quot;$(EnchantmentsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --relics &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Relics&quot; --relics-json &quot;$(RelicsLocalizationJson)&quot; --keywords &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --keywords-json &quot;$(KeywordsLocalizationJson)&quot; --static-hover-tips &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --static-hover-tips-json &quot;$(StaticHoverTipsLocalizationJson)&quot; --prefix NEWKUNLUN" />
   </Target>
 
   <Target
@@ -166,9 +168,11 @@
     <Content Include="NewKunlun\images\relics\relic_outline.png" />
     <Content Include="NewKunlun\images\relics\relic_outline.png.import" />
     <Content Include="NewKunlun\localization\eng\ancients.json" />
+    <Content Include="NewKunlun\localization\eng\afflictions.json" />
     <Content Include="NewKunlun\localization\eng\cards.json" />
     <Content Include="NewKunlun\localization\eng\card_keywords.json" />
     <Content Include="NewKunlun\localization\eng\characters.json" />
+    <Content Include="NewKunlun\localization\eng\enchantments.json" />
     <Content Include="NewKunlun\localization\eng\powers.json" />
     <Content Include="NewKunlun\localization\eng\relics.json" />
     <Content Include="NewKunlun\localization\eng\static_hover_tips.json" />
@@ -177,6 +181,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="NewKunlunCode\Afflictions\" />
+    <Folder Include="NewKunlunCode\Encounters\" />
+    <Folder Include="NewKunlunCode\Events\" />
+    <Folder Include="NewKunlunCode\Monsters\" />
     <Folder Include="NewKunlunCode\Rewards\" />
   </ItemGroup>
 

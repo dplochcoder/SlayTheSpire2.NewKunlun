@@ -100,6 +100,7 @@ public enum CompletionFilter
 public enum AssetKind
 {
     Card,
+    Enchantment,
     Power,
     Relic,
 }

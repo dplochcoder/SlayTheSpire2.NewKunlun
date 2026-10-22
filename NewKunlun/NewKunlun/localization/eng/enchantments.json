@@ -1,0 +1,13 @@
+{
+  "NEWKUNLUN-AMORTIZED_ENCHANTMENT.description": "Regain the energy spent playing this card next turn.",
+  "NEWKUNLUN-AMORTIZED_ENCHANTMENT.title": "Amortized",
+  "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.description": "On any deck shuffle, this card is moved to the bottom of the deck.",
+  "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.extraCardText": "Antiquated.",
+  "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.title": "Antiquated",
+  "NEWKUNLUN-POISE_ENCHANTMENT.description": "When played, grant 1 [gold]Strength[/gold].",
+  "NEWKUNLUN-POISE_ENCHANTMENT.extraCardText": "Gain {Amount} [gold]Strength[/gold].",
+  "NEWKUNLUN-POISE_ENCHANTMENT.title": "Poise",
+  "NEWKUNLUN-PRECISE_ENCHANTMENT.description": "When played, grant 1 [gold]Dexterity[/gold].",
+  "NEWKUNLUN-PRECISE_ENCHANTMENT.extraCardText": "Gain {Amount} [gold]Dexterity[/gold].",
+  "NEWKUNLUN-PRECISE_ENCHANTMENT.title": "Precise"
+}

@@ -6,7 +6,9 @@ namespace CardLocalizationAnalyzer;
 
 public enum LocalizedModelKind
 {
+    Affliction,
     Card,
+    Enchantment,
     Power,
     Relic,
 }
@@ -16,7 +18,9 @@ public static class Localization
     private static readonly IReadOnlyDictionary<LocalizedModelKind, string> AttributeNames =
         new Dictionary<LocalizedModelKind, string>
         {
+            [LocalizedModelKind.Affliction] = "AfflictionLocalization",
             [LocalizedModelKind.Card] = "CardLocalization",
+            [LocalizedModelKind.Enchantment] = "EnchantmentLocalization",
             [LocalizedModelKind.Power] = "PowerLocalization",
             [LocalizedModelKind.Relic] = "RelicLocalization",
         };
@@ -25,9 +29,21 @@ public static class Localization
     {
         for (var current = symbol.BaseType; current is not null; current = current.BaseType)
         {
+            if (current.Name == "AfflictionModel")
+            {
+                kind = LocalizedModelKind.Affliction;
+                return true;
+            }
+
             if (current.Name == "NewKunlunCard")
             {
                 kind = LocalizedModelKind.Card;
+                return true;
+            }
+
+            if (current.Name == "NewKunlunEnchantment")
+            {
+                kind = LocalizedModelKind.Enchantment;
                 return true;
             }
 
@@ -71,7 +87,9 @@ public static class Localization
     public static string GetModelName(LocalizedModelKind kind) =>
         kind switch
         {
+            LocalizedModelKind.Affliction => "AfflictionModel",
             LocalizedModelKind.Card => "NewKunlunCard",
+            LocalizedModelKind.Enchantment => "NewKunlunEnchantment",
             LocalizedModelKind.Power => "NewKunlunPower",
             LocalizedModelKind.Relic => "NewKunlunRelic",
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),
@@ -87,7 +105,9 @@ public static class Localization
         skipValidation = false;
         IReadOnlyList<string> requiredParameterNames = kind switch
         {
+            LocalizedModelKind.Affliction => ["title", "description"],
             LocalizedModelKind.Card => ["title", "description"],
+            LocalizedModelKind.Enchantment => ["title", "description"],
             LocalizedModelKind.Power => ["title", "description"],
             LocalizedModelKind.Relic => ["title", "description", "flavor"],
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),

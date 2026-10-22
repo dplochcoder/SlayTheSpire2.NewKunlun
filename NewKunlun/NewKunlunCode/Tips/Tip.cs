@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Cards;
+using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Powers;
 using ParryPower = NewKunlun.NewKunlunCode.Powers.ParryPower;
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
@@ -60,6 +61,10 @@ public static class Tip
 
     public static IHoverTip ParryCard() => Static(CustomStaticHoverTip.ParryCard);
 
+    public static IEnumerable<IHoverTip> Poise() => Enchantment<PoiseEnchantment>();
+
+    public static IEnumerable<IHoverTip> Precise() => Enchantment<PreciseEnchantment>();
+
     public static IHoverTip PreciseParry() => Static(CustomStaticHoverTip.PreciseParry);
 
     public static IHoverTip Purge() => Keyword(BaseLibKeywords.Purge);
@@ -83,6 +88,12 @@ public static class Tip
     public static IHoverTip Strength() => Power<StrengthPower>();
 
     public static IHoverTip ThunderBuster() => Card<ThunderBusterCard>();
+
+    public static IHoverTip Tianhuo() => Card<TianhuoCard>();
+
+    public static IHoverTip Unplayable() => Keyword(CardKeyword.Unplayable);
+
+    public static IHoverTip Vigor() => Power<VigorPower>();
 
     public static IHoverTip Vitality() => Power<VitalityPower>();
 

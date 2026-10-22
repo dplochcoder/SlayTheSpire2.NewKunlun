@@ -108,6 +108,7 @@
           SelectionChanged="AssetKindTabs_OnSelectionChanged"
         >
           <TabItem Header="Cards" Tag="Card" />
+          <TabItem Header="Enchantments" Tag="Enchantment" />
           <TabItem Header="Powers" Tag="Power" />
           <TabItem Header="Relics" Tag="Relic" />
         </TabControl>

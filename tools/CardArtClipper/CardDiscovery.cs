@@ -49,6 +49,16 @@ internal static class CardDiscovery
                 1000,
                 760
             ),
+            AssetKind.Enchantment => (
+                "Enchantments",
+                "NewKunlunEnchantment",
+                "EnchantmentLocalization",
+                "enchantments",
+                64,
+                64,
+                64,
+                64
+            ),
             AssetKind.Power => (
                 "Powers",
                 "NewKunlunPower",
@@ -125,7 +135,9 @@ internal static class CardDiscovery
                     title.Token.ValueText,
                     kind,
                     Path.Combine(imagesDirectory, fileName),
-                    Path.Combine(imagesDirectory, "big", fileName),
+                    kind == AssetKind.Enchantment
+                        ? Path.Combine(imagesDirectory, fileName)
+                        : Path.Combine(imagesDirectory, "big", fileName),
                     smallWidth,
                     smallHeight,
                     largeWidth,

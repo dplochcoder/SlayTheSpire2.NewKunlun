@@ -168,7 +168,13 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
     {
         for (var current = symbol.BaseType; current is not null; current = current.BaseType)
         {
-            if (current.Name is "NewKunlunCard" or "NewKunlunPower" or "NewKunlunRelic")
+            if (
+                current.Name
+                is "NewKunlunCard"
+                    or "NewKunlunEnchantment"
+                    or "NewKunlunPower"
+                    or "NewKunlunRelic"
+            )
                 return true;
         }
         return false;

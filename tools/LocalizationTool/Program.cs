@@ -10,7 +10,9 @@ if (!TryReadArguments(args, out var options))
 {
     Console.Error.WriteLine(
         "Usage: LocalizationTool --cards <directory> --cards-json <cards.json> "
+            + "--afflictions <directory> --afflictions-json <afflictions.json> "
             + "--powers <directory> --powers-json <powers.json> "
+            + "--enchantments <directory> --enchantments-json <enchantments.json> "
             + "--relics <directory> --relics-json <relics.json> "
             + "--keywords <directory> --keywords-json <card_keywords.json> "
             + "--static-hover-tips <directory> --static-hover-tips-json <static_hover_tips.json> "
@@ -19,13 +21,25 @@ if (!TryReadArguments(args, out var options))
     return 2;
 }
 
+var afflictions = ReadModels(
+    options.AfflictionsDirectory,
+    "AfflictionModel",
+    "AfflictionLocalization"
+);
 var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization");
+var enchantments = ReadModels(
+    options.EnchantmentsDirectory,
+    "NewKunlunEnchantment",
+    "EnchantmentLocalization"
+);
 var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization");
 var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization");
 var keywords = ReadKeywords(options.KeywordsDirectory);
 var staticHoverTips = ReadStaticHoverTips(options.StaticHoverTipsDirectory);
 
+UpdateJson(options.AfflictionsJsonPath, options.IdPrefix, afflictions, "affliction");
 UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
+UpdateJson(options.EnchantmentsJsonPath, options.IdPrefix, enchantments, "enchantment");
 UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
 UpdateJson(options.RelicsJsonPath, options.IdPrefix, relics, "relic");
 UpdateKeywordJson(options.KeywordsJsonPath, options.IdPrefix, keywords);
@@ -227,8 +241,12 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values[arguments[index]] = arguments[index + 1];
 
     options = new ToolOptions(
+        values.GetValueOrDefault("--afflictions") ?? "",
+        values.GetValueOrDefault("--afflictions-json") ?? "",
         values.GetValueOrDefault("--cards") ?? "",
         values.GetValueOrDefault("--cards-json") ?? "",
+        values.GetValueOrDefault("--enchantments") ?? "",
+        values.GetValueOrDefault("--enchantments-json") ?? "",
         values.GetValueOrDefault("--powers") ?? "",
         values.GetValueOrDefault("--powers-json") ?? "",
         values.GetValueOrDefault("--relics") ?? "",
@@ -239,13 +257,17 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values.GetValueOrDefault("--static-hover-tips-json") ?? "",
         values.GetValueOrDefault("--prefix") ?? ""
     );
-    return Directory.Exists(options.CardsDirectory)
+    return Directory.Exists(options.AfflictionsDirectory)
+        && Directory.Exists(options.CardsDirectory)
         && Directory.Exists(options.PowersDirectory)
+        && Directory.Exists(options.EnchantmentsDirectory)
         && Directory.Exists(options.RelicsDirectory)
         && Directory.Exists(options.KeywordsDirectory)
         && Directory.Exists(options.StaticHoverTipsDirectory)
+        && !string.IsNullOrWhiteSpace(options.AfflictionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.CardsJsonPath)
         && !string.IsNullOrWhiteSpace(options.PowersJsonPath)
+        && !string.IsNullOrWhiteSpace(options.EnchantmentsJsonPath)
         && !string.IsNullOrWhiteSpace(options.RelicsJsonPath)
         && !string.IsNullOrWhiteSpace(options.KeywordsJsonPath)
         && !string.IsNullOrWhiteSpace(options.StaticHoverTipsJsonPath)
@@ -276,8 +298,12 @@ static string ToUpperSnakeCase(string value) =>
 namespace LocalizationTool
 {
     internal sealed record ToolOptions(
+        string AfflictionsDirectory,
+        string AfflictionsJsonPath,
         string CardsDirectory,
         string CardsJsonPath,
+        string EnchantmentsDirectory,
+        string EnchantmentsJsonPath,
         string PowersDirectory,
         string PowersJsonPath,
         string RelicsDirectory,

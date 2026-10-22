@@ -9,6 +9,13 @@ public static class PlayerExtensions
 {
     extension(Player self)
     {
+        public async Task AddCardToDeck<T>(bool upgrade = false)
+            where T : CardModel =>
+            CardCmd.PreviewCardPileAdd(
+                await CardPileCmd.Add(self.RunState.CreateCard<T>(self), PileType.Deck),
+                2f
+            );
+
         public async Task AddGeneratedCardToPile<T>(
             PileType pileType,
             bool upgrade = false,

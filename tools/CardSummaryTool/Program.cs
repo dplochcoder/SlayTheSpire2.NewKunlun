@@ -13,6 +13,12 @@ using SmartFormat.Core.Extensions;
 const string outputFileName = "CARD_SUMMARY.md";
 string repositoryRoot = FindRepositoryRoot(args.FirstOrDefault() ?? AppContext.BaseDirectory);
 string cardsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Cards");
+string enchantmentsDirectory = Path.Combine(
+    repositoryRoot,
+    "NewKunlun",
+    "NewKunlunCode",
+    "Enchantments"
+);
 string outputPath = Path.Combine(repositoryRoot, "NewKunlun", outputFileName);
 string projectAssemblyPath =
     args.ElementAtOrDefault(1) ?? FindNewestProjectAssembly(repositoryRoot);
@@ -49,9 +55,14 @@ if (newerSourcePath is not null)
 }
 
 var sourceCards = ReadSourceCards(Path.GetDirectoryName(outputPath)!, cardsDirectory);
+var sourceEnchantments = ReadSourceEnchantments(
+    Path.GetDirectoryName(outputPath)!,
+    enchantmentsDirectory
+);
 var projectAssembly = Assembly.LoadFrom(Path.GetFullPath(projectAssemblyPath));
 var smartFormatter = CreateGameSmartFormatter(projectAssembly);
 var cards = ReadCards(projectAssembly, sourceCards, smartFormatter).ToArray();
+var enchantments = ReadEnchantments(projectAssembly, sourceEnchantments, smartFormatter).ToArray();
 
 if (cards.Length == 0)
 {
@@ -59,8 +70,10 @@ if (cards.Length == 0)
     return 1;
 }
 
-File.WriteAllText(outputPath, RenderMarkdown(cards), new UTF8Encoding(false));
-Console.WriteLine($"Wrote {cards.Length} cards to {outputPath}.");
+File.WriteAllText(outputPath, RenderMarkdown(cards, enchantments), new UTF8Encoding(false));
+Console.WriteLine(
+    $"Wrote {cards.Length} cards and {enchantments.Length} enchantments to {outputPath}."
+);
 return 0;
 
 static bool TryBuildProject(string repositoryRoot, string assemblyPath)
@@ -182,6 +195,43 @@ static IReadOnlyList<string> ReadCanonicalKeywords(ClassDeclarationSyntax declar
             .Select(member => SplitPascalCase(member.Name.Identifier.ValueText))
             .Distinct(StringComparer.OrdinalIgnoreCase),
     ];
+}
+
+static IReadOnlyDictionary<string, string> ReadSourceEnchantments(
+    string linkRoot,
+    string enchantmentsDirectory
+)
+{
+    var enchantments = new Dictionary<string, string>(StringComparer.Ordinal);
+    foreach (
+        string sourcePath in Directory.EnumerateFiles(
+            enchantmentsDirectory,
+            "*.cs",
+            SearchOption.AllDirectories
+        )
+    )
+    {
+        var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(sourcePath), path: sourcePath);
+        foreach (
+            var declaration in tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
+        )
+        {
+            if (
+                declaration.BaseList?.Types.Any(baseType =>
+                    baseType.Type.ToString().Split('.').Last() == "NewKunlunEnchantment"
+                ) != true
+            )
+                continue;
+
+            enchantments[declaration.Identifier.ValueText] = Path.GetRelativePath(
+                    linkRoot,
+                    sourcePath
+                )
+                .Replace('\\', '/');
+        }
+    }
+
+    return enchantments;
 }
 
 static SmartFormatter CreateGameSmartFormatter(Assembly projectAssembly)
@@ -311,6 +361,44 @@ static IEnumerable<CardInfo> ReadCards(
         }
 
         yield return new CardInfo(title, type, rarity, sourceCard.RelativePath, renderStates);
+    }
+}
+
+static IEnumerable<EnchantmentInfo> ReadEnchantments(
+    Assembly projectAssembly,
+    IReadOnlyDictionary<string, string> sourceEnchantments,
+    SmartFormatter smartFormatter
+)
+{
+    foreach (
+        Type enchantmentType in projectAssembly
+            .GetTypes()
+            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunEnchantment"))
+    )
+    {
+        object? localization = enchantmentType
+            .GetCustomAttributes(inherit: false)
+            .FirstOrDefault(attribute =>
+                attribute.GetType().Name == "EnchantmentLocalizationAttribute"
+            );
+        if (
+            localization is null
+            || !sourceEnchantments.TryGetValue(enchantmentType.Name, out var relativePath)
+        )
+            continue;
+
+        string title = (string)ReadProperty(localization, "Title")!;
+        string rawDescription = (string)ReadProperty(localization, "Description")!;
+        object enchantment =
+            Activator.CreateInstance(enchantmentType)
+            ?? throw new InvalidOperationException(
+                $"Could not construct {enchantmentType.FullName} from the project build."
+            );
+        yield return new EnchantmentInfo(
+            title,
+            RenderDescription(enchantment, rawDescription, smartFormatter),
+            relativePath
+        );
     }
 }
 
@@ -449,7 +537,10 @@ static Dictionary<string, object> ReadDynamicVars(object card)
     return result;
 }
 
-static string RenderMarkdown(IReadOnlyCollection<CardInfo> cards)
+static string RenderMarkdown(
+    IReadOnlyCollection<CardInfo> cards,
+    IReadOnlyCollection<EnchantmentInfo> enchantments
+)
 {
     string[] standardRarities = ["Common", "Uncommon", "Rare"];
     string[] typeOrder = ["Attack", "Skill", "Power"];
@@ -477,8 +568,31 @@ static string RenderMarkdown(IReadOnlyCollection<CardInfo> cards)
     )
         AppendRaritySection(builder, DisplayRarity(rarityGroup.Key), rarityGroup, typeOrder);
 
+    AppendEnchantments(builder, enchantments);
     AppendCounts(builder, cards, standardRarities, typeOrder);
     return builder.ToString();
+}
+
+static void AppendEnchantments(StringBuilder builder, IEnumerable<EnchantmentInfo> enchantments)
+{
+    builder.AppendLine();
+    builder.AppendLine("## Enchantments");
+    builder.AppendLine();
+    foreach (
+        var enchantment in enchantments.OrderBy(
+            enchantment => enchantment.Title,
+            StringComparer.OrdinalIgnoreCase
+        )
+    )
+    {
+        builder
+            .Append("- [")
+            .Append(EscapeHtml(enchantment.Title))
+            .Append("](")
+            .Append(enchantment.RelativePath.Replace(" ", "%20"))
+            .Append(") — ")
+            .AppendLine(ConvertGameMarkupToMarkdown(enchantment.Description));
+    }
 }
 
 static void AppendRaritySection(
@@ -705,6 +819,8 @@ internal sealed record CardInfo(
     string RelativePath,
     IReadOnlyList<CardRenderState> RenderStates
 );
+
+internal sealed record EnchantmentInfo(string Title, string Description, string RelativePath);
 
 internal sealed record CardRenderState(
     int UpgradeLevel,

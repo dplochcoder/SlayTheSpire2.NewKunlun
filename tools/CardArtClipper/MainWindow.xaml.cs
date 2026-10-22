@@ -469,6 +469,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private static string GetPlaceholder(CardEntry entry, bool large)
     {
+        if (entry.Kind == AssetKind.Enchantment)
+            return Path.GetFullPath(
+                Path.Combine(Path.GetDirectoryName(entry.SmallPath)!, "..", "powers", "power.png")
+            );
+
         var name = entry.Kind switch
         {
             AssetKind.Card => "card.png",
