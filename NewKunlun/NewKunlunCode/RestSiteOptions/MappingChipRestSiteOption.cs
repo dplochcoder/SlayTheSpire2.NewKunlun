@@ -10,11 +10,11 @@ public class MappingChipRestSiteOption(Player owner) : RestSiteOption(owner)
 {
     public override string OptionId => "NEW_KUNLUN-MAPPING_CHIP";
 
-    public override bool IsEnabled => Owner.Gold >= MappingChipRelic.GOLD_COST;
+    public override bool IsEnabled => Owner.Gold >= MappingChipRelic.GoldCost;
 
     public override async Task<bool> OnSelect()
     {
-        await PlayerCmd.LoseGold(MappingChipRelic.GOLD_COST, Owner, GoldLossType.Spent);
+        await PlayerCmd.LoseGold(MappingChipRelic.GoldCost, Owner, GoldLossType.Spent);
         Owner.Relics.OfType<MappingChipRelic>().FirstOrDefault()?.UsesRemaining += 2;
         return true;
     }

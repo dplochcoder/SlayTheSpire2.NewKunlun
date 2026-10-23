@@ -95,16 +95,16 @@ public class ParryPower : NewKunlunPower
         [HarmonyPatch(typeof(Creature), nameof(Creature.DamageBlockInternal))]
         [HarmonyPrefix]
         private static bool Prefix(
-            Creature __instance,
+            Creature instance,
             decimal amount,
             ValueProp props,
-            ref decimal __result
+            ref decimal result
         )
         {
             if (!props.IsPoweredAttack() || props.HasFlag(ValueProp.Unblockable))
                 return true;
 
-            var self = __instance;
+            var self = instance;
             if (
                 self.GetPower<ParryPower>() is { } parryPower
                 && parryPower._parries < parryPower.Amount
@@ -115,7 +115,7 @@ public class ParryPower : NewKunlunPower
                 if (self.Block >= amount)
                 {
                     parryPower._preciseParries++;
-                    __result = amount;
+                    result = amount;
                     return false;
                 }
             }

@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,9 +9,11 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Relics;
 
+[Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "Firewall",
     description: "Lose {MaxHpLoss} max HP.\nAt start of combat, gain 3 [gold]Dexterity[/gold].\nThe first time you take unblocked damage, lose 3 [gold]Dexterity[/gold].",

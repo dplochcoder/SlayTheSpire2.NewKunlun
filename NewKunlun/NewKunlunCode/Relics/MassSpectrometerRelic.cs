@@ -55,10 +55,7 @@ public partial class MassSpectrometerRelic : NewKunlunRelic
             return false;
         }
 
-        HashSet<ModelId> forbidden =
-        [
-            .. potionRewards.Select(r => r.Potion?.Id).Where(id => id != null)!,
-        ];
+        HashSet<ModelId> forbidden = [.. potionRewards.Select(r => r.Potion!.Id!)];
         List<PotionModel> pool = [.. PotionFactory.GetPotionOptions(Owner)];
         if (!pool.All(p => forbidden.Contains(p.Id)))
             pool.RemoveAll(p => forbidden.Contains(p.Id));

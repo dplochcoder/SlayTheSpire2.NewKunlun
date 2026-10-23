@@ -1,15 +1,18 @@
-﻿using MegaCrit.Sts2.Core.Entities.Players;
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.RestSiteOptions;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
+[Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "Mapping Chip",
     description: "You can ignore pathing restrictions {Uses} {Uses:plural:time|times}.\nAt rest sites, you can spend {Cost} gold to do it two more times.",
@@ -17,12 +20,12 @@ namespace NewKunlun.NewKunlunCode.Relics;
 )]
 public partial class MappingChipRelic : NewKunlunRelic
 {
-    public const int GOLD_COST = 50;
+    public const int GoldCost = 50;
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Uses), 2), new GoldVar(nameof(Cost), GOLD_COST)];
+        [new DynamicVar(nameof(Uses), 2), new GoldVar(nameof(Cost), GoldCost)];
 
     public int UsesRemaining
     {

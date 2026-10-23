@@ -14,7 +14,7 @@ public class TransmutationZoneAct() : CustomActModel(actNumber: 2)
 
     public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActTwoAncients;
 
-    public override IEnumerable<EventModel> AllEvents { get; }
+    public override IEnumerable<EventModel> AllEvents => [];
     protected override string CustomMapTopBgPath => ModelDb.Act<Overgrowth>().MapTopBgPath;
     protected override string CustomMapMidBgPath => ModelDb.Act<Overgrowth>().MapMidBgPath;
     protected override string CustomMapBotBgPath => ModelDb.Act<Overgrowth>().MapBotBgPath;

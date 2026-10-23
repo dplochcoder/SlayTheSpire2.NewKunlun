@@ -14,7 +14,7 @@ public class AgriculturalZoneAct() : CustomActModel(actNumber: 1)
 
     public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActOneAncients;
 
-    public override IEnumerable<EventModel> AllEvents { get; }
+    public override IEnumerable<EventModel> AllEvents => [];
     protected override string CustomMapTopBgPath => ModelDb.Act<Underdocks>().MapTopBgPath;
     protected override string CustomMapMidBgPath => ModelDb.Act<Underdocks>().MapMidBgPath;
     protected override string CustomMapBotBgPath => ModelDb.Act<Underdocks>().MapBotBgPath;
