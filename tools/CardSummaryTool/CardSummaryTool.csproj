@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NewKunlun\DependencyVersions.props" />
   <Import Project="..\..\NewKunlun\Sts2PathDiscovery.props" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,10 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-    <Reference
-      Include="BaseLib"
-      HintPath="$(NuGetPackageRoot)alchyr.sts2.baselib\3.4.5\lib\net9.0\BaseLib.dll"
-      Private="true"
+    <PackageReference
+      Include="Alchyr.Sts2.BaseLib"
+      Version="$(BaseLibVersion)"
+      PrivateAssets="All"
     />
     <Reference Include="sts2" HintPath="$(Sts2DataDir)\sts2.dll" Private="true" />
     <Reference Include="SmartFormat" HintPath="$(Sts2DataDir)\SmartFormat.dll" Private="true" />
