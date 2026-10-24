@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.Runs;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
@@ -107,24 +108,28 @@ public partial class CentrifugeRelic : NewKunlunRelic
         }
     }
 
-    private List<EnchantmentOption> AllOptions =>
+    private static List<EnchantmentOption> AllOptions =>
         [
-            Option<Adroit>(Uncommon, [2, 3]),
+            Option<Adroit>(Uncommon, [2, 3, 3, 4]),
+            Option<AmortizedEnchantment>(Rare),
+            Option<AntiquatedEnchantment>(Uncommon),
             Option<Corrupted>(Uncommon),
-            Option<Glam>(Uncommon),
+            Option<Glam>(Rare),
             Option<Inky>(Uncommon, 1, c => c.Type == CardType.Attack),
             Option<Instinct>(Rare),
             Option<Momentum>(Uncommon, [4, 5]),
             Option<Nimble>(Common, [2, 2, 3]),
             Option<PerfectFit>(Uncommon),
+            Option<PoiseEnchantment>(Rare),
+            Option<PreciseEnchantment>(Rare),
             Option<RoyallyApproved>(Rare),
-            Option<Sharp>(Common, [2, 2, 3]),
+            Option<Sharp>(Common, [3]),
             Option<Slither>(Uncommon),
             Option<SoulsPower>(Rare),
             Option<Sown>(Uncommon),
             Option<Steady>(Uncommon),
             Option<Swift>(Common, [1, 1, 2]),
-            Option<Vigorous>(Common, [6, 7, 8]),
+            Option<Vigorous>(Common, [7, 8, 9]),
         ];
 
     private bool SelectEnchantment(CardModel card, out EnchantmentOption option)

@@ -31,6 +31,17 @@ public static class CustomPromptExtensions
         public LocString CustomPromptD => self.CustomPromptString('D');
     }
 
+    extension(EnchantmentModel self)
+    {
+        private LocString CustomPromptString(char suffix) =>
+            CustomPromptString(self, self.DynamicVars, "enchantments", suffix);
+
+        public LocString CustomPromptA => self.CustomPromptString('A');
+        public LocString CustomPromptB => self.CustomPromptString('B');
+        public LocString CustomPromptC => self.CustomPromptString('C');
+        public LocString CustomPromptD => self.CustomPromptString('D');
+    }
+
     extension(RelicModel self)
     {
         private LocString CustomPromptString(char suffix) =>

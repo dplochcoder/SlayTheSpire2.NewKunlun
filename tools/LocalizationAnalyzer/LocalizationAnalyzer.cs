@@ -236,15 +236,17 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             switch (kind)
             {
                 case LocalizedModelKind.Affliction:
+                case LocalizedModelKind.Enchantment:
+                case LocalizedModelKind.Power:
                     allowedVariables.Add("Amount");
                     break;
                 case LocalizedModelKind.Card:
                     allowedVariables.Add("IfUpgraded");
                     break;
-                case LocalizedModelKind.Enchantment:
-                case LocalizedModelKind.Power:
-                    allowedVariables.Add("Amount");
+                case LocalizedModelKind.Relic:
                     break;
+                default:
+                    throw new NotSupportedException($"{kind}");
             }
 
             var descriptionLocation = localizationString.Expression.GetLocation();

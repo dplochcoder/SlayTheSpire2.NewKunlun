@@ -33,13 +33,23 @@ public abstract class NewKunlunAncient : CustomAncientModel
         options.RemoveAll(o => o.Count == 0);
     }
 
+    protected virtual bool IsCurseAllowed(
+        RelicModel curse,
+        IReadOnlyCollection<RelicModel> positive
+    ) => true;
+
     protected override IReadOnlyList<EventOption> GenerateInitialOptions()
     {
         var positive = PositiveOptions;
         Filter(positive);
         Rng.Shuffle(positive);
+        List<EventOption> options = [Rng.NextItem(positive[0])!, Rng.NextItem(positive[1])!];
+        HashSet<RelicModel> chosen = [.. options.Select(o => o.Relic!)];
+
         var curse = CurseOptions;
         Filter(curse);
-        return [Rng.NextItem(positive[0])!, Rng.NextItem(positive[1])!, Rng.NextItem(curse)!];
+        curse.RemoveAll(o => !IsCurseAllowed(o.Relic!, chosen));
+        options.Add(Rng.NextItem(curse)!);
+        return options;
     }
 }

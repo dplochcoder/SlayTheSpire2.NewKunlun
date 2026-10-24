@@ -1,0 +1,15 @@
+﻿using MegaCrit.Sts2.Core.Entities.Ascension;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using NewKunlun.NewKunlunCode.Extensions;
+
+namespace NewKunlun.NewKunlunCode.Monsters.AgriculturalZone;
+
+public class ShinueMonster : NewKunlunMonster
+{
+    protected override MonsterMoveStateMachine GenerateMoveStateMachine()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override int MaxInitialHp => AscensionLevel.ToughEnemies.Get(108, 93);
+}

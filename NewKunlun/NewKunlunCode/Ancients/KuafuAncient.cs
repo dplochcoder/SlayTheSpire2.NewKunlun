@@ -5,7 +5,10 @@ namespace NewKunlun.NewKunlunCode.Ancients;
 
 public class KuafuAncient : NewKunlunAncient
 {
-    protected override List<List<EventOption>> PositiveOptions => [];
+    protected override List<List<EventOption>> PositiveOptions =>
+        [
+            [RelicOption<MultiToolRelic>()],
+        ];
 
     protected override List<EventOption> CurseOptions => [RelicOption<RhizomaticBatteryRelic>()];
 }
