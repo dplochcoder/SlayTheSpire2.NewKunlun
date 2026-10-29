@@ -5,7 +5,7 @@ using NewKunlun.NewKunlunCode.Ancients;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class TransmutationZoneAct() : CustomActModel(actNumber: 2)
+public class TransmutationZoneAct() : NewKunlunAct(actNumber: 2)
 {
     public override IEnumerable<EncounterModel> GenerateAllEncounters()
     {

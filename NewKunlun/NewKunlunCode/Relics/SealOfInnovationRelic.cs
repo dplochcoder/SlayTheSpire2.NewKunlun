@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Relics;
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "Seal of Innovation",
-    description: "Whenever you defeat an [gold]Elite[/gold] or [gold]Boss[/gold], transform a card.",
+    description: "Whenever you defeat an [gold]Elite[/gold] or [gold]Boss[/gold], you may transform a card.",
     flavor: ""
 )]
 public class SealOfInnovationRelic : NewKunlunRelic
@@ -22,7 +22,7 @@ public class SealOfInnovationRelic : NewKunlunRelic
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
         if (
-            player != this.Owner
+            player != Owner
             || room == null
             || (room.RoomType != RoomType.Boss && room.RoomType != RoomType.Elite)
         )

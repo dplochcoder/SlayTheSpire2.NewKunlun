@@ -1,6 +1,7 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
@@ -17,9 +18,39 @@ namespace NewKunlun.NewKunlunCode.Relics;
 )]
 public class LockedChestRelic : NewKunlunRelic
 {
+    public enum State
+    {
+        Closed,
+        Opened,
+        Looted,
+    }
+
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<HackCard>()];
+
+    [SavedProperty]
+    public State CurrentState
+    {
+        get;
+        set
+        {
+            AssertMutable();
+            field = value;
+            UpdateStatus();
+        }
+    }
+
+    private void UpdateStatus()
+    {
+        Status = CurrentState switch
+        {
+            State.Closed => RelicStatus.Normal,
+            State.Opened => RelicStatus.Active,
+            _ => RelicStatus.Disabled,
+        };
+        // TODO: Visuals
+    }
 
     public override bool HasUponPickupEffect => true;
 

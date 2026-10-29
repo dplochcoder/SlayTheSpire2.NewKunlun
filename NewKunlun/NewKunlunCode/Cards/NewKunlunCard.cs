@@ -1,7 +1,12 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -15,6 +20,8 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
     : CustomCardModel(cost, type, rarity, target)
 {
     public virtual bool IsParryCard => false;
+
+    public bool Quantum => Keywords.Contains(NewKunlunCardKeywords.Quantum);
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
@@ -31,4 +38,66 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
     public override string BetaPortraitPath =>
         $"beta/{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
+
+    public bool AddedToHand
+    {
+        get;
+        set
+        {
+            AssertMutable();
+            field = value;
+        }
+    }
+
+    public bool QuantumBroken
+    {
+        get;
+        set
+        {
+            AssertMutable();
+            field = value;
+        }
+    }
+
+    protected override bool ShouldGlowGoldInternal => Quantum && AddedToHand && !QuantumBroken;
+
+    public sealed override Task AfterCardChangedPiles(
+        CardModel card,
+        PileType oldPileType,
+        AbstractModel? clonedBy
+    )
+    {
+        if (card == this && oldPileType != PileType.Hand && card.Pile?.Type == PileType.Hand)
+            AddedToHand = true;
+
+        return Task.CompletedTask;
+    }
+
+    public sealed override bool TryModifyKeywordsInCombat(
+        CardModel card,
+        ISet<CardKeyword> keywords
+    )
+    {
+        if (card != this || !QuantumBroken)
+            return false;
+
+        return keywords.Add(CardKeyword.Unplayable);
+    }
+
+    public sealed override Task AfterCardPlayed(
+        PlayerChoiceContext choiceContext,
+        CardPlay cardPlay
+    )
+    {
+        if (
+            Quantum
+            && !QuantumBroken
+            && AddedToHand
+            && cardPlay.Card.Owner == Owner
+            && cardPlay.Card != this
+        )
+            QuantumBroken = true;
+
+        return Task.CompletedTask;
+    }
 }

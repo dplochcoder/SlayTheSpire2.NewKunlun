@@ -5,7 +5,7 @@ using NewKunlun.NewKunlunCode.Ancients;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class AgriculturalZoneAct() : CustomActModel(actNumber: 1)
+public class AgriculturalZoneAct() : NewKunlunAct(actNumber: 1)
 {
     public override IEnumerable<EncounterModel> GenerateAllEncounters()
     {

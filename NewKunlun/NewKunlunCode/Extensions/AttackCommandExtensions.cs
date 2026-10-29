@@ -21,6 +21,26 @@ public static class AttackCommandExtensions
 
         public AttackCommand WithHyperbeamVfx(Player attacker) =>
             self.WithAttackerAnim("Cast", 0.5f).BeforeDamage(() => SpawnHyperbeamVfx(attacker));
+
+        public AttackCommand WithSweepingBeamVfx(Player attacker) =>
+            self.WithAttackerAnim("Cast", 0.5f).BeforeDamage(() => SpawnSweepingBeamVfx(attacker));
+    }
+
+    private static async Task SpawnSweepingBeamVfx(Player attacker)
+    {
+        var child = NSweepingBeamVfx.Create(
+            attacker.Creature,
+            [.. attacker.Creature.CombatState!.HittableEnemies]
+        );
+        if (child == null)
+            return;
+
+        var instance = NCombatRoom.Instance;
+        if (instance != null)
+        {
+            instance.CombatVfxContainer.AddChildSafely(child);
+            await Cmd.Wait(0.5f);
+        }
     }
 
     private static async Task SpawnHyperbeamVfx(Player attacker)

@@ -9,6 +9,7 @@ public class AbacusAncient : NewKunlunAncient
     protected override List<List<EventOption>> PositiveOptions =>
         [
             [RelicOption<BalancedBladeRelic>(), RelicOption<SwiftCloakRelic>()],
+            [RelicOption<CrimsonHibiscusRelic>()],
             [RelicOption<DefenseMatrixRelic>(), RelicOption<FirewallRelic>()],
             [RelicOption<JietongHammerRelic>(), RelicOption<RhizomaticStabilizerRelic>()],
             [
@@ -31,7 +32,7 @@ public class AbacusAncient : NewKunlunAncient
             RelicOption<FusangRootRelic>(),
             RelicOption<LockedChestRelic>(),
             RelicOption<ParallelProcessorRelic>(),
-            RelicOption<UnstableSubstrateRelic>(),
+            RelicOption<RhizomaticSubstrateRelic>(),
         ];
 
     protected override bool IsCurseAllowed(
@@ -40,7 +41,7 @@ public class AbacusAncient : NewKunlunAncient
     )
     {
         if (curse is ParallelProcessorRelic)
-            return !positive.Any(r => r is JietongHammerRelic);
+            return !positive.Any(r => r is JietongHammerRelic or RhizomaticStabilizerRelic);
 
         return true;
     }

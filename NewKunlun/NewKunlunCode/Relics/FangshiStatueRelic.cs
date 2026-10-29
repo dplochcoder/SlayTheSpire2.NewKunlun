@@ -17,7 +17,7 @@ using NewKunlun.NewKunlunCode.Tips;
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "Fangshi Statue",
-    description: "On pickup, gain an extra [gold]Strike[/gold] or [gold]Defend[/gold].\nAt start of combat, gain 1 [gold]Strength[/gold] and 1 [gold]Dexterity[/gold].",
+    description: "On pickup, gain an extra [gold]Strike[/gold] and [gold]Defend[/gold].\nAt start of combat, gain 1 [gold]Strength[/gold] and 1 [gold]Dexterity[/gold].",
     flavor: ""
 )]
 public class FangshiStatueRelic : NewKunlunRelic
@@ -28,13 +28,7 @@ public class FangshiStatueRelic : NewKunlunRelic
 
     public override bool HasUponPickupEffect => true;
 
-    public override async Task AfterObtained()
-    {
-        List<CardModel> cardPool = [.. Owner.Character.CardPool.AllCards];
-        var strike = cardPool.First(c => c.Tags.Contains(CardTag.Strike));
-        var defend = cardPool.First(c => c.Tags.Contains(CardTag.Defend));
-        await this.ChooseCardToAddToDeck([strike, defend]);
-    }
+    public override Task AfterObtained() => Owner.AddCardsToDeck([Owner.Strike(), Owner.Defend()]);
 
     public override async Task AfterSideTurnStart(
         CombatSide side,

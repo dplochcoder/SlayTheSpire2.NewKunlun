@@ -12,11 +12,11 @@ namespace NewKunlun.NewKunlunCode.Relics;
 
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
-    title: "Unstable Substrate",
+    title: "Rhizomatic Substrate",
     description: "Lose {HpLoss} hp.\nEnchant a card with [gold]Amortized[/gold].",
     flavor: ""
 )]
-public partial class UnstableSubstrateRelic : NewKunlunRelic
+public partial class RhizomaticSubstrateRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 

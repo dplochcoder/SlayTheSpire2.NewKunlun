@@ -1,6 +1,8 @@
 ﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Enchantments;
@@ -19,6 +21,10 @@ public partial class MultiToolRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Cards), 3)];
+
+    public override bool IsAllowedForPlayer(Player player) =>
+        player.Deck.Cards.Count(ModelDb.Enchantment<MultiToolEnchantment>().CanEnchant)
+        >= Cards.IntValue;
 
     public override bool HasUponPickupEffect => true;
 

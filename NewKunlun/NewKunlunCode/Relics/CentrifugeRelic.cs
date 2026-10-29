@@ -20,7 +20,7 @@ namespace NewKunlun.NewKunlunCode.Relics;
 [Pool(typeof(YiRelicPool))]
 [RelicLocalization(
     title: "Centrifuge",
-    description: "Receive [gold]Poor Sleep[/gold].\nYour next {Uses} card rewards gain random enchantments.",
+    description: "Receive [gold]Poor Sleep[/gold].\nYour next {Uses} card {Uses:plural:reward gains|rewards gain} random enchantments.",
     flavor: ""
 )]
 public partial class CentrifugeRelic : NewKunlunRelic
@@ -122,6 +122,7 @@ public partial class CentrifugeRelic : NewKunlunRelic
             Option<PerfectFit>(Uncommon),
             Option<PoiseEnchantment>(Rare),
             Option<PreciseEnchantment>(Rare),
+            Option<RhizomaticEnchantment>(Rare),
             Option<RoyallyApproved>(Rare),
             Option<Sharp>(Common, [3]),
             Option<Slither>(Uncommon),
@@ -129,6 +130,7 @@ public partial class CentrifugeRelic : NewKunlunRelic
             Option<Sown>(Uncommon),
             Option<Steady>(Uncommon),
             Option<Swift>(Common, [1, 1, 2]),
+            Option<VenomousEnchantment>(Uncommon, [3, 3, 4]),
             Option<Vigorous>(Common, [7, 8, 9]),
         ];
 

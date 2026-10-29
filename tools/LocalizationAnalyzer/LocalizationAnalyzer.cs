@@ -9,80 +9,148 @@ namespace CardLocalizationAnalyzer;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
 {
-    public const string InvalidLocalizationId = "NKLOC001";
-    public const string UnknownVariableId = "NKLOC002";
-    public const string UnnamedArgumentId = "NKLOC003";
-    public const string MissingOrMismatchedLocalizationId = "NKLOC004";
-    public const string InvalidKeywordLocalizationTargetId = "NKLOC005";
-    public const string InvalidStaticHoverTipLocalizationTargetId = "NKLOC006";
+    private static readonly List<DiagnosticDescriptor> Descriptors = [];
 
-    private static readonly DiagnosticDescriptor InvalidLocalization = new(
-        InvalidLocalizationId,
-        "Invalid model localization",
-        "Localization fields must be string literals",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "Localization is generated at build time and requires constant string literals."
+    private static DiagnosticDescriptor RegisterDescriptor(DiagnosticDescriptor descriptor)
+    {
+        Descriptors.Add(descriptor);
+        return descriptor;
+    }
+
+    private static readonly DiagnosticDescriptor InvalidLocalizationDescriptor = RegisterDescriptor(
+        new DiagnosticDescriptor(
+            "NKLOC001",
+            "Invalid model localization",
+            "Localization fields must be string literals",
+            "Localization",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: "Localization is generated at build time and requires constant string literals."
+        )
     );
 
-    private static readonly DiagnosticDescriptor UnknownVariable = new(
-        UnknownVariableId,
-        "Unknown model description variable",
-        "Description for '{0}' references unknown dynamic variable '{1}'; valid names: {2}{3}",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "Variables referenced by a model description must be declared in CanonicalVars."
+    private static Diagnostic InvalidLocalization(Location location) =>
+        Diagnostic.Create(InvalidLocalizationDescriptor, location);
+
+    private static readonly DiagnosticDescriptor UnknownVariableDescriptor = RegisterDescriptor(
+        new DiagnosticDescriptor(
+            "NKLOC002",
+            "Unknown model description variable",
+            "Description for '{0}' references unknown dynamic variable '{1}'; valid names: {2}{3}",
+            "Localization",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: "Variables referenced by a model description must be declared in CanonicalVars."
+        )
     );
 
-    private static readonly DiagnosticDescriptor UnnamedArgument = new(
-        UnnamedArgumentId,
-        "Localization argument must be named",
-        "Localization arguments must use named-argument syntax",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "Named arguments keep localization fields independent of constructor parameter order."
+    private static Diagnostic UnknownVariable(
+        Location location,
+        string className,
+        string variableName,
+        string validNames,
+        string suggestion
+    ) =>
+        Diagnostic.Create(
+            UnknownVariableDescriptor,
+            location,
+            className,
+            variableName,
+            validNames,
+            suggestion
+        );
+
+    private static readonly DiagnosticDescriptor UnnamedArgumentDescriptor = RegisterDescriptor(
+        new DiagnosticDescriptor(
+            "NKLOC003",
+            "Localization argument must be named",
+            "Localization arguments must use named-argument syntax",
+            "Localization",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: "Named arguments keep localization fields independent of constructor parameter order."
+        )
     );
 
-    private static readonly DiagnosticDescriptor MissingOrMismatchedLocalization = new(
-        MissingOrMismatchedLocalizationId,
-        "Missing or mismatched localization attribute",
-        "'{0}' derives from {1} and must use [{2}] localization; {3}",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "Every localized model must declare the localization attribute matching its model hierarchy."
-    );
+    private static Diagnostic UnnamedArgument(Location location) =>
+        Diagnostic.Create(UnnamedArgumentDescriptor, location);
 
-    private static readonly DiagnosticDescriptor InvalidKeywordLocalizationTarget = new(
-        InvalidKeywordLocalizationTargetId,
-        "Invalid keyword localization target",
-        "[KeywordLocalization] may only be applied to static CardKeyword fields",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true
-    );
+    private static readonly DiagnosticDescriptor MissingOrMismatchedLocalizationDescriptor =
+        RegisterDescriptor(
+            new DiagnosticDescriptor(
+                "NKLOC004",
+                "Missing or mismatched localization attribute",
+                "'{0}' derives from {1} and must use [{2}] localization; {3}",
+                "Localization",
+                DiagnosticSeverity.Error,
+                isEnabledByDefault: true,
+                description: "Every localized model must declare the localization attribute matching its model hierarchy."
+            )
+        );
 
-    private static readonly DiagnosticDescriptor InvalidStaticHoverTipLocalizationTarget = new(
-        InvalidStaticHoverTipLocalizationTargetId,
-        "Invalid static hover-tip localization target",
-        "[StaticHoverTipLocalization] may only be applied to static StaticHoverTip fields declared with [CustomEnum]",
-        "Localization",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true
-    );
+    private static Diagnostic MissingOrMismatchedLocalization(
+        Location location,
+        string className,
+        string modelName,
+        string expectedAttributeName,
+        string details
+    ) =>
+        Diagnostic.Create(
+            MissingOrMismatchedLocalizationDescriptor,
+            location,
+            className,
+            modelName,
+            expectedAttributeName,
+            details
+        );
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        [
-            InvalidLocalization,
-            UnknownVariable,
-            UnnamedArgument,
-            MissingOrMismatchedLocalization,
-            InvalidKeywordLocalizationTarget,
-            InvalidStaticHoverTipLocalizationTarget,
-        ];
+    private static readonly DiagnosticDescriptor InvalidKeywordLocalizationTargetDescriptor =
+        RegisterDescriptor(
+            new DiagnosticDescriptor(
+                "NKLOC005",
+                "Invalid keyword localization target",
+                "[KeywordLocalization] may only be applied to static CardKeyword fields",
+                "Localization",
+                DiagnosticSeverity.Error,
+                isEnabledByDefault: true
+            )
+        );
+
+    private static Diagnostic InvalidKeywordLocalizationTarget(Location location) =>
+        Diagnostic.Create(InvalidKeywordLocalizationTargetDescriptor, location);
+
+    private static readonly DiagnosticDescriptor InvalidStaticHoverTipLocalizationTargetDescriptor =
+        RegisterDescriptor(
+            new DiagnosticDescriptor(
+                "NKLOC006",
+                "Invalid static hover-tip localization target",
+                "[StaticHoverTipLocalization] may only be applied to static StaticHoverTip fields declared with [CustomEnum]",
+                "Localization",
+                DiagnosticSeverity.Error,
+                isEnabledByDefault: true
+            )
+        );
+
+    private static Diagnostic InvalidStaticHoverTipLocalizationTarget(Location location) =>
+        Diagnostic.Create(InvalidStaticHoverTipLocalizationTargetDescriptor, location);
+
+    private static readonly DiagnosticDescriptor LocalizationAttributeOnAbstractClassDescriptor =
+        RegisterDescriptor(
+            new DiagnosticDescriptor(
+                "NKLOC007",
+                "Localization attribute on abstract class",
+                "Localization attributes should not be placed on abstract classes",
+                "Localization",
+                DiagnosticSeverity.Error,
+                isEnabledByDefault: true,
+                description: "Localization attributes should only be placed on concrete classes."
+            )
+        );
+
+    private static Diagnostic LocalizationAttributeOnAbstractClass(Location location) =>
+        Diagnostic.Create(LocalizationAttributeOnAbstractClassDescriptor, location);
+
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [.. Descriptors];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -113,19 +181,14 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             : isStatic && fieldTypeName == "CardKeyword";
         if (!validTarget)
             context.ReportDiagnostic(
-                Diagnostic.Create(
-                    isStaticHoverTip
-                        ? InvalidStaticHoverTipLocalizationTarget
-                        : InvalidKeywordLocalizationTarget,
-                    attribute.GetLocation()
-                )
+                isStaticHoverTip
+                    ? InvalidStaticHoverTipLocalizationTarget(attribute.GetLocation())
+                    : InvalidKeywordLocalizationTarget(attribute.GetLocation())
             );
 
         var arguments = attribute.ArgumentList?.Arguments ?? default;
         foreach (var argument in arguments.Where(argument => argument.NameColon is null))
-            context.ReportDiagnostic(
-                Diagnostic.Create(UnnamedArgument, argument.Expression.GetLocation())
-            );
+            context.ReportDiagnostic(UnnamedArgument(argument.Expression.GetLocation()));
 
         var namedArguments = arguments.Where(argument => argument.NameColon is not null).ToArray();
         var title = namedArguments.FirstOrDefault(argument =>
@@ -141,9 +204,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             || !IsStringLiteral(title.Expression)
             || !IsStringLiteral(description.Expression)
         )
-            context.ReportDiagnostic(
-                Diagnostic.Create(InvalidLocalization, attribute.GetLocation())
-            );
+            context.ReportDiagnostic(InvalidLocalization(attribute.GetLocation()));
     }
 
     private static bool IsStringLiteral(ExpressionSyntax expression) =>
@@ -166,19 +227,29 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
 
         var expectedAttributeName = Localization.GetAttributeName(kind);
         var localizationAttributes = Localization.FindLocalizationAttributes(clazz).ToArray();
+        if (classSymbol.IsAbstract)
+        {
+            if (localizationAttributes.Length > 0)
+            {
+                context.ReportDiagnostic(
+                    LocalizationAttributeOnAbstractClass(localizationAttributes[0].GetLocation())
+                );
+            }
+            return;
+        }
+
         var attr = Localization.FindLocalizationAttribute(clazz, kind);
         foreach (
             var mismatchedAttribute in localizationAttributes.Where(candidate => candidate != attr)
         )
         {
             context.ReportDiagnostic(
-                Diagnostic.Create(
-                    MissingOrMismatchedLocalization,
+                MissingOrMismatchedLocalization(
                     mismatchedAttribute.GetLocation(),
-                    classSymbol.Name,
-                    Localization.GetModelName(kind),
-                    expectedAttributeName,
-                    $"found [{mismatchedAttribute.Name}]"
+                    className: classSymbol.Name,
+                    modelName: Localization.GetModelName(kind),
+                    expectedAttributeName: expectedAttributeName,
+                    details: $"found [{mismatchedAttribute.Name}]"
                 )
             );
         }
@@ -187,13 +258,12 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
         {
             if (localizationAttributes.Length == 0)
                 context.ReportDiagnostic(
-                    Diagnostic.Create(
-                        MissingOrMismatchedLocalization,
+                    MissingOrMismatchedLocalization(
                         clazz.Identifier.GetLocation(),
-                        classSymbol.Name,
-                        Localization.GetModelName(kind),
-                        expectedAttributeName,
-                        "no localization attribute was found"
+                        className: classSymbol.Name,
+                        modelName: Localization.GetModelName(kind),
+                        expectedAttributeName: expectedAttributeName,
+                        details: "no localization attribute was found"
                     )
                 );
             return;
@@ -203,9 +273,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             attr.ArgumentList?.Arguments.Where(argument => argument.NameColon is null).ToArray()
             ?? [];
         foreach (var argument in unnamedArguments)
-            context.ReportDiagnostic(
-                Diagnostic.Create(UnnamedArgument, argument.Expression.GetLocation())
-            );
+            context.ReportDiagnostic(UnnamedArgument(argument.Expression.GetLocation()));
         if (unnamedArguments.Length > 0)
             return;
 
@@ -218,7 +286,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             )
         )
         {
-            context.ReportDiagnostic(Diagnostic.Create(InvalidLocalization, attr.GetLocation()));
+            context.ReportDiagnostic(InvalidLocalization(attr.GetLocation()));
             return;
         }
 
@@ -272,13 +340,12 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
                         : string.Join(", ", allowedVariables.OrderBy(name => name));
 
                 context.ReportDiagnostic(
-                    Diagnostic.Create(
-                        UnknownVariable,
+                    UnknownVariable(
                         descriptionLocation,
-                        clazz.Identifier.ValueText,
-                        variableName,
-                        validNames,
-                        suggestion
+                        className: clazz.Identifier.ValueText,
+                        variableName: variableName,
+                        validNames: validNames,
+                        suggestion: suggestion
                     )
                 );
             }

@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
+using MegaCrit.Sts2.Core.Entities.Players;
 using NewKunlun.NewKunlunCode.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -12,6 +13,8 @@ namespace NewKunlun.NewKunlunCode.Relics;
 /// </summary>
 public abstract class NewKunlunRelic : CustomRelicModel
 {
+    public virtual bool IsAllowedForPlayer(Player player) => true;
+
     //NewKunlun/images/relics
     public override string PackedIconPath =>
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".RelicImagePath();

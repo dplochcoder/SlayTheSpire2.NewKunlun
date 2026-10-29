@@ -5,7 +5,7 @@ using NewKunlun.NewKunlunCode.Ancients;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class PowerReservoirAct() : CustomActModel(actNumber: 1)
+public class PowerReservoirAct() : NewKunlunAct(actNumber: 1)
 {
     public override IEnumerable<EncounterModel> GenerateAllEncounters()
     {

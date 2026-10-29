@@ -5,7 +5,7 @@ using NewKunlun.NewKunlunCode.Ancients;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class EmpyreanDistrictAct() : CustomActModel(actNumber: 3)
+public class EmpyreanDistrictAct() : NewKunlunAct(actNumber: 3)
 {
     public override IEnumerable<EncounterModel> GenerateAllEncounters()
     {

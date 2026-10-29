@@ -142,7 +142,6 @@
 
   <ItemGroup>
     <Content Include="CARD_SUMMARY.md" />
-    <Content Include="NewKunlunCode\Commands\CardSelectCmds" />
     <Content Include="NewKunlun\images\card_portraits\big\card.png" />
     <Content Include="NewKunlun\images\card_portraits\big\card.png.import" />
     <Content Include="NewKunlun\images\card_portraits\card.png" />
@@ -187,7 +186,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewKunlunCode\Afflictions\" />
     <Folder Include="NewKunlunCode\Events\" />
     <Folder Include="NewKunlunCode\Rewards\" />
   </ItemGroup>

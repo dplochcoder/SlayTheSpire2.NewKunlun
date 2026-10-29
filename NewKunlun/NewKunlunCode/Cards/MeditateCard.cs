@@ -11,12 +11,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(title: "Meditate", description: "Gain {Energy:energyIcons()}.\nDraw 1 card.")]
 public partial class MeditateCard()
-    : NewKunlunCard(
-        0,
-        CardType.Skill,
-        CardRarity.Ancient,
-        MegaCrit.Sts2.Core.Entities.Cards.TargetType.None
-    )
+    : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.None)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

@@ -4,7 +4,7 @@ using MegaCrit.Sts2.Core.Models.Acts;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class ResearchInstituteAct() : CustomActModel(actNumber: 4)
+public class ResearchInstituteAct() : NewKunlunAct(actNumber: 4)
 {
     public override IEnumerable<EncounterModel> GenerateAllEncounters()
     {

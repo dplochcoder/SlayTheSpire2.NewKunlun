@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.Models.Powers;
+using NewKunlun.NewKunlunCode.Afflictions;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Powers;
@@ -63,15 +64,21 @@ public static class Tip
 
     public static IEnumerable<IHoverTip> Poise() => Enchantment<PoiseEnchantment>();
 
+    public static IHoverTip Poison() => Power<PoisonPower>();
+
     public static IEnumerable<IHoverTip> Precise() => Enchantment<PreciseEnchantment>();
 
     public static IHoverTip PreciseParry() => Static(CustomStaticHoverTip.PreciseParry);
 
-    public static IHoverTip Purge() => Keyword(BaseLibKeywords.Purge);
+    public static IHoverTip PurgeKeyword() => Keyword(BaseLibKeywords.Purge);
 
     public static IHoverTip Reload() => Static(CustomStaticHoverTip.Reload);
 
     public static IHoverTip Talisman() => Power<TalismanPower>();
+
+    public static IEnumerable<IHoverTip> Toxic() => Affliction<ToxicAffliction>();
+
+    public static IHoverTip Toxin() => Power<ToxinPower>();
 
     public static IHoverTip QiCharge() => Power<QiChargePower>();
 
@@ -93,6 +100,8 @@ public static class Tip
 
     public static IHoverTip Unplayable() => Keyword(CardKeyword.Unplayable);
 
+    public static IEnumerable<IHoverTip> Venomous() => Enchantment<VenomousEnchantment>();
+
     public static IHoverTip Vigor() => Power<VigorPower>();
 
     public static IHoverTip Vitality() => Power<VitalityPower>();
@@ -110,6 +119,9 @@ public static class Tip
         CardWithTips<TalismanDetonateCard>(
             upgrade: Cards.TalismanDetonateCard.IsUpgradedAnywhere(player)
         );
+
+    private static IEnumerable<IHoverTip> Affliction<T>()
+        where T : AfflictionModel => HoverTipFactory.FromAffliction<T>();
 
     public static IHoverTip Card<T>(bool upgrade = false)
         where T : CardModel => HoverTipFactory.FromCard<T>(upgrade);

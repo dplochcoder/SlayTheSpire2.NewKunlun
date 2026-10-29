@@ -118,7 +118,7 @@ public static class Localization
             return false;
         }
 
-        var result = new List<LocalizationString>(argumentList.Arguments.Count);
+        List<LocalizationString> result = new(argumentList.Arguments.Count);
         for (var index = 0; index < argumentList.Arguments.Count; index++)
         {
             var argument = argumentList.Arguments[index];
@@ -135,13 +135,9 @@ public static class Localization
                 continue;
             }
 
-            if (!TryReadString(argument.Expression, out var value))
-            {
-                values = [];
-                return false;
-            }
             if (
-                parameterName is null
+                !TryReadString(argument.Expression, out var value)
+                || parameterName is null
                 || result.Any(localization => localization.Name == parameterName)
             )
             {

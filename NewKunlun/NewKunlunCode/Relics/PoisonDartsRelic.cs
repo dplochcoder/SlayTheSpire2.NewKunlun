@@ -1,0 +1,44 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Characters;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Enchantments;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
+
+namespace NewKunlun.NewKunlunCode.Relics;
+
+[Pool(typeof(YiRelicPool))]
+[RelicLocalization(
+    title: "Poison Darts",
+    description: "Enchant up to 3 {Cards} attacks with [gold]Venomous[/gold] {Venomous}.",
+    flavor: ""
+)]
+public partial class PoisonDartsRelic : NewKunlunRelic
+{
+    public override RelicRarity Rarity => RelicRarity.Ancient;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DynamicVar(nameof(Cards), 3), new DynamicVar(nameof(Venomous), 4)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => Tip.Venomous();
+
+    public override bool IsAllowedForPlayer(Player player) =>
+        player.Deck.Cards.Count(ModelDb.Enchantment<VenomousEnchantment>().CanEnchant)
+        >= Cards.IntValue;
+
+    public override bool HasUponPickupEffect => true;
+
+    public override Task AfterObtained() =>
+        CardEnchantCmd.EnchantCardsFromDeck<VenomousEnchantment>(
+            Owner,
+            Venomous.IntValue,
+            0,
+            Cards.IntValue
+        );
+}

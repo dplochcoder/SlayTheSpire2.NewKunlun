@@ -4,32 +4,30 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Character;
-using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Relics;
 using NewKunlun.NewKunlunCode.Tips;
-using NewKunlun.NewKunlunCode.Variables;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "Hack",
-    description: "After {PlaysRemaining} more {PlaysRemaining:plural:play|plays}, [gold]Purge[/gold] this card and obtain {Relics:diff()} relics and {Gold:diff()} gold at the end of combat."
+    description: "Play {PlaysRemaining} more {PlaysRemaining:plural:time|times} to open the [gold]Locked Chest[/gold].\nOn open, gain {Relics:diff()} Relics and {Gold:diff()} Gold."
 )]
 public partial class HackCard()
     : NewKunlunCard(2, CardType.Quest, CardRarity.Quest, TargetType.None)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Ethereal, CardKeyword.Exhaust];
+        [CardKeyword.Exhaust, NewKunlunCardKeywords.Quantum];
 
     private const int TotalPlays = 4;
 
@@ -40,7 +38,10 @@ public partial class HackCard()
             new GoldVar(nameof(Gold), 75),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Purge()];
+    protected override bool IsPlayable =>
+        FirstChestOfState(LockedChestRelic.State.Closed) is not null;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.PurgeKeyword()];
 
     protected override void OnUpgrade()
     {
@@ -65,6 +66,9 @@ public partial class HackCard()
         }
     }
 
+    private LockedChestRelic? FirstChestOfState(LockedChestRelic.State state) =>
+        Owner.Relics.OfType<LockedChestRelic>()?.FirstOrDefault(r => r.CurrentState == state);
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var deck = this.Permanently(c => --c.PlaysRemaining.BaseValue);
@@ -75,6 +79,13 @@ public partial class HackCard()
         {
             FinishedThisCombat = true;
             await CardPileCmd.RemoveFromDeck(deck);
+
+            var chest = FirstChestOfState(LockedChestRelic.State.Closed);
+            if (chest != null)
+            {
+                chest.Flash();
+                chest.CurrentState = LockedChestRelic.State.Opened;
+            }
         }
     }
 
@@ -82,6 +93,13 @@ public partial class HackCard()
     {
         if (!FinishedThisCombat)
             return Task.CompletedTask;
+
+        var chest = FirstChestOfState(LockedChestRelic.State.Opened);
+        if (chest == null)
+            return Task.CompletedTask;
+
+        chest.Flash();
+        chest.CurrentState = LockedChestRelic.State.Looted;
 
         for (var i = 0; i < Relics.IntValue; i++)
             room.AddExtraReward(Owner, new RelicReward(Owner));

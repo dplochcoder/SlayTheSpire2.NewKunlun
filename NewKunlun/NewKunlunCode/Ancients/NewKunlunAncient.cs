@@ -1,7 +1,9 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
+using NewKunlun.NewKunlunCode.Relics;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 
@@ -24,7 +26,10 @@ public abstract class NewKunlunAncient : CustomAncientModel
     protected abstract List<EventOption> CurseOptions { get; }
 
     private void Filter(List<EventOption> options) =>
-        options.RemoveAll(o => o.Relic!.IsAllowed(Owner!.RunState));
+        options.RemoveAll(o =>
+            !o.Relic!.IsAllowed(Owner!.RunState)
+            || (o.Relic is NewKunlunRelic r && !r.IsAllowedForPlayer(Owner!))
+        );
 
     private void Filter(List<List<EventOption>> options)
     {

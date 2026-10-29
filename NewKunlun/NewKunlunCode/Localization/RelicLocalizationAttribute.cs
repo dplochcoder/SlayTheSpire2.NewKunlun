@@ -5,6 +5,7 @@ public sealed class RelicLocalizationAttribute(
     string title,
     string description,
     string flavor,
+    string? additionalRestSiteHealText = null,
     string? customPromptA = null,
     string? customPromptB = null,
     string? customPromptC = null,
@@ -22,4 +23,6 @@ public sealed class RelicLocalizationAttribute(
     )
 {
     public string Flavor { get; } = flavor;
+
+    public string? AdditionalRestSiteHealText { get; } = additionalRestSiteHealText;
 }

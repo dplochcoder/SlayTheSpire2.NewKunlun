@@ -1,10 +1,12 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Models.Events;
 using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -23,9 +25,12 @@ public class RhizomaticStabilizerRelic : NewKunlunRelic
 
     public override Task AfterObtained()
     {
-        List<CardModel> deck = [.. PileType.Deck.GetPile(Owner).Cards];
-        Owner.PlayerRng.Rewards.Shuffle(deck);
-        foreach (var card in deck.Take(2))
+        foreach (
+            var card in Owner.PlayerRng.Rewards.NextItems(
+                2,
+                Owner.Deck.Cards.Where(c => c.IsUpgradable)
+            )
+        )
             CardCmd.Upgrade(card);
 
         return Task.CompletedTask;
