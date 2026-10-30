@@ -10,6 +10,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -29,12 +30,15 @@ public partial class SparCard()
         [
             new DamageVar(8M, ValueProp.Move),
             new BlockVar(3M, ValueProp.Move),
-            new DynamicVar(nameof(Strength), 1M),
+            new(nameof(Strength), 1M),
             new InternalDamageSelfInflictVar(3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Strength(), Tip.InternalDamage()];
+        [
+            HoverTipFactory.FromPower<StrengthPower>(),
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+        ];
 
     protected override void OnUpgrade()
     {

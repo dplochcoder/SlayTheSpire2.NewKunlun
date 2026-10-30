@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -25,12 +26,10 @@ public partial class MalfunctionCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new InternalDamageSelfInflictVar(nameof(Damage), 4M),
-            new DynamicVar(nameof(DamageIncrement), 3M),
-        ];
+        [new InternalDamageSelfInflictVar(nameof(Damage), 4M), new(nameof(DamageIncrement), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     public override bool HasTurnEndInHandEffect => true;
 

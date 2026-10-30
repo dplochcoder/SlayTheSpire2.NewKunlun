@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -23,10 +24,13 @@ public partial class InvigorateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 4M), new InternalDamageSelfInflictVar(13M)];
+        [new(nameof(Strength), 4M), new InternalDamageSelfInflictVar(13M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Strength(), Tip.InternalDamage()];
+        [
+            HoverTipFactory.FromPower<StrengthPower>(),
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+        ];
 
     protected override void OnUpgrade() => Strength.UpgradeValueTo(5M);
 

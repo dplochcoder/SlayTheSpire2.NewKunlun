@@ -22,9 +22,10 @@ public partial class OppressCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(InternalDamage), 3M), new DamageVar(5M, ValueProp.Move)];
+        [new(nameof(InternalDamage), 3M), new DamageVar(5M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(5M);
 

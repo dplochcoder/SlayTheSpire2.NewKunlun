@@ -23,7 +23,8 @@ public partial class RecoveryJadeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => InternalDamageHeal.UpgradeValueTo(4M);
 

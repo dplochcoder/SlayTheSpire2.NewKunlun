@@ -5,13 +5,13 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.Rewards;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rewards;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Recycler",
     description: "You can recycle card rewards for {MinGold} to {MaxGold} gold.",

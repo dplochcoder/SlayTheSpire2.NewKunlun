@@ -32,7 +32,7 @@ public partial class RhythmChopPower : NewKunlunPower
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.QiCharge(), Tip.TalismanDashCard(Owner.Player)];
+        [HoverTipFactory.FromPower<QiChargePower>(), TalismanDashCard.CreateHoverTip(Owner.Player)];
 
     public override async Task BeforeHandDraw(
         Player player,

@@ -22,10 +22,10 @@ public partial class OneWithTheTaoCard()
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Block), 12M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Block), 12M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(16M);
 

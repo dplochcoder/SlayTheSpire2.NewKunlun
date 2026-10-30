@@ -13,6 +13,7 @@ if (!TryReadArguments(args, out var options))
             + "--afflictions <directory> --afflictions-json <afflictions.json> "
             + "--powers <directory> --powers-json <powers.json> "
             + "--enchantments <directory> --enchantments-json <enchantments.json> "
+            + "--potions <directory> --potions-json <potions.json> "
             + "--relics <directory> --relics-json <relics.json> "
             + "--keywords <directory> --keywords-json <card_keywords.json> "
             + "--static-hover-tips <directory> --static-hover-tips-json <static_hover_tips.json> "
@@ -33,6 +34,7 @@ var enchantments = ReadModels(
     "EnchantmentLocalization"
 );
 var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization");
+var potions = ReadModels(options.PotionsDirectory, "NewKunlunPotion", "PotionLocalization");
 var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization");
 var keywords = ReadKeywords(options.KeywordsDirectory);
 var staticHoverTips = ReadStaticHoverTips(options.StaticHoverTipsDirectory);
@@ -41,6 +43,7 @@ UpdateJson(options.AfflictionsJsonPath, options.IdPrefix, afflictions, "afflicti
 UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
 UpdateJson(options.EnchantmentsJsonPath, options.IdPrefix, enchantments, "enchantment");
 UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
+UpdateJson(options.PotionsJsonPath, options.IdPrefix, potions, "potion");
 UpdateJson(options.RelicsJsonPath, options.IdPrefix, relics, "relic");
 UpdateKeywordJson(options.KeywordsJsonPath, options.IdPrefix, keywords);
 UpdateFieldJson(
@@ -249,6 +252,8 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values.GetValueOrDefault("--enchantments-json") ?? "",
         values.GetValueOrDefault("--powers") ?? "",
         values.GetValueOrDefault("--powers-json") ?? "",
+        values.GetValueOrDefault("--potions") ?? "",
+        values.GetValueOrDefault("--potions-json") ?? "",
         values.GetValueOrDefault("--relics") ?? "",
         values.GetValueOrDefault("--relics-json") ?? "",
         values.GetValueOrDefault("--keywords") ?? "",
@@ -260,6 +265,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
     return Directory.Exists(options.AfflictionsDirectory)
         && Directory.Exists(options.CardsDirectory)
         && Directory.Exists(options.PowersDirectory)
+        && Directory.Exists(options.PotionsDirectory)
         && Directory.Exists(options.EnchantmentsDirectory)
         && Directory.Exists(options.RelicsDirectory)
         && Directory.Exists(options.KeywordsDirectory)
@@ -267,6 +273,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         && !string.IsNullOrWhiteSpace(options.AfflictionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.CardsJsonPath)
         && !string.IsNullOrWhiteSpace(options.PowersJsonPath)
+        && !string.IsNullOrWhiteSpace(options.PotionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.EnchantmentsJsonPath)
         && !string.IsNullOrWhiteSpace(options.RelicsJsonPath)
         && !string.IsNullOrWhiteSpace(options.KeywordsJsonPath)
@@ -306,6 +313,8 @@ namespace LocalizationTool
         string EnchantmentsJsonPath,
         string PowersDirectory,
         string PowersJsonPath,
+        string PotionsDirectory,
+        string PotionsJsonPath,
         string RelicsDirectory,
         string RelicsJsonPath,
         string KeywordsDirectory,

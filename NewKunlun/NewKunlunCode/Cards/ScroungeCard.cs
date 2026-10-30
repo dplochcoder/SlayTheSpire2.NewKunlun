@@ -19,7 +19,7 @@ public partial class ScroungeCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(DrawCards), 8M), new DynamicVar(nameof(KeepCards), 2M)];
+        [new(nameof(DrawCards), 8M), new(nameof(KeepCards), 2M)];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 

@@ -24,7 +24,8 @@ public class AirDashPower : NewKunlunPower, ITemporaryPower
     public AbstractModel OriginModel => ModelDb.Card<AirDashCard>();
     public PowerModel InternallyAppliedPower => ModelDb.Power<DexterityPower>();
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<DexterityPower>()];
 
     public override Task BeforeApplied(
         Creature target,

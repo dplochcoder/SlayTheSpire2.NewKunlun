@@ -20,12 +20,17 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class RegenerateCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Boost), 0M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Boost), 0M)];
 
-    private IEnumerable<IHoverTip> BoostTip() => IsUpgraded ? [Tip.Boost()] : [];
+    private IEnumerable<IHoverTip> BoostTip() =>
+        IsUpgraded ? [HoverTipFactory.Static(CustomStaticHoverTip.Boost)] : [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [.. BoostTip(), Tip.Detonate(), Tip.QiCharge()];
+        [
+            .. BoostTip(),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.FromPower<QiChargePower>(),
+        ];
 
     protected override void OnUpgrade() => Boost.UpgradeValueTo(2M);
 

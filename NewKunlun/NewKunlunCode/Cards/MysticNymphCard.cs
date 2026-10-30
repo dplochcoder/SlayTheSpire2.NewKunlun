@@ -5,13 +5,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
-[Pool(typeof(YiCardPool))]
+[Pool(typeof(TokenCardPool))]
 [CardLocalization(
     title: "Mystic Nymph",
     description: "Draw {DrawCards:diff()} cards.\nPlace {PlaceCards:diff()} cards on top of your deck."
@@ -22,7 +22,7 @@ public partial class MysticNymphCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(DrawCards), 5), new DynamicVar(nameof(PlaceCards), 5)];
+        [new(nameof(DrawCards), 5), new(nameof(PlaceCards), 5)];
 
     protected override void OnUpgrade() => DrawCards.UpgradeValueTo(7);
 

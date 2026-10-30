@@ -6,14 +6,15 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Seal of Discipline",
     description: "Whenever you play an attack, gain {Strength} [gold]Strength[/gold].\nWhenever you play a non-attack, lose all strength obtained this way.",
@@ -23,10 +24,10 @@ public partial class SealOfDisciplineRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Strength), 2)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Strength), 2)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Strength()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<StrengthPower>()];
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -19,6 +19,7 @@ string enchantmentsDirectory = Path.Combine(
     "NewKunlunCode",
     "Enchantments"
 );
+string potionsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Potions");
 string outputPath = Path.Combine(repositoryRoot, "NewKunlun", outputFileName);
 string projectAssemblyPath =
     args.ElementAtOrDefault(1) ?? FindNewestProjectAssembly(repositoryRoot);
@@ -59,10 +60,12 @@ var sourceEnchantments = ReadSourceEnchantments(
     Path.GetDirectoryName(outputPath)!,
     enchantmentsDirectory
 );
+var sourcePotions = ReadSourcePotions(Path.GetDirectoryName(outputPath)!, potionsDirectory);
 var projectAssembly = Assembly.LoadFrom(Path.GetFullPath(projectAssemblyPath));
 var smartFormatter = CreateGameSmartFormatter(projectAssembly);
 var cards = ReadCards(projectAssembly, sourceCards, smartFormatter).ToArray();
 var enchantments = ReadEnchantments(projectAssembly, sourceEnchantments, smartFormatter).ToArray();
+var potions = ReadPotions(projectAssembly, sourcePotions, smartFormatter).ToArray();
 
 if (cards.Length == 0)
 {
@@ -70,9 +73,13 @@ if (cards.Length == 0)
     return 1;
 }
 
-File.WriteAllText(outputPath, RenderMarkdown(cards, enchantments), new UTF8Encoding(false));
+File.WriteAllText(
+    outputPath,
+    RenderMarkdown(cards, enchantments, potions),
+    new UTF8Encoding(false)
+);
 Console.WriteLine(
-    $"Wrote {cards.Length} cards and {enchantments.Length} enchantments to {outputPath}."
+    $"Wrote {cards.Length} cards, {enchantments.Length} enchantments, and {potions.Length} potions to {outputPath}."
 );
 return 0;
 
@@ -232,6 +239,40 @@ static IReadOnlyDictionary<string, string> ReadSourceEnchantments(
     }
 
     return enchantments;
+}
+
+static IReadOnlyDictionary<string, string> ReadSourcePotions(
+    string linkRoot,
+    string potionsDirectory
+)
+{
+    var potions = new Dictionary<string, string>(StringComparer.Ordinal);
+    foreach (
+        string sourcePath in Directory.EnumerateFiles(
+            potionsDirectory,
+            "*.cs",
+            SearchOption.AllDirectories
+        )
+    )
+    {
+        var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(sourcePath), path: sourcePath);
+        foreach (
+            var declaration in tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
+        )
+        {
+            if (
+                declaration.BaseList?.Types.Any(baseType =>
+                    baseType.Type.ToString().Split('.').Last() == "NewKunlunPotion"
+                ) != true
+            )
+                continue;
+
+            potions[declaration.Identifier.ValueText] = Path.GetRelativePath(linkRoot, sourcePath)
+                .Replace('\\', '/');
+        }
+    }
+
+    return potions;
 }
 
 static SmartFormatter CreateGameSmartFormatter(Assembly projectAssembly)
@@ -402,6 +443,43 @@ static IEnumerable<EnchantmentInfo> ReadEnchantments(
     }
 }
 
+static IEnumerable<PotionInfo> ReadPotions(
+    Assembly projectAssembly,
+    IReadOnlyDictionary<string, string> sourcePotions,
+    SmartFormatter smartFormatter
+)
+{
+    foreach (
+        Type potionType in projectAssembly
+            .GetTypes()
+            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunPotion"))
+    )
+    {
+        object? localization = potionType
+            .GetCustomAttributes(inherit: false)
+            .FirstOrDefault(attribute => attribute.GetType().Name == "PotionLocalizationAttribute");
+        if (
+            localization is null
+            || !sourcePotions.TryGetValue(potionType.Name, out var relativePath)
+        )
+            continue;
+
+        string title = (string)ReadProperty(localization, "Title")!;
+        string rawDescription = (string)ReadProperty(localization, "Description")!;
+        object potion =
+            Activator.CreateInstance(potionType)
+            ?? throw new InvalidOperationException(
+                $"Could not construct {potionType.FullName} from the project build."
+            );
+        yield return new PotionInfo(
+            title,
+            ReadProperty(potion, "Rarity")?.ToString() ?? "Unknown",
+            RenderDescription(potion, rawDescription, smartFormatter),
+            relativePath
+        );
+    }
+}
+
 static string RenderDescription(object card, string format, SmartFormatter smartFormatter)
 {
     var formatArguments = ReadDynamicVars(card);
@@ -539,7 +617,8 @@ static Dictionary<string, object> ReadDynamicVars(object card)
 
 static string RenderMarkdown(
     IReadOnlyCollection<CardInfo> cards,
-    IReadOnlyCollection<EnchantmentInfo> enchantments
+    IReadOnlyCollection<EnchantmentInfo> enchantments,
+    IReadOnlyCollection<PotionInfo> potions
 )
 {
     string[] standardRarities = ["Common", "Uncommon", "Rare"];
@@ -569,8 +648,33 @@ static string RenderMarkdown(
         AppendRaritySection(builder, DisplayRarity(rarityGroup.Key), rarityGroup, typeOrder);
 
     AppendEnchantments(builder, enchantments);
+    AppendPotions(builder, potions);
     AppendCounts(builder, cards, standardRarities, typeOrder);
     return builder.ToString();
+}
+
+static void AppendPotions(StringBuilder builder, IEnumerable<PotionInfo> potions)
+{
+    builder.AppendLine();
+    builder.AppendLine("## Potions");
+    builder.AppendLine();
+    foreach (
+        var potion in potions
+            .OrderBy(potion => potion.Rarity, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(potion => potion.Title, StringComparer.OrdinalIgnoreCase)
+    )
+    {
+        builder
+            .Append("- [")
+            .Append(EscapeHtml(potion.Title))
+            .Append("](")
+            .Append(potion.RelativePath.Replace(" ", "%20"))
+            .Append(") — ")
+            .Append(ConvertGameMarkupToMarkdown(potion.Description))
+            .Append(" _(")
+            .Append(EscapeHtml(potion.Rarity))
+            .AppendLine(")_");
+    }
 }
 
 static void AppendEnchantments(StringBuilder builder, IEnumerable<EnchantmentInfo> enchantments)
@@ -821,6 +925,13 @@ internal sealed record CardInfo(
 );
 
 internal sealed record EnchantmentInfo(string Title, string Description, string RelativePath);
+
+internal sealed record PotionInfo(
+    string Title,
+    string Rarity,
+    string Description,
+    string RelativePath
+);
 
 internal sealed record CardRenderState(
     int UpgradeLevel,

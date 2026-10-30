@@ -22,10 +22,13 @@ public partial class CleanseCard()
     : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Turns), 2M), new InternalDamageHealVar(4M)];
+        [new(nameof(Turns), 2M), new InternalDamageHealVar(4M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.InternalDamage(), Tip.Exhaust()];
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+        ];
 
     protected override void OnUpgrade() => Turns.UpgradeValueTo(3M);
 

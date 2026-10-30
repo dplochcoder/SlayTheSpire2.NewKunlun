@@ -18,7 +18,8 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public class NeuralNetworkCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

@@ -23,10 +23,10 @@ public partial class RootCorruptionPower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(CardDraw), 0M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(CardDraw), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MalfunctionCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<MalfunctionCard>()];
 
     public override decimal ModifyMaxEnergy(Player player, decimal amount) =>
         amount + (player.Creature == Owner ? Amount : 0);

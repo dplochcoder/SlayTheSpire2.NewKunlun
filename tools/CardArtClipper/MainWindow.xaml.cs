@@ -477,6 +477,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         var name = entry.Kind switch
         {
             AssetKind.Card => "card.png",
+            AssetKind.Potion => "potion.png",
             AssetKind.Power => "power.png",
             AssetKind.Relic => "relic.png",
             _ => throw new ArgumentOutOfRangeException(),

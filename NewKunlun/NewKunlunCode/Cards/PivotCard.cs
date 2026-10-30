@@ -19,8 +19,7 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class PivotCard()
     : NewKunlunCard(0, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(CardCount), 1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(CardCount), 1)];
 
     protected override void OnUpgrade() => CardCount.UpgradeValueTo(2M);
 

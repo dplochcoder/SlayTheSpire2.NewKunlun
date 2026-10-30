@@ -32,7 +32,8 @@ public partial class CrouchCard()
             new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDashCard(Owner)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [TalismanDashCard.CreateHoverTip(Owner)];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(16M);
 

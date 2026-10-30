@@ -38,7 +38,8 @@ public partial class HurricaneSlashCard()
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(8M);
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDashCard(Owner)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [TalismanDashCard.CreateHoverTip(Owner)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

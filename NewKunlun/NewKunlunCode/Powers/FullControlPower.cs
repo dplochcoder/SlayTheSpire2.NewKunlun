@@ -22,7 +22,11 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
     public override PowerStackType StackType => PowerStackType.Single;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Discharge(), Tip.QiCharge(), Tip.Detonate()];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
+            HoverTipFactory.FromPower<QiChargePower>(),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+        ];
 
     public async Task<int> Discharge(
         PlayerChoiceContext choiceContext,

@@ -91,10 +91,15 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
 
         Dictionary<string, VariableProperty> variables = [];
         foreach (
-            var creation in canonicalVars.DescendantNodes().OfType<ObjectCreationExpressionSyntax>()
+            var creation in canonicalVars
+                .DescendantNodes()
+                .OfType<BaseObjectCreationExpressionSyntax>()
         )
         {
-            if (semanticModel.GetTypeInfo(creation).Type is not INamedTypeSymbol variableType)
+            var typeInfo = semanticModel.GetTypeInfo(creation);
+            var variableType =
+                typeInfo.Type as INamedTypeSymbol ?? typeInfo.ConvertedType as INamedTypeSymbol;
+            if (variableType is null)
                 continue;
             if (!variableType.Name.EndsWith("Var", StringComparison.Ordinal))
                 continue;
@@ -143,7 +148,7 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
             : null;
     }
 
-    private static string? FindExplicitName(ObjectCreationExpressionSyntax creation)
+    private static string? FindExplicitName(BaseObjectCreationExpressionSyntax creation)
     {
         var firstArgument = creation.ArgumentList?.Arguments.FirstOrDefault()?.Expression;
         return firstArgument switch
@@ -172,6 +177,7 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
                 current.Name
                 is "NewKunlunCard"
                     or "NewKunlunEnchantment"
+                    or "NewKunlunPotion"
                     or "NewKunlunPower"
                     or "NewKunlunRelic"
             )

@@ -1,6 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -28,7 +29,10 @@ public partial class CleansePower : NewKunlunPower
     protected override IEnumerable<DynamicVar> CanonicalVars => [new InternalDamageHealVar(0M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.InternalDamage(), Tip.Exhaust()];
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+        ];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

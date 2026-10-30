@@ -109,6 +109,7 @@
         >
           <TabItem Header="Cards" Tag="Card" />
           <TabItem Header="Enchantments" Tag="Enchantment" />
+          <TabItem Header="Potions" Tag="Potion" />
           <TabItem Header="Powers" Tag="Power" />
           <TabItem Header="Relics" Tag="Relic" />
         </TabControl>

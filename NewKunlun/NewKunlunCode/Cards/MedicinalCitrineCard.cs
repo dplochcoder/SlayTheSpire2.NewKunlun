@@ -4,7 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.CardPools;
+using NewKunlun.NewKunlunCode.Afflictions;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -13,7 +14,7 @@ using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
-[Pool(typeof(YiCardPool))]
+[Pool(typeof(TokenCardPool))]
 [CardLocalization(
     title: "Medicinal Citrine",
     description: "Gain {MaxHp:diff()} max HP.\nPermanently gain 1 [gold]Toxin[/gold]."
@@ -23,7 +24,11 @@ public partial class MedicinalCitrineCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new HealVar(nameof(MaxHp), 5)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Toxin(), .. Tip.Toxic()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ToxinPower>(),
+            .. HoverTipFactory.FromAffliction<ToxicAffliction>(),
+        ];
 
     protected override void OnUpgrade() => MaxHp.UpgradeValueTo(7);
 

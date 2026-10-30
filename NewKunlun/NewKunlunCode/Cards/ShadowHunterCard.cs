@@ -33,7 +33,8 @@ public partial class ShadowHunterCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Sharpen()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Sharpen)];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

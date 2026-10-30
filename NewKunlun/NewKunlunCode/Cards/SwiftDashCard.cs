@@ -21,7 +21,7 @@ public partial class SwiftDashCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(2M, ValueProp.Move), new DynamicVar(nameof(Times), 3)];
+        [new BlockVar(2M, ValueProp.Move), new(nameof(Times), 3)];
 
     protected override void OnUpgrade() => Times.UpgradeValueTo(4M);
 

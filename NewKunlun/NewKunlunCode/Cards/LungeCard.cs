@@ -22,9 +22,10 @@ public partial class LungeCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.RandomEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(11M, ValueProp.Move), new DynamicVar(nameof(NumCards), 3M)];
+        [new DamageVar(11M, ValueProp.Move), new(nameof(NumCards), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
 
     protected override void OnUpgrade()
     {

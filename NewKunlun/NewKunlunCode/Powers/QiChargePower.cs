@@ -23,9 +23,10 @@ public partial class QiChargePower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(LockedCount), 0M), new DynamicVar(nameof(LockedTurnsRemaining), 0M)];
+        [new(nameof(LockedCount), 0M), new(nameof(LockedTurnsRemaining), 0M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
 
     public int Available(QiChargeCmd.Locked locked)
     {

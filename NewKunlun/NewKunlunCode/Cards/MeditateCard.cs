@@ -3,12 +3,12 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
-[Pool(typeof(YiCardPool))]
+[Pool(typeof(TokenCardPool))]
 [CardLocalization(title: "Meditate", description: "Gain {Energy:energyIcons()}.\nDraw 1 card.")]
 public partial class MeditateCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.None)

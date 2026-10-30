@@ -22,13 +22,10 @@ public partial class SkullKickCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DamageVar(16M, ValueProp.Move),
-            new DynamicVar(nameof(Weak), 1M),
-            new DynamicVar(nameof(StrengthLoss), 1M),
-        ];
+        [new DamageVar(16M, ValueProp.Move), new(nameof(Weak), 1M), new(nameof(StrengthLoss), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Weak(), Tip.Strength()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<WeakPower>(), HoverTipFactory.FromPower<StrengthPower>()];
 
     protected override bool ShouldGlowGoldInternal =>
         CombatState?.Enemies.Any(e => e.Monster?.IntendsToAttack ?? false) ?? false;

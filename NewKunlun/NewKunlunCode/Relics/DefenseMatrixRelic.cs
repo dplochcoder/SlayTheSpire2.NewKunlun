@@ -6,14 +6,14 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.ValueProps;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Defense Matrix",
     description: "At the end of your turn, gain {Block} [gold]Block[/gold].",
@@ -26,7 +26,8 @@ public partial class DefenseMatrixRelic : NewKunlunRelic
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(2, ValueProp.Unpowered)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Block()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(StaticHoverTip.Block)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

@@ -22,7 +22,8 @@ public partial class AvariceJadeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new GoldVar(9)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Fatal()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(StaticHoverTip.Fatal)];
 
     protected override void OnUpgrade() => Gold.UpgradeValueTo(15M);
 

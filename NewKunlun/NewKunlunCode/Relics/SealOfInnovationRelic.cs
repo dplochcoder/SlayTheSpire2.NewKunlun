@@ -2,14 +2,14 @@
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Seal of Innovation",
     description: "Whenever you defeat an [gold]Elite[/gold] or [gold]Boss[/gold], you may transform a card.",

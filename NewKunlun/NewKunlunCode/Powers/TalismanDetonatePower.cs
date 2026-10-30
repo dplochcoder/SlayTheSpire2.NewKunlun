@@ -24,10 +24,7 @@ public partial class TalismanDetonatePower : NewKunlunPower
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DynamicVar(nameof(UpgradeLevel), 0M),
-            new CardNameVar<TalismanDetonateCard>(() => IsUpgraded),
-        ];
+        [new(nameof(UpgradeLevel), 0M), new CardNameVar<TalismanDetonateCard>(() => IsUpgraded)];
 
     public bool IsUpgraded
     {

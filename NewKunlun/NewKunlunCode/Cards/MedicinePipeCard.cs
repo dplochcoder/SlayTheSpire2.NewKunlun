@@ -10,6 +10,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -26,14 +27,13 @@ public partial class MedicinePipeCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DynamicVar(nameof(Heal), 12M),
-            new DynamicVar(nameof(TotalUses), 3M),
-            new DynamicVar(nameof(RemainingUses), 3M),
-        ];
+        [new(nameof(Heal), 12M), new(nameof(TotalUses), 3M), new(nameof(RemainingUses), 3M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.InternalDamage(), Tip.PurgeKeyword()];
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromKeyword(BaseLibKeywords.Purge),
+        ];
 
     [SavedProperty]
     public int TimesUsed

@@ -25,10 +25,7 @@ public partial class EnhancedQiBlastPower : NewKunlunPower, ITalismanDetonateLis
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DynamicVar(nameof(UpgradeLevel), 0M),
-            new CardNameVar<AzureSandCard>(() => IsUpgraded),
-        ];
+        [new(nameof(UpgradeLevel), 0M), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     public bool IsUpgraded
     {

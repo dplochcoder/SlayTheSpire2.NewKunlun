@@ -30,9 +30,9 @@ public partial class LootCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Ra
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            Tip.AzureSand(upgrade: false),
-            Tip.AzureSand(upgrade: true),
-            Tip.DarkSteel(upgrade: IsUpgraded),
+            HoverTipFactory.FromCard<AzureSandCard>(upgrade: false),
+            HoverTipFactory.FromCard<AzureSandCard>(upgrade: true),
+            HoverTipFactory.FromCard<DarkSteelCard>(upgrade: IsUpgraded),
         ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Powers;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
@@ -16,7 +16,7 @@ using Void = MegaCrit.Sts2.Core.Models.Cards.Void;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Rhizomatic Battery",
     description: "At start of combat, shuffle one [gold]Void[/gold] into your draw pile.\nWhenever you end your turn with X unspent energy, draw X additional cards next turn.",
@@ -26,7 +26,8 @@ public class RhizomaticBatteryRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Void()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<MegaCrit.Sts2.Core.Models.Cards.Void>()];
 
     public override async Task BeforeHandDraw(
         Player player,

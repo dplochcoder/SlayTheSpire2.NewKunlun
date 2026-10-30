@@ -6,14 +6,15 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+namespace NewKunlun.NewKunlunCode.Relics;
+
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Firewall",
     description: "Lose {MaxHpLoss} max HP.\nAt start of combat, gain 3 [gold]Dexterity[/gold].\nThe first time you take unblocked damage, lose 3 [gold]Dexterity[/gold].",
@@ -24,7 +25,7 @@ public partial class FirewallRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(Dexterity), 3), new DynamicVar(nameof(MaxHpLoss), 16)];
+        [new(nameof(Dexterity), 3), new(nameof(MaxHpLoss), 16)];
 
     public override bool HasUponPickupEffect => true;
 
@@ -37,7 +38,7 @@ public partial class FirewallRelic : NewKunlunRelic
         );
 
     [SavedProperty]
-    public bool Broken
+    public bool BrokenThisCombat
     {
         get => field;
         set
@@ -47,13 +48,17 @@ public partial class FirewallRelic : NewKunlunRelic
         }
     }
 
+    public override bool ShowCounter => true;
+
+    public override int DisplayAmount => BrokenThisCombat ? 0 : Dexterity.IntValue;
+
     public override async Task AfterRoomEntered(AbstractRoom room)
     {
         Status = RelicStatus.Active;
         if (room is not CombatRoom)
             return;
 
-        Broken = false;
+        BrokenThisCombat = false;
         Flash();
         await PowerCmd.Apply<DexterityPower>(
             new ThrowingPlayerChoiceContext(),
@@ -73,10 +78,10 @@ public partial class FirewallRelic : NewKunlunRelic
         CardModel? cardSource
     )
     {
-        if (Broken || result.UnblockedDamage <= 0 || !result.Props.IsCardOrMonsterMove())
+        if (BrokenThisCombat || result.UnblockedDamage <= 0 || !result.Props.IsCardOrMonsterMove())
             return;
 
-        Broken = true;
+        BrokenThisCombat = true;
         Flash();
         Status = RelicStatus.Disabled;
         await PowerCmd.Apply<DexterityPower>(

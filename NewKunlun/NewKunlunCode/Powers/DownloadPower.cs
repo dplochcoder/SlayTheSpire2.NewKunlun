@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
 
@@ -15,5 +16,8 @@ public class DownloadPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.PreciseParry(), Tip.Strength()];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.PreciseParry),
+            HoverTipFactory.FromPower<StrengthPower>(),
+        ];
 }

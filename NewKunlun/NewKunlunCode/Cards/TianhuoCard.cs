@@ -21,7 +21,8 @@ public class TianhuoCard() : NewKunlunCard(1, CardType.Curse, CardRarity.Curse, 
 
     public override int MaxUpgradeLevel => 0;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<TianhuoCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<TianhuoCard>()];
 
     private static readonly IReadOnlyList<PileType> PileTypes =
     [

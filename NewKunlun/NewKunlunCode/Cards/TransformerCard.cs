@@ -21,7 +21,8 @@ public partial class TransformerCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<QiChargePower>()];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

@@ -24,10 +24,13 @@ public partial class TalismanPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Single;
     public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(TurnsRemaining), 2M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(TurnsRemaining), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Detonate()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+        ];
 
     private static IReadOnlyList<TalismanPower> GetAll(Player player)
     {

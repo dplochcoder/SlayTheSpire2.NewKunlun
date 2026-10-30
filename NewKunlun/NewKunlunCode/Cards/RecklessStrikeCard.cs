@@ -9,6 +9,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -27,7 +28,8 @@ public partial class RecklessStrikeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(14M, ValueProp.Move), new InternalDamageSelfInflictVar(5M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(19M);
 

@@ -1,9 +1,11 @@
-﻿using BaseLib.Utils;
+﻿using BaseLib.Cards;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Events;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Rewards;
@@ -18,7 +20,7 @@ using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
-[Pool(typeof(YiCardPool))]
+[Pool(typeof(QuestCardPool))]
 [CardLocalization(
     title: "Hack",
     description: "Play {PlaysRemaining} more {PlaysRemaining:plural:time|times} to open the [gold]Locked Chest[/gold].\nOn open, gain {Relics:diff()} Relics and {Gold:diff()} Gold."
@@ -33,15 +35,16 @@ public partial class HackCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(PlaysRemaining), TotalPlays),
-            new DynamicVar(nameof(Relics), 3),
+            new(nameof(PlaysRemaining), TotalPlays),
+            new(nameof(Relics), 3),
             new GoldVar(nameof(Gold), 75),
         ];
 
     protected override bool IsPlayable =>
         FirstChestOfState(LockedChestRelic.State.Closed) is not null;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.PurgeKeyword()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(BaseLibKeywords.Purge)];
 
     protected override void OnUpgrade()
     {

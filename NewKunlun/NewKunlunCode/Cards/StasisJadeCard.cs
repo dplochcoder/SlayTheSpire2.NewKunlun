@@ -18,7 +18,11 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public class StasisJadeCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Detonate()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+        ];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

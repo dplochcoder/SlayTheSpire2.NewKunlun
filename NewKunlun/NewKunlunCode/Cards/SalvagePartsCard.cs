@@ -25,7 +25,7 @@ public partial class SalvagePartsCard()
         [new DamageVar(12M, ValueProp.Move), new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.AzureSand(upgrade: IsUpgraded)];
+        [HoverTipFactory.FromCard<AzureSandCard>(upgrade: IsUpgraded)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

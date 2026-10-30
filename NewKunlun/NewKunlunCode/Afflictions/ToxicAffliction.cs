@@ -17,7 +17,8 @@ namespace NewKunlun.NewKunlunCode.Afflictions;
 )]
 public class ToxicAffliction : NewKunlunAffliction
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Poison()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<PoisonPower>()];
 
     public override bool CanAfflictCardType(CardType cardType) =>
         cardType is CardType.Attack or CardType.Skill or CardType.Power;

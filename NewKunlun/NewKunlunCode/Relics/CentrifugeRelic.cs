@@ -8,8 +8,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Enchantments;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Runs;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
@@ -17,7 +17,7 @@ using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Centrifuge",
     description: "Receive [gold]Poor Sleep[/gold].\nYour next {Uses} card {Uses:plural:reward gains|rewards gain} random enchantments.",
@@ -27,9 +27,10 @@ public partial class CentrifugeRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Uses), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Uses), 3)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<PoorSleep>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<PoorSleep>()];
 
     private int UsesRemaining
     {

@@ -26,19 +26,24 @@ public partial class CloudPiercerCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Weak), 2M),
-            new DynamicVar(nameof(Vulnerable), 2M),
+            new(nameof(Weak), 2M),
+            new(nameof(Vulnerable), 2M),
             new CustomDamageVar<CloudPiercerCard>(
                 nameof(Damage),
                 36M,
                 ValueProp.Move,
                 _ => 36M + ExtraDamage.BaseValue * Owner.Creature.GetPowerAmount<SharpenedPower>()
             ),
-            new DynamicVar(nameof(ExtraDamage), 8M),
+            new(nameof(ExtraDamage), 8M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Block(), Tip.Weak(), Tip.Vulnerable(), Tip.Sharpen()];
+        [
+            HoverTipFactory.Static(StaticHoverTip.Block),
+            HoverTipFactory.FromPower<WeakPower>(),
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.Static(CustomStaticHoverTip.Sharpen),
+        ];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

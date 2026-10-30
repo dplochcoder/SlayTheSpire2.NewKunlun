@@ -4,11 +4,11 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Afflictions;
 using NewKunlun.NewKunlunCode.Cards;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
@@ -16,7 +16,7 @@ using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Orpiment",
     description: "Add one [gold]Medicinal Citrine[/gold] to your deck.",
@@ -26,7 +26,8 @@ public class OrpimentRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Card<MedicinalCitrineCard>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<MedicinalCitrineCard>()];
 
     [SavedProperty]
     public int NumCitrineUses

@@ -30,13 +30,13 @@ public partial class ParryCard()
     public override bool IsParryCard => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new BlockVar(9M, ValueProp.Move),
-            new DynamicVar(nameof(Parry), 1M),
-            new DynamicVar(nameof(Imperfect), 3M),
-        ];
+        [new BlockVar(9M, ValueProp.Move), new(nameof(Parry), 1M), new(nameof(Imperfect), 3M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry(), Tip.Imperfect()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>(),
+            HoverTipFactory.FromPower<ImperfectPower>(),
+        ];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(13M);
 

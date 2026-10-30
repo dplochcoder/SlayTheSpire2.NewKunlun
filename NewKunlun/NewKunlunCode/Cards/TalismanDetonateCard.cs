@@ -40,14 +40,18 @@ public partial class TalismanDetonateCard()
                 _ => Owner.Creature.HasPower<FullControlPower>() ? 1 : 0
             ),
             new TalismanDetonateBaseDamageVar(15M),
-            new DynamicVar(nameof(Vulnerable), 1M),
+            new(nameof(Vulnerable), 1M),
         ];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.QiCharge(), Tip.Vulnerable(), Tip.Talisman()];
+        [
+            HoverTipFactory.FromPower<QiChargePower>(),
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.FromPower<TalismanPower>(),
+        ];
 
     private decimal ComputeTotalDamage()
     {
@@ -72,6 +76,14 @@ public partial class TalismanDetonateCard()
             ? cards.Any(c => c is TalismanDetonateCard { IsUpgraded: true })
             : cards.Any(c => c is TalismanDashCard { IsUpgraded: true });
     }
+
+    public static IHoverTip CreateHoverTip(Player? player) =>
+        HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgradedAnywhere(player));
+
+    public static IEnumerable<IHoverTip> CreateHoverTips(Player? player) =>
+        HoverTipFactory.FromCardWithCardHoverTips<TalismanDetonateCard>(
+            upgrade: IsUpgradedAnywhere(player)
+        );
 
     private bool AnyMarked() =>
         CombatState?.Enemies.Any(e => e.IsHittable && e.HasTalismanFor(Owner)) ?? false;

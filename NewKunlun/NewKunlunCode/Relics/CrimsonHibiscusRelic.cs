@@ -2,13 +2,13 @@
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Crimson Hibiscus",
     description: "Remove a [gold]Strike[/gold] or [gold]Defend[/gold].\nUpgrade a [gold]Strike[/gold] or [gold]Defend[/gold].",

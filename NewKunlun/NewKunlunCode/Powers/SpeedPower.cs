@@ -16,8 +16,7 @@ public partial class SpeedPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(TurnsRemaining), 3M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(TurnsRemaining), 3M)];
 
     public override decimal ModifyHandDraw(Player player, decimal count)
     {

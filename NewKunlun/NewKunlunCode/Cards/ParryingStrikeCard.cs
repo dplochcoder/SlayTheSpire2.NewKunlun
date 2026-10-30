@@ -28,7 +28,8 @@ public partial class ParryingStrikeCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(15M, ValueProp.Move), new BlockVar(4M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.ParryCard()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.ParryCard)];
 
     protected override void OnUpgrade()
     {

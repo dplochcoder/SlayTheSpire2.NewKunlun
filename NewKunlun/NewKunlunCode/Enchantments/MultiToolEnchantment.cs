@@ -11,8 +11,7 @@ namespace NewKunlun.NewKunlunCode.Enchantments;
 
 [EnchantmentLocalization(
     title: "Multi Tool",
-    description: "When drawn, you may swap this card with any other [gold]Multi Tool[/gold] card in your draw pile.",
-    customPromptA: "Choose a multi-tool component to draw."
+    description: "On draw, add all other [gold]Multi Tool[/gold] cards from your draw pile into your hand."
 )]
 public class MultiToolEnchantment : NewKunlunEnchantment
 {
@@ -22,34 +21,15 @@ public class MultiToolEnchantment : NewKunlunEnchantment
         bool fromHandDraw
     )
     {
-        if (card != Card)
+        if (card != Card || Card.Owner.PlayerCombatState == null)
             return;
 
-        List<CardModel> candidates =
+        List<CardModel> tools =
         [
-            Card,
-            .. PileType
-                .Deck.GetPile(Card.Owner)
-                .Cards.Where(c => c.Enchantment is MultiToolEnchantment),
+            .. Card.Owner.PlayerCombatState.DrawPile.Cards.Where(c =>
+                c.Enchantment is MultiToolEnchantment
+            ),
         ];
-        var swap =
-            await CardSelectCmds.FromSelectACardScreenIfPossible(
-                choiceContext,
-                candidates,
-                Card.Owner,
-                this.CustomPromptA,
-                canSkip: true
-            ) ?? Card;
-
-        if (swap == Card)
-            return;
-
-        var drawPile = PileType.Draw.GetPile(Card.Owner);
-        var index = drawPile.Cards.IndexOf(swap);
-        await CardPileCmd.Add(card, PileType.Draw.GetPile(Card.Owner));
-        await CardPileCmd.Add(swap, PileType.Hand.GetPile(Card.Owner));
-
-        drawPile._cards.Remove(Card);
-        drawPile._cards.Insert(index, Card);
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(tools, PileType.Hand), time: 0.7f);
     }
 }

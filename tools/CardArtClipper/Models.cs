@@ -101,6 +101,7 @@ public enum AssetKind
 {
     Card,
     Enchantment,
+    Potion,
     Power,
     Relic,
 }

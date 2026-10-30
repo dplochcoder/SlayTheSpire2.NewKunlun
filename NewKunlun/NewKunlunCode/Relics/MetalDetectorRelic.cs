@@ -3,16 +3,16 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.RestSiteOptions;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Metal Detector",
-    description: "At rest sites, you can [gold]Salvage[/gold] to find {GoldMin} to {GoldMax} gold.",
+    description: "At rest sites, you can [gold]Salvage[/gold] to gain {GoldMin} to {GoldMax} gold.",
     flavor: ""
 )]
 public partial class MetalDetectorRelic : NewKunlunRelic

@@ -20,7 +20,8 @@ public partial class TwitchCard()
 {
     public override bool IsParryCard => true;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

@@ -25,10 +25,21 @@ public static class DynamicVariables
             return names;
 
         foreach (
-            var creation in canonicalVars.DescendantNodes().OfType<ObjectCreationExpressionSyntax>()
+            var creation in canonicalVars
+                .DescendantNodes()
+                .OfType<BaseObjectCreationExpressionSyntax>()
         )
         {
-            var typeName = GetUnqualifiedTypeName(creation.Type);
+            var typeInfo = semanticModel.GetTypeInfo(creation);
+            var variableType =
+                typeInfo.Type as INamedTypeSymbol ?? typeInfo.ConvertedType as INamedTypeSymbol;
+            var typeName =
+                variableType?.Name
+                ?? (
+                    (creation as ObjectCreationExpressionSyntax)?.Type is { } explicitType
+                        ? GetUnqualifiedTypeName(explicitType)
+                        : null
+                );
             if (typeName is null)
                 continue;
 
@@ -36,18 +47,16 @@ public static class DynamicVariables
                 continue;
 
             var defaultName = typeName.Substring(0, typeName.Length - 3);
-            if (
-                semanticModel.GetTypeInfo(creation).Type is INamedTypeSymbol variableType
-                && FindCardNameVariableName(variableType) is { } cardName
-            )
+            if (variableType is not null && FindCardNameVariableName(variableType) is { } cardName)
                 defaultName = cardName;
             var firstArgument = creation.ArgumentList?.Arguments.FirstOrDefault()?.Expression;
             switch (firstArgument)
             {
-                case InvocationExpressionSyntax invocation
-                    when invocation.Expression
-                        is IdentifierNameSyntax { Identifier.ValueText: "nameof" }
-                        && invocation.ArgumentList.Arguments.Count == 1:
+                case InvocationExpressionSyntax
+                {
+                    Expression: IdentifierNameSyntax { Identifier.ValueText: "nameof" },
+                    ArgumentList.Arguments.Count: 1
+                } invocation:
                     names.Add(
                         invocation.ArgumentList.Arguments[0].Expression.ToString().Split('.').Last()
                     );

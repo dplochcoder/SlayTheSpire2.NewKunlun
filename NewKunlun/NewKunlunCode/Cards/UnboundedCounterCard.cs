@@ -26,9 +26,10 @@ public partial class UnboundedCounterCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(24M, ValueProp.Move), new DynamicVar(nameof(Parry), 2M)];
+        [new BlockVar(24M, ValueProp.Move), new(nameof(Parry), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(34M);
 

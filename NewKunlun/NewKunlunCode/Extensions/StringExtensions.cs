@@ -60,6 +60,26 @@ public static class StringExtensions
         return "res://images/enchantments/missing_enchantment.png";
     }
 
+    public static string PotionImagePath(this string path)
+    {
+        path = Path.Join(NewKunlunMod.ResPath, "images", "potions", path);
+        if (ResourceLoader.Exists(path))
+            return path;
+
+        NewKunlunMod.Logger.Info("Could not find potion image path: " + path);
+        return Path.Join(NewKunlunMod.ResPath, "images", "potions", "potion.png");
+    }
+
+    public static string PotionOutlineImagePath(this string path)
+    {
+        path = Path.Join(NewKunlunMod.ResPath, "images", "potions", "outline", path);
+        if (ResourceLoader.Exists(path))
+            return path;
+
+        NewKunlunMod.Logger.Info("Could not find potion outline image path: " + path);
+        return Path.Join(NewKunlunMod.ResPath, "images", "potions", "outline", "potion.png");
+    }
+
     public static string RelicImagePath(this string path)
     {
         path = Path.Join(NewKunlunMod.ResPath, "images", "relics", path);

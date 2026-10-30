@@ -4,10 +4,21 @@
   "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.description": "On any deck shuffle, this card is moved to the bottom of the deck.",
   "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.extraCardText": "Antiquated.",
   "NEWKUNLUN-ANTIQUATED_ENCHANTMENT.title": "Antiquated",
+  "NEWKUNLUN-LOYAL_ENCHANTMENT.description": "Next turn, return this card to your hand.",
+  "NEWKUNLUN-LOYAL_ENCHANTMENT.extraCardText": "Next turn, return to your hand.",
+  "NEWKUNLUN-LOYAL_ENCHANTMENT.title": "Loyal",
+  "NEWKUNLUN-MULTI_TOOL_ENCHANTMENT.description": "On draw, add all other [gold]Multi Tool[/gold] cards from your draw pile into your hand.",
+  "NEWKUNLUN-MULTI_TOOL_ENCHANTMENT.title": "Multi Tool",
   "NEWKUNLUN-POISE_ENCHANTMENT.description": "When played, grant 1 [gold]Strength[/gold].",
   "NEWKUNLUN-POISE_ENCHANTMENT.extraCardText": "Gain {Amount} [gold]Strength[/gold].",
   "NEWKUNLUN-POISE_ENCHANTMENT.title": "Poise",
   "NEWKUNLUN-PRECISE_ENCHANTMENT.description": "When played, grant 1 [gold]Dexterity[/gold].",
   "NEWKUNLUN-PRECISE_ENCHANTMENT.extraCardText": "Gain {Amount} [gold]Dexterity[/gold].",
-  "NEWKUNLUN-PRECISE_ENCHANTMENT.title": "Precise"
+  "NEWKUNLUN-PRECISE_ENCHANTMENT.title": "Precise",
+  "NEWKUNLUN-RHIZOMATIC_ENCHANTMENT.description": "The first time played this combat, regain the energy spent.",
+  "NEWKUNLUN-RHIZOMATIC_ENCHANTMENT.extraCardText": "[gold]Rhizomatic.[/gold]",
+  "NEWKUNLUN-RHIZOMATIC_ENCHANTMENT.title": "Rhizomatic",
+  "NEWKUNLUN-VENOMOUS_ENCHANTMENT.description": "Apply {Poison} [gold]Poison[/gold] per hit.",
+  "NEWKUNLUN-VENOMOUS_ENCHANTMENT.extraCardText": "Apply {Poison} [gold]Poison[/gold] per hit.",
+  "NEWKUNLUN-VENOMOUS_ENCHANTMENT.title": "Venomous"
 }

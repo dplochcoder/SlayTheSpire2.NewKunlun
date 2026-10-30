@@ -3,8 +3,10 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using SmartFormat.Core.Extensions;
 
@@ -21,21 +23,21 @@ public partial class TaoFruitCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(TipContext), 1M),
-            new DynamicVar(nameof(Boost), 0M),
-            new DynamicVar(nameof(Strength), 0M),
-            new DynamicVar(nameof(Speed), 0M),
-            new DynamicVar(nameof(Dexterity), 0M),
-            new DynamicVar(nameof(Vitality), 0M),
+            new(nameof(TipContext), 1M),
+            new(nameof(Boost), 0M),
+            new(nameof(Strength), 0M),
+            new(nameof(Speed), 0M),
+            new(nameof(Dexterity), 0M),
+            new(nameof(Vitality), 0M),
         ];
 
     public IEnumerable<(DynamicVar stat, Func<IHoverTip> tip)> Stats =>
         [
-            (Boost, Tip.Boost),
-            (Strength, Tip.Strength),
-            (Speed, Tip.Speed),
-            (Dexterity, Tip.Dexterity),
-            (Vitality, Tip.Vitality),
+            (Boost, () => HoverTipFactory.Static(CustomStaticHoverTip.Boost)),
+            (Strength, () => HoverTipFactory.FromPower<StrengthPower>()),
+            (Speed, () => HoverTipFactory.FromPower<SpeedPower>()),
+            (Dexterity, () => HoverTipFactory.FromPower<DexterityPower>()),
+            (Vitality, () => HoverTipFactory.FromPower<VitalityPower>()),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

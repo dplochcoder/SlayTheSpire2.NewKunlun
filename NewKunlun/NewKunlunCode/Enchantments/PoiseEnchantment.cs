@@ -17,7 +17,8 @@ public class PoiseEnchantment : NewKunlunEnchantment
 {
     public override bool CanEnchantCardType(CardType cardType) => cardType == CardType.Skill;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Strength()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<StrengthPower>()];
 
     public override bool HasExtraCardText => true;
 

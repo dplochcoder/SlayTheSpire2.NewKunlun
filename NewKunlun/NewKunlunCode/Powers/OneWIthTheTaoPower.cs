@@ -20,7 +20,7 @@ public partial class OneWithTheTaoPower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar(nameof(Parry), 0M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Parry), 0M)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

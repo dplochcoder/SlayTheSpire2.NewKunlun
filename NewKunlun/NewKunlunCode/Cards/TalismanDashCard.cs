@@ -31,8 +31,8 @@ public partial class TalismanDashCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(1M, ValueProp.Move),
-            new DynamicVar(nameof(Weak), 1M),
-            new DynamicVar(nameof(Boost), 0M),
+            new(nameof(Weak), 1M),
+            new(nameof(Boost), 0M),
             new CardNameVar<TalismanDetonateCard>(() => IsUpgraded),
             new CustomVar(
                 nameof(MobQuellJade),
@@ -47,16 +47,17 @@ public partial class TalismanDashCard()
     public override TargetType TargetType =>
         HasMobQuellJade ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
-    private IEnumerable<IHoverTip> BoostTip() => IsUpgraded ? [Tip.Boost()] : [];
+    private IEnumerable<IHoverTip> BoostTip() =>
+        IsUpgraded ? [HoverTipFactory.Static(CustomStaticHoverTip.Boost)] : [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            Tip.Lock(),
-            Tip.QiCharge(),
-            Tip.Weak(),
+            HoverTipFactory.Static(CustomStaticHoverTip.Lock),
+            HoverTipFactory.FromPower<QiChargePower>(),
+            HoverTipFactory.FromPower<WeakPower>(),
             .. BoostTip(),
-            Tip.Mark(),
-            Tip.Card<TalismanDetonateCard>(upgrade: IsUpgraded),
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgraded),
         ];
 
     protected override bool IsPlayable =>
@@ -70,6 +71,14 @@ public partial class TalismanDashCard()
         player != null
         && (player.PlayerCombatState?.AllCards ?? player.Deck.Cards).Any(c =>
             c is TalismanDashCard { IsUpgraded: true }
+        );
+
+    public static IHoverTip CreateHoverTip(Player? player) =>
+        HoverTipFactory.FromCard<TalismanDashCard>(upgrade: IsUpgradedAnywhere(player));
+
+    public static IEnumerable<IHoverTip> CreateHoverTips(Player? player) =>
+        HoverTipFactory.FromCardWithCardHoverTips<TalismanDashCard>(
+            upgrade: IsUpgradedAnywhere(player)
         );
 
     protected override void OnUpgrade()

@@ -23,7 +23,8 @@ public partial class ControlledBurnCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Smolder()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<SmolderCard>()];
 
     protected override void OnUpgrade() => Energy.UpgradeValueTo(3);
 

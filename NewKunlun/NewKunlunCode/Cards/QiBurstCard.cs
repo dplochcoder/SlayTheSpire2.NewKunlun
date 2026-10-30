@@ -27,10 +27,14 @@ public partial class QiBurstCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(nameof(DamageMultiplier), 7M, ValueProp.Move),
-            new DynamicVar(nameof(BoostMultiplier), 2M),
+            new(nameof(BoostMultiplier), 2M),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge(), Tip.Boost()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
+            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+        ];
 
     protected override void OnUpgrade()
     {

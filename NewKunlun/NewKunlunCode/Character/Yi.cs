@@ -22,7 +22,7 @@ public class Yi : PlaceholderCharacterModel
     public override int StartingGold => 99;
 
     private static LocString BanterLocString(string name) =>
-        new LocString("characters", $"NEWKUNLUN-YI.banter.alive.{name}");
+        new("characters", $"NEWKUNLUN-YI.banter.alive.{name}");
 
     public static LocString BanterNoTalismanDash() => BanterLocString("noTalismanDash");
 

@@ -22,7 +22,7 @@ public partial class BackToTheDrawingBoardCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new EnergyVar(2), new DynamicVar(nameof(DrawCards), 2M)];
+        [new EnergyVar(2), new(nameof(DrawCards), 2M)];
 
     protected override void OnUpgrade()
     {

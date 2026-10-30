@@ -27,7 +27,7 @@ public partial class MetalDetectorCard()
         [new CardNameVar<DarkSteelCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.DarkSteel(upgrade: IsUpgraded)];
+        [HoverTipFactory.FromCard<DarkSteelCard>(upgrade: IsUpgraded)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

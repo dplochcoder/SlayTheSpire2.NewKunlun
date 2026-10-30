@@ -24,7 +24,11 @@ public partial class EnhancedQiBlastCard()
         [new CardNameVar<AzureSandCard>(() => IsUpgraded)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Discharge(), Tip.Detonate(), Tip.AzureSand(upgrade: IsUpgraded)];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.FromCard<AzureSandCard>(upgrade: IsUpgraded),
+        ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

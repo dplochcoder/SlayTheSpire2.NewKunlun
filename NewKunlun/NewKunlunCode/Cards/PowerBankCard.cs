@@ -20,9 +20,9 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class PowerBankCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(NumCards), 3M)];
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Void()];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(NumCards), 3M)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<MegaCrit.Sts2.Core.Models.Cards.Void>()];
 
     protected override void OnUpgrade() => NumCards.UpgradeValueTo(4M);
 

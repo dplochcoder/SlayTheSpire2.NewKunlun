@@ -39,7 +39,8 @@ public partial class ChargeStrikeCard()
             new DamageVar(nameof(ChargeDamage), 26M, ValueProp.Move),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Discharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
 
     protected override void OnUpgrade()
     {

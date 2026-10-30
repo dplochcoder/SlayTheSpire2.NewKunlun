@@ -22,10 +22,10 @@ public partial class CompanyCard()
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(ReloadCount), 1M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(ReloadCount), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Reload()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Reload)];
 
     public override CardMultiplayerConstraint MultiplayerConstraint =>
         CardMultiplayerConstraint.MultiplayerOnly;

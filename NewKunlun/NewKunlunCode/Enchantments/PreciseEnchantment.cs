@@ -17,7 +17,8 @@ public class PreciseEnchantment : NewKunlunEnchantment
 {
     public override bool CanEnchantCardType(CardType cardType) => cardType == CardType.Attack;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<DexterityPower>()];
 
     public override bool HasExtraCardText => true;
 

@@ -24,9 +24,10 @@ public partial class BraceCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(20M, ValueProp.Move), new DynamicVar(nameof(Imperfect), 8M)];
+        [new BlockVar(20M, ValueProp.Move), new(nameof(Imperfect), 8M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Imperfect()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<ImperfectPower>()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(28M);
 

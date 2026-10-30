@@ -311,6 +311,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
                 case LocalizedModelKind.Card:
                     allowedVariables.Add("IfUpgraded");
                     break;
+                case LocalizedModelKind.Potion:
                 case LocalizedModelKind.Relic:
                     break;
                 default:

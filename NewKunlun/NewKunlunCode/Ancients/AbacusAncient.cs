@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Relics;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
@@ -9,15 +10,20 @@ public class AbacusAncient : NewKunlunAncient
     protected override List<List<EventOption>> PositiveOptions =>
         [
             [RelicOption<BalancedBladeRelic>(), RelicOption<SwiftCloakRelic>()],
+            [RelicOption<ComputingUnitRelic>()],
             [RelicOption<CrimsonHibiscusRelic>()],
             [RelicOption<DefenseMatrixRelic>(), RelicOption<FirewallRelic>()],
             [RelicOption<JietongHammerRelic>(), RelicOption<RhizomaticStabilizerRelic>()],
             [
-                RelicOption<MappingChipRelic>(),
+                RelicOption<MapDataChipRelic>(),
                 RelicOption<MetalDetectorRelic>(),
                 RelicOption<RecyclerRelic>(),
             ],
-            [RelicOption<MassSpectrometerRelic>()],
+            [
+                RelicOption<MassSpectrometerRelic>(),
+                RelicOption<EmergencyKitRelic>(),
+                RelicOption<PreparationKitRelic>(),
+            ],
             [RelicOption<MysticNymphRelic>(), RelicOption<ZenGardenRelic>()],
             [RelicOption<RhizomaticAcceleratorRelic>(), RelicOption<SealOfInnovationRelic>()],
             [RelicOption<ScrapRelic>()],
@@ -27,7 +33,6 @@ public class AbacusAncient : NewKunlunAncient
     protected override List<EventOption> CurseOptions =>
         [
             RelicOption<CentrifugeRelic>(),
-            RelicOption<ComputingUnitRelic>(),
             RelicOption<FangshiStatueRelic>(),
             RelicOption<FusangRootRelic>(),
             RelicOption<LockedChestRelic>(),

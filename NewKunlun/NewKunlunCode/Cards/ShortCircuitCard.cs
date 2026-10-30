@@ -30,7 +30,10 @@ public partial class ShortCircuitCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Mark(), Tip.TalismanDetonateCard(Owner)];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            TalismanDetonateCard.CreateHoverTip(Owner),
+        ];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(11M);
 

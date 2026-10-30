@@ -12,6 +12,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -34,17 +35,21 @@ public partial class RootNodeCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(HealHP), 6M),
-            new DynamicVar(nameof(GainMaxHP), 1M),
+            new(nameof(HealHP), 6M),
+            new(nameof(GainMaxHP), 1M),
             new InternalDamageHealVar(20M),
-            new DynamicVar(nameof(Strength), 2M),
-            new DynamicVar(nameof(Dexterity), 2M),
-            new DynamicVar(nameof(TopDeckCards), 1M),
-            new DynamicVar(nameof(UpgradesRemaining), MaxUpgrades),
+            new(nameof(Strength), 2M),
+            new(nameof(Dexterity), 2M),
+            new(nameof(TopDeckCards), 1M),
+            new(nameof(UpgradesRemaining), MaxUpgrades),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.InternalDamage(), Tip.Strength(), Tip.Dexterity()];
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromPower<StrengthPower>(),
+            HoverTipFactory.FromPower<DexterityPower>(),
+        ];
 
     protected override void OnUpgrade()
     {

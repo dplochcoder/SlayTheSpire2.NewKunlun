@@ -27,12 +27,15 @@ public partial class LightningReflexCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(3M, ValueProp.Move),
-            new DynamicVar(nameof(NumCards), 3M),
-            new DynamicVar(nameof(AdroitAmount), 3M),
+            new(nameof(NumCards), 3M),
+            new(nameof(AdroitAmount), 3M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Card<TwitchCard>(upgrade: true), .. Tip.Adroit()];
+        [
+            HoverTipFactory.FromCard<TwitchCard>(upgrade: true),
+            .. HoverTipFactory.FromEnchantment<Adroit>(),
+        ];
 
     protected override void OnUpgrade()
     {

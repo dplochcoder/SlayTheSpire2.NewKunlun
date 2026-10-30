@@ -22,10 +22,10 @@ public partial class ParryNextTurnPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(TurnsRemaining), 2M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(TurnsRemaining), 2M)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

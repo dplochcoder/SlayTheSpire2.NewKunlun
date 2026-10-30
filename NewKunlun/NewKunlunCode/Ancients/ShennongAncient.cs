@@ -7,9 +7,18 @@ public class ShennongAncient : NewKunlunAncient
 {
     protected override List<List<EventOption>> PositiveOptions =>
         [
-            [RelicOption<FermentationKitRelic>()],
-            [RelicOption<PoisonDartsRelic>()],
+            [
+                RelicOption<JiuGongRelic>(),
+                RelicOption<ZengZiRelic>(),
+                RelicOption<GutwrenchFruitRelic>(),
+            ],
+            [
+                RelicOption<DragonSnakeRelic>(),
+                RelicOption<PoisonDartsRelic>(),
+                RelicOption<ThunderCentipedeRelic>(),
+            ],
         ];
 
-    protected override List<EventOption> CurseOptions => [RelicOption<OrpimentRelic>()];
+    protected override List<EventOption> CurseOptions =>
+        [RelicOption<NecrocepsRelic>(), RelicOption<OrpimentRelic>(), RelicOption<SpitwineRelic>()];
 }

@@ -20,7 +20,7 @@ public partial class BreakoutCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(5M, ValueProp.Move), new DynamicVar(nameof(HitCount), 2M)];
+        [new DamageVar(5M, ValueProp.Move), new(nameof(HitCount), 2M)];
 
     protected override void OnUpgrade() => HitCount.UpgradeValueTo(3M);
 

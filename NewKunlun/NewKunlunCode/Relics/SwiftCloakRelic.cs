@@ -1,7 +1,7 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Localization;
@@ -9,7 +9,7 @@ using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Swift Cloak",
     description: "On pickup, enchant a Skill with [gold]Poise[/gold].",
@@ -19,7 +19,8 @@ public class SwiftCloakRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => Tip.Poise();
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        HoverTipFactory.FromEnchantment<PoiseEnchantment>();
 
     public override bool HasUponPickupEffect => true;
 

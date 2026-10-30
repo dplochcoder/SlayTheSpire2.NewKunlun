@@ -25,13 +25,16 @@ public partial class DestabilizeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Imperfect), 20M),
+            new(nameof(Imperfect), 20M),
             new DamageVar(4M, ValueProp.Move),
             new InternalDamageSelfInflictVar(5M),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Imperfect(), Tip.InternalDamage()];
+        [
+            HoverTipFactory.FromPower<ImperfectPower>(),
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+        ];
 
     protected override void OnUpgrade()
     {

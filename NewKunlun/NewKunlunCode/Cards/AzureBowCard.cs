@@ -21,7 +21,12 @@ public class AzureBowCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.AzureSandMagazine(), Tip.CloudPiercer(), Tip.ShadowHunter(), Tip.ThunderBuster()];
+        [
+            HoverTipFactory.FromPower<AzureSandMagazinePower>(),
+            HoverTipFactory.FromCard<CloudPiercerCard>(),
+            HoverTipFactory.FromCard<ShadowHunterCard>(),
+            HoverTipFactory.FromCard<ThunderBusterCard>(),
+        ];
 
     protected override bool IsPlayable =>
         Owner.Creature.GetPowerAmount<AzureSandMagazinePower>() > 0;

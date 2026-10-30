@@ -23,14 +23,19 @@ public partial class FullControlCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Boost), 1M),
+            new(nameof(Boost), 1M),
             new CardNameVar<TalismanDetonateCard>(() =>
                 TalismanDetonateCard.IsUpgradedAnywhere(Owner)
             ),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Boost(), Tip.QiCharge(), Tip.Discharge(), Tip.Detonate()];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+            HoverTipFactory.FromPower<QiChargePower>(),
+            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+        ];
 
     protected override void OnUpgrade() => Boost.UpgradeValueTo(3M);
 

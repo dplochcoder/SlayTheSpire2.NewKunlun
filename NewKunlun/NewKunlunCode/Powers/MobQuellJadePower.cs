@@ -26,5 +26,5 @@ public partial class MobQuellJadePower : NewKunlunPower, ITalismanDetonateListen
     public override PowerStackType StackType => PowerStackType.Single;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        Tip.TalismanDashCardWithTips(Owner.Player);
+        TalismanDashCard.CreateHoverTips(Owner.Player);
 }

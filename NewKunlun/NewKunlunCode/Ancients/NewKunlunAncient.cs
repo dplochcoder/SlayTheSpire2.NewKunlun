@@ -19,7 +19,7 @@ public abstract class NewKunlunAncient : CustomAncientModel
         [ModelDb.AncientEvent<KuafuAncient>(), ModelDb.AncientEvent<ShennongAncient>()];
 
     public static IEnumerable<AncientEventModel> ActThreeAncients =>
-        [ModelDb.AncientEvent<HengAncient>(), ModelDb.AncientEvent<LearAncient>()];
+        [ModelDb.AncientEvent<LearAncient>(), ModelDb.AncientEvent<Shanhai9000Ancient>()];
 
     protected abstract List<List<EventOption>> PositiveOptions { get; }
 

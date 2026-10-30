@@ -24,7 +24,7 @@ public partial class ThunderBusterCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(TurnCount), 3M),
+            new(nameof(TurnCount), 3M),
             new DamageVar(8M, ValueProp.Unpowered),
             new CustomVar(
                 nameof(HitCount),
@@ -33,7 +33,8 @@ public partial class ThunderBusterCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Sharpen()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Sharpen)];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

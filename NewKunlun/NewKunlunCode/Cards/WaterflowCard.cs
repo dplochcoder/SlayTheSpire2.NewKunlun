@@ -28,7 +28,8 @@ public partial class WaterflowCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.TalismanDetonateCard(Owner)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [TalismanDetonateCard.CreateHoverTip(Owner)];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Innate);
 

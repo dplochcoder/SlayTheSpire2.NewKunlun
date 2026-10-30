@@ -69,6 +69,16 @@ internal static class CardDiscovery
                 256,
                 256
             ),
+            AssetKind.Potion => (
+                "Potions",
+                "NewKunlunPotion",
+                "PotionLocalization",
+                "potions",
+                256,
+                256,
+                256,
+                256
+            ),
             AssetKind.Relic => (
                 "Relics",
                 "NewKunlunRelic",
@@ -135,9 +145,12 @@ internal static class CardDiscovery
                     title.Token.ValueText,
                     kind,
                     Path.Combine(imagesDirectory, fileName),
-                    kind == AssetKind.Enchantment
-                        ? Path.Combine(imagesDirectory, fileName)
-                        : Path.Combine(imagesDirectory, "big", fileName),
+                    kind switch
+                    {
+                        AssetKind.Enchantment => Path.Combine(imagesDirectory, fileName),
+                        AssetKind.Potion => Path.Combine(imagesDirectory, "outline", fileName),
+                        _ => Path.Combine(imagesDirectory, "big", fileName),
+                    },
                     smallWidth,
                     smallHeight,
                     largeWidth,

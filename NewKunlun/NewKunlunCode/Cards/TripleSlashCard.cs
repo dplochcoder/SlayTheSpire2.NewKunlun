@@ -13,6 +13,7 @@ using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
 
@@ -39,7 +40,8 @@ public partial class TripleSlashCard()
             new DamageVar(nameof(BigHitDamage), 13M, ValueProp.Move),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<QiChargePower>()];
 
     private bool IsBigHitTurn => _playsThisTurn % 3 == 2;
 

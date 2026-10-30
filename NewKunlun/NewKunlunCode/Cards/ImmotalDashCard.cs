@@ -24,9 +24,10 @@ public partial class ImmortalDashCard()
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(13M, ValueProp.Move), new DynamicVar(nameof(Dexterity), 1M)];
+        [new BlockVar(13M, ValueProp.Move), new(nameof(Dexterity), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<DexterityPower>()];
 
     protected override void OnUpgrade() => Block.UpgradeValueTo(18M);
 

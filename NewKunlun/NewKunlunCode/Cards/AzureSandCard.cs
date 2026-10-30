@@ -23,10 +23,13 @@ public partial class AzureSandCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Ethereal, CardKeyword.Exhaust];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(ReloadCount), 1M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(ReloadCount), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Reload(), Tip.AzureBow()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Reload),
+            HoverTipFactory.FromCard<AzureBowCard>(),
+        ];
 
     protected override void OnUpgrade() => ReloadCount.UpgradeValueTo(2M);
 

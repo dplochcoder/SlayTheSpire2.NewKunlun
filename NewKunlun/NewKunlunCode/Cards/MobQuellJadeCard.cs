@@ -23,7 +23,7 @@ public partial class MobQuellJadeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(DoubleDamages), 1M),
+            new(nameof(DoubleDamages), 1M),
             new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
             new CardNameVar<TalismanDetonateCard>(() =>
                 TalismanDetonateCard.IsUpgradedAnywhere(Owner)
@@ -31,7 +31,7 @@ public partial class MobQuellJadeCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.TalismanDashCard(Owner), Tip.TalismanDetonateCard(Owner)];
+        [TalismanDashCard.CreateHoverTip(Owner), TalismanDetonateCard.CreateHoverTip(Owner)];
 
     protected override void OnUpgrade() => DoubleDamages.UpgradeValueTo(2M);
 

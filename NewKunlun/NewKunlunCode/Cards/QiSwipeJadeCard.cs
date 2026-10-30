@@ -21,10 +21,13 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class QiSwipeJadeCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(CapacityIncrease), 1M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(CapacityIncrease), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.QiCharge(), Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<QiChargePower>(),
+            HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>(),
+        ];
 
     protected override void OnUpgrade() => CapacityIncrease.UpgradeValueTo(2M);
 

@@ -23,12 +23,15 @@ public partial class QiBoostCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(Boost), 7),
+            new(nameof(Boost), 7),
             new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Boost(), Tip.TalismanDashCard(Owner)];
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+            TalismanDashCard.CreateHoverTip(Owner),
+        ];
 
     protected override void OnUpgrade() => Boost.UpgradeValueTo(10M);
 

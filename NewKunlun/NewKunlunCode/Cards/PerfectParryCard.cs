@@ -26,7 +26,8 @@ public partial class PerfectParryCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(18M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Parry()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 

@@ -9,6 +9,7 @@ public enum LocalizedModelKind
     Affliction,
     Card,
     Enchantment,
+    Potion,
     Power,
     Relic,
 }
@@ -21,6 +22,7 @@ public static class Localization
             [LocalizedModelKind.Affliction] = "AfflictionLocalization",
             [LocalizedModelKind.Card] = "CardLocalization",
             [LocalizedModelKind.Enchantment] = "EnchantmentLocalization",
+            [LocalizedModelKind.Potion] = "PotionLocalization",
             [LocalizedModelKind.Power] = "PowerLocalization",
             [LocalizedModelKind.Relic] = "RelicLocalization",
         };
@@ -44,6 +46,12 @@ public static class Localization
             if (current.Name == "NewKunlunEnchantment")
             {
                 kind = LocalizedModelKind.Enchantment;
+                return true;
+            }
+
+            if (current.Name == "NewKunlunPotion")
+            {
+                kind = LocalizedModelKind.Potion;
                 return true;
             }
 
@@ -90,6 +98,7 @@ public static class Localization
             LocalizedModelKind.Affliction => "AfflictionModel",
             LocalizedModelKind.Card => "NewKunlunCard",
             LocalizedModelKind.Enchantment => "NewKunlunEnchantment",
+            LocalizedModelKind.Potion => "NewKunlunPotion",
             LocalizedModelKind.Power => "NewKunlunPower",
             LocalizedModelKind.Relic => "NewKunlunRelic",
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),
@@ -108,6 +117,7 @@ public static class Localization
             LocalizedModelKind.Affliction => ["title", "description"],
             LocalizedModelKind.Card => ["title", "description"],
             LocalizedModelKind.Enchantment => ["title", "description"],
+            LocalizedModelKind.Potion => ["title", "description"],
             LocalizedModelKind.Power => ["title", "description"],
             LocalizedModelKind.Relic => ["title", "description", "flavor"],
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),

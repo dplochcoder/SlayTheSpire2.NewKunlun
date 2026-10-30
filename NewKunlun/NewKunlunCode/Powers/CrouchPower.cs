@@ -32,7 +32,7 @@ public partial class CrouchPower : NewKunlunPower
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.TalismanDashCard(Owner.Player)];
+        [TalismanDashCard.CreateHoverTip(Owner.Player)];
 
     public override async Task AfterSideTurnStart(
         CombatSide side,

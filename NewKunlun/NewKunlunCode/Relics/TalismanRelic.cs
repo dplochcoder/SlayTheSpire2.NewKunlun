@@ -12,6 +12,7 @@ using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -27,7 +28,7 @@ public partial class TalismanRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Starter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.TalismanDashCard(null), Tip.QiCharge()];
+        [TalismanDashCard.CreateHoverTip(null), HoverTipFactory.FromPower<QiChargePower>()];
 
     public override async Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,

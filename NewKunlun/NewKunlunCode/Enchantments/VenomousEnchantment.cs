@@ -24,7 +24,8 @@ public partial class VenomousEnchantment : NewKunlunEnchantment
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new PowerVar<PoisonPower>(nameof(Poison), 4)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Poison()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<PoisonPower>()];
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,

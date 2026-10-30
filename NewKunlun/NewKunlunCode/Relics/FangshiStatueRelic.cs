@@ -8,13 +8,13 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using NewKunlun.NewKunlunCode.Character;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Relics;
 using NewKunlun.NewKunlunCode.Tips;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Fangshi Statue",
     description: "On pickup, gain an extra [gold]Strike[/gold] and [gold]Defend[/gold].\nAt start of combat, gain 1 [gold]Strength[/gold] and 1 [gold]Dexterity[/gold].",
@@ -24,7 +24,8 @@ public class FangshiStatueRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Strength(), Tip.Dexterity()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<StrengthPower>(), HoverTipFactory.FromPower<DexterityPower>()];
 
     public override bool HasUponPickupEffect => true;
 

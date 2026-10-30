@@ -25,12 +25,12 @@ public partial class CrossUpCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(7M, ValueProp.Move),
-            new DynamicVar(nameof(Vulnerable), 1M),
+            new(nameof(Vulnerable), 1M),
             new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner)),
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.Vulnerable(), Tip.TalismanDashCard(Owner)];
+        [HoverTipFactory.FromPower<VulnerablePower>(), TalismanDashCard.CreateHoverTip(Owner)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(11M);
 

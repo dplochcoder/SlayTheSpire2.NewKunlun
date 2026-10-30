@@ -21,9 +21,10 @@ public partial class StaggerCard()
     : NewKunlunCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(9M, ValueProp.Move), new DynamicVar(nameof(HitCount), 2M)];
+        [new DamageVar(9M, ValueProp.Move), new(nameof(HitCount), 2M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(CustomStaticHoverTip.Mark)];
 
     protected override void OnUpgrade()
     {

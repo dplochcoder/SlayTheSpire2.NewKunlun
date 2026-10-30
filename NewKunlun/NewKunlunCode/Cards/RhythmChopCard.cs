@@ -24,7 +24,7 @@ public partial class RhythmChopCard()
         [new CardNameVar<TalismanDashCard>(() => TalismanDashCard.IsUpgradedAnywhere(Owner))];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [Tip.QiCharge(), Tip.TalismanDashCard(Owner)];
+        [HoverTipFactory.FromPower<QiChargePower>(), TalismanDashCard.CreateHoverTip(Owner)];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 

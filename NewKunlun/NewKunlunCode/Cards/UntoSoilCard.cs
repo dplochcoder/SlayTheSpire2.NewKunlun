@@ -29,7 +29,8 @@ public partial class UntoSoilCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(20M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Fatal()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.Static(StaticHoverTip.Fatal)];
 
     protected override void OnUpgrade() => Damage.UpgradeValueTo(30M);
 

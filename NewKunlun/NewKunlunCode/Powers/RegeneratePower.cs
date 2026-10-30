@@ -18,7 +18,11 @@ public partial class RegeneratePower : NewKunlunPower, ITalismanDetonateListener
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Detonate(), Tip.QiCharge()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.FromPower<QiChargePower>(),
+        ];
 
     async Task ITalismanDetonateListener.OnTalismanDetonated(
         PlayerChoiceContext choiceContext,

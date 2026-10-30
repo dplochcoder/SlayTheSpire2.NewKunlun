@@ -20,10 +20,10 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class RootCorruptionCard()
     : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(CardDraw), 1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(CardDraw), 1)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Malfunction()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<MalfunctionCard>()];
 
     protected override void OnUpgrade() => CardDraw.UpgradeValueTo(2M);
 

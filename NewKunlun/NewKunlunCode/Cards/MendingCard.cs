@@ -20,10 +20,10 @@ namespace NewKunlun.NewKunlunCode.Cards;
 public partial class MendingCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(InternalDamage), 1M)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(InternalDamage), 1M)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(2M);
 

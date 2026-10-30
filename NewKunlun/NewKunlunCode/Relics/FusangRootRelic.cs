@@ -5,15 +5,15 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
-[Pool(typeof(YiRelicPool))]
+[Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Fusang Root",
     description: "Lose {MaxHpLoss} max hp.\nIf you lose {Heal} hp or less during combat, recover it at the end of combat.",
@@ -24,7 +24,7 @@ public partial class FusangRootRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DynamicVar(nameof(MaxHpLoss), 11), new HealVar(9)];
+        [new(nameof(MaxHpLoss), 11), new HealVar(9)];
 
     public override bool ShowCounter => Status == RelicStatus.Active;
 

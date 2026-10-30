@@ -21,7 +21,7 @@ public partial class ThunderBusterPower : NewKunlunPower
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(0M, ValueProp.Unpowered), new DynamicVar(nameof(HitCount), 0M)];
+        [new DamageVar(0M, ValueProp.Unpowered), new(nameof(HitCount), 0M)];
 
     public override async Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

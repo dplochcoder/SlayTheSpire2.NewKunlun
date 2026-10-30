@@ -27,7 +27,8 @@ public partial class AgainCard()
 
     protected override void OnUpgrade() => RemoveKeyword(CardKeyword.Exhaust);
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => Tip.TalismanDashCardWithTips(Owner);
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        TalismanDashCard.CreateHoverTips(Owner);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

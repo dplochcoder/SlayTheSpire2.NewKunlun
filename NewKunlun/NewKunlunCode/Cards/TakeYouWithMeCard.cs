@@ -24,8 +24,8 @@ public partial class TakeYouWithMeCard()
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar(nameof(BaseDamage), 10M),
-            new DynamicVar(nameof(ExtraDamage), 3M),
+            new(nameof(BaseDamage), 10M),
+            new(nameof(ExtraDamage), 3M),
             new CustomDamageVar<TakeYouWithMeCard>(
                 nameof(Damage),
                 10M,
@@ -36,7 +36,8 @@ public partial class TakeYouWithMeCard()
             ),
         ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.InternalDamage()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
 
     protected override void OnUpgrade() => ExtraDamage.UpgradeValueTo(4M);
 

@@ -18,7 +18,11 @@ public class StasisJadePower : NewKunlunPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Mark(), Tip.Talisman()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.FromPower<TalismanPower>(),
+        ];
 
     public override decimal ModifyDamageMultiplicative(
         Creature? target,

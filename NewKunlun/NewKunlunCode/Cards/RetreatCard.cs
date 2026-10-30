@@ -27,7 +27,8 @@ public partial class RetreatCard()
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(18M, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [Tip.Exhaust()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
 
     protected override void OnUpgrade() => AddKeyword(CardKeyword.Retain);
 
