@@ -13,7 +13,6 @@ using MegaCrit.Sts2.Core.Runs;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

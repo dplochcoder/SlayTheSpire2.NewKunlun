@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

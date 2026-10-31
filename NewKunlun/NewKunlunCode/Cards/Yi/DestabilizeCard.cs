@@ -1,0 +1,67 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Variables;
+
+namespace NewKunlun.NewKunlunCode.Cards.Yi;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    title: "Destabilize",
+    description: "Inflict {Imperfect:diff()} [gold]Imperfect[/gold].\nDeal {Damage:diff()} damage.\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+)]
+public partial class DestabilizeCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new(nameof(Imperfect), 20M),
+            new DamageVar(4M, ValueProp.Move),
+            new InternalDamageSelfInflictVar(5M),
+        ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ImperfectPower>(),
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+        ];
+
+    protected override void OnUpgrade()
+    {
+        Damage.UpgradeValueTo(7M);
+        Imperfect.UpgradeValueTo(30M);
+    }
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await PowerCmd.Apply<ImperfectPower>(
+            choiceContext,
+            cardPlay.Target!,
+            Imperfect.BaseValue,
+            Owner.Creature,
+            this
+        );
+        await DamageCmd
+            .Attack((decimal)Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .WithHeavySlashVfx()
+            .Targeting(cardPlay.Target!)
+            .Execute(choiceContext);
+        await InternalDamageCmd.Inflict(
+            choiceContext,
+            Owner.Creature,
+            InternalDamageSelfInflict,
+            Owner.Creature,
+            this
+        );
+    }
+}

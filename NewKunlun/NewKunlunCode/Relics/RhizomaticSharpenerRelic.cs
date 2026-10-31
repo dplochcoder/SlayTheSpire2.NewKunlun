@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
+using YingzhaosLanceCard = NewKunlun.NewKunlunCode.Cards.Ancients.YingzhaosLanceCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
@@ -31,7 +32,7 @@ public class RhizomaticSharpenerRelic : NewKunlunRelic
 
     public override async Task AfterObtained()
     {
-        await CardSelectCmds.FromDeckForTransformationPreservingMutations<YingzhaosLanceCard>(
+        await ExtraCardSelectCmds.TransformationFromDeckPreservingMutations<YingzhaosLanceCard>(
             Owner,
             new(CardSelectorPrefs.TransformSelectionPrompt, 1, 1),
             c => c.Type == CardType.Attack

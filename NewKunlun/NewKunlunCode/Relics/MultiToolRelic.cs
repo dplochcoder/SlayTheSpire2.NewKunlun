@@ -33,5 +33,5 @@ public partial class MultiToolRelic : NewKunlunRelic
     public override bool HasUponPickupEffect => true;
 
     public override Task AfterObtained() =>
-        CardEnchantCmd.EnchantCardsFromDeck<MultiToolEnchantment>(Owner, 1, 0, Cards.IntValue);
+        ExtraCardSelectCmds.EnchantFromDeck<MultiToolEnchantment>(Owner, 1, 0, Cards.IntValue);
 }

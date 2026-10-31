@@ -33,5 +33,5 @@ public partial class SealOfLoyaltyRelic : NewKunlunRelic
     public override bool HasUponPickupEffect => true;
 
     public override Task AfterObtained() =>
-        CardEnchantCmd.EnchantCardsFromDeck<LoyalEnchantment>(Owner, 1, 0, Cards.IntValue);
+        ExtraCardSelectCmds.EnchantFromDeck<LoyalEnchantment>(Owner, 1, 0, Cards.IntValue);
 }

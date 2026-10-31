@@ -1,0 +1,39 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+
+namespace NewKunlun.NewKunlunCode.Cards.Yi;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    title: "Iron Skin Jade",
+    description: "When receiving unblocked damage, convert up to {InternalDamage:diff()} to [gold]Internal Damage[/gold]."
+)]
+public partial class IronSKinJadeCard()
+    : NewKunlunCard(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(InternalDamage), 3M)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
+
+    protected override void OnUpgrade() => InternalDamage.UpgradeValueTo(5M);
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await PowerCmd.Apply<IronSkinJadePower>(
+            choiceContext,
+            Owner.Creature,
+            InternalDamage.BaseValue,
+            Owner.Creature,
+            this
+        );
+    }
+}

@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
+using MalfunctionCard = NewKunlun.NewKunlunCode.Cards.Statuses.MalfunctionCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

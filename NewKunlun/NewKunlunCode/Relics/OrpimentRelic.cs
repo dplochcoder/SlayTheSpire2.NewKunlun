@@ -12,7 +12,7 @@ using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Tips;
+using MedicinalCitrineCard = NewKunlun.NewKunlunCode.Cards.Ancients.MedicinalCitrineCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

@@ -5,7 +5,7 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
+using MysticNymphCard = NewKunlun.NewKunlunCode.Cards.Ancients.MysticNymphCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

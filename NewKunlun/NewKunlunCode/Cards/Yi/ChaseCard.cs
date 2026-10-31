@@ -1,0 +1,50 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Variables;
+
+namespace NewKunlun.NewKunlunCode.Cards.Yi;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    title: "Chase",
+    description: "Deal {Damage:diff()} damage.\nGain {Energy:energyIcons()}.\nTake {InternalDamageSelfInflict:inverseDiff()} [gold]Internal Damage[/gold]."
+)]
+public partial class ChaseCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new DamageVar(7M, ValueProp.Move), new EnergyVar(1), new InternalDamageSelfInflictVar(3M)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<InternalDamagePower>()];
+
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(11M);
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await DamageCmd
+            .Attack((decimal)Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .WithSlashVfx()
+            .Targeting(cardPlay.Target!)
+            .Execute(choiceContext);
+        await PlayerCmd.GainEnergy(Energy.BaseValue, Owner);
+        await InternalDamageCmd.Inflict(
+            choiceContext,
+            Owner.Creature,
+            InternalDamageSelfInflict,
+            Owner.Creature,
+            this
+        );
+    }
+}

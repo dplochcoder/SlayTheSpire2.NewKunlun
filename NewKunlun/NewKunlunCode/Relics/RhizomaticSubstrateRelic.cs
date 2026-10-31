@@ -32,7 +32,7 @@ public partial class RhizomaticSubstrateRelic : NewKunlunRelic
             HpLoss.IntValue,
             false
         );
-        await CardEnchantCmd.EnchantCardsFromDeck<AmortizedEnchantment>(
+        await ExtraCardSelectCmds.EnchantFromDeck<AmortizedEnchantment>(
             Owner,
             amount: 1,
             min: 0,

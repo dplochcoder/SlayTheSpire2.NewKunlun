@@ -31,7 +31,7 @@ public class CrimsonHibiscusRelic : NewKunlunRelic
         ).First();
         await CardPileCmd.RemoveFromDeck(card);
         card = (
-            await CardSelectCmds.FromDeckForUpgradeWithFilter(
+            await ExtraCardSelectCmds.FromDeckForUpgradeWithFilter(
                 Owner,
                 new CardSelectorPrefs(CardSelectorPrefs.UpgradeSelectionPrompt, 1, 1),
                 c => c.IsBasicStrikeOrDefend

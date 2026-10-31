@@ -1,10 +1,16 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Reflection.Emit;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
-using Godot;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Saves.Runs;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Keywords;
 
@@ -21,7 +27,9 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
 {
     public virtual bool IsParryCard => false;
 
-    public bool Quantum => Keywords.Contains(NewKunlunCardKeywords.Quantum);
+    public bool Endemic => Keywords.Contains(ExtraCardKeywords.Endemic);
+
+    public bool Quantum => Keywords.Contains(ExtraCardKeywords.Quantum);
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
@@ -61,6 +69,30 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
 
     protected override bool ShouldGlowGoldInternal => Quantum && AddedToHand && !QuantumBroken;
 
+    public override async Task AfterCardExhausted(
+        PlayerChoiceContext choiceContext,
+        CardModel card,
+        bool causedByEthereal
+    )
+    {
+        if (card != this || !Endemic)
+            return;
+
+        await CardPileCmd.Add(CreateClone(), PileType.Discard.GetPile(Owner), clonedBy: this);
+    }
+
+    public virtual async Task AfterTransformedFromAsync()
+    {
+        if (Endemic)
+            CardCmd.PreviewCardPileAdd(
+                await CardPileCmd.Add(
+                    CreateClone(),
+                    PileType.Discard.GetPile(Owner),
+                    clonedBy: this
+                )
+            );
+    }
+
     public sealed override Task AfterCardChangedPiles(
         CardModel card,
         PileType oldPileType,
@@ -99,5 +131,106 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
             QuantumBroken = true;
 
         return Task.CompletedTask;
+    }
+
+    [HarmonyPatch]
+    private static class Patches
+    {
+        // Modifying an async state machine with more awaits is extremely difficult.
+        // Instead, we hijack Hook.AfterCardChangedPiles, replacing it and the following statements with our own Task.
+        [HarmonyPatch(
+            typeof(CardCmd),
+            MethodType.Async,
+            typeof(IEnumerable<CardTransformation>),
+            typeof(Rng),
+            typeof(CardPreviewStyle)
+        )]
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> src)
+        {
+            List<CodeInstruction> orig = [.. src];
+            var methodInfo = typeof(Hook).GetMethod(nameof(Hook.AfterCardChangedPiles));
+            var idx = orig.FindIndex(i => i.Calls(methodInfo));
+
+            var invokeCardAddFinished = typeof(CardPile).GetMethod(
+                nameof(CardPile.InvokeCardAddFinished)
+            );
+            var afterTransformedFrom = typeof(CardModel).GetMethod(nameof(AfterTransformedFrom));
+            var afterTransformedTo = typeof(CardModel).GetMethod(nameof(AfterTransformedTo));
+            var replacements = 0;
+            CodeInstruction? getOriginal = null;
+            for (var i = idx; i < orig.Count && replacements <= 3; i++)
+            {
+                if (orig[i].Calls(invokeCardAddFinished))
+                {
+                    orig[i] = new CodeInstruction(OpCodes.Pop);
+                    replacements++;
+                }
+                else if (orig[i].Calls(afterTransformedFrom))
+                {
+                    getOriginal = orig[i - 1];
+                    orig[i] = new CodeInstruction(OpCodes.Pop);
+                    replacements++;
+                }
+                else if (orig[i].Calls(afterTransformedTo))
+                {
+                    orig[i] = new CodeInstruction(OpCodes.Pop);
+                    replacements++;
+                }
+            }
+
+            if (getOriginal == null || replacements < 3)
+                throw new ArgumentException(
+                    $"Failed to update {nameof(CardCmd)}.{nameof(CardCmd.Transform)}."
+                );
+
+            for (var i = 0; i < orig.Count; i++)
+            {
+                if (i == idx)
+                {
+                    yield return getOriginal;
+                    yield return CodeInstruction.Call(
+                        (
+                            IRunState runState,
+                            ICombatState? combatState,
+                            CardModel card,
+                            PileType oldPile,
+                            AbstractModel? clonedBy,
+                            CardPile cardPile,
+                            CardModel originalCard
+                        ) =>
+                            // ReSharper disable once ConvertClosureToMethodGroup
+                            CallAsyncTransformCallbacks(
+                                runState,
+                                combatState,
+                                card,
+                                oldPile,
+                                clonedBy,
+                                originalCard
+                            )
+                    );
+                }
+                else
+                    yield return orig[i];
+            }
+        }
+
+        private static async Task CallAsyncTransformCallbacks(
+            IRunState runState,
+            ICombatState? combatState,
+            CardModel card,
+            PileType oldPile,
+            AbstractModel? clonedBy,
+            CardModel originalCard
+        )
+        {
+            await Hook.AfterCardChangedPiles(runState, combatState, card, oldPile, clonedBy);
+
+            card.Pile?.InvokeCardAddFinished();
+            originalCard.AfterTransformedFrom();
+            if (originalCard is NewKunlunCard nkCard)
+                await nkCard.AfterTransformedFromAsync();
+            card.AfterTransformedTo();
+        }
     }
 }

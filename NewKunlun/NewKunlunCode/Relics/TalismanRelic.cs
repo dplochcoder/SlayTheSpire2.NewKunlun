@@ -13,7 +13,7 @@ using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Tips;
+using TalismanDashCard = NewKunlun.NewKunlunCode.Cards.Yi.TalismanDashCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

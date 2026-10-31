@@ -1,0 +1,58 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Tips;
+using NewKunlun.NewKunlunCode.Variables;
+
+namespace NewKunlun.NewKunlunCode.Cards.Yi;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    title: "Short Circuit",
+    description: "Deal {Damage:diff()} damage.\nIf the target is [gold]Marked[/gold], play {TalismanDetonate:cardName()}."
+)]
+public partial class ShortCircuitCard()
+    : NewKunlunCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new DamageVar(7M, ValueProp.Move),
+            new CardNameVar<TalismanDetonateCard>(() =>
+                TalismanDetonateCard.IsUpgradedAnywhere(Owner)
+            ),
+        ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            TalismanDetonateCard.CreateHoverTip(Owner),
+        ];
+
+    protected override void OnUpgrade() => Damage.UpgradeValueTo(11M);
+
+    protected override bool ShouldGlowGoldInternal =>
+        CombatState?.Enemies.Any(e => e.HasTalismanFor(Owner)) ?? false;
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        await DamageCmd
+            .Attack((decimal)Damage.BaseValue)
+            .FromCard(this, cardPlay)
+            .WithSlashVfx(heavy: cardPlay.Target?.HasTalismanFor(Owner) ?? false)
+            .Targeting(cardPlay.Target!)
+            .Execute(choiceContext);
+        if (
+            cardPlay.Target!.IsHittable
+            && cardPlay.Target!.HasTalismanFor(Owner)
+            && CombatState != null
+        )
+            await TalismanDetonateCard.AutoPlay(choiceContext, Owner, CombatState);
+    }
+}

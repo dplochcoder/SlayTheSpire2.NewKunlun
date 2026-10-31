@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -23,7 +22,7 @@ public partial class ParryNextTurnPower : NewKunlunPower
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<NewKunlun.NewKunlunCode.Powers.ParryPower>()];
+        [HoverTipFactory.FromPower<ParryPower>()];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(TurnsRemaining), 2M)];
 

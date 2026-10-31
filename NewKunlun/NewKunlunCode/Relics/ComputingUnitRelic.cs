@@ -5,15 +5,9 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.RelicPools;
-using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Runs;
-using MegaCrit.Sts2.Core.Runs.History;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -48,7 +42,7 @@ public partial class ComputingUnitRelic : NewKunlunRelic
                 )
                 .Select(r => r.Card),
         ];
-        await CardSelectCmds.FromChooseACardRewardScreen(Owner, options);
+        await ExtraCardSelectCmds.FromChooseACardRewardScreen(Owner, options);
     }
 
     public override async Task AfterSideTurnStart(

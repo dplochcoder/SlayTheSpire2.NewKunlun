@@ -9,6 +9,8 @@ using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Tips;
+using QiChargesCard = NewKunlun.NewKunlunCode.Cards.Yi.QiChargesCard;
+using TalismanDetonateCard = NewKunlun.NewKunlunCode.Cards.Yi.TalismanDetonateCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

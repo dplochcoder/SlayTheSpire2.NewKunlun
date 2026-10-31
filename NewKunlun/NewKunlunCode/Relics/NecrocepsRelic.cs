@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Potions;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -17,12 +18,15 @@ namespace NewKunlun.NewKunlunCode.Relics;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Necroceps",
-    description: "On death, inflict [gold]Poison[/gold] equal to your max HP on your attacker.\nOnce per combat, after you die, revive at 10% of your max HP.",
+    description: "On death, inflict {Poison} [gold]Poison[/gold] on your attacker.\nOnce per combat, after you die, revive at 10% of your max HP.",
     flavor: ""
 )]
 public partial class NecrocepsRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new PowerVar<PoisonPower>(nameof(Poison), 66)];
 
     [SavedProperty]
     public bool UsedThisCombat

@@ -10,8 +10,8 @@ using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 using NewKunlun.NewKunlunCode.Variables;
+using TalismanDashCard = NewKunlun.NewKunlunCode.Cards.Yi.TalismanDashCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

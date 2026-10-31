@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
@@ -25,5 +24,5 @@ public class BalancedBladeRelic : NewKunlunRelic
     public override bool HasUponPickupEffect => true;
 
     public override Task AfterObtained() =>
-        CardEnchantCmd.EnchantCardsFromDeck<PreciseEnchantment>(Owner, 1, 0, 1);
+        ExtraCardSelectCmds.EnchantFromDeck<PreciseEnchantment>(Owner, 1, 0, 1);
 }

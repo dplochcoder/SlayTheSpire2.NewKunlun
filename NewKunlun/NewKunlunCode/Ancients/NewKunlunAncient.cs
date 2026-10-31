@@ -1,6 +1,5 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Relics;

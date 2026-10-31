@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using DragonsWhipCard = NewKunlun.NewKunlunCode.Cards.Ancients.DragonsWhipCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

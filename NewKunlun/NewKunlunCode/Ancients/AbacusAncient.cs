@@ -1,6 +1,5 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Relics;
 
 namespace NewKunlun.NewKunlunCode.Ancients;

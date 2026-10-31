@@ -106,13 +106,7 @@ internal static class CardDiscovery
         );
         var result = new List<CardEntry>();
 
-        foreach (
-            var path in Directory.EnumerateFiles(
-                modelsDirectory,
-                "*.cs",
-                SearchOption.AllDirectories
-            )
-        )
+        foreach (var path in EnumerateSourceFilesFlat(modelsDirectory))
         {
             var root = CSharpSyntaxTree.ParseText(File.ReadAllText(path), path: path).GetRoot();
             foreach (var clazz in root.DescendantNodes().OfType<ClassDeclarationSyntax>())
@@ -168,6 +162,12 @@ internal static class CardDiscovery
         clazz.BaseList?.Types.Any(type =>
             type.Type.ToString().Split('.').Last().Split('(').First() == baseName
         ) == true;
+
+    private static IEnumerable<string> EnumerateSourceFilesFlat(string sourceDirectory) =>
+        Directory
+            .EnumerateFiles(sourceDirectory, "*.cs", SearchOption.AllDirectories)
+            .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(path => path, StringComparer.OrdinalIgnoreCase);
 
     private static string ToLowerSnakeCase(string value) =>
         Regex.Replace(value, "(?<=[a-z0-9])([A-Z])", "_$1").ToLowerInvariant();

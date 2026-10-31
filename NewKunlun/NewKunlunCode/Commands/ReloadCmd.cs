@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
+using NewKunlun.NewKunlunCode.Cards.Yi;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Powers;
 

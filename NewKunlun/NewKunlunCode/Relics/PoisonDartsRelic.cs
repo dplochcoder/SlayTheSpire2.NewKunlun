@@ -4,12 +4,10 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 
@@ -36,7 +34,7 @@ public partial class PoisonDartsRelic : NewKunlunRelic
     public override bool HasUponPickupEffect => true;
 
     public override Task AfterObtained() =>
-        CardEnchantCmd.EnchantCardsFromDeck<VenomousEnchantment>(
+        ExtraCardSelectCmds.EnchantFromDeck<VenomousEnchantment>(
             Owner,
             Venomous.IntValue,
             0,

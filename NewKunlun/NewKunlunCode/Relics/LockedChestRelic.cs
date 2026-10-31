@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
+using HackCard = NewKunlun.NewKunlunCode.Cards.Ancients.HackCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

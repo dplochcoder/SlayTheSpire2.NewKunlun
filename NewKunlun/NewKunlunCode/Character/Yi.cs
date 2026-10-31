@@ -7,6 +7,10 @@ using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Relics;
+using DefendYiCard = NewKunlun.NewKunlunCode.Cards.Yi.DefendYiCard;
+using ParryCard = NewKunlun.NewKunlunCode.Cards.Yi.ParryCard;
+using PivotCard = NewKunlun.NewKunlunCode.Cards.Yi.PivotCard;
+using StrikeYiCard = NewKunlun.NewKunlunCode.Cards.Yi.StrikeYiCard;
 
 namespace NewKunlun.NewKunlunCode.Character;
 

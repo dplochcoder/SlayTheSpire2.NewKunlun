@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Variables;
+using TalismanDetonateCard = NewKunlun.NewKunlunCode.Cards.Yi.TalismanDetonateCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

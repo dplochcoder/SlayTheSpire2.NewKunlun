@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
+using AirDashCard = NewKunlun.NewKunlunCode.Cards.Yi.AirDashCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

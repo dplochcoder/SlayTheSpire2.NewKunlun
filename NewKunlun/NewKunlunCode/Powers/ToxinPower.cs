@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Afflictions;
 using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

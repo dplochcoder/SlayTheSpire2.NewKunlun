@@ -10,6 +10,7 @@ using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Variables;
+using AzureSandCard = NewKunlun.NewKunlunCode.Cards.Yi.AzureSandCard;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 

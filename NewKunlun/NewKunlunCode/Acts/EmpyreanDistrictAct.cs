@@ -1,5 +1,4 @@
-﻿using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Models;
+﻿using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
 using NewKunlun.NewKunlunCode.Ancients;
 

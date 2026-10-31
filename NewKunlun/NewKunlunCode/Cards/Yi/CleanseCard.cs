@@ -1,0 +1,45 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Variables;
+
+namespace NewKunlun.NewKunlunCode.Cards.Yi;
+
+[Pool(typeof(YiCardPool))]
+[CardLocalization(
+    title: "Cleanse",
+    description: "At the end of your next {Turns:diff()} turns:\nHeal {InternalDamageHeal:diff()} [gold]Internal Damage[/gold].\n[gold]Exhaust[/gold] 1 card from your hand."
+)]
+public partial class CleanseCard()
+    : NewKunlunCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new(nameof(Turns), 2M), new InternalDamageHealVar(4M)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<InternalDamagePower>(),
+            HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+        ];
+
+    protected override void OnUpgrade() => Turns.UpgradeValueTo(3M);
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        var power = await PowerCmd.Apply<CleansePower>(
+            choiceContext,
+            Owner.Creature,
+            Turns.BaseValue,
+            Owner.Creature,
+            this
+        );
+        power?.InternalDamageHeal.BaseValue = InternalDamageHeal.BaseValue;
+    }
+}

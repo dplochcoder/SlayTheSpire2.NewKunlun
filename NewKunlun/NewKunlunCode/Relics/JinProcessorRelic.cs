@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using ReconstructCard = NewKunlun.NewKunlunCode.Cards.Ancients.ReconstructCard;
 
 namespace NewKunlun.NewKunlunCode.Relics;
 

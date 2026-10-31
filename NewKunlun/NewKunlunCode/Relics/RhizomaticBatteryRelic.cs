@@ -11,7 +11,6 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Tips;
 using Void = MegaCrit.Sts2.Core.Models.Cards.Void;
 
 namespace NewKunlun.NewKunlunCode.Relics;
@@ -26,8 +25,7 @@ public class RhizomaticBatteryRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<MegaCrit.Sts2.Core.Models.Cards.Void>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Void>()];
 
     public override async Task BeforeHandDraw(
         Player player,
