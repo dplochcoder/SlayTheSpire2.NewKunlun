@@ -8,6 +8,7 @@ public enum LocalizedModelKind
 {
     Affliction,
     Card,
+    CardModifier,
     Enchantment,
     Potion,
     Power,
@@ -21,6 +22,7 @@ public static class Localization
         {
             [LocalizedModelKind.Affliction] = "AfflictionLocalization",
             [LocalizedModelKind.Card] = "CardLocalization",
+            [LocalizedModelKind.CardModifier] = "CardModifierLocalization",
             [LocalizedModelKind.Enchantment] = "EnchantmentLocalization",
             [LocalizedModelKind.Potion] = "PotionLocalization",
             [LocalizedModelKind.Power] = "PowerLocalization",
@@ -40,6 +42,12 @@ public static class Localization
             if (current.Name == "NewKunlunCard")
             {
                 kind = LocalizedModelKind.Card;
+                return true;
+            }
+
+            if (current.Name == "NewKunlunCardModifier")
+            {
+                kind = LocalizedModelKind.CardModifier;
                 return true;
             }
 
@@ -97,6 +105,7 @@ public static class Localization
         {
             LocalizedModelKind.Affliction => "AfflictionModel",
             LocalizedModelKind.Card => "NewKunlunCard",
+            LocalizedModelKind.CardModifier => "NewKunlunCardModifier",
             LocalizedModelKind.Enchantment => "NewKunlunEnchantment",
             LocalizedModelKind.Potion => "NewKunlunPotion",
             LocalizedModelKind.Power => "NewKunlunPower",
@@ -116,6 +125,7 @@ public static class Localization
         {
             LocalizedModelKind.Affliction => ["title", "description"],
             LocalizedModelKind.Card => ["title", "description"],
+            LocalizedModelKind.CardModifier => ["title", "description"],
             LocalizedModelKind.Enchantment => ["title", "description"],
             LocalizedModelKind.Potion => ["title", "description"],
             LocalizedModelKind.Power => ["title", "description"],

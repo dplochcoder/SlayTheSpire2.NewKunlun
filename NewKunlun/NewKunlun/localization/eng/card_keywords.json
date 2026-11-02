@@ -13,6 +13,8 @@
   "NEWKUNLUN-PARRY_CARD.title": "Parry Card",
   "NEWKUNLUN-PARRYCARD.description": "Any card which grants the [gold]Parry[/gold] effect.",
   "NEWKUNLUN-PARRYCARD.title": "Parry Card",
+  "NEWKUNLUN-PERSISTENT.description": "When this card would be exhausted or transformed, add a copy of it to your discard pile.",
+  "NEWKUNLUN-PERSISTENT.title": "Persistent",
   "NEWKUNLUN-PRECISEPARRY.description": "Full-block an attack with at least one [gold]Parry[/gold].",
   "NEWKUNLUN-PRECISEPARRY.title": "Precise Parry",
   "NEWKUNLUN-QUANTUM.description": "Once added to your hand, becomes [gold]Unplayable[/gold] if you play another card.",

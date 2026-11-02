@@ -5,11 +5,11 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using NewKunlun.NewKunlunCode.Afflictions;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Modifiers;
 using NewKunlun.NewKunlunCode.Powers;
-using NewKunlun.NewKunlunCode.Relics;
+using NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 
 namespace NewKunlun.NewKunlunCode.Cards.Ancients;
 
@@ -21,15 +21,12 @@ namespace NewKunlun.NewKunlunCode.Cards.Ancients;
 public partial class MedicinalCitrineCard()
     : NewKunlunCard(1, CardType.Power, CardRarity.Ancient, TargetType.None)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new HealVar(nameof(MaxHp), 5)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new HealVar(nameof(MaxHp), 7)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<ToxinPower>(),
-            .. HoverTipFactory.FromAffliction<ToxicAffliction>(),
-        ];
+        [HoverTipFactory.FromPower<ToxinPower>(), .. NewKunlunModifier.HoverTips<ToxicModifier>()];
 
-    protected override void OnUpgrade() => MaxHp.UpgradeValueTo(7);
+    protected override void OnUpgrade() => MaxHp.UpgradeValueTo(9);
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

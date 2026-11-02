@@ -98,6 +98,7 @@
     <LocalizationToolDll>$(MSBuildProjectDirectory)\..\tools\LocalizationTool\bin\$(Configuration)\net9.0\LocalizationTool.dll</LocalizationToolDll>
     <AfflictionsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\afflictions.json</AfflictionsLocalizationJson>
     <CardsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\cards.json</CardsLocalizationJson>
+    <CardModifiersLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\card_modifiers.json</CardModifiersLocalizationJson>
     <EnchantmentsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\enchantments.json</EnchantmentsLocalizationJson>
     <PowersLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\powers.json</PowersLocalizationJson>
     <PotionsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\potions.json</PotionsLocalizationJson>
@@ -111,7 +112,7 @@
     BeforeTargets="CoreCompile"
     Condition="'$(DesignTimeBuild)' != 'true'"
   >
-    <Exec Command="dotnet &quot;$(LocalizationToolDll)&quot; --afflictions &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Afflictions&quot; --afflictions-json &quot;$(AfflictionsLocalizationJson)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --enchantments &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Enchantments&quot; --enchantments-json &quot;$(EnchantmentsLocalizationJson)&quot; --potions &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Potions&quot; --potions-json &quot;$(PotionsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --relics &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Relics&quot; --relics-json &quot;$(RelicsLocalizationJson)&quot; --keywords &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --keywords-json &quot;$(KeywordsLocalizationJson)&quot; --static-hover-tips &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --static-hover-tips-json &quot;$(StaticHoverTipsLocalizationJson)&quot; --prefix NEWKUNLUN" />
+    <Exec Command="dotnet &quot;$(LocalizationToolDll)&quot; --afflictions &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Afflictions&quot; --afflictions-json &quot;$(AfflictionsLocalizationJson)&quot; --cards &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Cards&quot; --cards-json &quot;$(CardsLocalizationJson)&quot; --card-modifiers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Modifiers&quot; --card-modifiers-json &quot;$(CardModifiersLocalizationJson)&quot; --enchantments &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Enchantments&quot; --enchantments-json &quot;$(EnchantmentsLocalizationJson)&quot; --potions &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Potions&quot; --potions-json &quot;$(PotionsLocalizationJson)&quot; --powers &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Powers&quot; --powers-json &quot;$(PowersLocalizationJson)&quot; --relics &quot;$(MSBuildProjectDirectory)\NewKunlunCode\Relics&quot; --relics-json &quot;$(RelicsLocalizationJson)&quot; --keywords &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --keywords-json &quot;$(KeywordsLocalizationJson)&quot; --static-hover-tips &quot;$(MSBuildProjectDirectory)\NewKunlunCode&quot; --static-hover-tips-json &quot;$(StaticHoverTipsLocalizationJson)&quot; --prefix NEWKUNLUN" />
   </Target>
 
   <Target
@@ -176,6 +177,7 @@
     <Content Include="NewKunlun\localization\eng\ancients.json" />
     <Content Include="NewKunlun\localization\eng\afflictions.json" />
     <Content Include="NewKunlun\localization\eng\cards.json" />
+    <Content Include="NewKunlun\localization\eng\card_modifiers.json" />
     <Content Include="NewKunlun\localization\eng\card_keywords.json" />
     <Content Include="NewKunlun\localization\eng\characters.json" />
     <Content Include="NewKunlun\localization\eng\enchantments.json" />
@@ -184,6 +186,7 @@
     <Content Include="NewKunlun\localization\eng\static_hover_tips.json" />
     <Content Include="NewKunlun\mod_image.png" />
     <Content Include="NewKunlun\mod_image.png.import" />
+    <Content Include="README.md" />
   </ItemGroup>
 
   <ItemGroup>

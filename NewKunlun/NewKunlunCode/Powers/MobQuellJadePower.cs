@@ -1,7 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using NewKunlun.NewKunlunCode.Cards;
 using NewKunlun.NewKunlunCode.Hooks;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Variables;

@@ -1,4 +1,6 @@
 {
   "NEWKUNLUN-FLASH_BOMB_POTION.description": "Stun all enemies.",
-  "NEWKUNLUN-FLASH_BOMB_POTION.title": "Flash Bomb"
+  "NEWKUNLUN-FLASH_BOMB_POTION.title": "Flash Bomb",
+  "NEWKUNLUN-RHIZOMATIC_BOMB_POTION.description": "Deal {Damage} damage to all enemies.",
+  "NEWKUNLUN-RHIZOMATIC_BOMB_POTION.title": "Rhizomatic Bomb"
 }

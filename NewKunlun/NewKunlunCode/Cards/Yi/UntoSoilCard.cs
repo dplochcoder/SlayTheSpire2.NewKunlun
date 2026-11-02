@@ -11,7 +11,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 using NewKunlun.NewKunlunCode.Character;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
-using DynamicVarExtensions = NewKunlun.NewKunlunCode.Extensions.DynamicVarExtensions;
 
 namespace NewKunlun.NewKunlunCode.Cards.Yi;
 

@@ -1,7 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.RestSite;
-using NewKunlun.NewKunlunCode.Relics;
+using MetalDetectorRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MetalDetectorRelic;
 
 namespace NewKunlun.NewKunlunCode.RestSiteOptions;
 

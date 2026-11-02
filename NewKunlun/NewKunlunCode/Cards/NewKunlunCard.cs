@@ -27,9 +27,9 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
 {
     public virtual bool IsParryCard => false;
 
-    public bool Endemic => Keywords.Contains(ExtraCardKeywords.Endemic);
+    public bool IsPersistent => Keywords.Contains(ExtraCardKeywords.Persistent);
 
-    public bool Quantum => Keywords.Contains(ExtraCardKeywords.Quantum);
+    public bool IsQuantum => Keywords.Contains(ExtraCardKeywords.Quantum);
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
@@ -67,7 +67,7 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
         }
     }
 
-    protected override bool ShouldGlowGoldInternal => Quantum && AddedToHand && !QuantumBroken;
+    protected override bool ShouldGlowGoldInternal => IsQuantum && AddedToHand && !QuantumBroken;
 
     public override async Task AfterCardExhausted(
         PlayerChoiceContext choiceContext,
@@ -75,7 +75,7 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
         bool causedByEthereal
     )
     {
-        if (card != this || !Endemic)
+        if (card != this || !IsPersistent)
             return;
 
         await CardPileCmd.Add(CreateClone(), PileType.Discard.GetPile(Owner), clonedBy: this);
@@ -83,7 +83,7 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
 
     public virtual async Task AfterTransformedFromAsync()
     {
-        if (Endemic)
+        if (IsPersistent)
             CardCmd.PreviewCardPileAdd(
                 await CardPileCmd.Add(
                     CreateClone(),
@@ -122,7 +122,7 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
     )
     {
         if (
-            Quantum
+            IsQuantum
             && !QuantumBroken
             && AddedToHand
             && cardPlay.Card.Owner == Owner

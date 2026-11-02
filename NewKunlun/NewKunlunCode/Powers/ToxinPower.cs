@@ -1,12 +1,13 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
-using NewKunlun.NewKunlunCode.Afflictions;
-using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Modifiers;
 
 namespace NewKunlun.NewKunlunCode.Powers;
 
@@ -20,19 +21,40 @@ public class ToxinPower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        HoverTipFactory.FromAffliction<ToxicAffliction>();
+        NewKunlunModifier.HoverTips<ToxicModifier>();
 
-    public override async Task BeforeSideTurnStart(
+    public override Task BeforeSideTurnStart(
         PlayerChoiceContext choiceContext,
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState
     )
     {
-        if (side != Owner.Side || Owner.CombatState?.RoundNumber != 1)
-            return;
+        if (
+            side != Owner.Side
+            || Owner.CombatState?.RoundNumber != 1
+            || Owner.Player?.PlayerCombatState == null
+        )
+            return Task.CompletedTask;
 
-        HashMultiset<CardModel> deckCards = new();
-        for (var i = 0; i < Amount; i++) { }
+        var modifier = ModelDb.Get<ToxicModifier>();
+        List<CardModel> cards =
+        [
+            .. Owner.Player.PlayerCombatState.DrawPile.Cards.Where(modifier.CanModify),
+        ];
+        if (cards.Count == 0)
+            return Task.CompletedTask;
+
+        HashSet<CardModel> modified = [];
+        for (var i = 0; i < Amount; i++)
+        {
+            var next = combatState.RunState.Rng.CombatCardSelection.NextItem(cards)!;
+            modified.Add(next);
+            CardModifier.AddModifier<ToxicModifier>(next);
+        }
+
+        Flash();
+        CardCmd.Preview([.. cards.Where(modified.Contains)]);
+        return Task.CompletedTask;
     }
 }

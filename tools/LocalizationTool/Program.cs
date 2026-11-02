@@ -11,6 +11,7 @@ if (!TryReadArguments(args, out var options))
     Console.Error.WriteLine(
         "Usage: LocalizationTool --cards <directory> --cards-json <cards.json> "
             + "--afflictions <directory> --afflictions-json <afflictions.json> "
+            + "--card-modifiers <directory> --card-modifiers-json <card_modifiers.json> "
             + "--powers <directory> --powers-json <powers.json> "
             + "--enchantments <directory> --enchantments-json <enchantments.json> "
             + "--potions <directory> --potions-json <potions.json> "
@@ -28,6 +29,11 @@ var afflictions = ReadModels(
     "AfflictionLocalization"
 );
 var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization");
+var cardModifiers = ReadModels(
+    options.CardModifiersDirectory,
+    "NewKunlunCardModifier",
+    "CardModifierLocalization"
+);
 var enchantments = ReadModels(
     options.EnchantmentsDirectory,
     "NewKunlunEnchantment",
@@ -41,6 +47,7 @@ var staticHoverTips = ReadStaticHoverTips(options.StaticHoverTipsDirectory);
 
 UpdateJson(options.AfflictionsJsonPath, options.IdPrefix, afflictions, "affliction");
 UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
+UpdateJson(options.CardModifiersJsonPath, options.IdPrefix, cardModifiers, "card modifier");
 UpdateJson(options.EnchantmentsJsonPath, options.IdPrefix, enchantments, "enchantment");
 UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
 UpdateJson(options.PotionsJsonPath, options.IdPrefix, potions, "potion");
@@ -248,6 +255,8 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values.GetValueOrDefault("--afflictions-json") ?? "",
         values.GetValueOrDefault("--cards") ?? "",
         values.GetValueOrDefault("--cards-json") ?? "",
+        values.GetValueOrDefault("--card-modifiers") ?? "",
+        values.GetValueOrDefault("--card-modifiers-json") ?? "",
         values.GetValueOrDefault("--enchantments") ?? "",
         values.GetValueOrDefault("--enchantments-json") ?? "",
         values.GetValueOrDefault("--powers") ?? "",
@@ -264,6 +273,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
     );
     return Directory.Exists(options.AfflictionsDirectory)
         && Directory.Exists(options.CardsDirectory)
+        && Directory.Exists(options.CardModifiersDirectory)
         && Directory.Exists(options.PowersDirectory)
         && Directory.Exists(options.PotionsDirectory)
         && Directory.Exists(options.EnchantmentsDirectory)
@@ -272,6 +282,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         && Directory.Exists(options.StaticHoverTipsDirectory)
         && !string.IsNullOrWhiteSpace(options.AfflictionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.CardsJsonPath)
+        && !string.IsNullOrWhiteSpace(options.CardModifiersJsonPath)
         && !string.IsNullOrWhiteSpace(options.PowersJsonPath)
         && !string.IsNullOrWhiteSpace(options.PotionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.EnchantmentsJsonPath)
@@ -309,6 +320,8 @@ namespace LocalizationTool
         string AfflictionsJsonPath,
         string CardsDirectory,
         string CardsJsonPath,
+        string CardModifiersDirectory,
+        string CardModifiersJsonPath,
         string EnchantmentsDirectory,
         string EnchantmentsJsonPath,
         string PowersDirectory,

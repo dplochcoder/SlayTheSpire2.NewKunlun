@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Keywords;
 using NewKunlun.NewKunlunCode.Localization;
-using NewKunlun.NewKunlunCode.Relics;
+using NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 
 namespace NewKunlun.NewKunlunCode.Cards.Ancients;
 

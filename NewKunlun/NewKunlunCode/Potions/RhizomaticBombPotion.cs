@@ -18,7 +18,7 @@ public partial class RhizomaticBombPotion : NewKunlunPotion
     public override TargetType TargetType => TargetType.AllAllies;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(250, ValueProp.Unpowered)];
+        [new DamageVar(333, ValueProp.Unpowered)];
 
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {

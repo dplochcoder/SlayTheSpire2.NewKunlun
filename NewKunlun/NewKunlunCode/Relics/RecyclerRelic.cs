@@ -19,7 +19,7 @@ namespace NewKunlun.NewKunlunCode.Relics;
 )]
 public partial class RecyclerRelic : NewKunlunRelic
 {
-    public override RelicRarity Rarity => RelicRarity.Ancient;
+    public override RelicRarity Rarity => RelicRarity.Rare;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new GoldVar(nameof(MinGold), 30), new GoldVar(nameof(MaxGold), 40)];

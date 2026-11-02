@@ -9,10 +9,10 @@ public static class ExtraCardKeywords
     [CustomEnum]
     [KeywordProperties(AutoKeywordPosition.After)]
     [KeywordLocalization(
-        title: "Endemic",
-        description: "When this could would be exhausted or transformed, add a copy of it to your discard pile."
+        title: "Persistent",
+        description: "When this card would be exhausted or transformed, add a copy of it to your discard pile."
     )]
-    public static CardKeyword Endemic;
+    public static CardKeyword Persistent;
 
     [CustomEnum]
     [KeywordProperties(AutoKeywordPosition.Before)]

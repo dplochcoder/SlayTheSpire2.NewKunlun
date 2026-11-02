@@ -2,7 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.RestSite;
-using NewKunlun.NewKunlunCode.Relics;
+using MapDataChipRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MapDataChipRelic;
 
 namespace NewKunlun.NewKunlunCode.RestSiteOptions;
 

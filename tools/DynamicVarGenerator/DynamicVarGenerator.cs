@@ -176,6 +176,7 @@ public sealed class DynamicVarGenerator : IIncrementalGenerator
             if (
                 current.Name
                 is "NewKunlunCard"
+                    or "NewKunlunCardModifier"
                     or "NewKunlunEnchantment"
                     or "NewKunlunPotion"
                     or "NewKunlunPower"

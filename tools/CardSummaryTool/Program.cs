@@ -14,6 +14,12 @@ using SmartFormat.Core.Extensions;
 const string outputFileName = "CARD_SUMMARY.md";
 var repositoryRoot = FindRepositoryRoot(args.FirstOrDefault() ?? AppContext.BaseDirectory);
 var cardsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Cards");
+var cardModifiersDirectory = Path.Combine(
+    repositoryRoot,
+    "NewKunlun",
+    "NewKunlunCode",
+    "Modifiers"
+);
 var enchantmentsDirectory = Path.Combine(
     repositoryRoot,
     "NewKunlun",
@@ -56,6 +62,10 @@ if (newerSourcePath is not null)
 }
 
 var sourceCards = ReadSourceCards(Path.GetDirectoryName(outputPath)!, cardsDirectory);
+var sourceCardModifiers = ReadSourceCardModifiers(
+    Path.GetDirectoryName(outputPath)!,
+    cardModifiersDirectory
+);
 var sourceEnchantments = ReadSourceEnchantments(
     Path.GetDirectoryName(outputPath)!,
     enchantmentsDirectory
@@ -64,6 +74,8 @@ var sourcePotions = ReadSourcePotions(Path.GetDirectoryName(outputPath)!, potion
 var projectAssembly = Assembly.LoadFrom(Path.GetFullPath(projectAssemblyPath));
 var smartFormatter = CreateGameSmartFormatter(projectAssembly);
 var cards = ReadCards(projectAssembly, sourceCards, smartFormatter).ToArray();
+var cardModifiers = ReadCardModifiers(projectAssembly, sourceCardModifiers, smartFormatter)
+    .ToArray();
 var enchantments = ReadEnchantments(projectAssembly, sourceEnchantments, smartFormatter).ToArray();
 var potions = ReadPotions(projectAssembly, sourcePotions, smartFormatter).ToArray();
 
@@ -75,11 +87,11 @@ if (cards.Length == 0)
 
 File.WriteAllText(
     outputPath,
-    RenderMarkdown(cards, enchantments, potions),
+    RenderMarkdown(cards, cardModifiers, enchantments, potions),
     new UTF8Encoding(false)
 );
 Console.WriteLine(
-    $"Wrote {cards.Length} cards, {enchantments.Length} enchantments, and {potions.Length} potions to {outputPath}."
+    $"Wrote {cards.Length} cards, {cardModifiers.Length} card modifiers, {enchantments.Length} enchantments, and {potions.Length} potions to {outputPath}."
 );
 return 0;
 
@@ -227,6 +239,37 @@ static IReadOnlyDictionary<string, string> ReadSourceEnchantments(
     }
 
     return enchantments;
+}
+
+static IReadOnlyDictionary<string, string> ReadSourceCardModifiers(
+    string linkRoot,
+    string cardModifiersDirectory
+)
+{
+    var cardModifiers = new Dictionary<string, string>(StringComparer.Ordinal);
+    foreach (var sourcePath in EnumerateSourceFilesFlat(cardModifiersDirectory))
+    {
+        var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(sourcePath), path: sourcePath);
+        foreach (
+            var declaration in tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
+        )
+        {
+            if (
+                declaration.BaseList?.Types.Any(baseType =>
+                    baseType.Type.ToString().Split('.').Last() == "NewKunlunCardModifier"
+                ) != true
+            )
+                continue;
+
+            cardModifiers[declaration.Identifier.ValueText] = Path.GetRelativePath(
+                    linkRoot,
+                    sourcePath
+                )
+                .Replace('\\', '/');
+        }
+    }
+
+    return cardModifiers;
 }
 
 static IReadOnlyDictionary<string, string> ReadSourcePotions(
@@ -431,6 +474,44 @@ static IEnumerable<EnchantmentInfo> ReadEnchantments(
     }
 }
 
+static IEnumerable<CardModifierInfo> ReadCardModifiers(
+    Assembly projectAssembly,
+    IReadOnlyDictionary<string, string> sourceCardModifiers,
+    SmartFormatter smartFormatter
+)
+{
+    foreach (
+        var modifierType in projectAssembly
+            .GetTypes()
+            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunCardModifier"))
+    )
+    {
+        var localization = modifierType
+            .GetCustomAttributes(inherit: false)
+            .FirstOrDefault(attribute =>
+                attribute.GetType().Name == "CardModifierLocalizationAttribute"
+            );
+        if (
+            localization is null
+            || !sourceCardModifiers.TryGetValue(modifierType.Name, out var relativePath)
+        )
+            continue;
+
+        var title = (string)ReadProperty(localization, "Title")!;
+        var rawDescription = (string)ReadProperty(localization, "Description")!;
+        var modifier =
+            Activator.CreateInstance(modifierType)
+            ?? throw new InvalidOperationException(
+                $"Could not construct {modifierType.FullName} from the project build."
+            );
+        yield return new CardModifierInfo(
+            title,
+            RenderDescription(modifier, rawDescription, smartFormatter),
+            relativePath
+        );
+    }
+}
+
 static IEnumerable<PotionInfo> ReadPotions(
     Assembly projectAssembly,
     IReadOnlyDictionary<string, string> sourcePotions,
@@ -594,6 +675,8 @@ static Dictionary<string, object> ReadDynamicVars(object card)
         if (!string.IsNullOrWhiteSpace(name))
             result[name] = dynamicVar;
     }
+    if (ReadProperty(card, "Amount") is { } amount)
+        result["Amount"] = amount;
     result["IfUpgraded"] = new MegaCrit.Sts2.Core.Localization.DynamicVars.IfUpgradedVar(
         Convert.ToInt32(ReadProperty(card, "CurrentUpgradeLevel")) > 0
             ? MegaCrit.Sts2.Core.Localization.UpgradeDisplay.Upgraded
@@ -604,6 +687,7 @@ static Dictionary<string, object> ReadDynamicVars(object card)
 
 static string RenderMarkdown(
     IReadOnlyCollection<CardInfo> cards,
+    IReadOnlyCollection<CardModifierInfo> cardModifiers,
     IReadOnlyCollection<EnchantmentInfo> enchantments,
     IReadOnlyCollection<PotionInfo> potions
 )
@@ -634,10 +718,33 @@ static string RenderMarkdown(
     )
         AppendRaritySection(builder, DisplayRarity(rarityGroup.Key), rarityGroup, typeOrder);
 
+    AppendCardModifiers(builder, cardModifiers);
     AppendEnchantments(builder, enchantments);
     AppendPotions(builder, potions);
     AppendCounts(builder, cards, standardRarities, typeOrder);
     return builder.ToString();
+}
+
+static void AppendCardModifiers(StringBuilder builder, IEnumerable<CardModifierInfo> cardModifiers)
+{
+    builder.AppendLine();
+    builder.AppendLine("## Card Modifiers");
+    builder.AppendLine();
+    foreach (
+        var modifier in cardModifiers.OrderBy(
+            modifier => modifier.Title,
+            StringComparer.OrdinalIgnoreCase
+        )
+    )
+    {
+        builder
+            .Append("- [")
+            .Append(EscapeHtml(modifier.Title))
+            .Append("](")
+            .Append(modifier.RelativePath.Replace(" ", "%20"))
+            .Append(") — ")
+            .AppendLine(ConvertGameMarkupToMarkdown(modifier.Description));
+    }
 }
 
 static void AppendPotions(StringBuilder builder, IEnumerable<PotionInfo> potions)
@@ -914,6 +1021,8 @@ namespace CardSummaryTool
     );
 
     internal sealed record EnchantmentInfo(string Title, string Description, string RelativePath);
+
+    internal sealed record CardModifierInfo(string Title, string Description, string RelativePath);
 
     internal sealed record PotionInfo(
         string Title,

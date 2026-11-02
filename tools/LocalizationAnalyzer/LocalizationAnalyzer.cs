@@ -304,6 +304,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             switch (kind)
             {
                 case LocalizedModelKind.Affliction:
+                case LocalizedModelKind.CardModifier:
                 case LocalizedModelKind.Enchantment:
                 case LocalizedModelKind.Power:
                     allowedVariables.Add("Amount");

@@ -1,6 +1,18 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
-using NewKunlun.NewKunlunCode.Relics;
+using MegaCrit.Sts2.Core.Models.Cards;
+using NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
+using CentrifugeRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.CentrifugeRelic;
+using DefenseMatrixRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.DefenseMatrixRelic;
+using FirewallRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.FirewallRelic;
+using FusangRootRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.FusangRootRelic;
+using JietongHammerRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.JietongHammerRelic;
+using MapDataChipRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MapDataChipRelic;
+using MetalDetectorRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MetalDetectorRelic;
+using QiBladeRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.QiBladeRelic;
+using RhizomaticSubstrateRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.RhizomaticSubstrateRelic;
+using ScrapRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.ScrapRelic;
+using TaoFruitRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.TaoFruitRelic;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 
@@ -10,22 +22,17 @@ public class AbacusAncient : NewKunlunAncient
         [
             [RelicOption<BalancedBladeRelic>(), RelicOption<SwiftCloakRelic>()],
             [RelicOption<ComputingUnitRelic>()],
-            [RelicOption<CrimsonHibiscusRelic>()],
             [RelicOption<DefenseMatrixRelic>(), RelicOption<FirewallRelic>()],
             [RelicOption<JietongHammerRelic>(), RelicOption<RhizomaticStabilizerRelic>()],
-            [
-                RelicOption<MapDataChipRelic>(),
-                RelicOption<MetalDetectorRelic>(),
-                RelicOption<RecyclerRelic>(),
-            ],
+            [RelicOption<MapDataChipRelic>(), RelicOption<MetalDetectorRelic>()],
             [
                 RelicOption<MassSpectrometerRelic>(),
                 RelicOption<EmergencyKitRelic>(),
-                RelicOption<PreparationKitRelic>(),
+                RelicOption<QiBladeRelic>(),
             ],
             [RelicOption<MysticNymphRelic>(), RelicOption<ZenGardenRelic>()],
-            [RelicOption<RhizomaticAcceleratorRelic>(), RelicOption<SealOfInnovationRelic>()],
             [RelicOption<ScrapRelic>()],
+            [RelicOption<SealOfInnovationRelic>()],
             [RelicOption<TaoFruitRelic>()],
         ];
 
@@ -36,6 +43,7 @@ public class AbacusAncient : NewKunlunAncient
             RelicOption<FusangRootRelic>(),
             RelicOption<LockedChestRelic>(),
             RelicOption<ParallelProcessorRelic>(),
+            RelicOption<RhizomaticAcceleratorRelic>(),
             RelicOption<RhizomaticSubstrateRelic>(),
         ];
 
@@ -49,4 +57,7 @@ public class AbacusAncient : NewKunlunAncient
 
         return true;
     }
+
+    protected override IReadOnlyList<EventOption> GenerateInitialOptions() =>
+        [.. base.GenerateInitialOptions(), RelicOption<SealOfInnovationRelic>()];
 }

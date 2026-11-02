@@ -1,0 +1,68 @@
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using NewKunlun.NewKunlunCode.Character;
+using NewKunlun.NewKunlunCode.Commands;
+using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
+using TalismanDashCard = NewKunlun.NewKunlunCode.Cards.Yi.TalismanDashCard;
+
+namespace NewKunlun.NewKunlunCode.Relics.Yi;
+
+[Pool(typeof(YiRelicPool))]
+[RelicLocalization(
+    title: "Enhanced Talisman",
+    description: "At the start of combat, add one [green]Talisman Dash+[/green] into your hand and gain 3 [gold]Qi Charges[/gold].",
+    flavor: ""
+)]
+public partial class EnhancedTalismanRelic : NewKunlunRelic
+{
+    public override RelicRarity Rarity => RelicRarity.Starter;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [TalismanDashCard.CreateHoverTip(null), HoverTipFactory.FromPower<QiChargePower>()];
+
+    public override async Task BeforeSideTurnStart(
+        PlayerChoiceContext choiceContext,
+        CombatSide side,
+        IReadOnlyList<Creature> participants,
+        ICombatState combatState
+    )
+    {
+        if (
+            !participants.Contains(Owner.Creature)
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+        )
+            return;
+
+        await QiChargeCmd.GainQiCharges(choiceContext, Owner.Creature, 3M, Owner.Creature, null);
+    }
+
+    public override async Task BeforeHandDraw(
+        Player player,
+        PlayerChoiceContext choiceContext,
+        ICombatState combatState
+    )
+    {
+        if (
+            player != Owner
+            || Owner.PlayerCombatState is not { TurnNumber: 1 }
+            || Owner.Creature.CombatState == null
+        )
+            return;
+
+        await CardPileCmd.AddGeneratedCardToCombat(
+            Owner.Creature.CombatState.CreateUpgradedCard<TalismanDashCard>(Owner, upgrade: true),
+            PileType.Hand,
+            Owner,
+            CardPilePosition.Top
+        );
+    }
+}
