@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
     description: "Unlocks the Sol of Goumang at the end of the run.",
     flavor: ""
 )]
-public class SealOfEqualityRelic : SealRelic
+public class SealOfEqualityRelic : NewKunlunRelic, ISealRelic<SealOfEqualityRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 }

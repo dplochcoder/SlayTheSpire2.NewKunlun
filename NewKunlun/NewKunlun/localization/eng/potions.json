@@ -1,4 +1,6 @@
 {
+  "NEWKUNLUN-CHAOS_FLASK_POTION.description": "Randomly enchant all cards in your hand.",
+  "NEWKUNLUN-CHAOS_FLASK_POTION.title": "Chaos Flask",
   "NEWKUNLUN-FLASH_BOMB_POTION.description": "Stun all enemies.",
   "NEWKUNLUN-FLASH_BOMB_POTION.title": "Flash Bomb",
   "NEWKUNLUN-RHIZOMATIC_BOMB_POTION.description": "Deal {Damage} damage to all enemies.",

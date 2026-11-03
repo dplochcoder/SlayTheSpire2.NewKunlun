@@ -58,7 +58,7 @@ public partial class TripleSlashCard()
         BigHitDamage.UpgradeValueTo(18M);
     }
 
-    protected override void AfterCloned() => _playsThisTurn = 0;
+    protected override void AfterClonedInternal() => _playsThisTurn = 0;
 
     public override Task AfterSideTurnEnd(
         PlayerChoiceContext choiceContext,

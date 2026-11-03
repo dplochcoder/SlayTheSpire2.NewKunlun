@@ -1,4 +1,8 @@
 {
-  "NEWKUNLUN-TOXIC_CARD_MODIFIER.description": "When played, apply {Amount} [gold]Poison[/gold].",
-  "NEWKUNLUN-TOXIC_CARD_MODIFIER.title": "Toxic"
+  "NEWKUNLUN-QUANTUM_MODIFIER.description": "!!!DESCRIPTION!!!",
+  "NEWKUNLUN-QUANTUM_MODIFIER.title": "Quantum",
+  "NEWKUNLUN-TACTICAL_MODIFIER.description": "Next turn, play this card.\nIf played, lose [gold]Tactical[/gold].",
+  "NEWKUNLUN-TACTICAL_MODIFIER.title": "Tactical",
+  "NEWKUNLUN-TOXIC_MODIFIER.description": "Gain {Amount} [gold]Poison[/gold] the first time played this combat.",
+  "NEWKUNLUN-TOXIC_MODIFIER.title": "Toxic"
 }

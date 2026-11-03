@@ -72,6 +72,8 @@
   "NEWKUNLUN-QI_CHARGE_POWER.title": "Qi Charges",
   "NEWKUNLUN-QI_SWIPE_JADE_POWER.description": "Whenever you successfully [gold]Parry[/gold], gain {Amount:plural:an extra [gold]Qi Charge[/gold]|{Amount} extra [gold]Qi Charges[/gold]}.",
   "NEWKUNLUN-QI_SWIPE_JADE_POWER.title": "Qi Swipe Jade",
+  "NEWKUNLUN-QUARTER_NOTE_POWER.description": "When you have {Total} or more, gain {Total:energyIcons()}, draw {Total} cards, and lose {Total} [gold]Quarter-Note[/gold].",
+  "NEWKUNLUN-QUARTER_NOTE_POWER.title": "Quarter-Note",
   "NEWKUNLUN-RECOVERY_JADE_POWER.description": "At the end of your turn, heal {Amount} [gold]Internal Damage[/gold].",
   "NEWKUNLUN-RECOVERY_JADE_POWER.title": "Recovery Jade",
   "NEWKUNLUN-REGENERATE_POWER.description": "Whenever you [gold]Detonate[/gold], gain {Amount} {Amount:plural:[gold]Qi Charge[/gold]|[gold]Qi Charges[/gold]}.",

@@ -13,6 +13,17 @@ using SmartFormat.Core.Extensions;
 
 const string outputFileName = "CARD_SUMMARY.md";
 var repositoryRoot = FindRepositoryRoot(args.FirstOrDefault() ?? AppContext.BaseDirectory);
+var errorLogPath = Path.GetFullPath(
+    args.ElementAtOrDefault(2)
+        ?? Path.Combine(repositoryRoot, "NewKunlun", "obj", "CardSummaryTool.err.log")
+);
+if (File.Exists(errorLogPath))
+    File.Delete(errorLogPath);
+AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
+{
+    var exception = eventArgs.ExceptionObject as Exception;
+    WriteErrorLog(errorLogPath, exception?.ToString() ?? eventArgs.ExceptionObject.ToString()!);
+};
 var cardsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Cards");
 var cardModifiersDirectory = Path.Combine(
     repositoryRoot,
@@ -32,16 +43,15 @@ var projectAssemblyPath = args.ElementAtOrDefault(1) ?? FindNewestProjectAssembl
 
 if (!Directory.Exists(cardsDirectory))
 {
-    Console.Error.WriteLine($"Card source directory does not exist: {cardsDirectory}");
-    return 1;
+    return Fail(errorLogPath, $"Card source directory does not exist: {cardsDirectory}");
 }
 if (!File.Exists(projectAssemblyPath))
 {
-    Console.Error.WriteLine(
+    return Fail(
+        errorLogPath,
         $"The compiled mod assembly does not exist: {projectAssemblyPath}\n"
             + "Build NewKunlun first, or pass its assembly path as the second argument."
     );
-    return 1;
 }
 
 var assemblyWriteTime = File.GetLastWriteTimeUtc(projectAssemblyPath);
@@ -58,7 +68,7 @@ if (newerSourcePath is not null)
         $"The compiled mod assembly is older than {Path.GetRelativePath(repositoryRoot, newerSourcePath)}; rebuilding NewKunlun."
     );
     if (!TryBuildProject(repositoryRoot, projectAssemblyPath))
-        return 1;
+        return Fail(errorLogPath, "Could not rebuild NewKunlun.");
 }
 
 var sourceCards = ReadSourceCards(Path.GetDirectoryName(outputPath)!, cardsDirectory);
@@ -81,8 +91,10 @@ var potions = ReadPotions(projectAssembly, sourcePotions, smartFormatter).ToArra
 
 if (cards.Length == 0)
 {
-    Console.Error.WriteLine("No localized NewKunlunCard classes were found in the project build.");
-    return 1;
+    return Fail(
+        errorLogPath,
+        "No localized NewKunlunCard classes were found in the project build."
+    );
 }
 
 File.WriteAllText(
@@ -94,6 +106,20 @@ Console.WriteLine(
     $"Wrote {cards.Length} cards, {cardModifiers.Length} card modifiers, {enchantments.Length} enchantments, and {potions.Length} potions to {outputPath}."
 );
 return 0;
+
+static int Fail(string errorLogPath, string message)
+{
+    WriteErrorLog(errorLogPath, message);
+    return 1;
+}
+
+static void WriteErrorLog(string errorLogPath, string error)
+{
+    Directory.CreateDirectory(Path.GetDirectoryName(errorLogPath)!);
+    File.WriteAllText(errorLogPath, error, new UTF8Encoding(false));
+    Console.Error.WriteLine(error);
+    Console.Error.WriteLine($"CardSummaryTool error output: {errorLogPath}");
+}
 
 static bool TryBuildProject(string repositoryRoot, string assemblyPath)
 {
@@ -256,7 +282,7 @@ static IReadOnlyDictionary<string, string> ReadSourceCardModifiers(
         {
             if (
                 declaration.BaseList?.Types.Any(baseType =>
-                    baseType.Type.ToString().Split('.').Last() == "NewKunlunCardModifier"
+                    baseType.Type.ToString().Split('.').Last() == "NewKunlunModifier"
                 ) != true
             )
                 continue;
@@ -483,7 +509,7 @@ static IEnumerable<CardModifierInfo> ReadCardModifiers(
     foreach (
         var modifierType in projectAssembly
             .GetTypes()
-            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunCardModifier"))
+            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunModifier"))
     )
     {
         var localization = modifierType

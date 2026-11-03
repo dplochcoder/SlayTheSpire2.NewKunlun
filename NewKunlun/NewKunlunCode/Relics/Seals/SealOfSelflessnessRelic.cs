@@ -7,7 +7,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(title: "Seal of Selflessness", description: "", flavor: "")]
-public class SealOfSelflessnessRelic : SealRelic
+public class SealOfSelflessnessRelic : NewKunlunRelic, ISealRelic<SealOfSelflessnessRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
     // TODO

@@ -22,6 +22,16 @@ public abstract class EnchantCardsRelic<T> : NewKunlunRelic
     public override bool IsAllowedForPlayer(Player player) =>
         player.Deck.Cards.Count(ModelDb.Enchantment<T>().CanEnchant) >= NumCardsMax;
 
-    public sealed override Task AfterObtained() =>
-        ExtraCardSelectCmds.EnchantFromDeck<T>(Owner, EnchantAmount, NumCardsMin, NumCardsMax);
+    public sealed override async Task AfterObtained()
+    {
+        await ExtraCardSelectCmds.EnchantFromDeck<T>(
+            Owner,
+            EnchantAmount,
+            NumCardsMin,
+            NumCardsMax
+        );
+        await AfterObtainedInternal();
+    }
+
+    protected virtual Task AfterObtainedInternal() => Task.CompletedTask;
 }

@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.RelicPools;
-using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Enchantments;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -16,27 +15,21 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
     description: "Lose {HpLoss} hp.\nEnchant a card with [gold]Amortized[/gold].",
     flavor: ""
 )]
-public partial class RhizomaticSubstrateRelic : NewKunlunRelic
+public partial class RhizomaticSubstrateRelic : EnchantCardsRelic<AmortizedEnchantment>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    public override bool HasUponPickupEffect => true;
-
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(HpLoss), 14)];
 
-    public override async Task AfterObtained()
-    {
-        await CreatureCmd.LoseMaxHp(
+    protected override int NumCardsMin => 1;
+
+    protected override int NumCardsMax => 1;
+
+    protected override Task AfterObtainedInternal() =>
+        CreatureCmd.LoseMaxHp(
             new ThrowingPlayerChoiceContext(),
             Owner.Creature,
             HpLoss.IntValue,
             false
         );
-        await ExtraCardSelectCmds.EnchantFromDeck<AmortizedEnchantment>(
-            Owner,
-            amount: 1,
-            min: 0,
-            max: 1
-        );
-    }
 }

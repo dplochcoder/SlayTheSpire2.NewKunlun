@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
     description: "",
     flavor: ""
 )]
-public class SealOfInsightRelic : SealRelic
+public class SealOfInsightRelic : NewKunlunRelic, ISealRelic<SealOfInsightRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 }

@@ -31,7 +31,7 @@ var afflictions = ReadModels(
 var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization");
 var cardModifiers = ReadModels(
     options.CardModifiersDirectory,
-    "NewKunlunCardModifier",
+    "NewKunlunModifier",
     "CardModifierLocalization"
 );
 var enchantments = ReadModels(

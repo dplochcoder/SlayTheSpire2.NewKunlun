@@ -16,7 +16,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
     description: "After defeating any [gold]Elite[/gold] or [gold]Boss[/gold], you may [gold]Transform[/gold] a card.",
     flavor: ""
 )]
-public class SealOfInnovationRelic : SealRelic
+public class SealOfInnovationRelic : NewKunlunRelic, ISealRelic<SealOfInnovationRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 

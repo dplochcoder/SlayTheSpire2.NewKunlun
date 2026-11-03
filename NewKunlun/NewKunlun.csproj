@@ -95,6 +95,7 @@
 
   <PropertyGroup>
     <CardSummaryToolDll>$(MSBuildProjectDirectory)\..\tools\CardSummaryTool\bin\$(Configuration)\net9.0\CardSummaryTool.dll</CardSummaryToolDll>
+    <CardSummaryErrorLog>$(BaseIntermediateOutputPath)$(Configuration)\CardSummaryTool.err.log</CardSummaryErrorLog>
     <LocalizationToolDll>$(MSBuildProjectDirectory)\..\tools\LocalizationTool\bin\$(Configuration)\net9.0\LocalizationTool.dll</LocalizationToolDll>
     <AfflictionsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\afflictions.json</AfflictionsLocalizationJson>
     <CardsLocalizationJson>$(MSBuildProjectDirectory)\NewKunlun\localization\eng\cards.json</CardsLocalizationJson>
@@ -120,7 +121,12 @@
     AfterTargets="CoreCompile"
     Condition="'$(DesignTimeBuild)' != 'true' And '$(SkipCardSummary)' != 'true'"
   >
-    <Exec Command="dotnet &quot;$(CardSummaryToolDll)&quot; &quot;$(MSBuildProjectDirectory)\..&quot; &quot;$(TargetPath)&quot;" />
+    <Exec Command="dotnet &quot;$(CardSummaryToolDll)&quot; &quot;$(MSBuildProjectDirectory)\..&quot; &quot;$(TargetPath)&quot; &quot;$(CardSummaryErrorLog)&quot;" />
+    <OnError ExecuteTargets="ReportCardSummaryFailure" />
+  </Target>
+
+  <Target Name="ReportCardSummaryFailure">
+    <Message Text="CardSummaryTool error output: $(CardSummaryErrorLog)" Importance="high" />
   </Target>
 
   <ItemGroup>

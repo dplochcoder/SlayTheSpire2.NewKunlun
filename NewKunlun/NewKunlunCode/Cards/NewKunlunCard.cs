@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Keywords;
+using NewKunlun.NewKunlunCode.Modifiers;
 
 namespace NewKunlun.NewKunlunCode.Cards;
 
@@ -28,8 +29,6 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
     public virtual bool IsParryCard => false;
 
     public bool IsPersistent => Keywords.Contains(ExtraCardKeywords.Persistent);
-
-    public bool IsQuantum => Keywords.Contains(ExtraCardKeywords.Quantum);
 
     //Image size:
     //Normal art: 1000x760 (Using 500x380 should also work, it will simply be scaled.)
@@ -47,27 +46,18 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
     public override string BetaPortraitPath =>
         $"beta/{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
-    public bool AddedToHand
+    protected override bool ShouldGlowGoldInternal =>
+        this.GetModifier<QuantumModifier>() is { AddedToHand: true, IsBroken: false };
+
+    protected sealed override void AfterCloned()
     {
-        get;
-        set
-        {
-            AssertMutable();
-            field = value;
-        }
+        if (CanonicalKeywords.Contains(ExtraCardKeywords.Quantum))
+            CardModifier.AddModifier<QuantumModifier>(this);
+
+        AfterClonedInternal();
     }
 
-    public bool QuantumBroken
-    {
-        get;
-        set
-        {
-            AssertMutable();
-            field = value;
-        }
-    }
-
-    protected override bool ShouldGlowGoldInternal => IsQuantum && AddedToHand && !QuantumBroken;
+    protected virtual void AfterClonedInternal() { }
 
     public override async Task AfterCardExhausted(
         PlayerChoiceContext choiceContext,
@@ -91,46 +81,6 @@ public abstract class NewKunlunCard(int cost, CardType type, CardRarity rarity, 
                     clonedBy: this
                 )
             );
-    }
-
-    public sealed override Task AfterCardChangedPiles(
-        CardModel card,
-        PileType oldPileType,
-        AbstractModel? clonedBy
-    )
-    {
-        if (card == this && oldPileType != PileType.Hand && card.Pile?.Type == PileType.Hand)
-            AddedToHand = true;
-
-        return Task.CompletedTask;
-    }
-
-    public sealed override bool TryModifyKeywordsInCombat(
-        CardModel card,
-        ISet<CardKeyword> keywords
-    )
-    {
-        if (card != this || !QuantumBroken)
-            return false;
-
-        return keywords.Add(CardKeyword.Unplayable);
-    }
-
-    public sealed override Task AfterCardPlayed(
-        PlayerChoiceContext choiceContext,
-        CardPlay cardPlay
-    )
-    {
-        if (
-            IsQuantum
-            && !QuantumBroken
-            && AddedToHand
-            && cardPlay.Card.Owner == Owner
-            && cardPlay.Card != this
-        )
-            QuantumBroken = true;
-
-        return Task.CompletedTask;
     }
 
     [HarmonyPatch]

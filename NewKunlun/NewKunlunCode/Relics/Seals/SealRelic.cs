@@ -1,3 +1,6 @@
 ﻿namespace NewKunlun.NewKunlunCode.Relics.Seals;
 
-public abstract class SealRelic : NewKunlunRelic { }
+public interface ISealRelic { }
+
+public interface ISealRelic<T> : ISealRelic
+    where T : NewKunlunRelic, ISealRelic<T> { }

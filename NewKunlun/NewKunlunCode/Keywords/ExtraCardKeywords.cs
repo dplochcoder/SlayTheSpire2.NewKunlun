@@ -15,10 +15,10 @@ public static class ExtraCardKeywords
     public static CardKeyword Persistent;
 
     [CustomEnum]
-    [KeywordProperties(AutoKeywordPosition.Before)]
+    [KeywordProperties(AutoKeywordPosition.After)]
     [KeywordLocalization(
         title: "Quantum",
-        description: "Once added to your hand, becomes [gold]Unplayable[/gold] if you play another card."
+        description: "Once added to your hand, you must play this card next or else it becomes [gold]Unplayable[/gold] for this combat."
     )]
     public static CardKeyword Quantum;
 }

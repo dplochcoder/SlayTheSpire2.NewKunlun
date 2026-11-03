@@ -8,7 +8,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
 // TODO
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(title: "Seal of Benevolence", description: "", flavor: "")]
-public class SealOfBenevolenceRelic : SealRelic
+public class SealOfBenevolenceRelic : NewKunlunRelic, ISealRelic<SealOfBenevolenceRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 }

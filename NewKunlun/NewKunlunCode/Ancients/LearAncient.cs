@@ -1,7 +1,5 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
-using InactionDeclarationRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Lear.InactionDeclarationRelic;
-using LimitlessCloakRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Lear.LimitlessCloakRelic;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 

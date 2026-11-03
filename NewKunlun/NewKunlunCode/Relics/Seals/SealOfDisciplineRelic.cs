@@ -19,7 +19,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
     description: "Whenever you play an attack, gain {Strength} [gold]Strength[/gold].\nWhenever you play a non-attack, lose all strength obtained this way.",
     flavor: ""
 )]
-public partial class SealOfDisciplineRelic : SealRelic
+public partial class SealOfDisciplineRelic : NewKunlunRelic, ISealRelic<SealOfDisciplineRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 

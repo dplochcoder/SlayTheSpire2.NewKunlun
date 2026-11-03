@@ -17,7 +17,7 @@
   "NEWKUNLUN-PERSISTENT.title": "Persistent",
   "NEWKUNLUN-PRECISEPARRY.description": "Full-block an attack with at least one [gold]Parry[/gold].",
   "NEWKUNLUN-PRECISEPARRY.title": "Precise Parry",
-  "NEWKUNLUN-QUANTUM.description": "Once added to your hand, becomes [gold]Unplayable[/gold] if you play another card.",
+  "NEWKUNLUN-QUANTUM.description": "Once added to your hand, you must play this card next or else it becomes [gold]Unplayable[/gold] for this combat.",
   "NEWKUNLUN-QUANTUM.title": "Quantum",
   "NEWKUNLUN-RELOAD.description": "Load an [gold]Azure Sand Magazine[/gold].\nAdd the [gold]Azure Bow[/gold] to your hand if not in your deck.",
   "NEWKUNLUN-RELOAD.title": "Reload",

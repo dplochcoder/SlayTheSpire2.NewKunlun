@@ -48,12 +48,6 @@ public partial class HackCard()
         Gold.UpgradeValueTo(150);
     }
 
-    protected override void AfterCloned()
-    {
-        PlaysRemaining.BaseValue = TotalPlays;
-        FinishedThisCombat = false;
-    }
-
     [SavedProperty]
     public bool FinishedThisCombat
     {

@@ -1,18 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
-using CentrifugeRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.CentrifugeRelic;
-using DefenseMatrixRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.DefenseMatrixRelic;
-using FirewallRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.FirewallRelic;
-using FusangRootRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.FusangRootRelic;
-using JietongHammerRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.JietongHammerRelic;
-using MapDataChipRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MapDataChipRelic;
-using MetalDetectorRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.MetalDetectorRelic;
-using QiBladeRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.QiBladeRelic;
-using RhizomaticSubstrateRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.RhizomaticSubstrateRelic;
-using ScrapRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.ScrapRelic;
-using TaoFruitRelic = NewKunlun.NewKunlunCode.Relics.Ancients.Abacus.TaoFruitRelic;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 

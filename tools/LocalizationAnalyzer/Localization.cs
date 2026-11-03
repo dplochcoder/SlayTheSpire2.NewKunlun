@@ -45,7 +45,7 @@ public static class Localization
                 return true;
             }
 
-            if (current.Name == "NewKunlunCardModifier")
+            if (current.Name == "NewKunlunModifier")
             {
                 kind = LocalizedModelKind.CardModifier;
                 return true;
@@ -105,7 +105,7 @@ public static class Localization
         {
             LocalizedModelKind.Affliction => "AfflictionModel",
             LocalizedModelKind.Card => "NewKunlunCard",
-            LocalizedModelKind.CardModifier => "NewKunlunCardModifier",
+            LocalizedModelKind.CardModifier => "NewKunlunModifier",
             LocalizedModelKind.Enchantment => "NewKunlunEnchantment",
             LocalizedModelKind.Potion => "NewKunlunPotion",
             LocalizedModelKind.Power => "NewKunlunPower",

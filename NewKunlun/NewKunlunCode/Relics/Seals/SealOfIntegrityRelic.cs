@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
     description: "Unlocks the Sol of Fuxi at the end of the run.",
     flavor: ""
 )]
-public class SealOfIntegrityRelic : SealRelic
+public class SealOfIntegrityRelic : NewKunlunRelic, ISealRelic<SealOfIntegrityRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;
 }
