@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Necroceps",
-    description: "On death, inflict {Poison} [gold]Poison[/gold] on your attacker.\nOnce per combat, after you die, revive at 10% of your max HP.",
+    description: "On death, inflict {Poison} [gold]Poison[/gold] on your attacker.\nOnce per combat, after you die, revive at {RevivalPercent}% of your max HP.",
     flavor: ""
 )]
 public partial class NecrocepsRelic : NewKunlunRelic
@@ -26,7 +26,7 @@ public partial class NecrocepsRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<PoisonPower>(nameof(Poison), 66)];
+        [new PowerVar<PoisonPower>(nameof(Poison), 66), new(nameof(RevivalPercent), 15)];
 
     [SavedProperty]
     public bool UsedThisCombat
@@ -38,11 +38,11 @@ public partial class NecrocepsRelic : NewKunlunRelic
             field = value;
             InvokeDisplayAmountChanged();
         }
-    }
+    } = false;
 
     public override bool ShowCounter => true;
 
-    public override int DisplayAmount => UsedThisCombat ? 1 : 0;
+    public override int DisplayAmount => UsedThisCombat ? 0 : 1;
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,
@@ -72,7 +72,10 @@ public partial class NecrocepsRelic : NewKunlunRelic
     {
         Flash();
         UsedThisCombat = true;
-        await CreatureCmd.Heal(creature, Math.Max(creature.MaxHp / 10, 1));
+        await CreatureCmd.Heal(
+            creature,
+            Math.Max((decimal)Math.Ceiling(creature.MaxHp * RevivalPercent.IntValue/ 100.0), 1)
+        );
     }
 
     [HarmonyPatch]

@@ -22,12 +22,15 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 )]
 public partial class LimitlessCloakRelic : NewKunlunRelic
 {
+    private const int CardsPerTurn = 8;
+
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(CardLimit), 8)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [new(nameof(CardLimit), CardsPerTurn)];
 
     [SavedProperty]
-    public int CardsPlayedThisTurn
+    public int CardsRemainingThisTurn
     {
         get;
         set
@@ -36,13 +39,13 @@ public partial class LimitlessCloakRelic : NewKunlunRelic
             field = value;
             InvokeDisplayAmountChanged();
         }
-    }
+    } = CardsPerTurn;
 
     public override bool ShowCounter => CombatManager.Instance.IsInProgress;
 
-    public override int DisplayAmount => CardsPlayedThisTurn;
+    public override int DisplayAmount => CardsRemainingThisTurn;
 
-    private bool ShouldPreventCardPlay => CardsPlayedThisTurn >= CardLimit.IntValue;
+    private bool ShouldPreventCardPlay => CardsRemainingThisTurn <= 0;
 
     public override bool ShouldPlay(CardModel card, AutoPlayType _) =>
         Owner != card.Owner || !ShouldPreventCardPlay;
@@ -53,20 +56,20 @@ public partial class LimitlessCloakRelic : NewKunlunRelic
             return;
 
         Flash();
-        ++CardsPlayedThisTurn;
+        --CardsRemainingThisTurn;
         await CardPileCmd.Draw(choiceContext, Owner);
     }
 
     public override Task AfterRoomEntered(AbstractRoom room)
     {
         if (room is CombatRoom)
-            CardsPlayedThisTurn = 0;
+            CardsRemainingThisTurn = CardLimit.IntValue;
         return Task.CompletedTask;
     }
 
     public override Task AfterCombatEnd(CombatRoom room)
     {
-        CardsPlayedThisTurn = 0;
+        CardsRemainingThisTurn = CardLimit.IntValue;
         return Task.CompletedTask;
     }
 
@@ -78,7 +81,7 @@ public partial class LimitlessCloakRelic : NewKunlunRelic
     )
     {
         if (side == Owner.Creature.Side)
-            CardsPlayedThisTurn = 0;
+            CardsRemainingThisTurn = CardsPerTurn;
         return Task.CompletedTask;
     }
 }

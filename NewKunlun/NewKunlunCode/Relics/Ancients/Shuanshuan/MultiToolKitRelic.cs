@@ -9,7 +9,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shuanshuan;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Multi Tool",
+    title: "Multi Tool Kit",
     description: "On pickup, enchant {Cards} cards with [gold]Multi Tool[/gold].",
     flavor: ""
 )]

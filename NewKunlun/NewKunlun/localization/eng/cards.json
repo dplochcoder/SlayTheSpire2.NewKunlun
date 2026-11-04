@@ -222,7 +222,7 @@
   "NEWKUNLUN-UNBOUNDED_COUNTER_CARD.title": "Unbounded Counter",
   "NEWKUNLUN-UNBOUNDED_STRIKE_CARD.description": "Deal {Damage:diff()} damage.\nShuffle 1 [gold]Smolder[/gold] into your draw pile.",
   "NEWKUNLUN-UNBOUNDED_STRIKE_CARD.title": "Unbounded Strike",
-  "NEWKUNLUN-UNTO_SOIL_CARD.description": "Deal {Damage:diff()} damage.\nIf [glow]Fatal[/glow] on an [glow]Elite[/glow] or [glow]Boss[/glow], harvest a [gold]Tao Fruit[/gold] at the end of combat.",
+  "NEWKUNLUN-UNTO_SOIL_CARD.description": "Deal {Damage:diff()} damage.\nIf [gold]Fatal[/gold] on an [gold]Elite[/gold] or [gold]Boss[/gold], harvest a [gold]Tao Fruit[/gold] at the end of combat.",
   "NEWKUNLUN-UNTO_SOIL_CARD.title": "UntoSoil",
   "NEWKUNLUN-VERSE_CARD.description": "Gain 1 [gold]Quarter-Note[/gold].\nIf this is the first [gold]Verse[/gold] played this turn, draw {DrawCards:diff()} {DrawCards:plural:card|cards}.",
   "NEWKUNLUN-VERSE_CARD.title": "Verse",

@@ -21,17 +21,12 @@ public partial class SolarPanelRelic : NewKunlunRelic
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
 
-    public override bool ShowCounter => Owner.Creature.CombatState != null;
-
-    public override int DisplayAmount => Owner.Creature.CombatState?.RoundNumber ?? 0;
-
     public override async Task AfterSideTurnStart(
         CombatSide side,
         IReadOnlyList<Creature> participants,
         ICombatState combatState
     )
     {
-        InvokeDisplayAmountChanged();
         if (side != Owner.Creature.Side || Owner.Creature.CombatState?.RoundNumber % 2 == 1)
             return;
 

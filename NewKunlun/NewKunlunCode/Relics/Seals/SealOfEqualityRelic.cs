@@ -7,11 +7,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
 
 // TODO
 [Pool(typeof(SharedRelicPool))]
-[RelicLocalization(
-    title: "Seal of Equality",
-    description: "Unlocks the Sol of Goumang at the end of the run.",
-    flavor: ""
-)]
+[RelicLocalization(title: "Seal of Equality", description: "", flavor: "")]
 public class SealOfEqualityRelic : NewKunlunRelic, ISealRelic<SealOfEqualityRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;

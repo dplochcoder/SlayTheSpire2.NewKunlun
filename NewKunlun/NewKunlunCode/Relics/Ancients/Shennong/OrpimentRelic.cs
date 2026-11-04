@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Cards.Ancients;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Powers;
 
 namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 
@@ -47,8 +48,7 @@ public class OrpimentRelic : NewKunlunRelic
             return;
 
         Flash();
-        var count = NumCitrineUses;
-        await PowerCmd.Apply<PoisonPower>(
+        await PowerCmd.Apply<ToxinPower>(
             new ThrowingPlayerChoiceContext(),
             Owner.Creature,
             NumCitrineUses,

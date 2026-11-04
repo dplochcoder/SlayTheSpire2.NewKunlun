@@ -1,10 +1,15 @@
-﻿using BaseLib.Utils;
+﻿using System.Data;
+using System.Reflection.Metadata;
+using BaseLib.Utils;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -12,39 +17,35 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Jietong Hammer",
-    description: "The next {Uses} {Uses:plural:time|times} you [gold]Smith[/gold], upgrade an additional card.",
+    title: "Jie Hammer",
+    description: "The next {UsesRemaining} {UsesRemaining:plural:time|times} you [gold]Smith[/gold], upgrade an additional card.",
     flavor: ""
 )]
-public partial class JietongHammerRelic : NewKunlunRelic
+public partial class JieHammerRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Uses), 2)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(UsesRemaining), 3)];
 
-    private int UsesRemaining
+    public override bool ShowCounter => true;
+
+    public override int DisplayAmount => UsesRemaining.IntValue;
+
+    public override bool IsUsedUp => UsesRemaining.IntValue <= 0;
+
+    public bool SmithProcessed
     {
-        get => Uses.IntValue;
+        get;
         set
         {
             AssertMutable();
-            Uses.BaseValue = value;
-            Status = IsUsedUp ? RelicStatus.Disabled : RelicStatus.Normal;
-            InvokeDisplayAmountChanged();
+            field = value;
         }
     }
 
-    public override bool ShowCounter => UsesRemaining > 0;
-
-    public override int DisplayAmount => UsesRemaining;
-
-    public override bool IsUsedUp => UsesRemaining == 0;
-
-    private bool _smithProcessed;
-
     public override Task AfterRoomEntered(AbstractRoom room)
     {
-        _smithProcessed = false;
+        SmithProcessed = false;
         if (!IsUsedUp)
             Status =
                 room is RestSiteRoom && this.IsNextUnused ? RelicStatus.Active : RelicStatus.Normal;
@@ -69,11 +70,13 @@ public partial class JietongHammerRelic : NewKunlunRelic
 
     public override Task AfterRestSiteSmith(Player player)
     {
-        if (player != Owner || !this.IsNextUnused || _smithProcessed)
+        if (player != Owner || !this.IsNextUnused || SmithProcessed)
             return Task.CompletedTask;
 
-        _smithProcessed = true;
-        --UsesRemaining;
+        SmithProcessed = true;
+        --UsesRemaining.BaseValue;
+        InvokeDisplayAmountChanged();
+        Status = IsUsedUp ? RelicStatus.Disabled : RelicStatus.Normal;
         return Task.CompletedTask;
     }
 }

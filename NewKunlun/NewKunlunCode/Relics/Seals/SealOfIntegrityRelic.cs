@@ -7,11 +7,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
 
 // TODO
 [Pool(typeof(SharedRelicPool))]
-[RelicLocalization(
-    title: "Seal of Integrity",
-    description: "Unlocks the Sol of Fuxi at the end of the run.",
-    flavor: ""
-)]
+[RelicLocalization(title: "Seal of Integrity", description: "", flavor: "")]
 public class SealOfIntegrityRelic : NewKunlunRelic, ISealRelic<SealOfIntegrityRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;

@@ -7,11 +7,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Seals;
 
 // TODO
 [Pool(typeof(SharedRelicPool))]
-[RelicLocalization(
-    title: "Unlocks the Sol of Ji at the end of the run.",
-    description: "",
-    flavor: ""
-)]
+[RelicLocalization(title: "Seal of Insight", description: "", flavor: "")]
 public class SealOfInsightRelic : NewKunlunRelic, ISealRelic<SealOfInsightRelic>
 {
     public override RelicRarity Rarity => RelicRarity.Event;

@@ -23,7 +23,7 @@ public partial class DragonsWhipCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<PoisonPower>(nameof(Poison), 12), new(nameof(Increase), 3)];
+        [new PowerVar<PoisonPower>(nameof(Poison), 12), new(nameof(Increase), 2)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<PoisonPower>()];

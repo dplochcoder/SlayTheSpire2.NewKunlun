@@ -18,7 +18,7 @@ namespace NewKunlun.NewKunlunCode.Cards.Yi;
 [Pool(typeof(YiCardPool))]
 [CardLocalization(
     title: "UntoSoil",
-    description: "Deal {Damage:diff()} damage.\nIf [glow]Fatal[/glow] on an [glow]Elite[/glow] or [glow]Boss[/glow], harvest a [gold]Tao Fruit[/gold] at the end of combat."
+    description: "Deal {Damage:diff()} damage.\nIf [gold]Fatal[/gold] on an [gold]Elite[/gold] or [gold]Boss[/gold], harvest a [gold]Tao Fruit[/gold] at the end of combat."
 )]
 public partial class UntoSoilCard()
     : NewKunlunCard(2, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)

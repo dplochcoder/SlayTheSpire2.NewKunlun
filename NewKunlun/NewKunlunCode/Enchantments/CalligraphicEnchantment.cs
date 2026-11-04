@@ -6,7 +6,11 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Enchantments;
 
-[EnchantmentLocalization(title: "Calligraphic", description: "Next turn, draw {Amount} cards.")]
+[EnchantmentLocalization(
+    title: "Calligraphic",
+    description: "Next turn, draw a card.",
+    extraCardText: "Next turn, draw {Amount} {Amount:plural:card|cards}."
+)]
 public class CalligraphicEnchantment : NewKunlunEnchantment
 {
     public override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay? cardPlay) =>

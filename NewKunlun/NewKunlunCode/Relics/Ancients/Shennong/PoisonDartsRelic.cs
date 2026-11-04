@@ -10,7 +10,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Poison Darts",
-    description: "Enchant up to 3 {Cards} attacks with [gold]Venomous[/gold] {Venomous}.",
+    description: "Enchant up to {Cards} attacks with [gold]Venomous[/gold] {Venomous}.",
     flavor: ""
 )]
 public partial class PoisonDartsRelic : EnchantCardsRelic<VenomousEnchantment>

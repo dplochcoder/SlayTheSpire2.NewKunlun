@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Spitwine",
-    description: "At the start of combat, become [gold]Inebriated[/gold].\nGain {Energy:energyIcons()} and draw 1 extra card each turn.",
+    description: "At the start of combat, become [gold]Inebriated[/gold].\nDraw 1 extra card each turn.",
     flavor: ""
 )]
 public partial class SpitwineRelic : NewKunlunRelic
@@ -26,9 +26,6 @@ public partial class SpitwineRelic : NewKunlunRelic
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<InebriatedPower>()];
-
-    public override decimal ModifyMaxEnergy(Player player, decimal amount) =>
-        Owner == player ? amount + Energy.IntValue : amount;
 
     public override decimal ModifyHandDraw(Player player, decimal count) =>
         Owner == player ? count + 1 : count;

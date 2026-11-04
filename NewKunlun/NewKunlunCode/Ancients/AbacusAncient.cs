@@ -11,7 +11,7 @@ public class AbacusAncient : NewKunlunAncient
             [RelicOption<BalancedBladeRelic>(), RelicOption<SwiftCloakRelic>()],
             [RelicOption<ComputingUnitRelic>()],
             [RelicOption<DefenseMatrixRelic>(), RelicOption<FirewallRelic>()],
-            [RelicOption<JietongHammerRelic>(), RelicOption<RhizomaticStabilizerRelic>()],
+            [RelicOption<JieHammerRelic>(), RelicOption<RhizomaticStabilizerRelic>()],
             [RelicOption<MapDataChipRelic>(), RelicOption<MetalDetectorRelic>()],
             [
                 RelicOption<MassSpectrometerRelic>(),
@@ -41,7 +41,7 @@ public class AbacusAncient : NewKunlunAncient
     )
     {
         if (curse is ParallelProcessorRelic)
-            return !positive.Any(r => r is JietongHammerRelic or RhizomaticStabilizerRelic);
+            return !positive.Any(r => r is JieHammerRelic or RhizomaticStabilizerRelic);
 
         return true;
     }

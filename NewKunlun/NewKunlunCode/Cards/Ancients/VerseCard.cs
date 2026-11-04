@@ -38,6 +38,8 @@ public partial class VerseCard()
             .DefaultIfEmpty()
             .Sum();
 
+    protected override bool ShouldGlowGoldInternal => NotesThisTurn == 0;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<QuarterNotePower>(
