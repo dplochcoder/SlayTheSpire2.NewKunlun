@@ -216,6 +216,125 @@ If played, lose <strong style="color:#e7ae33">Tactical</strong>.
 - [Chaos Flask](NewKunlunCode/Potions/ChaosFlaskPotion.cs) — Randomly enchant all cards in your hand. _(Rare)_
 - [Flash Bomb](NewKunlunCode/Potions/FlashBombPotion.cs) — Stun all enemies. _(Token)_
 
+## Relics
+
+### Abacus
+
+- [Balanced Blade](NewKunlunCode/Relics/Ancients/Abacus/BalancedBladeRelic.cs) — On pickup, enchant an Attack with <strong style="color:#e7ae33">Precise</strong>.
+- [Centrifuge](NewKunlunCode/Relics/Ancients/Abacus/CentrifugeRelic.cs) — Receive <strong style="color:#e7ae33">Poor Sleep</strong>.
+Your next 3 card rewards gain random enchantments.
+- [Computing Unit](NewKunlunCode/Relics/Ancients/Abacus/ComputingUnitRelic.cs) — On pickup, gain one Uncommon Power reward.
+- [Defense Matrix](NewKunlunCode/Relics/Ancients/Abacus/DefenseMatrixRelic.cs) — At the end of your turn, gain 2 <strong style="color:#e7ae33">Block</strong>.
+- [Emergency Kit](NewKunlunCode/Relics/Ancients/Abacus/EmergencyKitRelic.cs) — On pickup, gain 2 <strong style="color:#e7ae33">Flash Bombs</strong>.
+- [Fangshi Statue](NewKunlunCode/Relics/Ancients/Abacus/FangshiStatueRelic.cs) — On pickup, gain an extra <strong style="color:#e7ae33">Strike</strong> and <strong style="color:#e7ae33">Defend</strong>.
+At start of combat, gain 1 <strong style="color:#e7ae33">Strength</strong> and 1 <strong style="color:#e7ae33">Dexterity</strong>.
+- [Firewall](NewKunlunCode/Relics/Ancients/Abacus/FirewallRelic.cs) — Lose 16 max HP.
+At start of combat, gain 3 <strong style="color:#e7ae33">Dexterity</strong>.
+The first time you take unblocked damage, lose 3 <strong style="color:#e7ae33">Dexterity</strong>.
+- [Fusang Root](NewKunlunCode/Relics/Ancients/Abacus/FusangRootRelic.cs) — Lose 11 max hp.
+If you lose 9 hp or less during combat, recover it at the end of combat.
+- [Jietong Hammer](NewKunlunCode/Relics/Ancients/Abacus/JietongHammerRelic.cs) — The next 2 times you <strong style="color:#e7ae33">Smith</strong>, upgrade an additional card.
+- [Locked Chest](NewKunlunCode/Relics/Ancients/Abacus/LockedChestRelic.cs) — On pickup, add 1 <strong style="color:#e7ae33">Hack</strong> to your deck.
+- [Map Data Chip](NewKunlunCode/Relics/Ancients/Abacus/MapDataChipRelic.cs) — You can ignore pathing restrictions 2 times.
+At rest sites, you can spend 50 gold to do it two more times.
+- [Mass Spectrometer](NewKunlunCode/Relics/Ancients/Abacus/MassSpectrometerRelic.cs) — Whenever you receive a potion reward, receive a linked alternate potion reward.
+- [Metal Detector](NewKunlunCode/Relics/Ancients/Abacus/MetalDetectorRelic.cs) — At rest sites, you can <strong style="color:#e7ae33">Salvage</strong> to gain 120 to 200 gold.
+- [Mystic Nymph](NewKunlunCode/Relics/Ancients/Abacus/MysticNymphRelic.cs) — On pickup, add one <strong style="color:#e7ae33">Scout</strong> to your deck.
+- [Parallel Processor](NewKunlunCode/Relics/Ancients/Abacus/ParallelProcessorRelic.cs) — You can no longer <strong style="color:#e7ae33">Smith</strong> at rest sites.
+Whenever you <strong style="color:#e7ae33">Rest</strong>, upgrade 2 random cards.
+- [Qi Blade](NewKunlunCode/Relics/Ancients/Abacus/QiBladeRelic.cs) — At the start of Boss and Elite combats, gain a random potion, 2 <strong style="color:#e7ae33">Strength</strong>, and 2 <strong style="color:#e7ae33">Dexterity</strong>.
+- [Rhizomatic Accelerator](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticAcceleratorRelic.cs) — Transform all your <strong style="color:#e7ae33">Strikes</strong> and <strong style="color:#e7ae33">Defends</strong> into random common cards.
+- [Rhizomatic Stabilizer](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticStabilizerRelic.cs) — On pickup, upgrade 2 random cards.
+- [Rhizomatic Substrate](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticSubstrateRelic.cs) — Lose 14 hp.
+Enchant a card with <strong style="color:#e7ae33">Amortized</strong>.
+- [Scrap](NewKunlunCode/Relics/Ancients/Abacus/ScrapRelic.cs) — Receive 60 to 100 gold, 1 common potion, and 1 common card reward.
+- [Seal of Innovation](NewKunlunCode/Relics/Ancients/Abacus/SealOfInnovationRelic.cs) — Whenever you defeat an <strong style="color:#e7ae33">Elite</strong> or <strong style="color:#e7ae33">Boss</strong>, you may transform a card.
+- [Swift Cloak](NewKunlunCode/Relics/Ancients/Abacus/SwiftCloakRelic.cs) — On pickup, enchant a Skill with <strong style="color:#e7ae33">Poise</strong>.
+- [Tao Fruit](NewKunlunCode/Relics/Ancients/Abacus/TaoFruitRelic.cs) — At the start of your turn, gain 2 <strong style="color:#e7ae33">Vigor</strong>.
+- [Zen Garden](NewKunlunCode/Relics/Ancients/Abacus/ZenGardenRelic.cs) — On pickup, add one <strong style="color:#e7ae33">Meditate</strong> to your deck.
+
+### Kuafu
+
+- [3D Printer](NewKunlunCode/Relics/Ancients/Kuafu/Printer3DRelic.cs) — At rest sites, you may spend 90 Gold to duplicate a card.
+- [Bubble Tea](NewKunlunCode/Relics/Ancients/Kuafu/BubbleTeaRelic.cs) — At the start of combat, gain ⚡⚡⚡ and draw 2 additional cards.
+- [Rhizomatic Battery](NewKunlunCode/Relics/Ancients/Kuafu/RhizomaticBatteryRelic.cs) — At start of combat, shuffle one <strong style="color:#e7ae33">Void</strong> into your draw pile.
+Whenever you end your turn with X unspent energy, draw X additional cards next turn.
+- [Rhizomatic Sharpener](NewKunlunCode/Relics/Ancients/Kuafu/RhizomaticSharpenerRelic.cs) — On pickup, transform 1 attack in your deck into <strong style="color:#e7ae33">Yingzhao's Lance</strong>.
+- [Solar Panel](NewKunlunCode/Relics/Ancients/Kuafu/SolarPanelRelic.cs) — On every even turn of combat, gain ⚡⚡.
+
+### Lear
+
+- [Fangshi Seal](NewKunlunCode/Relics/Ancients/Lear/FangshiSealRelic.cs) — Upgrade all cards in your deck.
+All cards in your deck become <strong style="color:#e7ae33">Eternal</strong>.
+- [Fangshu Belt](NewKunlunCode/Relics/Ancients/Lear/FangshuBeltRelic.cs) — Gain ⚡ energy each turn.
+Your maximum hand size is reduced by 2.
+- [Fusang Horn](NewKunlunCode/Relics/Ancients/Lear/FusangHornRelic.cs) — Add one <strong style="color:#e7ae33">Recall</strong> to your deck.
+- [Fusang Wheel](NewKunlunCode/Relics/Ancients/Lear/FusangWheelRelic.cs) — Gain ⚡ each turn.
+The first eligible card you play each combat is removed from your deck.
+- [Inaction Declaration](NewKunlunCode/Relics/Ancients/Lear/InactionDeclarationRelic.cs) — Once per combat, if you end your turn without playing any cards, gain 32 <strong style="color:#e7ae33">Block</strong> and keep your energy until next turn.
+- [Lear's Blade](NewKunlunCode/Relics/Ancients/Lear/LearsBladeRelic.cs) — The first 3 <strong style="color:#e7ae33">Attacks</strong> you play each combat are free.
+- [Lear's Mask](NewKunlunCode/Relics/Ancients/Lear/LearsMaskRelic.cs) — The first 3 <strong style="color:#e7ae33">Skills</strong> you play each combat are free.
+- [Limitless Cloak](NewKunlunCode/Relics/Ancients/Lear/LimitlessCloakRelic.cs) — Whenever you play a card, draw a card.
+You cannot play more than 8 cards per turn.
+- [Peace Bringer](NewKunlunCode/Relics/Ancients/Lear/PeaceBringerRelic.cs) — Gain 1 <strong style="color:#e7ae33">Rhizomatic Bomb</strong>.
+- [Training Weights](NewKunlunCode/Relics/Ancients/Lear/TrainingWeightsRelic.cs) — Remove all your <strong style="color:#e7ae33">Strikes</strong> and <strong style="color:#e7ae33">Defends</strong>.
+At the start of combat, gain 1 <strong style="color:#e7ae33">Strength</strong> for each <strong style="color:#e7ae33">Strike</strong> and 1 <strong style="color:#e7ae33">Dexterity</strong> for each <strong style="color:#e7ae33">Defend</strong> removed.
+
+### Relics
+
+- [Medical Jade](NewKunlunCode/Relics/MedicalJadeRelic.cs) — When you rest, instead of healing, gain 8 <strong style="color:#e7ae33">Regen</strong>, 10 if you have <strong style="color:#e7ae33">Regal Pillow</strong>.
+Your <strong style="color:#e7ae33">Regen</strong> persists between combats.
+- [Recycler](NewKunlunCode/Relics/RecyclerRelic.cs) — You can recycle card rewards for 30 to 40 gold.
+- [Sentry Drone](NewKunlunCode/Relics/SentryDroneRelic.cs) — At the end of your turn, if you played no attacks this turn, deal 9 damage to all enemies.
+- [Shanhai Coupon](NewKunlunCode/Relics/ShanhaiRebateRelic.cs) — Your next shop purchase is free.
+
+### Seals
+
+- [Seal of Benevolence](NewKunlunCode/Relics/Seals/SealOfBenevolenceRelic.cs) — 
+- [Seal of Discipline](NewKunlunCode/Relics/Seals/SealOfDisciplineRelic.cs) — Whenever you play an attack, gain 2 <strong style="color:#e7ae33">Strength</strong>.
+Whenever you play a non-attack, lose all strength obtained this way.
+- [Seal of Equality](NewKunlunCode/Relics/Seals/SealOfEqualityRelic.cs) — Unlocks the Sol of Goumang at the end of the run.
+- [Seal of Innovation](NewKunlunCode/Relics/Seals/SealOfInnovationRelic.cs) — After defeating any <strong style="color:#e7ae33">Elite</strong> or <strong style="color:#e7ae33">Boss</strong>, you may <strong style="color:#e7ae33">Transform</strong> a card.
+- [Seal of Integrity](NewKunlunCode/Relics/Seals/SealOfIntegrityRelic.cs) — Unlocks the Sol of Fuxi at the end of the run.
+- [Seal of Legacy](NewKunlunCode/Relics/Seals/SealOfLegacyRelic.cs) — Enchant up to 6 cards with <strong style="color:#e7ae33">Antiquated</strong>.
+- [Seal of Loyalty](NewKunlunCode/Relics/Seals/SealOfLoyaltyRelic.cs) — On pickup, enchant up to 2 cards with <strong style="color:#e7ae33">Loyal</strong>.
+- [Seal of Selflessness](NewKunlunCode/Relics/Seals/SealOfSelflessnessRelic.cs) — 
+- [Unlocks the Sol of Ji at the end of the run.](NewKunlunCode/Relics/Seals/SealOfInsightRelic.cs) — 
+
+### Shennong
+
+- [Dragon Snake](NewKunlunCode/Relics/Ancients/Shennong/DragonSnakeRelic.cs) — On pickup, add one <strong style="color:#e7ae33">Dragon's Whip</strong> to your deck.
+- [Gutwrench Fruit](NewKunlunCode/Relics/Ancients/Shennong/GutwrenchFruitRelic.cs) — On pickup, gain 2 potion slots and 2 random Potions.
+Whenever you use a potion, gain 3 max hp and heal 4 additional hp.
+- [Jiu-gong](NewKunlunCode/Relics/Ancients/Shennong/JiuGongRelic.cs) — On pickup, gain 3 potion slots and 2 <strong style="color:#e7ae33">Entropic Brew</strong>.
+- [Necroceps](NewKunlunCode/Relics/Ancients/Shennong/NecrocepsRelic.cs) — On death, inflict 66 <strong style="color:#e7ae33">Poison</strong> on your attacker.
+Once per combat, after you die, revive at 10% of your max HP.
+- [Orpiment](NewKunlunCode/Relics/Ancients/Shennong/OrpimentRelic.cs) — Add one <strong style="color:#e7ae33">Medicinal Citrine</strong> to your deck.
+- [Poison Darts](NewKunlunCode/Relics/Ancients/Shennong/PoisonDartsRelic.cs) — Enchant up to 3 3 attacks with <strong style="color:#e7ae33">Venomous</strong> 4.
+- [Spitwine](NewKunlunCode/Relics/Ancients/Shennong/SpitwineRelic.cs) — At the start of combat, become <strong style="color:#e7ae33">Inebriated</strong>.
+Gain ⚡ and draw 1 extra card each turn.
+- [Thunder Centipede](NewKunlunCode/Relics/Ancients/Shennong/ThunderCentipedeRelic.cs) — At the start of combat, gain 2 <strong style="color:#e7ae33">Poisonous</strong>.
+- [Zeng-zi](NewKunlunCode/Relics/Ancients/Shennong/ZengZiRelic.cs) — Add 2 <strong style="color:#e7ae33">Alchemize</strong> to your deck.
+
+### Shuanshuan
+
+- [Ancient Sheet Music](NewKunlunCode/Relics/Ancients/Shuanshuan/AncientSheetMusicRelic.cs) — On pickup, add 4 <strong style="color:#e7ae33">Verses</strong> to your deck.
+- [Crimson Hibiscus](NewKunlunCode/Relics/Ancients/Shuanshuan/CrimsonHibiscusRelic.cs) — On pickup, enchant 1 Attack or Skill in your deck with <strong style="color:#e7ae33">Blossom</strong>.
+- [Four Treasures of the Study](NewKunlunCode/Relics/Ancients/Shuanshuan/FourTeasuresOfTheStudyRelic.cs) — Enchant 4 cards with <strong style="color:#e7ae33">Calligraphic</strong> 2.
+- [Fusang Amulet](NewKunlunCode/Relics/Ancients/Shuanshuan/FusangAmuletRelic.cs) — At the start of combat, gain 2 <strong style="color:#e7ae33">Buffer</strong>.
+- [Multi Tool](NewKunlunCode/Relics/Ancients/Shuanshuan/MultiToolKitRelic.cs) — On pickup, enchant 3 cards with <strong style="color:#e7ae33">Multi Tool</strong>.
+- [Qiankun Board](NewKunlunCode/Relics/Ancients/Shuanshuan/QiankunBoardRelic.cs) — Lose ⚡ max energy.
+At the start of each turn, discard a card from your hand.
+At the start of your next turn, play this card.
+- [Unknown Seed](NewKunlunCode/Relics/Ancients/Shuanshuan/UnknownSeedRelic.cs) — Add one <strong style="color:#e7ae33">Mysterious Seed</strong> to your deck.
+- [Virtual Reality Device](NewKunlunCode/Relics/Ancients/Shuanshuan/VirtualRealityDeviceRelic.cs) — Gain ⚡ each turn.
+The first card you draw each turn is <strong style="color:#e7ae33">Quantum</strong>.
+
+### Yi
+
+- [Enhanced Talisman](NewKunlunCode/Relics/Yi/EnhancedTalismanRelic.cs) — At the start of combat, add one <strong style="color:#52cb84">Talisman Dash+</strong> into your hand and gain 3 <strong style="color:#e7ae33">Qi Charges</strong>.
+- [Talisman](NewKunlunCode/Relics/Yi/TalismanRelic.cs) — At the start of combat, shuffle one <strong style="color:#e7ae33">Talisman Dash</strong> into your deck and gain 1 <strong style="color:#e7ae33">Qi Charge</strong>.
+
 ## Card Counts
 
 | Rarity | Attack | Skill | Power | Total |

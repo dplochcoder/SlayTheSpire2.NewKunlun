@@ -38,6 +38,7 @@ var enchantmentsDirectory = Path.Combine(
     "Enchantments"
 );
 var potionsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Potions");
+var relicsDirectory = Path.Combine(repositoryRoot, "NewKunlun", "NewKunlunCode", "Relics");
 var outputPath = Path.Combine(repositoryRoot, "NewKunlun", outputFileName);
 var projectAssemblyPath = args.ElementAtOrDefault(1) ?? FindNewestProjectAssembly(repositoryRoot);
 
@@ -81,6 +82,7 @@ var sourceEnchantments = ReadSourceEnchantments(
     enchantmentsDirectory
 );
 var sourcePotions = ReadSourcePotions(Path.GetDirectoryName(outputPath)!, potionsDirectory);
+var sourceRelics = ReadSourceRelics(Path.GetDirectoryName(outputPath)!, relicsDirectory);
 var projectAssembly = Assembly.LoadFrom(Path.GetFullPath(projectAssemblyPath));
 var smartFormatter = CreateGameSmartFormatter(projectAssembly);
 var cards = ReadCards(projectAssembly, sourceCards, smartFormatter).ToArray();
@@ -88,6 +90,7 @@ var cardModifiers = ReadCardModifiers(projectAssembly, sourceCardModifiers, smar
     .ToArray();
 var enchantments = ReadEnchantments(projectAssembly, sourceEnchantments, smartFormatter).ToArray();
 var potions = ReadPotions(projectAssembly, sourcePotions, smartFormatter).ToArray();
+var relics = ReadRelics(projectAssembly, sourceRelics, smartFormatter).ToArray();
 
 if (cards.Length == 0)
 {
@@ -99,11 +102,11 @@ if (cards.Length == 0)
 
 File.WriteAllText(
     outputPath,
-    RenderMarkdown(cards, cardModifiers, enchantments, potions),
+    RenderMarkdown(cards, cardModifiers, enchantments, potions, relics),
     new UTF8Encoding(false)
 );
 Console.WriteLine(
-    $"Wrote {cards.Length} cards, {cardModifiers.Length} card modifiers, {enchantments.Length} enchantments, and {potions.Length} potions to {outputPath}."
+    $"Wrote {cards.Length} cards, {cardModifiers.Length} card modifiers, {enchantments.Length} enchantments, {potions.Length} potions, and {relics.Length} relics to {outputPath}."
 );
 return 0;
 
@@ -324,6 +327,37 @@ static IReadOnlyDictionary<string, string> ReadSourcePotions(
     }
 
     return potions;
+}
+
+static IReadOnlyDictionary<string, SourceRelicInfo> ReadSourceRelics(
+    string linkRoot,
+    string relicsDirectory
+)
+{
+    var relics = new Dictionary<string, SourceRelicInfo>(StringComparer.Ordinal);
+    foreach (var sourcePath in EnumerateSourceFilesFlat(relicsDirectory))
+    {
+        var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(sourcePath), path: sourcePath);
+        foreach (
+            var declaration in tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
+        )
+        {
+            var namespaceName = declaration
+                .Ancestors()
+                .OfType<BaseNamespaceDeclarationSyntax>()
+                .FirstOrDefault()
+                ?.Name.ToString();
+            if (string.IsNullOrWhiteSpace(namespaceName))
+                continue;
+
+            relics[$"{namespaceName}.{declaration.Identifier.ValueText}"] = new SourceRelicInfo(
+                Path.GetRelativePath(linkRoot, sourcePath).Replace('\\', '/'),
+                new DirectoryInfo(Path.GetDirectoryName(sourcePath)!).Name
+            );
+        }
+    }
+
+    return relics;
 }
 
 static IEnumerable<string> EnumerateSourceFilesFlat(string sourceDirectory) =>
@@ -575,6 +609,44 @@ static IEnumerable<PotionInfo> ReadPotions(
     }
 }
 
+static IEnumerable<RelicInfo> ReadRelics(
+    Assembly projectAssembly,
+    IReadOnlyDictionary<string, SourceRelicInfo> sourceRelics,
+    SmartFormatter smartFormatter
+)
+{
+    foreach (
+        var relicType in projectAssembly
+            .GetTypes()
+            .Where(type => !type.IsAbstract && HasBaseType(type, "NewKunlunRelic"))
+    )
+    {
+        var localization = relicType
+            .GetCustomAttributes(inherit: false)
+            .FirstOrDefault(attribute => attribute.GetType().Name == "RelicLocalizationAttribute");
+        if (
+            localization is null
+            || relicType.FullName is not { } fullName
+            || !sourceRelics.TryGetValue(fullName, out var sourceRelic)
+        )
+            continue;
+
+        var title = (string)ReadProperty(localization, "Title")!;
+        var rawDescription = (string)ReadProperty(localization, "Description")!;
+        var relic =
+            Activator.CreateInstance(relicType)
+            ?? throw new InvalidOperationException(
+                $"Could not construct {relicType.FullName} from the project build."
+            );
+        yield return new RelicInfo(
+            title,
+            RenderDescription(relic, rawDescription, smartFormatter),
+            sourceRelic.RelativePath,
+            sourceRelic.Group
+        );
+    }
+}
+
 static string RenderDescription(object card, string format, SmartFormatter smartFormatter)
 {
     var formatArguments = ReadDynamicVars(card);
@@ -715,7 +787,8 @@ static string RenderMarkdown(
     IReadOnlyCollection<CardInfo> cards,
     IReadOnlyCollection<CardModifierInfo> cardModifiers,
     IReadOnlyCollection<EnchantmentInfo> enchantments,
-    IReadOnlyCollection<PotionInfo> potions
+    IReadOnlyCollection<PotionInfo> potions,
+    IReadOnlyCollection<RelicInfo> relics
 )
 {
     string[] standardRarities = ["Common", "Uncommon", "Rare"];
@@ -747,8 +820,36 @@ static string RenderMarkdown(
     AppendCardModifiers(builder, cardModifiers);
     AppendEnchantments(builder, enchantments);
     AppendPotions(builder, potions);
+    AppendRelics(builder, relics);
     AppendCounts(builder, cards, standardRarities, typeOrder);
     return builder.ToString();
+}
+
+static void AppendRelics(StringBuilder builder, IEnumerable<RelicInfo> relics)
+{
+    builder.AppendLine();
+    builder.AppendLine("## Relics");
+
+    foreach (
+        var group in relics
+            .GroupBy(relic => relic.Group)
+            .OrderBy(group => group.Key, StringComparer.OrdinalIgnoreCase)
+    )
+    {
+        builder.AppendLine();
+        builder.AppendLine($"### {EscapeHtml(group.Key)}");
+        builder.AppendLine();
+        foreach (var relic in group.OrderBy(relic => relic.Title, StringComparer.OrdinalIgnoreCase))
+        {
+            builder
+                .Append("- [")
+                .Append(EscapeHtml(relic.Title))
+                .Append("](")
+                .Append(relic.RelativePath.Replace(" ", "%20"))
+                .Append(") — ")
+                .AppendLine(ConvertGameMarkupToMarkdown(relic.Description));
+        }
+    }
 }
 
 static void AppendCardModifiers(StringBuilder builder, IEnumerable<CardModifierInfo> cardModifiers)
@@ -1057,6 +1158,13 @@ namespace CardSummaryTool
         string RelativePath
     );
 
+    internal sealed record RelicInfo(
+        string Title,
+        string Description,
+        string RelativePath,
+        string Group
+    );
+
     internal sealed record CardRenderState(
         int UpgradeLevel,
         string EnergyCost,
@@ -1065,6 +1173,8 @@ namespace CardSummaryTool
     );
 
     internal sealed record SourceCardInfo(string RelativePath, IReadOnlyList<string> Keywords);
+
+    internal sealed record SourceRelicInfo(string RelativePath, string Group);
 
     internal sealed class MarkdownEnergyIconsFormatter : IFormatter
     {
