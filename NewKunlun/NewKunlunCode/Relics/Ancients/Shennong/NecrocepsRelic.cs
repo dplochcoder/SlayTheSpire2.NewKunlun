@@ -74,7 +74,7 @@ public partial class NecrocepsRelic : NewKunlunRelic
         UsedThisCombat = true;
         await CreatureCmd.Heal(
             creature,
-            Math.Max((decimal)Math.Ceiling(creature.MaxHp * RevivalPercent.IntValue/ 100.0), 1)
+            Math.Max((decimal)Math.Ceiling(creature.MaxHp * RevivalPercent.IntValue / 100.0), 1)
         );
     }
 

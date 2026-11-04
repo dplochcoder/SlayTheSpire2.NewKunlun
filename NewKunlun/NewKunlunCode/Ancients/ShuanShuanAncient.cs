@@ -8,22 +8,31 @@ public class ShuanShuanAncient : NewKunlunAncient
 {
     protected override List<List<EventOption>> PositiveOptions =>
         [
-            [RelicOption<AncientSheetMusicRelic>(), RelicOption<FourTreasuresOfTheStudyRelic>()],
-            [RelicOption<CrimsonHibiscusRelic>(), RelicOption<UnknownSeedRelic>()],
-            [RelicOption<FusangAmuletRelic>()],
-            [RelicOption<MultiToolKitRelic>()],
+            [RelicOption<AncientSheetMusicRelic>(), RelicOption<GmFertilizerRelic>()],
+            [
+                RelicOption<CrimsonHibiscusRelic>(),
+                RelicOption<TiandaoAcademyPeriodicalRelic>(),
+                RelicOption<UnknownSeedRelic>(),
+            ],
+            [RelicOption<FourTreasuresOfTheStudyRelic>(), RelicOption<MultiToolKitRelic>()],
+            [RelicOption<FusangAmuletRelic>(), RelicOption<RedGuifangClayRelic>()],
+            [RelicOption<ReadyToEatRationsRelic>()],
         ];
 
     protected override List<EventOption> CurseOptions =>
-        [RelicOption<QiankunBoardRelic>(), RelicOption<VirtualRealityDeviceRelic>()];
+        [
+            RelicOption<AntiqueVinylRecordRelic>(),
+            RelicOption<QiankunBoardRelic>(),
+            RelicOption<VirtualRealityDeviceRelic>(),
+        ];
 
     protected override bool IsCurseAllowed(
         RelicModel curse,
         IReadOnlyCollection<RelicModel> positive
     )
     {
-        if (curse is QiankunBoardRelic or VirtualRealityDeviceRelic)
-            return !positive.Any(r => r is AncientSheetMusicRelic);
+        if (curse is AntiqueVinylRecordRelic or QiankunBoardRelic or VirtualRealityDeviceRelic)
+            return !positive.Any(r => r is AncientSheetMusicRelic or GmFertilizerRelic);
 
         return true;
     }

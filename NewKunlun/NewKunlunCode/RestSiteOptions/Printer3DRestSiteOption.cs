@@ -15,23 +15,29 @@ public class Printer3DRestSiteOption(Player owner) : RestSiteOption(owner)
     public override string OptionId => "NEW_KUNLUN-PRINTER_3D";
 
     public override bool IsEnabled =>
-        PileType.Deck.GetPile(Owner).Cards.Count > 0 && Owner.Gold >= Printer3DRelic.GoldCost;
+        PileType
+            .Deck.GetPile(Owner)
+            .Cards.Any(c =>
+                Printer3DRelic.TryGetCost(c.Rarity, out var cost) && Owner.Gold >= cost
+            );
 
     public override async Task<bool> OnSelect()
     {
         var card = (
             await CardSelectCmd.FromDeckGeneric(
                 Owner,
-                new CardSelectorPrefs(ModelDb.Relic<DollysMirror>().SelectionScreenPrompt, 1)
+                new(ModelDb.Relic<DollysMirror>().SelectionScreenPrompt, minCount: 0, maxCount: 1)
                 {
                     Cancelable = true,
-                }
+                    RequireManualConfirmation = true,
+                },
+                c => Printer3DRelic.TryGetCost(c.Rarity, out var cost) && Owner.Gold >= cost
             )
         ).FirstOrDefault();
         if (card == null)
             return false;
 
-        await PlayerCmd.LoseGold(Printer3DRelic.GoldCost, Owner, GoldLossType.Spent);
+        await PlayerCmd.LoseGold(Printer3DRelic.GetCost(card.Rarity), Owner, GoldLossType.Spent);
         CardCmd.PreviewCardPileAdd(
             await CardPileCmd.Add(Owner.RunState.CloneCard(card), PileType.Deck)
         );

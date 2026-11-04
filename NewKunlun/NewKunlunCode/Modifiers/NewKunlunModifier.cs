@@ -26,6 +26,8 @@ public abstract class NewKunlunModifier : CardModifier
         Counter,
     }
 
+    public override void OnInitialApplication() => OnAmountChanged(Amount);
+
     public abstract ModifierStackType StackType { get; }
 
     public virtual bool CanModify(CardModel cardModel) => true;
@@ -44,9 +46,12 @@ public abstract class NewKunlunModifier : CardModifier
                 return false;
             case ModifierStackType.Counter:
                 Amount += newApplied.Amount;
+                OnAmountChanged(newApplied.Amount);
                 return true;
             default:
                 return false;
         }
     }
+
+    protected virtual void OnAmountChanged(int change) { }
 }

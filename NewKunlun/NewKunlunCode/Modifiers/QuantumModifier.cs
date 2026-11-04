@@ -50,10 +50,11 @@ public class QuantumModifier : NewKunlunModifier
         if (card != Owner)
             return false;
 
-        keywords.Add(ExtraCardKeywords.Quantum);
+        var modded = false;
+        modded |= keywords.Add(ExtraCardKeywords.Quantum);
         if (IsBroken)
-            keywords.Add(CardKeyword.Unplayable);
-        return true;
+            modded |= keywords.Add(CardKeyword.Unplayable);
+        return modded;
     }
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
