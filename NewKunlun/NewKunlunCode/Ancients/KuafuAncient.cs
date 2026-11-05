@@ -7,8 +7,12 @@ public class KuafuAncient : NewKunlunAncient
 {
     protected override List<List<EventOption>> PositiveOptions =>
         [
-            [RelicOption<BubbleTeaRelic>(), RelicOption<SolarPanelRelic>()],
-            [RelicOption<Printer3DRelic>()],
+            [
+                RelicOption<BubbleTeaRelic>(),
+                RelicOption<FloatationDeviceRelic>(),
+                RelicOption<SolarPanelRelic>(),
+            ],
+            [RelicOption<Printer3DRelic>(), RelicOption<ToolbeltRelic>()],
             [RelicOption<RhizomaticSharpenerRelic>()],
         ];
 

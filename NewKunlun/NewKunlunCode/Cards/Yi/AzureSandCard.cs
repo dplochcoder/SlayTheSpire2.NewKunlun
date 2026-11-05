@@ -27,7 +27,7 @@ public partial class AzureSandCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Reload),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Reload),
             HoverTipFactory.FromCard<AzureBowCard>(),
         ];
 

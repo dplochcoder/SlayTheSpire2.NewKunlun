@@ -19,7 +19,7 @@ public partial class MobQuellJadeDamageMultiplierPower : NewKunlunPower, ITalism
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Detonate)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Detonate)];
 
     decimal ITalismanDetonateListener.BaseDamageMultiplicativeModifier(
         decimal amount,

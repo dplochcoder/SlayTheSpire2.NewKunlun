@@ -26,7 +26,7 @@ public class ParryPower : NewKunlunPower
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             HoverTipFactory.FromPower<QiChargePower>(),
-            HoverTipFactory.Static(CustomStaticHoverTip.PreciseParry),
+            HoverTipFactory.Static(ExtraStaticHoverTips.PreciseParry),
         ];
 
     private int _parries;

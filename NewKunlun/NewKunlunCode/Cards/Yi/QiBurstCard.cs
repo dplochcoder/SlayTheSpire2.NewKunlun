@@ -32,8 +32,8 @@ public partial class QiBurstCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
-            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Discharge),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Boost),
         ];
 
     protected override void OnUpgrade()

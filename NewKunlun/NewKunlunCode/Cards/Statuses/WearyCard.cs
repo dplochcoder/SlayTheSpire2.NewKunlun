@@ -19,8 +19,7 @@ namespace NewKunlun.NewKunlunCode.Cards.Statuses;
 public partial class WearyCard()
     : NewKunlunCard(0, CardType.Status, CardRarity.Status, TargetType.None)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Retain, CardKeyword.Unplayable];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Unplayable];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new PowerVar<WeakPower>(nameof(Weak), 1), new PowerVar<FrailPower>(nameof(Frail), 1)];

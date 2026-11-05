@@ -48,15 +48,15 @@ public partial class TalismanDashCard()
         HasMobQuellJade ? TargetType.AllEnemies : TargetType.AnyEnemy;
 
     private IEnumerable<IHoverTip> BoostTip() =>
-        IsUpgraded ? [HoverTipFactory.Static(CustomStaticHoverTip.Boost)] : [];
+        IsUpgraded ? [HoverTipFactory.Static(ExtraStaticHoverTips.Boost)] : [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Lock),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Lock),
             HoverTipFactory.FromPower<QiChargePower>(),
             HoverTipFactory.FromPower<WeakPower>(),
             .. BoostTip(),
-            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Mark),
             HoverTipFactory.FromCard<TalismanDetonateCard>(upgrade: IsUpgraded),
         ];
 

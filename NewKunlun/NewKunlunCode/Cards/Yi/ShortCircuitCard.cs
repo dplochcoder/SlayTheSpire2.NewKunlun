@@ -31,7 +31,7 @@ public partial class ShortCircuitCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Mark),
             TalismanDetonateCard.CreateHoverTip(Owner),
         ];
 

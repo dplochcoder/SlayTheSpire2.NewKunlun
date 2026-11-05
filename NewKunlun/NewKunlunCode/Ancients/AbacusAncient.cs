@@ -8,7 +8,7 @@ public class AbacusAncient : NewKunlunAncient
 {
     protected override List<List<EventOption>> PositiveOptions =>
         [
-            [RelicOption<BackupPlanRelic>(), RelicOption<TaoFruitRelic>()],
+            [RelicOption<AzureGlassRelic>(), RelicOption<BackupPlanRelic>()],
             [RelicOption<BalancedBladeRelic>(), RelicOption<SwiftCloakRelic>()],
             [
                 RelicOption<BunsenBurnerRelic>(),

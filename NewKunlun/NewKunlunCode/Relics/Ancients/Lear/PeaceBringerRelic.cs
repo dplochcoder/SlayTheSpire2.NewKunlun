@@ -1,8 +1,8 @@
 ﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.RelicPools;
-using NewKunlun.NewKunlunCode.Commands;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Potions;
 
@@ -11,7 +11,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Peace Bringer",
-    description: "Gain 1 [gold]Rhizomatic Bomb[/gold].",
+    description: "Gain 1 Potion slot.\nGain 1 [gold]Rhizomatic Bomb[/gold].",
     flavor: ""
 )]
 public class PeaceBringerRelic : NewKunlunRelic
@@ -23,6 +23,9 @@ public class PeaceBringerRelic : NewKunlunRelic
 
     public override bool HasUponPickupEffect => true;
 
-    public override Task AfterObtained() =>
-        ExtraPotionCmds.ProcureOrOffer<RhizomaticBombPotion>(Owner);
+    public override async Task AfterObtained()
+    {
+        await PlayerCmd.GainMaxPotionCount(1, Owner);
+        await PotionCmd.TryToProcure<RhizomaticBombPotion>(Owner);
+    }
 }

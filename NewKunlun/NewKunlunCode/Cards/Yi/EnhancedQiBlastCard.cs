@@ -25,8 +25,8 @@ public partial class EnhancedQiBlastCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Discharge),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
             HoverTipFactory.FromCard<Yi.AzureSandCard>(upgrade: IsUpgraded),
         ];
 

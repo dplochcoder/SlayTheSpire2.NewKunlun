@@ -5,6 +5,8 @@
   "NEWKUNLUN-AVARICE_JADE_POWER.title": "Avarice Jade",
   "NEWKUNLUN-AZURE_SAND_MAGAZINE_POWER.description": "Ammunition for the [gold]Azure Bow[/gold].",
   "NEWKUNLUN-AZURE_SAND_MAGAZINE_POWER.title": "Azure Sand Magazine",
+  "NEWKUNLUN-AZURE_WIND_POWER.description": "The next card you play is played an additional time.",
+  "NEWKUNLUN-AZURE_WIND_POWER.title": "Azure Wind",
   "NEWKUNLUN-BLOCK_END_OF_NEXT_TURN_POWER.description": "At the end of your next turn, gain {Amount} [gold]Block[/gold].",
   "NEWKUNLUN-BLOCK_END_OF_NEXT_TURN_POWER.smartDescription": "At the end of {TurnsRemaining:cond:>1?your next|this} turn, gain {Amount} [gold]Block[/gold].",
   "NEWKUNLUN-BLOCK_END_OF_NEXT_TURN_POWER.title": "Block Next Turn",

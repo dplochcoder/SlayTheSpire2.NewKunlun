@@ -4,7 +4,7 @@ using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Tips;
 
-public static class CustomStaticHoverTip
+public static class ExtraStaticHoverTips
 {
     [CustomEnum]
     [StaticHoverTipLocalization(
@@ -68,4 +68,11 @@ public static class CustomStaticHoverTip
         description: "Increase the power of the [gold]Azure Bow[/gold].\nThe effect is different on each [gold]Arrow[/gold]."
     )]
     public static StaticHoverTip Sharpen;
+
+    [CustomEnum]
+    [StaticHoverTipLocalization(
+        title: "Tinker",
+        description: "Remove two cards of the same rarity from your deck.\nReceive a random card of the next highest rarity."
+    )]
+    public static StaticHoverTip Tinker;
 }

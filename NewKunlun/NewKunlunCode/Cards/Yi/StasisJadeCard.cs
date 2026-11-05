@@ -20,8 +20,8 @@ public class StasisJadeCard()
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Mark),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
         ];
 
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);

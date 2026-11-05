@@ -24,7 +24,7 @@ public partial class StaggerCard()
         [new DamageVar(9M, ValueProp.Move), new(nameof(HitCount), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Mark)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Mark)];
 
     protected override void OnUpgrade()
     {

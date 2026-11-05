@@ -20,9 +20,9 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 )]
 public partial class TaoFruitRelic : NewKunlunRelic
 {
-    public override RelicRarity Rarity => RelicRarity.Ancient;
+    public override RelicRarity Rarity => RelicRarity.Common;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Vigor), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Vigor), 2)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<VigorPower>()];

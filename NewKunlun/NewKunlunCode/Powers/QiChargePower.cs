@@ -26,7 +26,7 @@ public partial class QiChargePower : NewKunlunPower
         [new(nameof(LockedCount), 0M), new(nameof(LockedTurnsRemaining), 0M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Discharge)];
 
     public int Available(QiChargeCmd.Locked locked)
     {

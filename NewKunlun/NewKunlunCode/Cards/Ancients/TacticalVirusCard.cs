@@ -19,7 +19,7 @@ namespace NewKunlun.NewKunlunCode.Cards.Ancients;
     description: "All enemies lose {StrengthLoss} [gold]Strength[/gold] this turn.\nAll players gain {StrengthGain} [gold]Strength[/gold] this turn.\nShuffle 1 [gold]Void[/gold] into your draw pile."
 )]
 public partial class TacticalVirusCard()
-    : NewKunlunCard(1, CardType.Skill, CardRarity.Ancient, TargetType.AllEnemies)
+    : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.AllEnemies)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -54,5 +54,6 @@ public partial class TacticalVirusCard()
             Owner.Creature,
             this
         );
+        await Owner.AddGeneratedCardToPile<Void>(PileType.Draw, position: CardPilePosition.Random);
     }
 }

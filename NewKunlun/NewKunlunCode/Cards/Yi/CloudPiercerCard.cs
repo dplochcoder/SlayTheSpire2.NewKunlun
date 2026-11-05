@@ -42,7 +42,7 @@ public partial class CloudPiercerCard()
             HoverTipFactory.Static(StaticHoverTip.Block),
             HoverTipFactory.FromPower<WeakPower>(),
             HoverTipFactory.FromPower<VulnerablePower>(),
-            HoverTipFactory.Static(CustomStaticHoverTip.Sharpen),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Sharpen),
         ];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)

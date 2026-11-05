@@ -23,12 +23,12 @@ public partial class RegenerateCard()
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Boost), 0M)];
 
     private IEnumerable<IHoverTip> BoostTip() =>
-        IsUpgraded ? [HoverTipFactory.Static(CustomStaticHoverTip.Boost)] : [];
+        IsUpgraded ? [HoverTipFactory.Static(ExtraStaticHoverTips.Boost)] : [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             .. BoostTip(),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
             HoverTipFactory.FromPower<QiChargePower>(),
         ];
 

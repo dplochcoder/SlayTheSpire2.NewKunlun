@@ -34,7 +34,7 @@ public partial class ThunderBusterCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Sharpen)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Sharpen)];
 
     public async Task OnPlayArrow(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

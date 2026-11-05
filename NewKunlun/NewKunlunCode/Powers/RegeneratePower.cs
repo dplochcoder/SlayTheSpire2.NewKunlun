@@ -20,7 +20,7 @@ public partial class RegeneratePower : NewKunlunPower, ITalismanDetonateListener
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
             HoverTipFactory.FromPower<QiChargePower>(),
         ];
 

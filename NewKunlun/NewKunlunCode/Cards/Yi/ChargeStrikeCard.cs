@@ -40,7 +40,7 @@ public partial class ChargeStrikeCard()
         ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Discharge)];
 
     protected override void OnUpgrade()
     {

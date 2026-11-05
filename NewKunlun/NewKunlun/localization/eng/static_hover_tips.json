@@ -16,5 +16,7 @@
   "NEWKUNLUN-RELOAD.description": "Load an [gold]Azure Sand Magazine[/gold].\nAdd the [gold]Azure Bow[/gold] to your hand if not in your deck.",
   "NEWKUNLUN-RELOAD.title": "Reload",
   "NEWKUNLUN-SHARPEN.description": "Increase the power of the [gold]Azure Bow[/gold].\nThe effect is different on each [gold]Arrow[/gold].",
-  "NEWKUNLUN-SHARPEN.title": "Sharpen"
+  "NEWKUNLUN-SHARPEN.title": "Sharpen",
+  "NEWKUNLUN-TINKER.description": "Remove two cards of the same rarity from your deck.\nReceive a random card of the next highest rarity.",
+  "NEWKUNLUN-TINKER.title": "Tinker"
 }

@@ -20,7 +20,7 @@ public class StasisJadePower : NewKunlunPower
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Mark),
             HoverTipFactory.FromPower<TalismanPower>(),
         ];
 

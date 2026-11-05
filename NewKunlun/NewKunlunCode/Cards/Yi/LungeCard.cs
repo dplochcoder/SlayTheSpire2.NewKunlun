@@ -25,7 +25,7 @@ public partial class LungeCard()
         [new DamageVar(11M, ValueProp.Move), new(nameof(NumCards), 3M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Discharge)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Discharge)];
 
     protected override void OnUpgrade()
     {

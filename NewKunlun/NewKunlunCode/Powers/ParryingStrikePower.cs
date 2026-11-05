@@ -22,7 +22,7 @@ public class ParryingStrikePower : NewKunlunPower
     public override PowerStackType StackType => PowerStackType.Counter;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.ParryCard)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.ParryCard)];
 
     private bool ShouldCardBeFree(CardModel card) =>
         card.Pile?.Type is PileType.Hand or PileType.Play

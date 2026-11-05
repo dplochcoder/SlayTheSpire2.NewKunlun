@@ -29,7 +29,7 @@ public partial class QiBoostCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Boost),
             TalismanDashCard.CreateHoverTip(Owner),
         ];
 

@@ -150,6 +150,7 @@
 
   <ItemGroup>
     <Content Include="CARD_SUMMARY.md" />
+    <Content Include="NewKunlunCode\Cards\Ancients\AzureWindCard.s" />
     <Content Include="NewKunlun\images\card_portraits\big\card.png" />
     <Content Include="NewKunlun\images\card_portraits\big\card.png.import" />
     <Content Include="NewKunlun\images\card_portraits\card.png" />
@@ -197,7 +198,6 @@
 
   <ItemGroup>
     <Folder Include="NewKunlunCode\Events\" />
-    <Folder Include="NewKunlunCode\Rewards\" />
   </ItemGroup>
 
   <Target Name="CheckDependencyPaths">

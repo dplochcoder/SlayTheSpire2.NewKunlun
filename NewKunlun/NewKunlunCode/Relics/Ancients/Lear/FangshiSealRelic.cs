@@ -1,11 +1,13 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using NewKunlun.NewKunlunCode.Localization;
+using NewKunlun.NewKunlunCode.Relics.Ancients.Kuafu;
 
 namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 
@@ -21,6 +23,9 @@ public class FangshiSealRelic : NewKunlunRelic
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromKeyword(CardKeyword.Eternal)];
+
+    public override bool IsAllowedForPlayer(Player player) =>
+        !player.Relics.Any(r => r is ToolbeltRelic);
 
     public override bool HasUponPickupEffect => true;
 

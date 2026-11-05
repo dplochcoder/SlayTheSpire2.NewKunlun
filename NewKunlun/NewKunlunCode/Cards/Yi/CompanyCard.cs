@@ -25,7 +25,7 @@ public partial class CompanyCard()
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(ReloadCount), 1M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Reload)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Reload)];
 
     public override CardMultiplayerConstraint MultiplayerConstraint =>
         CardMultiplayerConstraint.MultiplayerOnly;

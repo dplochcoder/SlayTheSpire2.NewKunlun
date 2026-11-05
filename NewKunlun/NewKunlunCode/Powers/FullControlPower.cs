@@ -24,9 +24,9 @@ public partial class FullControlPower : NewKunlunPower, ITalismanDetonateListene
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Discharge),
             HoverTipFactory.FromPower<QiChargePower>(),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
         ];
 
     public async Task<int> Discharge(

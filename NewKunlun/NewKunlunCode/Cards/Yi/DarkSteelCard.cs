@@ -20,7 +20,7 @@ public partial class DarkSteelCard()
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Amount), 2M)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.Static(CustomStaticHoverTip.Sharpen)];
+        [HoverTipFactory.Static(ExtraStaticHoverTips.Sharpen)];
 
     protected override void OnUpgrade() => Amount.UpgradeValueTo(3M);
 

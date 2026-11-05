@@ -31,10 +31,10 @@ public partial class FullControlCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Boost),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Boost),
             HoverTipFactory.FromPower<QiChargePower>(),
-            HoverTipFactory.Static(CustomStaticHoverTip.Discharge),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Discharge),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
         ];
 
     protected override void OnUpgrade() => Boost.UpgradeValueTo(3M);

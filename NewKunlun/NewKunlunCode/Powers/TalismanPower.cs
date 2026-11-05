@@ -28,8 +28,8 @@ public partial class TalismanPower : NewKunlunPower
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.Mark),
-            HoverTipFactory.Static(CustomStaticHoverTip.Detonate),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Mark),
+            HoverTipFactory.Static(ExtraStaticHoverTips.Detonate),
         ];
 
     private static IReadOnlyList<TalismanPower> GetAll(Player player)

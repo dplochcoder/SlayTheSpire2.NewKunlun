@@ -17,7 +17,7 @@ public class DownloadPower : NewKunlunPower
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(CustomStaticHoverTip.PreciseParry),
+            HoverTipFactory.Static(ExtraStaticHoverTips.PreciseParry),
             HoverTipFactory.FromPower<StrengthPower>(),
         ];
 }

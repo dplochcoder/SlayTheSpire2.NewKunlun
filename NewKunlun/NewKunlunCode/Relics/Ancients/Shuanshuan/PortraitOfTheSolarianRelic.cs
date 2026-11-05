@@ -6,7 +6,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shuanshuan;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Portrait of the Lich",
+    title: "Portrait of the Solarian",
     description: "On pickup, gain 3 upgraded Colorless card rewards.",
     flavor: ""
 )]
