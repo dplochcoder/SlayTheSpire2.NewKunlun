@@ -1,8 +1,6 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.RelicPools;
-using NewKunlun.NewKunlunCode.Extensions;
 using NewKunlun.NewKunlunCode.Localization;
 using MeditateCard = NewKunlun.NewKunlunCode.Cards.Ancients.MeditateCard;
 
@@ -14,14 +12,9 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
     description: "On pickup, add one [gold]Meditate[/gold] to your deck.",
     flavor: ""
 )]
-public class ZenGardenRelic : NewKunlunRelic
+public class ZenGardenRelic : AddCardsToDeckRelic<MeditateCard>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<MeditateCard>()];
-
-    public override bool HasUponPickupEffect => true;
-
-    public override Task AfterObtained() => Owner.AddCardToDeck<MeditateCard>();
+    protected override int NumCards => 1;
 }

@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Patches.Hooks;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -10,6 +11,8 @@ public static class PlayerExtensions
 {
     extension(Player self)
     {
+        public int MaxHandSize => MaxHandSizePatch.GetMaxHandSize(self, CardPile.MaxCardsInHand);
+
         public CardModel Strike() =>
             self.Character.CardPool.AllCards.First(c =>
                 c.Rarity == CardRarity.Basic && c.Tags.Contains(CardTag.Strike)
@@ -47,7 +50,15 @@ public static class PlayerExtensions
             CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(cards, PileType.Deck), 2f);
         }
 
-        public async Task AddGeneratedCardToPile<T>(
+        public Task AddGeneratedCardToPile<T>(
+            PileType pileType,
+            bool upgrade = false,
+            CardPilePosition position = CardPilePosition.Bottom
+        )
+            where T : CardModel => self.AddGeneratedCardsToPile<T>(1, pileType, upgrade, position);
+
+        public async Task AddGeneratedCardsToPile<T>(
+            int count,
             PileType pileType,
             bool upgrade = false,
             CardPilePosition position = CardPilePosition.Bottom
@@ -57,13 +68,11 @@ public static class PlayerExtensions
             if (self.Creature.CombatState == null)
                 return;
 
+            List<CardModel> cards = [];
+            for (var i = 0; i < count; i++)
+                cards.Add(self.Creature.CombatState.CreateUpgradedCard<T>(self, upgrade));
             CardCmd.PreviewCardPileAdd(
-                await CardPileCmd.AddGeneratedCardToCombat(
-                    self.Creature.CombatState.CreateUpgradedCard<T>(self, upgrade),
-                    pileType,
-                    self,
-                    position
-                )
+                await CardPileCmd.AddGeneratedCardsToCombat(cards, pileType, self, position)
             );
         }
 

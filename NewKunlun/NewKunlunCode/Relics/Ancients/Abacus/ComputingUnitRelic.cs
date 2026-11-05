@@ -42,7 +42,7 @@ public partial class ComputingUnitRelic : NewKunlunRelic
                 )
                 .Select(r => r.Card),
         ];
-        await ExtraCardSelectCmds.FromChooseACardRewardScreen(Owner, options);
+        await ExtraCardSelectCmds.AddToDeckFromChooseACardRewardScreen(Owner, options);
     }
 
     public override async Task AfterSideTurnStart(

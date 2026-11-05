@@ -15,7 +15,7 @@ namespace NewKunlun.NewKunlunCode.Commands;
 
 public static class ExtraCardSelectCmds
 {
-    public static async Task<CardModel?> FromChooseACardRewardScreen(
+    public static async Task<CardModel?> AddToDeckFromChooseACardRewardScreen(
         Player player,
         List<CardModel> options,
         bool canSkip = true

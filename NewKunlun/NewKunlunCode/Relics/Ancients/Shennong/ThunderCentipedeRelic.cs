@@ -23,7 +23,7 @@ public partial class ThunderCentipedeRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<PoisonousPower>(nameof(Poisonous), 2)];
+        [new PowerVar<PoisonousPower>(nameof(Poisonous), 3)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<PoisonousPower>(), HoverTipFactory.FromPower<PoisonPower>()];

@@ -1,6 +1,5 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
@@ -15,7 +14,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
     description: "On pickup, add 1 [gold]Hack[/gold] to your deck.",
     flavor: ""
 )]
-public class LockedChestRelic : NewKunlunRelic
+public class LockedChestRelic : AddCardsToDeckRelic<HackCard>
 {
     public enum State
     {
@@ -26,8 +25,7 @@ public class LockedChestRelic : NewKunlunRelic
 
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromCard<HackCard>()];
+    protected override int NumCards => 1;
 
     [SavedProperty]
     public State CurrentState

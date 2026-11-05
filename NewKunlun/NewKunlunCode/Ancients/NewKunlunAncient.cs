@@ -46,8 +46,14 @@ public abstract class NewKunlunAncient : CustomAncientModel
     {
         var positive = PositiveOptions;
         Filter(positive);
-        Rng.Shuffle(positive);
-        List<EventOption> options = [Rng.NextItem(positive[0])!, Rng.NextItem(positive[1])!];
+        WeightedList<List<EventOption>> weighted = [];
+        foreach (var list in positive)
+            weighted.Add(list, list.Count);
+
+        var list1 = weighted.GetRandom(Rng);
+        weighted.Remove(list1);
+        var list2 = weighted.GetRandom(Rng);
+        List<EventOption> options = [Rng.NextItem(list1)!, Rng.NextItem(list2)!];
         HashSet<RelicModel> chosen = [.. options.Select(o => o.Relic!)];
 
         var curse = CurseOptions;

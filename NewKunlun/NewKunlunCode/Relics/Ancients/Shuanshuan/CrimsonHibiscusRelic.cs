@@ -9,7 +9,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shuanshuan;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Crimson Hibiscus",
-    description: "On pickup, enchant 1 Attack or Skill in your deck with [gold]Blossom[/gold].",
+    description: "On pickup, enchant 1 non-exhausting Attack or Skill in your deck with [gold]Blossom[/gold].",
     flavor: ""
 )]
 public class CrimsonHibiscusRelic : EnchantCardsRelic<BlossomEnchantment>

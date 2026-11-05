@@ -1,4 +1,6 @@
 {
+  "NEWKUNLUN-ACADEMIC_MODIFIER.description": "Gains [gold]Replay[/gold] {Amount} this turn.",
+  "NEWKUNLUN-ACADEMIC_MODIFIER.title": "Academic",
   "NEWKUNLUN-QUANTUM_MODIFIER.description": "!!!DESCRIPTION!!!",
   "NEWKUNLUN-QUANTUM_MODIFIER.title": "Quantum",
   "NEWKUNLUN-TACTICAL_MODIFIER.description": "Next turn, play this card.\nIf played, lose [gold]Tactical[/gold].",

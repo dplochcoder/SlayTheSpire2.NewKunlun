@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -10,12 +11,18 @@ namespace NewKunlun.NewKunlunCode.Enchantments;
 
 [EnchantmentLocalization(
     title: "Blossom",
-    description: "Next turn, add an [gold]Ethereal[/gold] copy of this card to your hand."
+    description: "Gains [gold]Ethereal[/gold].\nNext turn, add a copy of this card to your hand.",
+    extraCardText: "Next turn, add a copy of this card to your hand."
 )]
 public class BlossomEnchantment : NewKunlunEnchantment
 {
     public override bool CanEnchantCardType(CardType cardType) =>
         cardType is CardType.Attack or CardType.Skill;
+
+    public override bool CanEnchant(CardModel card) =>
+        base.CanEnchant(card) && !card.Keywords.Contains(CardKeyword.Exhaust);
+
+    protected override void OnEnchant() => Card.AddKeyword(CardKeyword.Ethereal);
 
     [SavedProperty]
     public int PlaysThisTurn

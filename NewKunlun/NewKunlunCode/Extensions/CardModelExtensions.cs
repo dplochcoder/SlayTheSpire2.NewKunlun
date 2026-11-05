@@ -1,5 +1,7 @@
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace NewKunlun.NewKunlunCode.Extensions;
 
@@ -20,6 +22,14 @@ public static class CardModelExtensions
             }
 
             return null;
+        }
+
+        public void UpgradeIfPossible(
+            CardPreviewStyle previewStyle = CardPreviewStyle.HorizontalLayout
+        )
+        {
+            if (self.IsUpgradable)
+                CardCmd.Upgrade(self, previewStyle);
         }
     }
 }
