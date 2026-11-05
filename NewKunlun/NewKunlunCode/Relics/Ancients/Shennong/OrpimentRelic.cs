@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.RelicPools;
@@ -8,6 +9,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Cards.Ancients;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.Powers;
+using NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 
 namespace NewKunlun.NewKunlunCode.Relics.Ancients.Shennong;
 
@@ -22,6 +24,9 @@ public class OrpimentRelic : AddCardsToDeckRelic<MedicinalCitrineCard>
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override int NumCards => 1;
+
+    public override bool IsAllowedForPlayer(Player player) =>
+        !player.Relics.Any(r => r is GrowthSerumRelic);
 
     [SavedProperty]
     public int NumCitrineUses

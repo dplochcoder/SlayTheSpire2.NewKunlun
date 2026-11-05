@@ -55,7 +55,7 @@
   "NEWKUNLUN-GM_FERTILIZER_RELIC.title": "GM Fertilizer",
   "NEWKUNLUN-GROWTH_SERUM_RELIC.description": "After every combat, gain {MaxHp} max hp.\nYou can no longer [gold]Rest[/gold].",
   "NEWKUNLUN-GROWTH_SERUM_RELIC.flavor": "",
-  "NEWKUNLUN-GROWTH_SERUM_RELIC.title": "Regrowth Serum",
+  "NEWKUNLUN-GROWTH_SERUM_RELIC.title": "Growth Serum",
   "NEWKUNLUN-GUTWRENCH_FRUIT_RELIC.description": "On pickup, gain {PotionSlots} potion slots and {Potions} random Potions.\nWhenever you use a potion, gain {MaxHp} max hp and heal {Heal} additional hp.",
   "NEWKUNLUN-GUTWRENCH_FRUIT_RELIC.flavor": "",
   "NEWKUNLUN-GUTWRENCH_FRUIT_RELIC.title": "Gutwrench Fruit",

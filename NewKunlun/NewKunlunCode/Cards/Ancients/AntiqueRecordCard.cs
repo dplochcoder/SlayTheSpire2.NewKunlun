@@ -13,7 +13,7 @@ namespace NewKunlun.NewKunlunCode.Cards.Ancients;
 [Pool(typeof(EventCardPool))]
 [CardLocalization(
     title: "Antique Record",
-    description: "Gain {Energy:energyIcons()}, draw {Cards} cards.\nIf played more than {MaxPlays} times in one combat, permanently becomes [gold]Broken Record[/gold]."
+    description: "Gain {Energy:energyIcons()}, draw {Cards} cards.\nIf played more than {MaxPlays:diff()} times in one combat, permanently becomes [gold]Broken Record[/gold]."
 )]
 public partial class AntiqueRecordCard()
     : NewKunlunCard(0, CardType.Skill, CardRarity.Ancient, TargetType.None)
@@ -23,6 +23,8 @@ public partial class AntiqueRecordCard()
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromCard<BrokenRecordCard>()];
+
+    protected override void OnUpgrade() => MaxPlays.UpgradeValueBy(1);
 
     public int PlaysThisCombat
     {

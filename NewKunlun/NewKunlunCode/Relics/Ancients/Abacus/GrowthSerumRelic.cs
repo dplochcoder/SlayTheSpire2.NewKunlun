@@ -12,7 +12,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Regrowth Serum",
+    title: "Growth Serum",
     description: "After every combat, gain {MaxHp} max hp.\nYou can no longer [gold]Rest[/gold].",
     flavor: ""
 )]

@@ -7,7 +7,7 @@
   "NEWKUNLUN-ANCESTRAL_SWORD_CARD.title": "Ancestral Sword",
   "NEWKUNLUN-ANGUISH_CARD.description": "If this card is in your hand at the end of your turn, lose {MaxHp} max hp.",
   "NEWKUNLUN-ANGUISH_CARD.title": "Anguish",
-  "NEWKUNLUN-ANTIQUE_RECORD_CARD.description": "Gain {Energy:energyIcons()}, draw {Cards} cards.\nIf played more than {MaxPlays} times in one combat, permanently becomes [gold]Broken Record[/gold].",
+  "NEWKUNLUN-ANTIQUE_RECORD_CARD.description": "Gain {Energy:energyIcons()}, draw {Cards} cards.\nIf played more than {MaxPlays:diff()} times in one combat, permanently becomes [gold]Broken Record[/gold].",
   "NEWKUNLUN-ANTIQUE_RECORD_CARD.title": "Antique Record",
   "NEWKUNLUN-AVARICE_JADE_CARD.description": "Gain {Gold:diff()} gold whenever a [gold]Fatal[/gold] blow is dealt.",
   "NEWKUNLUN-AVARICE_JADE_CARD.title": "Avarice Jade",

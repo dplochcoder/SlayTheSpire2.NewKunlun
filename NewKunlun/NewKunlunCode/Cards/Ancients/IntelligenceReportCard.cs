@@ -24,6 +24,8 @@ public partial class IntelligenceReportCard()
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new PowerVar<PlatingPower>(nameof(Plating), 12)];
 
+    public override int MaxUpgradeLevel => 0;
+
     public override async Task AfterRoomEntered(AbstractRoom room)
     {
         if (room is not CombatRoom { RoomType: RoomType.Boss })
