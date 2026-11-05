@@ -67,7 +67,8 @@ public class TinkerReward : CustomReward
         [
             .. player.Character.CardPool.AllCards.Where(c => c.Rarity == NextRarity[rarity]),
         ];
-        var newCard = player.PlayerRng.Rewards.NextItem(newCards)!.CreateClone();
+        var newCard = player.PlayerRng.Rewards.NextItem(newCards)!;
+        newCard = player.RunState.CreateCard(newCard, player);
         if (newCard.IsUpgradable)
         {
             var src = removedCards.Count(c => c.IsUpgraded);
@@ -91,8 +92,8 @@ public class TinkerReward : CustomReward
     private static readonly IReadOnlyBimap<CardRarity, int> CodeMap =
     [
         new(CardRarity.Basic, 1),
-        new(CardRarity.Uncommon, 2),
-        new(CardRarity.Rare, 3),
+        new(CardRarity.Common, 2),
+        new(CardRarity.Uncommon, 3),
     ];
 
     public override SerializableReward ToSerializable() =>
