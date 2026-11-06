@@ -19,6 +19,8 @@
   "NEWKUNLUN-AZURE_WIND_CARD.title": "Azure Wind",
   "NEWKUNLUN-BACK_TO_THE_DRAWING_BOARD_CARD.description": "Exhaust your hand.\nNext turn, gain {Energy:energyIcons()} and draw {DrawCards:diff()} cards.",
   "NEWKUNLUN-BACK_TO_THE_DRAWING_BOARD_CARD.title": "Back to the Drawing Board",
+  "NEWKUNLUN-BLOOM_CARD.description": "Exhaust all your Curses and Statuses.",
+  "NEWKUNLUN-BLOOM_CARD.title": "Bloom",
   "NEWKUNLUN-BRACE_CARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nTake {Imperfect:diff()} [gold]Imperfect[/gold].",
   "NEWKUNLUN-BRACE_CARD.title": "Brace",
   "NEWKUNLUN-BREAKOUT_CARD.description": "Deal {Damage:diff()} damage {HitCount:diff()} times to two different random enemies.",

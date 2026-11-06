@@ -51,7 +51,15 @@ public partial class PenglaiRecipeCollectionRelic : NewKunlunRelic
         {
             var character = characterPicks[i];
             var rarity = rarities[i % rarities.Count];
-            List<CardModel> cards = [.. character.CardPool.AllCards.Where(c => c.Rarity == rarity)];
+            List<CardModel> cards =
+            [
+                .. character
+                    .CardPool.GetUnlockedCards(
+                        Owner.UnlockState,
+                        Owner.RunState.CardMultiplayerConstraint
+                    )
+                    .Where(c => c.Rarity == rarity),
+            ];
             if (cards.Any(c => !picked.Contains(c.Id)))
                 cards = [.. cards.Where(c => !picked.Contains(c.Id))];
             var card = Owner.PlayerRng.Rewards.NextItem(cards)!.CreateCloneForPlayer(Owner);

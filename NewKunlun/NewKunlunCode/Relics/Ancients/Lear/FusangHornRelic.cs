@@ -9,7 +9,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Fusang Horn",
-    description: "Add one [gold]Recall[/gold] to your deck.",
+    description: "On pickup, add one [gold]Recall[/gold] to your deck.",
     flavor: ""
 )]
 public class FusangHornRelic : AddCardsToDeckRelic<RecallCard>

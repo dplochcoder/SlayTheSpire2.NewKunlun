@@ -51,6 +51,15 @@ public static class PlayerExtensions
         }
 
         public Task AddGeneratedCardToPile<T>(
+            T canonical,
+            PileType pileType,
+            bool upgrade = false,
+            CardPilePosition position = CardPilePosition.Bottom
+        )
+            where T : CardModel =>
+            self.AddGeneratedCardsToPile<T>([canonical], pileType, upgrade, position);
+
+        public Task AddGeneratedCardToPile<T>(
             PileType pileType,
             bool upgrade = false,
             CardPilePosition position = CardPilePosition.Bottom
@@ -58,7 +67,7 @@ public static class PlayerExtensions
             where T : CardModel => self.AddGeneratedCardsToPile<T>(1, pileType, upgrade, position);
 
         public async Task AddGeneratedCardsToPile<T>(
-            int count,
+            List<T> cards,
             PileType pileType,
             bool upgrade = false,
             CardPilePosition position = CardPilePosition.Bottom
@@ -68,12 +77,29 @@ public static class PlayerExtensions
             if (self.Creature.CombatState == null)
                 return;
 
-            List<CardModel> cards = [];
-            for (var i = 0; i < count; i++)
-                cards.Add(self.Creature.CombatState.CreateUpgradedCard<T>(self, upgrade));
+            cards =
+            [
+                .. cards.Select(c =>
+                    self.Creature.CombatState.CreateUpgradedCard(c, self, upgrade)
+                ),
+            ];
             CardCmd.PreviewCardPileAdd(
                 await CardPileCmd.AddGeneratedCardsToCombat(cards, pileType, self, position)
             );
+        }
+
+        public Task AddGeneratedCardsToPile<T>(
+            int count,
+            PileType pileType,
+            bool upgrade = false,
+            CardPilePosition position = CardPilePosition.Bottom
+        )
+            where T : CardModel
+        {
+            List<T> cards = [];
+            for (var i = 0; i < count; i++)
+                cards.Add(ModelDb.Card<T>());
+            return self.AddGeneratedCardsToPile(cards, pileType, upgrade, position);
         }
 
         public T? FindCard<T>(IEnumerable<PileType> searchOrder)

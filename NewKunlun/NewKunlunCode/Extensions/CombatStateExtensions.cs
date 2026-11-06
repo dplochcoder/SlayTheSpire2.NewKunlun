@@ -9,13 +9,16 @@ public static class CombatStateExtensions
 {
     extension(ICombatState self)
     {
-        public T CreateUpgradedCard<T>(Player owner, bool upgrade)
+        public T CreateUpgradedCard<T>(T card, Player owner, bool upgrade)
             where T : CardModel
         {
-            var card = self.CreateCard<T>(owner);
+            card = (T)self.CreateCard(card, owner);
             if (upgrade)
                 CardCmd.Upgrade(card);
             return card;
         }
+
+        public T CreateUpgradedCard<T>(Player owner, bool upgrade)
+            where T : CardModel => self.CreateUpgradedCard(ModelDb.Card<T>(), owner, upgrade);
     }
 }

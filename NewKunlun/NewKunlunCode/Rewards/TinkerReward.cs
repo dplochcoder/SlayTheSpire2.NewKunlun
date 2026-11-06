@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Collections;
+using NewKunlun.NewKunlunCode.Extensions;
 
 namespace NewKunlun.NewKunlunCode.Rewards;
 
@@ -65,7 +66,9 @@ public class TinkerReward : CustomReward
 
         List<CardModel> newCards =
         [
-            .. player.Character.CardPool.AllCards.Where(c => c.Rarity == NextRarity[rarity]),
+            .. player
+                .Character.CardPool.CardsUnlockedFor(player)
+                .Where(c => c.Rarity == NextRarity[rarity]),
         ];
         var newCard = player.PlayerRng.Rewards.NextItem(newCards)!;
         newCard = player.RunState.CreateCard(newCard, player);
@@ -85,7 +88,7 @@ public class TinkerReward : CustomReward
     public override void MarkContentAsSeen() { }
 
     protected override RewardType RewardType => TinkerRewardType;
-    public override LocString Description { get; } // TODO
+    public override LocString Description => null;
     public override bool IsPopulated => true;
     public override CreateRewardFromSave<CustomReward> DeserializeMethod => Deserialize;
 

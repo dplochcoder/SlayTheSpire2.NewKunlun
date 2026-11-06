@@ -1,23 +1,11 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Characters;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Shuanshuan;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 
 public class ShuanShuanAncient : NewKunlunAncient
 {
-    private EventOption PortraitOption() =>
-        Owner?.Character switch
-        {
-            Ironclad => RelicOption<PortraitOfTheWarriorRelic>(),
-            Silent => RelicOption<PortraitOfTheRogueRelic>(),
-            Regent => RelicOption<PortraitOfTheMonarchRelic>(),
-            Necrobinder => RelicOption<PortraitOfTheLichRelic>(),
-            Defect => RelicOption<PortraitOfTheAutomatonRelic>(),
-            _ => RelicOption<PortraitOfTheSolarianRelic>(),
-        };
-
     protected override List<List<EventOption>> PositiveOptions =>
         [
             [RelicOption<AncientSheetMusicRelic>(), RelicOption<GmFertilizerRelic>()],
@@ -32,7 +20,7 @@ public class ShuanShuanAncient : NewKunlunAncient
                 RelicOption<RedGuifangClayRelic>(),
                 RelicOption<SwordOfJieRelic>(),
             ],
-            [RelicOption<ReadyToEatRationsRelic>(), PortraitOption()],
+            [RelicOption<ReadyToEatRationsRelic>(), RelicOption(PortraitRelic.ForPlayer(Owner!))],
         ];
 
     protected override List<EventOption> CurseOptions =>
