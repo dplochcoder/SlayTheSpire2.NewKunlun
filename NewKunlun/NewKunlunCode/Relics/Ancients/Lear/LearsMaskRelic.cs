@@ -19,6 +19,7 @@ public partial class LearsMaskRelic : FreeCardsThisCombatRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Skills), 3)];
+
     protected override int MaxUsesPerCombat => Skills.IntValue;
 
     protected override bool ShouldBeFree(CardModel card) => card.Type == CardType.Skill;

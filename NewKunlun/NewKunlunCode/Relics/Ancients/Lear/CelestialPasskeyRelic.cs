@@ -26,7 +26,7 @@ public partial class CelestialPasskeyRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     public override bool IsAllowedForPlayer(Player player) =>
-        player.Deck.Cards.Count(c => c.IsRemovable) >= 2;
+        player.Deck.Cards.Count(c => c.IsRemovable) >= Removes.IntValue;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Removes), 3)];
 
