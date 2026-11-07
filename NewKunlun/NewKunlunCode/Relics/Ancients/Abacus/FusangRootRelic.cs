@@ -90,6 +90,7 @@ public partial class FusangRootRelic : NewKunlunRelic
     {
         HpLostThisRoom = 0;
         IsCombatRoom = room is CombatRoom;
+        PlayerDiedThisRoom = false;
         return Task.CompletedTask;
     }
 

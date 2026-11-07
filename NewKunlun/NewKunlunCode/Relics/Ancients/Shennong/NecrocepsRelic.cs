@@ -26,7 +26,7 @@ public partial class NecrocepsRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<PoisonPower>(nameof(Poison), 66), new(nameof(RevivalPercent), 15)];
+        [new PowerVar<PoisonPower>(nameof(Poison), 99), new(nameof(RevivalPercent), 15)];
 
     [SavedProperty]
     public bool UsedThisCombat
@@ -62,7 +62,7 @@ public partial class NecrocepsRelic : NewKunlunRelic
             return;
 
         Flash();
-        await PowerCmd.Apply<PoisonPower>(choiceContext, dealer, target.MaxHp, target, null);
+        await PowerCmd.Apply<PoisonPower>(choiceContext, dealer, Poison.IntValue, target, null);
     }
 
     public override bool ShouldDie(Creature creature) =>

@@ -52,7 +52,7 @@ public partial class JieHammerRelic : NewKunlunRelic
         ICollection<RestSiteOption> options
     )
     {
-        if (player != Owner && !this.IsNextUnused)
+        if (player != Owner || !this.IsNextUnused)
             return false;
 
         var smith = options.OfType<SmithRestSiteOption>().FirstOrDefault();

@@ -32,9 +32,12 @@ public class BunsenBurnerRelic : NewKunlunRelic
 
         private static async Task<bool> WrapOnSelect(SmithRestSiteOption option, Task<bool> result)
         {
-            var relic = option.Owner.Relics.OfType<BunsenBurnerRelic>().FirstOrDefault();
-            if (!await result || relic == null)
+            if (!await result)
                 return false;
+
+            var relic = option.Owner.Relics.OfType<BunsenBurnerRelic>().FirstOrDefault();
+            if (relic == null)
+                return true;
 
             if (
                 (option._selection ?? []).Aggregate(

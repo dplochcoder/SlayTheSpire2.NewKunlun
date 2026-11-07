@@ -14,6 +14,8 @@ public abstract class AddCardsToDeckRelic<T> : NewKunlunRelic
 
     protected virtual bool Upgrade => false;
 
+    public override bool HasUponPickupEffect => true;
+
     public override Task AfterObtained() =>
         Owner.AddGeneratedCardsToPile<T>(NumCards, PileType.Deck, Upgrade);
 }

@@ -16,5 +16,7 @@ public class SwiftCloakRelic : EnchantCardsRelic<PoiseEnchantment>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
+    protected override int NumCardsMin => 1;
+
     protected override int NumCardsMax => 1;
 }

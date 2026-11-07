@@ -1,8 +1,5 @@
 ﻿using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models;
@@ -43,18 +40,5 @@ public partial class ComputingUnitRelic : NewKunlunRelic
                 .Select(r => r.Card),
         ];
         await ExtraCardSelectCmds.AddToDeckFromChooseACardRewardScreen(Owner, options);
-    }
-
-    public override async Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState
-    )
-    {
-        if (side != Owner.Creature.Side || Owner.PlayerCombatState!.TurnNumber != 3)
-            return;
-
-        Flash();
-        await PlayerCmd.LoseEnergy(StackCount, Owner);
     }
 }

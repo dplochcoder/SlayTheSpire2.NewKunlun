@@ -25,6 +25,8 @@ public partial class JiuGongRelic : NewKunlunRelic
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPotion<EntropicBrew>()];
 
+    public override bool HasUponPickupEffect => true;
+
     public override async Task AfterObtained()
     {
         await PlayerCmd.GainMaxPotionCount(PotionSlots.IntValue, Owner);

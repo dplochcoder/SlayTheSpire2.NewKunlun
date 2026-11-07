@@ -12,14 +12,14 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Rhizomatic Substrate",
-    description: "Lose {HpLoss} hp.\nEnchant a card with [gold]Amortized[/gold].",
+    description: "Lose {MaxHpLoss} max hp.\nEnchant a card with [gold]Amortized[/gold].",
     flavor: ""
 )]
 public partial class RhizomaticSubstrateRelic : EnchantCardsRelic<AmortizedEnchantment>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(HpLoss), 14)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(MaxHpLoss), 11)];
 
     protected override int NumCardsMin => 1;
 
@@ -29,7 +29,7 @@ public partial class RhizomaticSubstrateRelic : EnchantCardsRelic<AmortizedEncha
         CreatureCmd.LoseMaxHp(
             new ThrowingPlayerChoiceContext(),
             Owner.Creature,
-            HpLoss.IntValue,
+            MaxHpLoss.IntValue,
             false
         );
 }

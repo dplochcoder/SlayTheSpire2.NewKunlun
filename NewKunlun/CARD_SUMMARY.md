@@ -272,12 +272,11 @@ Whenever you <strong style="color:#e7ae33">Rest</strong>, upgrade 2 random cards
 - [Rhizomatic Core](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticCoreRelic.cs) — On pickup, gain 1 upgraded card reward.
 - [Rhizomatic Generator](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticGeneratorRelic.cs) — Whenever you shuffle your deck, gain ⚡.
 - [Rhizomatic Stabilizer](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticStabilizerRelic.cs) — On pickup, upgrade 2 random cards.
-- [Rhizomatic Substrate](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticSubstrateRelic.cs) — Lose 14 hp.
+- [Rhizomatic Substrate](NewKunlunCode/Relics/Ancients/Abacus/RhizomaticSubstrateRelic.cs) — Lose 11 max hp.
 Enchant a card with <strong style="color:#e7ae33">Amortized</strong>.
 - [Scrap](NewKunlunCode/Relics/Ancients/Abacus/ScrapRelic.cs) — Receive 60 to 100 gold, 1 common potion, and 1 common card reward.
 - [Seal of Innovation](NewKunlunCode/Relics/Ancients/Abacus/SealOfInnovationRelic.cs) — Whenever you defeat an <strong style="color:#e7ae33">Elite</strong> or <strong style="color:#e7ae33">Boss</strong>, you may transform a card.
 - [Swift Cloak](NewKunlunCode/Relics/Ancients/Abacus/SwiftCloakRelic.cs) — On pickup, enchant a Skill with <strong style="color:#e7ae33">Poise</strong>.
-- [Tao Fruit](NewKunlunCode/Relics/Ancients/Abacus/TaoFruitRelic.cs) — At the start of your turn, gain 2 <strong style="color:#e7ae33">Vigor</strong>.
 - [Zen Garden](NewKunlunCode/Relics/Ancients/Abacus/ZenGardenRelic.cs) — On pickup, add one <strong style="color:#e7ae33">Meditate</strong> to your deck.
 
 ### Kuafu
@@ -294,7 +293,7 @@ Whenever you end your turn with X unspent energy, draw X additional cards next t
 ### Lear
 
 - [Adamantium](NewKunlunCode/Relics/Ancients/Lear/AdamantiumRelic.cs) — If you end your turn with at least ⚡, gain 14 <strong style="color:#e7ae33">Block</strong>.
-- [Celestial Passkey](NewKunlunCode/Relics/Ancients/Lear/CelestialPasskeyRelic.cs) — Remove 2 random cards from your deck.
+- [Celestial Passkey](NewKunlunCode/Relics/Ancients/Lear/CelestialPasskeyRelic.cs) — Remove 3 random cards from your deck.
 Add 1 card of your choice to your deck.
 - [Fangshi Seal](NewKunlunCode/Relics/Ancients/Lear/FangshiSealRelic.cs) — Upgrade all cards in your deck.
 All cards in your deck become <strong style="color:#e7ae33">Eternal</strong>.
@@ -320,11 +319,13 @@ At the start of combat, gain 1 <strong style="color:#e7ae33">Strength</strong> f
 
 ### Relics
 
+- [Greater Tao Fruit](NewKunlunCode/Relics/GreaterTaoFruitRelic.cs) — Every time you shuffle your deck, gain 1 <strong style="color:#e7ae33">Strength</strong>.
 - [Medical Jade](NewKunlunCode/Relics/MedicalJadeRelic.cs) — When you rest, instead of healing, gain 8 <strong style="color:#e7ae33">Regen</strong>, 10 if you have <strong style="color:#e7ae33">Regal Pillow</strong>.
 Your <strong style="color:#e7ae33">Regen</strong> persists between combats.
 - [Recycler](NewKunlunCode/Relics/RecyclerRelic.cs) — You can recycle card rewards for 30 to 40 gold.
 - [Sentry Drone](NewKunlunCode/Relics/SentryDroneRelic.cs) — At the end of your turn, if you played no attacks this turn, deal 9 damage to all enemies.
 - [Shanhai Coupon](NewKunlunCode/Relics/ShanhaiRebateRelic.cs) — Your next shop purchase is free.
+- [Tao Fruit](NewKunlunCode/Relics/TaoFruitRelic.cs) — At the start of your turn, gain 2 <strong style="color:#e7ae33">Vigor</strong>.
 
 ### Seals
 
@@ -345,7 +346,7 @@ Whenever you play a non-attack, lose all strength obtained this way.
 - [Gutwrench Fruit](NewKunlunCode/Relics/Ancients/Shennong/GutwrenchFruitRelic.cs) — On pickup, gain 2 potion slots and 2 random Potions.
 Whenever you use a potion, gain 3 max hp and heal 4 additional hp.
 - [Jiu-gong](NewKunlunCode/Relics/Ancients/Shennong/JiuGongRelic.cs) — On pickup, gain 3 potion slots and 2 <strong style="color:#e7ae33">Entropic Brew</strong>.
-- [Necroceps](NewKunlunCode/Relics/Ancients/Shennong/NecrocepsRelic.cs) — On death, inflict 66 <strong style="color:#e7ae33">Poison</strong> on your attacker.
+- [Necroceps](NewKunlunCode/Relics/Ancients/Shennong/NecrocepsRelic.cs) — On death, inflict 99 <strong style="color:#e7ae33">Poison</strong> on your attacker.
 Once per combat, after you die, revive at 15% of your max HP.
 - [Orpiment](NewKunlunCode/Relics/Ancients/Shennong/OrpimentRelic.cs) — Add one <strong style="color:#e7ae33">Medicinal Citrine</strong> to your deck.
 - [Poison Darts](NewKunlunCode/Relics/Ancients/Shennong/PoisonDartsRelic.cs) — Enchant up to 3 attacks with <strong style="color:#e7ae33">Venomous</strong> 4.
@@ -359,7 +360,7 @@ Draw 1 extra card each turn.
 - [Ancient Sheet Music](NewKunlunCode/Relics/Ancients/Shuanshuan/AncientSheetMusicRelic.cs) — On pickup, add 4 <strong style="color:#e7ae33">Verses</strong> to your deck.
 - [Antique Vinyl Record](NewKunlunCode/Relics/Ancients/Shuanshuan/AntiqueVinylRecordRelic.cs) — On pickup, add one <strong style="color:#e7ae33">Antique Record</strong> to your deck.
 - [Crimson Hibiscus](NewKunlunCode/Relics/Ancients/Shuanshuan/CrimsonHibiscusRelic.cs) — On pickup, enchant 1 non-exhausting Attack or Skill in your deck with <strong style="color:#e7ae33">Blossom</strong>.
-- [Four Treasures of the Study](NewKunlunCode/Relics/Ancients/Shuanshuan/FourTeasuresOfTheStudyRelic.cs) — Enchant 4 cards with <strong style="color:#e7ae33">Calligraphic</strong> 2.
+- [Four Treasures of the Study](NewKunlunCode/Relics/Ancients/Shuanshuan/FourTreasuresOfTheStudyRelic.cs) — Enchant 4 cards with <strong style="color:#e7ae33">Calligraphic</strong> 2.
 - [Fusang Amulet](NewKunlunCode/Relics/Ancients/Shuanshuan/FusangAmuletRelic.cs) — At the start of combat, gain 2 <strong style="color:#e7ae33">Buffer</strong>.
 - [GM Fertilizer](NewKunlunCode/Relics/Ancients/Shuanshuan/GmFertilizerRelic.cs) — All your card rewards are enchanted with <strong style="color:#e7ae33">Sown</strong>.
 - [Kunlun Immortal Portrait](NewKunlunCode/Relics/Ancients/Shuanshuan/KunlunImmortalPortraitRelic.cs) — Enchant a Power in your deck with <strong style="color:#e7ae33">Immortal</strong>.

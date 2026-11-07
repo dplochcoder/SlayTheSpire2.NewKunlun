@@ -11,10 +11,12 @@ using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Extensions;
+using NewKunlun.NewKunlunCode.Localization;
+using LocTable = NewKunlun.NewKunlunCode.Localization.LocTable;
 
 namespace NewKunlun.NewKunlunCode.Rewards;
 
-public class TinkerReward : CustomReward
+public partial class TinkerReward : CustomReward
 {
     [CustomEnum]
     public static RewardType TinkerRewardType;
@@ -87,8 +89,27 @@ public class TinkerReward : CustomReward
 
     public override void MarkContentAsSeen() { }
 
+    [CustomLocString(LocTable.CardRewardUi, "Combine two Basic cards into a random Common card.")]
+    private static partial LocString BasicDesc { get; }
+
+    [CustomLocString(
+        LocTable.CardRewardUi,
+        "Combine two Common cards into a random Uncommon card."
+    )]
+    private static partial LocString CommonDesc { get; }
+
+    [CustomLocString(LocTable.CardRewardUi, "Combine two Uncommon cards into a random Rare card.")]
+    private static partial LocString UncommonDesc { get; }
+
     protected override RewardType RewardType => TinkerRewardType;
-    public override LocString Description => null;
+    public override LocString Description =>
+        _rarity switch
+        {
+            CardRarity.Basic => BasicDesc,
+            CardRarity.Common => CommonDesc,
+            CardRarity.Uncommon => UncommonDesc,
+            _ => throw new ArgumentException($"{_rarity}"),
+        };
     public override bool IsPopulated => true;
     public override CreateRewardFromSave<CustomReward> DeserializeMethod => Deserialize;
 

@@ -45,11 +45,11 @@ public partial class GutwrenchFruitRelic : NewKunlunRelic
 
     public override async Task AfterPotionUsed(PotionModel potion, Creature? target)
     {
-        if (target != Owner.Creature)
+        if (potion.Owner != Owner)
             return;
 
         Flash();
-        await CreatureCmd.GainMaxHp(target, MaxHp.IntValue);
-        await CreatureCmd.Heal(target, Heal.IntValue);
+        await CreatureCmd.GainMaxHp(potion.Owner.Creature, MaxHp.IntValue);
+        await CreatureCmd.Heal(potion.Owner.Creature, Heal.IntValue);
     }
 }

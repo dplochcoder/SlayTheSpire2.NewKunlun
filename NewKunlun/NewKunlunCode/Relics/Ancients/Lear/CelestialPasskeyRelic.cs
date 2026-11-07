@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Runs;
 using NewKunlun.NewKunlunCode.Extensions;
@@ -16,20 +17,22 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
     title: "Celestial Passkey",
-    description: "Remove 2 random cards from your deck.\nAdd 1 card of your choice to your deck.",
+    description: "Remove {Removes} random cards from your deck.\nAdd 1 card of your choice to your deck.",
     flavor: "",
     selectionScreenPrompt: "Choose a card to add to your deck."
 )]
-public class CelestialPasskeyRelic : NewKunlunRelic
+public partial class CelestialPasskeyRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     public override bool IsAllowedForPlayer(Player player) =>
         player.Deck.Cards.Count(c => c.IsRemovable) >= 2;
 
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Removes), 3)];
+
     public override bool HasUponPickupEffect => true;
 
-    private List<CardCreationResult> CreateCards()
+    private List<CardCreationResult> CreateCardResults()
     {
         List<CardCreationResult> results =
         [
@@ -65,16 +68,17 @@ public class CelestialPasskeyRelic : NewKunlunRelic
     public override async Task AfterObtained()
     {
         var cards = Owner.PlayerRng.Rewards.NextItems(
-            2,
+            Removes.IntValue,
             Owner.Deck.Cards.Where(c => c.IsRemovable)
         );
         await CardPileCmd.RemoveFromDeck([.. cards]);
 
-        var newCard = CardSelectCmd.FromSimpleGridForRewards(
+        var newCard = await CardSelectCmd.FromSimpleGridForRewards(
             new BlockingPlayerChoiceContext(),
-            CreateCards(),
+            CreateCardResults(),
             Owner,
             new(SelectionScreenPrompt, 1)
         );
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(newCard, PileType.Deck.GetPile(Owner)));
     }
 }

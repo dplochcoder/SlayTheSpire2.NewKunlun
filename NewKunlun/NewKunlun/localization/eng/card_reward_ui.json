@@ -1,3 +1,6 @@
-﻿{
+{
+  "NEW_KUNLUN-TINKER_REWARD-BASIC_DESC": "Combine two Basic cards into a random Common card.",
+  "NEW_KUNLUN-TINKER_REWARD-COMMON_DESC": "Combine two Common cards into a random Uncommon card.",
+  "NEW_KUNLUN-TINKER_REWARD-UNCOMMON_DESC": "Combine two Uncommon cards into a random Rare card.",
   "OPTION_NEW_KUNLUN-RECYCLE.name": "Recycle"
 }

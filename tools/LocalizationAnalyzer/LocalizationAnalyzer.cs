@@ -9,15 +9,7 @@ namespace CardLocalizationAnalyzer;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly List<DiagnosticDescriptor> Descriptors = [];
-
-    private static DiagnosticDescriptor RegisterDescriptor(DiagnosticDescriptor descriptor)
-    {
-        Descriptors.Add(descriptor);
-        return descriptor;
-    }
-
-    private static readonly DiagnosticDescriptor InvalidLocalizationDescriptor = RegisterDescriptor(
+    private static readonly DiagnosticDescriptor InvalidLocalizationDescriptor =
         new DiagnosticDescriptor(
             "NKLOC001",
             "Invalid model localization",
@@ -26,13 +18,12 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: "Localization is generated at build time and requires constant string literals."
-        )
-    );
+        );
 
     private static Diagnostic InvalidLocalization(Location location) =>
         Diagnostic.Create(InvalidLocalizationDescriptor, location);
 
-    private static readonly DiagnosticDescriptor UnknownVariableDescriptor = RegisterDescriptor(
+    private static readonly DiagnosticDescriptor UnknownVariableDescriptor =
         new DiagnosticDescriptor(
             "NKLOC002",
             "Unknown model description variable",
@@ -41,8 +32,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: "Variables referenced by a model description must be declared in CanonicalVars."
-        )
-    );
+        );
 
     private static Diagnostic UnknownVariable(
         Location location,
@@ -60,7 +50,7 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             suggestion
         );
 
-    private static readonly DiagnosticDescriptor UnnamedArgumentDescriptor = RegisterDescriptor(
+    private static readonly DiagnosticDescriptor UnnamedArgumentDescriptor =
         new DiagnosticDescriptor(
             "NKLOC003",
             "Localization argument must be named",
@@ -69,24 +59,20 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: "Named arguments keep localization fields independent of constructor parameter order."
-        )
-    );
+        );
 
     private static Diagnostic UnnamedArgument(Location location) =>
         Diagnostic.Create(UnnamedArgumentDescriptor, location);
 
-    private static readonly DiagnosticDescriptor MissingOrMismatchedLocalizationDescriptor =
-        RegisterDescriptor(
-            new DiagnosticDescriptor(
-                "NKLOC004",
-                "Missing or mismatched localization attribute",
-                "'{0}' derives from {1} and must use [{2}] localization; {3}",
-                "Localization",
-                DiagnosticSeverity.Error,
-                isEnabledByDefault: true,
-                description: "Every localized model must declare the localization attribute matching its model hierarchy."
-            )
-        );
+    private static readonly DiagnosticDescriptor MissingOrMismatchedLocalizationDescriptor = new(
+        "NKLOC004",
+        "Missing or mismatched localization attribute",
+        "'{0}' derives from {1} and must use [{2}] localization; {3}",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Every localized model must declare the localization attribute matching its model hierarchy."
+    );
 
     private static Diagnostic MissingOrMismatchedLocalization(
         Location location,
@@ -104,53 +90,55 @@ public sealed class LocalizationAnalyzer : DiagnosticAnalyzer
             details
         );
 
-    private static readonly DiagnosticDescriptor InvalidKeywordLocalizationTargetDescriptor =
-        RegisterDescriptor(
-            new DiagnosticDescriptor(
-                "NKLOC005",
-                "Invalid keyword localization target",
-                "[KeywordLocalization] may only be applied to static CardKeyword fields",
-                "Localization",
-                DiagnosticSeverity.Error,
-                isEnabledByDefault: true
-            )
-        );
+    private static readonly DiagnosticDescriptor InvalidKeywordLocalizationTargetDescriptor = new(
+        "NKLOC005",
+        "Invalid keyword localization target",
+        "[KeywordLocalization] may only be applied to static CardKeyword fields",
+        "Localization",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true
+    );
 
     private static Diagnostic InvalidKeywordLocalizationTarget(Location location) =>
         Diagnostic.Create(InvalidKeywordLocalizationTargetDescriptor, location);
 
     private static readonly DiagnosticDescriptor InvalidStaticHoverTipLocalizationTargetDescriptor =
-        RegisterDescriptor(
-            new DiagnosticDescriptor(
-                "NKLOC006",
-                "Invalid static hover-tip localization target",
-                "[StaticHoverTipLocalization] may only be applied to static StaticHoverTip fields declared with [CustomEnum]",
-                "Localization",
-                DiagnosticSeverity.Error,
-                isEnabledByDefault: true
-            )
+        new(
+            "NKLOC006",
+            "Invalid static hover-tip localization target",
+            "[StaticHoverTipLocalization] may only be applied to static StaticHoverTip fields declared with [CustomEnum]",
+            "Localization",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true
         );
 
     private static Diagnostic InvalidStaticHoverTipLocalizationTarget(Location location) =>
         Diagnostic.Create(InvalidStaticHoverTipLocalizationTargetDescriptor, location);
 
     private static readonly DiagnosticDescriptor LocalizationAttributeOnAbstractClassDescriptor =
-        RegisterDescriptor(
-            new DiagnosticDescriptor(
-                "NKLOC007",
-                "Localization attribute on abstract class",
-                "Localization attributes should not be placed on abstract classes",
-                "Localization",
-                DiagnosticSeverity.Error,
-                isEnabledByDefault: true,
-                description: "Localization attributes should only be placed on concrete classes."
-            )
+        new(
+            "NKLOC007",
+            "Localization attribute on abstract class",
+            "Localization attributes should not be placed on abstract classes",
+            "Localization",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: "Localization attributes should only be placed on concrete classes."
         );
 
     private static Diagnostic LocalizationAttributeOnAbstractClass(Location location) =>
         Diagnostic.Create(LocalizationAttributeOnAbstractClassDescriptor, location);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [.. Descriptors];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
+        [
+            InvalidLocalizationDescriptor,
+            UnknownVariableDescriptor,
+            UnnamedArgumentDescriptor,
+            MissingOrMismatchedLocalizationDescriptor,
+            InvalidKeywordLocalizationTargetDescriptor,
+            InvalidStaticHoverTipLocalizationTargetDescriptor,
+            LocalizationAttributeOnAbstractClassDescriptor,
+        ];
 
     public override void Initialize(AnalysisContext context)
     {

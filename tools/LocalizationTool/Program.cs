@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 if (!TryReadArguments(args, out var options))
 {
     Console.Error.WriteLine(
-        "Usage: LocalizationTool --cards <directory> --cards-json <cards.json> "
+        "Usage: LocalizationTool --source <directory> --localization-dir <directory> "
+            + "--cards <directory> --cards-json <cards.json> "
             + "--afflictions <directory> --afflictions-json <afflictions.json> "
             + "--card-modifiers <directory> --card-modifiers-json <card_modifiers.json> "
             + "--powers <directory> --powers-json <powers.json> "
@@ -23,54 +24,217 @@ if (!TryReadArguments(args, out var options))
     return 2;
 }
 
-var afflictions = ReadModels(
+Dictionary<string, SortedDictionary<string, string>> sheets = new(StringComparer.OrdinalIgnoreCase);
+Dictionary<string, string> sheetPaths = new(StringComparer.OrdinalIgnoreCase);
+
+void ContributeModels(
+    string sourceDirectory,
+    string baseTypeName,
+    string attributeName,
+    string jsonPath,
+    string modelKind
+)
+{
+    var models = ReadModels(sourceDirectory, baseTypeName, attributeName);
+    var entries = GetSheet(jsonPath, preserveExisting: false);
+    foreach (var model in models)
+    {
+        var modelId = $"{options.IdPrefix}-{ToUpperSnakeCase(model.ClassName)}";
+        foreach (var value in model.Values)
+            entries[$"{modelId}.{value.Name}"] = value.Value;
+    }
+    Console.WriteLine($"Collected {models.Count} {modelKind} annotation(s) for {jsonPath}.");
+}
+
+SortedDictionary<string, string> GetSheet(string jsonPath, bool preserveExisting)
+{
+    var sheetName = Path.GetFileNameWithoutExtension(jsonPath);
+    if (sheets.TryGetValue(sheetName, out var existing))
+        return existing;
+
+    var entries =
+        preserveExisting && File.Exists(jsonPath)
+            ? JsonConvert.DeserializeObject<SortedDictionary<string, string>>(
+                File.ReadAllText(jsonPath)
+            ) ?? []
+            : [];
+    sheets.Add(sheetName, entries);
+    sheetPaths.Add(sheetName, jsonPath);
+    return entries;
+}
+
+ContributeModels(
     options.AfflictionsDirectory,
     "AfflictionModel",
-    "AfflictionLocalization"
+    "AfflictionLocalization",
+    options.AfflictionsJsonPath,
+    "affliction"
 );
-var cards = ReadModels(options.CardsDirectory, "NewKunlunCard", "CardLocalization");
-var cardModifiers = ReadModels(
+ContributeModels(
+    options.CardsDirectory,
+    "NewKunlunCard",
+    "CardLocalization",
+    options.CardsJsonPath,
+    "card"
+);
+ContributeModels(
     options.CardModifiersDirectory,
     "NewKunlunModifier",
-    "CardModifierLocalization"
+    "CardModifierLocalization",
+    options.CardModifiersJsonPath,
+    "card modifier"
 );
-var enchantments = ReadModels(
+ContributeModels(
     options.EnchantmentsDirectory,
     "NewKunlunEnchantment",
-    "EnchantmentLocalization"
+    "EnchantmentLocalization",
+    options.EnchantmentsJsonPath,
+    "enchantment"
 );
-var powers = ReadModels(options.PowersDirectory, "NewKunlunPower", "PowerLocalization");
-var potions = ReadModels(options.PotionsDirectory, "NewKunlunPotion", "PotionLocalization");
-var relics = ReadModels(options.RelicsDirectory, "NewKunlunRelic", "RelicLocalization");
-var keywords = ReadKeywords(options.KeywordsDirectory);
-var staticHoverTips = ReadStaticHoverTips(options.StaticHoverTipsDirectory);
+ContributeModels(
+    options.PowersDirectory,
+    "NewKunlunPower",
+    "PowerLocalization",
+    options.PowersJsonPath,
+    "power"
+);
+ContributeModels(
+    options.PotionsDirectory,
+    "NewKunlunPotion",
+    "PotionLocalization",
+    options.PotionsJsonPath,
+    "potion"
+);
+ContributeModels(
+    options.RelicsDirectory,
+    "NewKunlunRelic",
+    "RelicLocalization",
+    options.RelicsJsonPath,
+    "relic"
+);
 
-UpdateJson(options.AfflictionsJsonPath, options.IdPrefix, afflictions, "affliction");
-UpdateJson(options.CardsJsonPath, options.IdPrefix, cards, "card");
-UpdateJson(options.CardModifiersJsonPath, options.IdPrefix, cardModifiers, "card modifier");
-UpdateJson(options.EnchantmentsJsonPath, options.IdPrefix, enchantments, "enchantment");
-UpdateJson(options.PowersJsonPath, options.IdPrefix, powers, "power");
-UpdateJson(options.PotionsJsonPath, options.IdPrefix, potions, "potion");
-UpdateJson(options.RelicsJsonPath, options.IdPrefix, relics, "relic");
-UpdateKeywordJson(options.KeywordsJsonPath, options.IdPrefix, keywords);
-UpdateFieldJson(
-    options.StaticHoverTipsJsonPath,
-    options.IdPrefix,
-    staticHoverTips,
-    "static hover tip"
+var keywords = ReadLocalizedFields(
+    options.KeywordsDirectory,
+    "CardKeyword",
+    "KeywordLocalization",
+    requireCustomEnum: false
 );
+ContributeFields(
+    GetSheet(options.KeywordsJsonPath, preserveExisting: true),
+    options.IdPrefix,
+    keywords
+);
+Console.WriteLine(
+    $"Collected {keywords.Count} keyword annotation(s) for {options.KeywordsJsonPath}."
+);
+
+var staticHoverTips = ReadLocalizedFields(
+    options.StaticHoverTipsDirectory,
+    "StaticHoverTip",
+    "StaticHoverTipLocalization",
+    requireCustomEnum: true
+);
+ContributeFields(
+    GetSheet(options.StaticHoverTipsJsonPath, preserveExisting: true),
+    options.IdPrefix,
+    staticHoverTips
+);
+Console.WriteLine(
+    $"Collected {staticHoverTips.Count} static hover tip annotation(s) for {options.StaticHoverTipsJsonPath}."
+);
+
+var customLocStrings = ReadCustomLocStrings(options.SourceDirectory);
+foreach (var definition in customLocStrings)
+{
+    var jsonPath = Path.Combine(options.LocalizationDirectory, $"{definition.TableName}.json");
+    GetSheet(jsonPath, preserveExisting: true)[definition.Key] = definition.Description;
+}
+Console.WriteLine($"Collected {customLocStrings.Count} custom LocString annotation(s).");
+
+foreach (var sheetName in sheets.Keys.OrderBy(name => name, StringComparer.Ordinal))
+{
+    var jsonPath = sheetPaths[sheetName];
+    var json = JsonConvert
+        .SerializeObject(sheets[sheetName], Formatting.Indented)
+        .Replace("\r\n", "\n");
+    Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
+    File.WriteAllText(jsonPath, json, new UTF8Encoding(false));
+    Console.WriteLine($"Updated {jsonPath} with {sheets[sheetName].Count} entries.");
+}
 return 0;
 
-static IReadOnlyList<LocalizedModel> ReadStaticHoverTips(string sourceDirectory) =>
-    ReadLocalizedFields(
-        sourceDirectory,
-        "StaticHoverTip",
-        "StaticHoverTipLocalization",
-        requireCustomEnum: true
-    );
+static IReadOnlyList<CustomLocStringDefinition> ReadCustomLocStrings(string sourceDirectory)
+{
+    List<CustomLocStringDefinition> definitions = [];
+    foreach (
+        var sourcePath in Directory.EnumerateFiles(
+            sourceDirectory,
+            "*.cs",
+            SearchOption.AllDirectories
+        )
+    )
+    {
+        var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(sourcePath), path: sourcePath);
+        foreach (
+            var property in tree.GetRoot().DescendantNodes().OfType<PropertyDeclarationSyntax>()
+        )
+        {
+            var attribute = property
+                .AttributeLists.SelectMany(list => list.Attributes)
+                .FirstOrDefault(candidate => IsLocalizationAttribute(candidate, "CustomLocString"));
+            if (
+                attribute?.ArgumentList is not { } arguments
+                || property.Parent is not ClassDeclarationSyntax clazz
+            )
+                continue;
 
-static IReadOnlyList<LocalizedModel> ReadKeywords(string sourceDirectory) =>
-    ReadLocalizedFields(sourceDirectory, "CardKeyword", "KeywordLocalization", false);
+            var tableArgument = arguments.Arguments.FirstOrDefault(argument =>
+                argument.NameColon?.Name.Identifier.ValueText is null or "table"
+            );
+            var descriptionArgument = arguments.Arguments.FirstOrDefault(argument =>
+                argument.NameColon?.Name.Identifier.ValueText == "description"
+            );
+            if (descriptionArgument is null && arguments.Arguments.Count > 1)
+                descriptionArgument = arguments.Arguments[1];
+
+            var tableMemberName = tableArgument?.Expression switch
+            {
+                MemberAccessExpressionSyntax member => member.Name.Identifier.ValueText,
+                IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+                _ => null,
+            };
+            if (
+                tableMemberName is null
+                || descriptionArgument?.Expression is not LiteralExpressionSyntax description
+                || !description.IsKind(SyntaxKind.StringLiteralExpression)
+            )
+                continue;
+
+            definitions.Add(
+                new CustomLocStringDefinition(
+                    ToLowerSnakeCase(tableMemberName),
+                    $"NEW_KUNLUN-{ToUpperSnakeCase(clazz.Identifier.ValueText)}-{ToUpperSnakeCase(property.Identifier.ValueText)}",
+                    description.Token.ValueText
+                )
+            );
+        }
+    }
+    return definitions;
+}
+
+static void ContributeFields(
+    SortedDictionary<string, string> entries,
+    string idPrefix,
+    IReadOnlyList<LocalizedModel> fields
+)
+{
+    foreach (var field in fields)
+    {
+        var fieldId = $"{idPrefix}-{field.ClassName.ToUpperInvariant()}";
+        foreach (var value in field.Values)
+            entries[$"{fieldId}.{value.Name}"] = value.Value;
+    }
+}
 
 static IReadOnlyList<LocalizedModel> ReadLocalizedFields(
     string sourceDirectory,
@@ -79,7 +243,7 @@ static IReadOnlyList<LocalizedModel> ReadLocalizedFields(
     bool requireCustomEnum
 )
 {
-    List<LocalizedModel> keywords = [];
+    List<LocalizedModel> fields = [];
     foreach (
         var sourcePath in Directory.EnumerateFiles(
             sourceDirectory,
@@ -111,11 +275,10 @@ static IReadOnlyList<LocalizedModel> ReadLocalizedFields(
 
             var values = ReadLocalizationValues(arguments);
             foreach (var variable in field.Declaration.Variables)
-                keywords.Add(new LocalizedModel(variable.Identifier.ValueText, values));
+                fields.Add(new LocalizedModel(variable.Identifier.ValueText, values));
         }
     }
-
-    return keywords;
+    return fields;
 }
 
 static IReadOnlyList<LocalizedModel> ReadModels(
@@ -143,12 +306,11 @@ static IReadOnlyList<LocalizedModel> ReadModels(
             if (attribute?.ArgumentList is not { } arguments)
                 continue;
 
-            var values = ReadLocalizationValues(arguments);
-
-            models.Add(new LocalizedModel(clazz.Identifier.ValueText, values));
+            models.Add(
+                new LocalizedModel(clazz.Identifier.ValueText, ReadLocalizationValues(arguments))
+            );
         }
     }
-
     return models;
 }
 
@@ -167,81 +329,7 @@ static IReadOnlyList<LocalizationValue> ReadLocalizationValues(
         )
             values.Add(new LocalizationValue(name, literal.Token.ValueText));
     }
-
     return values;
-}
-
-static void UpdateJson(
-    string jsonPath,
-    string idPrefix,
-    IReadOnlyList<LocalizedModel> models,
-    string modelKind
-)
-{
-    SortedDictionary<string, string> entries = [];
-    foreach (var model in models)
-    {
-        var modelId = $"{idPrefix}-{ToUpperSnakeCase(model.ClassName)}";
-        foreach (var value in model.Values)
-            entries[$"{modelId}.{value.Name}"] = value.Value;
-    }
-
-    var json = JsonConvert.SerializeObject(entries, Formatting.Indented).Replace("\r\n", "\n");
-
-    Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
-    File.WriteAllText(jsonPath, json, new UTF8Encoding(false));
-    Console.WriteLine($"Updated {jsonPath} from {models.Count} {modelKind} annotation(s).");
-}
-
-static void UpdateKeywordJson(
-    string jsonPath,
-    string idPrefix,
-    IReadOnlyList<LocalizedModel> keywords
-)
-{
-    var entries = File.Exists(jsonPath)
-        ? JsonConvert.DeserializeObject<SortedDictionary<string, string>>(
-            File.ReadAllText(jsonPath)
-        ) ?? []
-        : new SortedDictionary<string, string>();
-
-    foreach (var keyword in keywords)
-    {
-        var keywordId = $"{idPrefix}-{keyword.ClassName.ToUpperInvariant()}";
-        foreach (var value in keyword.Values)
-            entries[$"{keywordId}.{value.Name}"] = value.Value;
-    }
-
-    var json = JsonConvert.SerializeObject(entries, Formatting.Indented).Replace("\r\n", "\n");
-    Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
-    File.WriteAllText(jsonPath, json, new UTF8Encoding(false));
-    Console.WriteLine($"Updated {jsonPath} from {keywords.Count} keyword annotation(s).");
-}
-
-static void UpdateFieldJson(
-    string jsonPath,
-    string idPrefix,
-    IReadOnlyList<LocalizedModel> fields,
-    string fieldKind
-)
-{
-    var entries = File.Exists(jsonPath)
-        ? JsonConvert.DeserializeObject<SortedDictionary<string, string>>(
-            File.ReadAllText(jsonPath)
-        ) ?? []
-        : new SortedDictionary<string, string>();
-
-    foreach (var field in fields)
-    {
-        var fieldId = $"{idPrefix}-{field.ClassName.ToUpperInvariant()}";
-        foreach (var value in field.Values)
-            entries[$"{fieldId}.{value.Name}"] = value.Value;
-    }
-
-    var json = JsonConvert.SerializeObject(entries, Formatting.Indented).Replace("\r\n", "\n");
-    Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
-    File.WriteAllText(jsonPath, json, new UTF8Encoding(false));
-    Console.WriteLine($"Updated {jsonPath} from {fields.Count} {fieldKind} annotation(s).");
 }
 
 static bool TryReadArguments(string[] arguments, out ToolOptions options)
@@ -251,6 +339,8 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values[arguments[index]] = arguments[index + 1];
 
     options = new ToolOptions(
+        values.GetValueOrDefault("--source") ?? "",
+        values.GetValueOrDefault("--localization-dir") ?? "",
         values.GetValueOrDefault("--afflictions") ?? "",
         values.GetValueOrDefault("--afflictions-json") ?? "",
         values.GetValueOrDefault("--cards") ?? "",
@@ -271,7 +361,9 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         values.GetValueOrDefault("--static-hover-tips-json") ?? "",
         values.GetValueOrDefault("--prefix") ?? ""
     );
-    return Directory.Exists(options.AfflictionsDirectory)
+    return Directory.Exists(options.SourceDirectory)
+        && Directory.Exists(options.LocalizationDirectory)
+        && Directory.Exists(options.AfflictionsDirectory)
         && Directory.Exists(options.CardsDirectory)
         && Directory.Exists(options.CardModifiersDirectory)
         && Directory.Exists(options.PowersDirectory)
@@ -313,9 +405,14 @@ static bool IsLocalizationAttribute(AttributeSyntax attribute, string attributeN
 static string ToUpperSnakeCase(string value) =>
     Regex.Replace(value, "(?<=[a-z0-9])([A-Z])", "_$1").ToUpperInvariant();
 
+static string ToLowerSnakeCase(string value) =>
+    Regex.Replace(value, "(?<=[a-z0-9])([A-Z])", "_$1").ToLowerInvariant();
+
 namespace LocalizationTool
 {
     internal sealed record ToolOptions(
+        string SourceDirectory,
+        string LocalizationDirectory,
         string AfflictionsDirectory,
         string AfflictionsJsonPath,
         string CardsDirectory,
@@ -343,4 +440,10 @@ namespace LocalizationTool
     );
 
     internal sealed record LocalizationValue(string Name, string Value);
+
+    internal sealed record CustomLocStringDefinition(
+        string TableName,
+        string Key,
+        string Description
+    );
 }

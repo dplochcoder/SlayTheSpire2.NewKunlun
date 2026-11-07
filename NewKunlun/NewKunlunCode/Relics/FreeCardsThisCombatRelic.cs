@@ -14,7 +14,7 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
     protected abstract bool ShouldBeFree(CardModel card);
 
     [SavedProperty]
-    public int TimesUsedThisCombat
+    public int UsesRemainingThisCombat
     {
         get;
         set
@@ -22,7 +22,7 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
             AssertMutable();
             field = value;
             Status =
-                CombatManager.Instance.IsInProgress && TimesUsedThisCombat < MaxUsesPerCombat
+                CombatManager.Instance.IsInProgress && UsesRemainingThisCombat > 0
                     ? RelicStatus.Active
                     : RelicStatus.Normal;
             InvokeDisplayAmountChanged();
@@ -31,11 +31,11 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
 
     public override bool ShowCounter => CombatManager.Instance.IsInProgress;
 
-    public override int DisplayAmount => TimesUsedThisCombat;
+    public override int DisplayAmount => UsesRemainingThisCombat;
 
     public sealed override Task AfterRoomEntered(AbstractRoom room)
     {
-        TimesUsedThisCombat = 0;
+        UsesRemainingThisCombat = MaxUsesPerCombat;
         return Task.CompletedTask;
     }
 
@@ -46,7 +46,7 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
     )
     {
         modifiedCost = originalCost;
-        if (card.Owner != Owner || !ShouldBeFree(card) || TimesUsedThisCombat >= MaxUsesPerCombat)
+        if (card.Owner != Owner || !ShouldBeFree(card) || UsesRemainingThisCombat <= 0)
             return false;
 
         var pile = card.Pile?.Type;
@@ -62,7 +62,7 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
         if (
             cardPlay.Card.Owner != Owner
             || !ShouldBeFree(cardPlay.Card)
-            || TimesUsedThisCombat >= MaxUsesPerCombat
+            || UsesRemainingThisCombat <= 0
         )
             return Task.CompletedTask;
 
@@ -70,7 +70,7 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
         if (pile is not (PileType.Hand or PileType.Play))
             return Task.CompletedTask;
 
-        --TimesUsedThisCombat;
+        ++UsesRemainingThisCombat;
         return Task.CompletedTask;
     }
 }

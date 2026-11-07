@@ -24,9 +24,7 @@ public partial class BubbleTeaRelic : NewKunlunRelic
         [new EnergyVar(3), new(nameof(Cards), 2)];
 
     public override decimal ModifyHandDraw(Player player, decimal count) =>
-        player != Owner || Owner.PlayerCombatState?.TurnNumber > 1
-            ? count
-            : count + Energy.IntValue;
+        player != Owner || Owner.PlayerCombatState?.TurnNumber > 1 ? count : count + Cards.IntValue;
 
     public override async Task AfterSideTurnStart(
         CombatSide side,

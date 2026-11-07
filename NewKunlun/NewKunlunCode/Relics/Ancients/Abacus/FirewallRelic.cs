@@ -78,7 +78,12 @@ public partial class FirewallRelic : NewKunlunRelic
         CardModel? cardSource
     )
     {
-        if (BrokenThisCombat || result.UnblockedDamage <= 0 || !result.Props.IsCardOrMonsterMove())
+        if (
+            target != Owner.Creature
+            || BrokenThisCombat
+            || result.UnblockedDamage <= 0
+            || !result.Props.IsCardOrMonsterMove()
+        )
             return;
 
         BrokenThisCombat = true;

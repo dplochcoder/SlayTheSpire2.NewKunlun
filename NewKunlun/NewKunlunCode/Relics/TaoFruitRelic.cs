@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Localization;
 
-namespace NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
+namespace NewKunlun.NewKunlunCode.Relics;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
