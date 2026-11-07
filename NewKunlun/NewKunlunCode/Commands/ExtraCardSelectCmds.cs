@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
@@ -34,6 +35,30 @@ public static class ExtraCardSelectCmds
                 .RunState.CurrentMapPointHistoryEntry?.GetEntry(player.NetId)
                 .CardChoices.Add(new CardChoiceHistoryEntry(card, false));
         return chosenCard;
+    }
+
+    public static async Task<CardModel?> ChooseAUniformCardReward(
+        Player player,
+        int options,
+        Func<CardModel, bool> filter
+    )
+    {
+        List<CardModel> cards =
+        [
+            .. CardFactory
+                .CreateForReward(
+                    player,
+                    options,
+                    new CardCreationOptions(
+                        [player.Character.CardPool],
+                        CardCreationSource.Other,
+                        CardRarityOddsType.Uniform,
+                        filter
+                    ).WithFlags(CardCreationFlags.IsCardReward)
+                )
+                .Select(r => r.Card),
+        ];
+        return await AddToDeckFromChooseACardRewardScreen(player, cards);
     }
 
     public static async Task<CardModel?> FromSelectACardScreenIfPossible(

@@ -10,17 +10,17 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Lear's Mask",
-    description: "The first {Skills} [gold]Skills[/gold] you play each combat are free.",
+    title: "Limitless Blade",
+    description: "The first {Attacks} [gold]Attacks[/gold] you play each combat are free.",
     flavor: ""
 )]
-public partial class LearsMaskRelic : FreeCardsThisCombatRelic
+public partial class LimitlessBladeRelic : FreeCardsThisCombatRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Skills), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Attacks), 3)];
 
-    protected override int MaxUsesPerCombat => Skills.IntValue;
+    protected override int MaxUsesPerCombat => Attacks.IntValue;
 
-    protected override bool ShouldBeFree(CardModel card) => card.Type == CardType.Skill;
+    protected override bool ShouldBeFree(CardModel card) => card.Type == CardType.Attack;
 }

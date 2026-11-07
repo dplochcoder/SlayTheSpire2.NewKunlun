@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
@@ -9,12 +10,16 @@ public class LearAncient : NewKunlunAncient
     protected override List<List<EventOption>> PositiveOptions =>
         [
             [RelicOption<AdamantiumRelic>(), RelicOption<InactionDeclarationRelic>()],
-            [RelicOption<FusangCoreRelic>()],
-            [RelicOption<FusangHornRelic>(), RelicOption<PottedPlantRelic>()],
+            [RelicOption<CelestialPasskeyRelic>()],
             [
+                RelicOption<FusangCoreRelic>(),
+                RelicOption<FusangHornRelic>(),
+                RelicOption<GorgeousFlowerRelic>(),
+            ],
+            [
+                RelicOption<FangshiMaskRelic>(),
                 RelicOption<HaotianTelescopeRelic>(),
-                RelicOption<LearsBladeRelic>(),
-                RelicOption<LearsMaskRelic>(),
+                RelicOption<LimitlessBladeRelic>(),
             ],
             [RelicOption<PeaceBringerRelic>()],
             [RelicOption<TrainingWeightsRelic>()],
@@ -22,21 +27,11 @@ public class LearAncient : NewKunlunAncient
 
     protected override List<EventOption> CurseOptions =>
         [
-            RelicOption<CelestialPasskeyRelic>(),
+            RelicOption<DemonsBladeRelic>(),
             RelicOption<FangshuBeltRelic>(),
             RelicOption<FangshiSealRelic>(),
             RelicOption<FusangWheelRelic>(),
             RelicOption<LimitlessCloakRelic>(),
+            RelicOption<PrimordialRootRelic>(),
         ];
-
-    protected override bool IsCurseAllowed(
-        RelicModel curse,
-        IReadOnlyCollection<RelicModel> positive
-    )
-    {
-        if (curse is CelestialPasskeyRelic)
-            return !positive.Any(r => r is FusangHornRelic);
-
-        return true;
-    }
 }

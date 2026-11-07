@@ -25,7 +25,8 @@ public class FangshiSealRelic : NewKunlunRelic
         [HoverTipFactory.FromKeyword(CardKeyword.Eternal)];
 
     public override bool IsAllowedForPlayer(Player player) =>
-        !player.Relics.Any(r => r is ToolbeltRelic);
+        !player.Relics.Any(r => r is ToolbeltRelic)
+        && player.Deck.Cards.Count(c => c.IsUpgradable) >= 6;
 
     public override bool HasUponPickupEffect => true;
 

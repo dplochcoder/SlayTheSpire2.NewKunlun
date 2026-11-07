@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using NewKunlun.NewKunlunCode.Localization;
 
@@ -62,19 +63,8 @@ public class TrainingWeightsRelic : NewKunlunRelic
         DefendsRemoved = cards.Count(c => c.Tags.Contains(CardTag.Defend));
     }
 
-    public override async Task AfterSideTurnStart(
-        CombatSide side,
-        IReadOnlyList<Creature> participants,
-        ICombatState combatState
-    )
+    public override async Task AfterRoomEntered(AbstractRoom room)
     {
-        if (
-            side != Owner.Creature.Side
-            || combatState.RoundNumber != 1
-            || StrikesRemoved + DefendsRemoved <= 0
-        )
-            return;
-
         Flash();
         await PowerCmd.Apply<StrengthPower>(
             new ThrowingPlayerChoiceContext(),

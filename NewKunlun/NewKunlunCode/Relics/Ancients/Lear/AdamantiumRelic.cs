@@ -24,7 +24,7 @@ public partial class AdamantiumRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new EnergyVar(1), new BlockVar(14, ValueProp.Unpowered)];
+        [new EnergyVar(1), new BlockVar(15, ValueProp.Unpowered)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.Static(StaticHoverTip.Block)];
