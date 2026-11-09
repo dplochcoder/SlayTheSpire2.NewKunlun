@@ -82,6 +82,12 @@
       ReferenceOutputAssembly="false"
       PrivateAssets="all"
     />
+    <ProjectReference
+      Include="..\tools\MonsterMoveGenerator\MonsterMoveGenerator.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false"
+      PrivateAssets="all"
+    />
   </ItemGroup>
 
   <Target Name="AddCardDynamicVarGeneratorDependencies" BeforeTargets="CoreCompile">

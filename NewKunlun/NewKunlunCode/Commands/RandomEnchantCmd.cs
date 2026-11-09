@@ -2,9 +2,11 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Enchantments;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
 using NewKunlun.NewKunlunCode.Enchantments;
 
@@ -78,7 +80,13 @@ public static class RandomEnchantCmd
             Option<AntiquatedEnchantment>(Uncommon),
             Option<Corrupted>(Uncommon),
             Option<Glam>(Rare),
-            Option<Inky>(Uncommon, 1, (_, c) => c.Type == CardType.Attack),
+            Option<Inky>(
+                Uncommon,
+                1,
+                (_, c) =>
+                    c.Type == CardType.Attack
+                    && !c.DynamicVars.Values.Any(v => v is PowerVar<WeakPower>)
+            ),
             Option<Instinct>(Rare),
             Option<LimitlessEnchantment>(Rare),
             Option<Momentum>(Uncommon, [4, 5]),
@@ -86,7 +94,7 @@ public static class RandomEnchantCmd
             Option<PerfectFit>(Uncommon),
             Option<PoiseEnchantment>(Rare),
             Option<PreciseEnchantment>(Rare),
-            Option<ReverentEnchantment>(Uncommon, [1, 1, 2], (p, _) => p.Character is Regent),
+            Option<ReverentEnchantment>(Uncommon, 1, (p, _) => p.Character is Regent),
             Option<RhizomaticEnchantment>(Rare),
             Option<RoyallyApproved>(Rare),
             Option<Sharp>(Common, [3]),

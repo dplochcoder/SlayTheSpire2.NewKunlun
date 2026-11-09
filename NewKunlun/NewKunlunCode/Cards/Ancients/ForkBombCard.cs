@@ -13,11 +13,11 @@ namespace NewKunlun.NewKunlunCode.Cards.Ancients;
 [Pool(typeof(DefectCardPool))]
 [CardLocalization(
     title: "Fork Bomb",
-    description: "Channel 1 [gold]Lightning[/gold] for each orb slot.\nAdd a copy of this card to you discard pile."
+    description: "Channel 1 [gold]Lightning[/gold] for each orb slot.\nAdd a copy of this card to your draw and discard piles."
 )]
 public class ForkBombCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Ancient, TargetType.None)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromOrb<LightningOrb>()];
@@ -33,6 +33,11 @@ public class ForkBombCard() : NewKunlunCard(1, CardType.Skill, CardRarity.Ancien
         for (var i = 0; i < orbs; i++)
             await OrbCmd.Channel<LightningOrb>(choiceContext, Owner);
 
+        await Owner.AddGeneratedCardToPile(
+            CreateClone(),
+            PileType.Draw,
+            position: CardPilePosition.Random
+        );
         await Owner.AddGeneratedCardToPile(CreateClone(), PileType.Discard);
     }
 }

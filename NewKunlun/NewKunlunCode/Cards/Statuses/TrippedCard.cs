@@ -16,9 +16,6 @@ namespace NewKunlun.NewKunlunCode.Cards.Statuses;
 )]
 public class TrippedCard() : NewKunlunCard(1, CardType.Status, CardRarity.Status, TargetType.None)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Ethereal, CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.Static(StaticHoverTip.Block)];
 

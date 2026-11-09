@@ -6,10 +6,8 @@ namespace NewKunlun.NewKunlunCode.Acts;
 
 public class AgriculturalZoneAct() : NewKunlunAct(actNumber: 1)
 {
-    public override IEnumerable<EncounterModel> GenerateAllEncounters()
-    {
-        throw new NotImplementedException();
-    }
+    // TODO
+    public override IEnumerable<EncounterModel> GenerateAllEncounters() => [];
 
     public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActOneAncients;
 
