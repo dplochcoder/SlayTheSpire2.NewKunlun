@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.RelicPools;
+using NewKunlun.NewKunlunCode.Collections;
 using NewKunlun.NewKunlunCode.Localization;
 using NewKunlun.NewKunlunCode.RestSiteOptions;
 
@@ -20,24 +21,15 @@ public partial class Printer3DRelic : NewKunlunRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    public static bool TryGetCost(CardRarity rarity, out int cost)
-    {
-        switch (rarity)
-        {
-            case CardRarity.Common:
-                cost = 30;
-                return true;
-            case CardRarity.Uncommon:
-                cost = 60;
-                return true;
-            case CardRarity.Rare:
-                cost = 120;
-                return true;
-            default:
-                cost = 0;
-                return false;
-        }
-    }
+    private static readonly ImmutableDictionary<CardRarity, int> Costs =
+    [
+        new(CardRarity.Common, 30),
+        new(CardRarity.Uncommon, 75),
+        new(CardRarity.Rare, 175),
+    ];
+
+    public static bool TryGetCost(CardRarity rarity, out int cost) =>
+        Costs.TryGetValue(rarity, out cost);
 
     public static int GetCost(CardRarity rarity) =>
         !TryGetCost(rarity, out var cost)

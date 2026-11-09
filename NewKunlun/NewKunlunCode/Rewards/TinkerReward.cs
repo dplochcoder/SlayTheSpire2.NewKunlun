@@ -23,15 +23,12 @@ public partial class TinkerReward : CustomReward
 
     private readonly CardRarity _rarity;
 
-    private static readonly IReadOnlyDictionary<CardRarity, CardRarity> NextRarity = new Dictionary<
-        CardRarity,
-        CardRarity
-    >
-    {
-        { CardRarity.Basic, CardRarity.Common },
-        { CardRarity.Common, CardRarity.Uncommon },
-        { CardRarity.Uncommon, CardRarity.Rare },
-    };
+    private static readonly ImmutableDictionary<CardRarity, CardRarity> NextRarity =
+    [
+        new(CardRarity.Basic, CardRarity.Common),
+        new(CardRarity.Common, CardRarity.Uncommon),
+        new(CardRarity.Uncommon, CardRarity.Rare),
+    ];
 
     public TinkerReward(Player player, CardRarity rarity)
         : base(player) => _rarity = rarity;

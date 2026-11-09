@@ -192,7 +192,7 @@ public static class ExtraCardSelectCmds
 
     public static async Task<
         IEnumerable<CardPileAddResult>
-    > TransformationFromDeckPreservingMutations<T>(
+    > TransformFromDeckPreservingMutations<T>(
         Player player,
         CardSelectorPrefs prefs,
         Func<CardModel, bool> filter

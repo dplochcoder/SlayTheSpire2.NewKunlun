@@ -18,7 +18,7 @@ public partial class LimitlessBladeRelic : FreeCardsThisCombatRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Attacks), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Attacks), 4)];
 
     protected override int MaxUsesPerCombat => Attacks.IntValue;
 

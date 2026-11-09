@@ -57,6 +57,24 @@ public abstract class FreeCardsThisCombatRelic : NewKunlunRelic
         return true;
     }
 
+    public override bool TryModifyStarCost(
+        CardModel card,
+        decimal originalCost,
+        out decimal modifiedCost
+    )
+    {
+        modifiedCost = originalCost;
+        if (card.Owner != Owner || !ShouldBeFree(card) || UsesRemainingThisCombat <= 0)
+            return false;
+
+        var pile = card.Pile?.Type;
+        if (pile is not (PileType.Hand or PileType.Play))
+            return false;
+
+        modifiedCost = 0;
+        return true;
+    }
+
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
         if (

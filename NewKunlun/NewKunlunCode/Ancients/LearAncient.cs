@@ -1,6 +1,4 @@
 ﻿using MegaCrit.Sts2.Core.Events;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
@@ -9,7 +7,11 @@ public class LearAncient : NewKunlunAncient
 {
     protected override List<List<EventOption>> PositiveOptions =>
         [
-            [RelicOption<AdamantiumRelic>(), RelicOption<InactionDeclarationRelic>()],
+            [
+                RelicOption<AdamantiumRelic>(),
+                RelicOption<InactionDeclarationRelic>(),
+                RelicOption<SerpentEffigyRelic>(),
+            ],
             [RelicOption<CelestialPasskeyRelic>()],
             [
                 RelicOption<FusangCoreRelic>(),
@@ -20,14 +22,14 @@ public class LearAncient : NewKunlunAncient
                 RelicOption<FangshiMaskRelic>(),
                 RelicOption<HaotianTelescopeRelic>(),
                 RelicOption<LimitlessBladeRelic>(),
+                RelicOption<FoxEffigyRelic>(),
             ],
-            [RelicOption<PeaceBringerRelic>()],
+            [RelicOption<PeaceBringerRelic>(), RelicOption<TigerEffigyRelic>()],
             [RelicOption<TrainingWeightsRelic>()],
         ];
 
     protected override List<EventOption> CurseOptions =>
         [
-            RelicOption<DemonsBladeRelic>(),
             RelicOption<FangshuBeltRelic>(),
             RelicOption<FangshiSealRelic>(),
             RelicOption<FusangWheelRelic>(),

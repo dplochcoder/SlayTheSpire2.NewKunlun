@@ -45,6 +45,22 @@ public class ParryingStrikePower : NewKunlunPower
         return false;
     }
 
+    public override bool TryModifyStarCost(
+        CardModel card,
+        decimal originalCost,
+        out decimal modifiedCost
+    )
+    {
+        if (ShouldCardBeFree(card))
+        {
+            modifiedCost = 0M;
+            return true;
+        }
+
+        modifiedCost = originalCost;
+        return false;
+    }
+
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
         if (ShouldCardBeFree(cardPlay.Card))

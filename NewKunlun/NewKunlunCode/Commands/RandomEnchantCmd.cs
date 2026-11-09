@@ -1,7 +1,9 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.Random;
 using NewKunlun.NewKunlunCode.Enchantments;
@@ -26,13 +28,13 @@ public static class RandomEnchantCmd
         public required Rarity OptionRarity;
         public required EnchantmentModel Model;
         public required IReadOnlyList<int> Amounts;
-        public required Func<CardModel, bool> Filter;
+        public required Func<Player, CardModel, bool> Filter;
     }
 
     private static EnchantmentOption Option<T>(
         EnchantmentOption.Rarity rarity,
         int amount = 1,
-        Func<CardModel, bool>? filter = null
+        Func<Player, CardModel, bool>? filter = null
     )
         where T : EnchantmentModel =>
         new()
@@ -40,13 +42,13 @@ public static class RandomEnchantCmd
             OptionRarity = rarity,
             Model = ModelDb.Enchantment<T>(),
             Amounts = [amount],
-            Filter = filter ?? (_ => true),
+            Filter = filter ?? ((_, _) => true),
         };
 
     private static EnchantmentOption Option<T>(
         EnchantmentOption.Rarity rarity,
         IReadOnlyList<int> amounts,
-        Func<CardModel, bool>? filter = null
+        Func<Player, CardModel, bool>? filter = null
     )
         where T : EnchantmentModel =>
         new()
@@ -54,7 +56,7 @@ public static class RandomEnchantCmd
             OptionRarity = rarity,
             Model = ModelDb.Enchantment<T>(),
             Amounts = [.. amounts],
-            Filter = filter ?? (_ => true),
+            Filter = filter ?? ((_, _) => true),
         };
 
     private static WeightedList<EnchantmentOption.Rarity> Weights
@@ -76,13 +78,15 @@ public static class RandomEnchantCmd
             Option<AntiquatedEnchantment>(Uncommon),
             Option<Corrupted>(Uncommon),
             Option<Glam>(Rare),
-            Option<Inky>(Uncommon, 1, c => c.Type == CardType.Attack),
+            Option<Inky>(Uncommon, 1, (_, c) => c.Type == CardType.Attack),
             Option<Instinct>(Rare),
+            Option<LimitlessEnchantment>(Rare),
             Option<Momentum>(Uncommon, [4, 5]),
             Option<Nimble>(Common, [2, 2, 3]),
             Option<PerfectFit>(Uncommon),
             Option<PoiseEnchantment>(Rare),
             Option<PreciseEnchantment>(Rare),
+            Option<ReverentEnchantment>(Uncommon, [1, 1, 2], (p, _) => p.Character is Regent),
             Option<RhizomaticEnchantment>(Rare),
             Option<RoyallyApproved>(Rare),
             Option<Sharp>(Common, [3]),
@@ -95,8 +99,19 @@ public static class RandomEnchantCmd
             Option<Vigorous>(Common, [7, 8, 9]),
         ];
 
-    private static bool SelectEnchantment(Rng rng, CardModel card, out EnchantmentOption option)
+    private static bool SelectEnchantment(
+        Player player,
+        Rng rng,
+        CardModel card,
+        out EnchantmentOption option
+    )
     {
+        if (card.Enchantment != null)
+        {
+            option = AllOptions[0];
+            return false;
+        }
+
         var weights = Weights;
         while (weights.Count > 0)
         {
@@ -106,7 +121,7 @@ public static class RandomEnchantCmd
             List<EnchantmentOption> options =
             [
                 .. AllOptions.Where(o =>
-                    o.OptionRarity == rarity && o.Filter(card) && o.Model.CanEnchant(card)
+                    o.OptionRarity == rarity && o.Filter(player, card) && o.Model.CanEnchant(card)
                 ),
             ];
             if (options.Count == 0)
@@ -120,9 +135,9 @@ public static class RandomEnchantCmd
         return false;
     }
 
-    public static bool ApplyEnchantment(Rng rng, CardModel cardModel)
+    public static bool ApplyEnchantment(Player player, Rng rng, CardModel cardModel)
     {
-        if (!SelectEnchantment(rng, cardModel, out var option))
+        if (!SelectEnchantment(player, rng, cardModel, out var option))
             return false;
 
         CardCmd.Enchant(option.Model, cardModel, rng.NextItem(option.Amounts));

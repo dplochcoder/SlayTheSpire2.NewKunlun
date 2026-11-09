@@ -30,30 +30,30 @@ public partial class SealOfDisciplineRelic : NewKunlunRelic, ISealRelic<SealOfDi
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner == Owner && cardPlay.Card.Type == CardType.Attack)
-        {
-            Flash();
-            await PowerCmd.Apply<DisciplinePower>(
-                choiceContext,
-                Owner.Creature,
-                Strength.IntValue,
-                Owner.Creature,
-                cardSource: null,
-                silent: true
-            );
-        }
+        if (cardPlay.Card.Owner != Owner || cardPlay.Card.Type != CardType.Attack)
+            return;
+
+        Flash();
+        await PowerCmd.Apply<DisciplinePower>(
+            choiceContext,
+            Owner.Creature,
+            Strength.IntValue,
+            Owner.Creature,
+            cardSource: null,
+            silent: true
+        );
     }
 
     public override async Task BeforeCardPlayed(CardPlay cardPlay)
     {
         if (
-            cardPlay.Card.Owner == Owner
-            && cardPlay.Card.Type != CardType.Attack
-            && Owner.HasPower<DisciplinePower>()
+            cardPlay.Card.Owner != Owner
+            || cardPlay.Card.Type == CardType.Attack
+            || !Owner.HasPower<DisciplinePower>()
         )
-        {
-            Flash();
-            await PowerCmd.Remove<DisciplinePower>(Owner.Creature);
-        }
+            return;
+
+        Flash();
+        await PowerCmd.Remove<DisciplinePower>(Owner.Creature);
     }
 }

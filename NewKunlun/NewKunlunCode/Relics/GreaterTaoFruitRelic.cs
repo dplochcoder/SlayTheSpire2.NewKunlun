@@ -21,13 +21,10 @@ public partial class GreaterTaoFruitRelic : NewKunlunRelic
     public override RelicRarity Rarity => RelicRarity.Uncommon;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<StrengthPower>(nameof(Strength), 1)];
+        [new PowerVar<StrengthPower>(nameof(Strength), 2)];
 
     public override async Task AfterShuffle(PlayerChoiceContext choiceContext, Player shuffler)
     {
-        if (shuffler != Owner || (shuffler.Creature.CombatState?.RoundNumber ?? 0) <= 0)
-            return;
-
         Flash();
         await PowerCmd.Apply<StrengthPower>(
             choiceContext,

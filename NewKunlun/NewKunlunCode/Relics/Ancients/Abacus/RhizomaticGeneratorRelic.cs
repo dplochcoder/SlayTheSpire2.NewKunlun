@@ -23,9 +23,6 @@ public partial class RhizomaticGeneratorRelic : NewKunlunRelic
 
     public override async Task AfterShuffle(PlayerChoiceContext choiceContext, Player shuffler)
     {
-        if (shuffler != Owner || shuffler.PlayerCombatState is not { TurnNumber: > 0 })
-            return;
-
         Flash();
         await PlayerCmd.GainEnergy(Energy.IntValue, Owner);
     }

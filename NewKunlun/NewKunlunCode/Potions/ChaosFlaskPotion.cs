@@ -23,6 +23,7 @@ public class ChaosFlaskPotion : NewKunlunPotion
         List<CardModel> cards = [.. target.Player.PlayerCombatState.Hand.Cards];
         foreach (var card in cards)
             RandomEnchantCmd.ApplyEnchantment(
+                target.Player,
                 target.CombatState.RunState.Rng.CombatCardGeneration,
                 card
             );

@@ -4,17 +4,17 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using NewKunlun.NewKunlunCode.Cards.Ancients;
 using NewKunlun.NewKunlunCode.Localization;
 
-namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
+namespace NewKunlun.NewKunlunCode.Relics.Ancients.Kuafu;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Demon's Blade",
-    description: "Add one [gold]Demon Slayer[/gold] to your deck.",
+    title: "Security Camera",
+    description: "On pickup, add two [gold]Security Guards[/gold] to your deck.",
     flavor: ""
 )]
-public class DemonsBladeRelic : AddCardsToDeckRelic<DemonSlayerCard>
+public class SecurityCameraRelic : AddCardsToDeckRelic<SecurityGuardCard>
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override int NumCards => 1;
+    protected override int NumCards => 2;
 }

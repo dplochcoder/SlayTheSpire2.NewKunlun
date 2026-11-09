@@ -18,7 +18,7 @@ public partial class FangshiMaskRelic : FreeCardsThisCombatRelic
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Skills), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Skills), 4)];
 
     protected override int MaxUsesPerCombat => Skills.IntValue;
 

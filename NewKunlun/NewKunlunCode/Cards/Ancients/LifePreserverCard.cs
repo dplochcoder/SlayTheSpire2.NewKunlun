@@ -17,9 +17,9 @@ public partial class LifePreserverCard()
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [CardKeyword.Exhaust, CardKeyword.Retain];
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Cards), 3)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new(nameof(Cards), 4)];
 
-    protected override void OnUpgrade() => Cards.UpgradeValueTo(4);
+    protected override void OnUpgrade() => Cards.UpgradeValueTo(6);
 
     protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
         CardPileCmd.Draw(choiceContext, Cards.IntValue, Owner);

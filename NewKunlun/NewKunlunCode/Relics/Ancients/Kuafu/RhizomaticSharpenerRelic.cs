@@ -31,7 +31,7 @@ public class RhizomaticSharpenerRelic : NewKunlunRelic
 
     public override async Task AfterObtained()
     {
-        await ExtraCardSelectCmds.TransformationFromDeckPreservingMutations<YingzhaosLanceCard>(
+        await ExtraCardSelectCmds.TransformFromDeckPreservingMutations<YingzhaosLanceCard>(
             Owner,
             new(CardSelectorPrefs.TransformSelectionPrompt, 1, 1),
             c => c.Type == CardType.Attack

@@ -19,7 +19,7 @@ public partial class FangshuBeltRelic : NewKunlunRelic, IMaxHandSizeModifier
     public override RelicRarity Rarity => RelicRarity.Ancient;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new EnergyVar(1), new(nameof(MaxHandSizeLoss), 2)];
+        [new EnergyVar(1), new(nameof(MaxHandSizeLoss), 3)];
 
     public override decimal ModifyMaxEnergy(Player player, decimal amount) =>
         player == Owner ? amount + Energy.IntValue : amount;

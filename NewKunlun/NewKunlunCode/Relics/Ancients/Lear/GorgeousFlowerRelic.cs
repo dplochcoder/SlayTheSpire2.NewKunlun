@@ -19,7 +19,7 @@ namespace NewKunlun.NewKunlunCode.Relics.Ancients.Lear;
 
 [Pool(typeof(SharedRelicPool))]
 [RelicLocalization(
-    title: "Potted Plant",
+    title: "Gorgeous Flower",
     description: "On pickup, remove an [gold]Eternal[/gold] curse from your deck.\nThe first time you shuffle your deck each combat, add [gold]Unto Soil[/gold] into your hand.",
     flavor: ""
 )]
@@ -71,7 +71,7 @@ public class GorgeousFlowerRelic : NewKunlunRelic
 
     public override async Task AfterShuffle(PlayerChoiceContext choiceContext, Player shuffler)
     {
-        if (shuffler != Owner || ++ShufflesThisCombat != 2)
+        if (shuffler != Owner || ++ShufflesThisCombat != 1)
             return;
 
         await Owner.AddGeneratedCardToPile<UntoSoilCard>(

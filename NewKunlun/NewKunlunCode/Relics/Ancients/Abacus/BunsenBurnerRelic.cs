@@ -44,7 +44,11 @@ public class BunsenBurnerRelic : NewKunlunRelic
                     false,
                     (current, card) =>
                         current
-                        | RandomEnchantCmd.ApplyEnchantment(option.Owner.RunState.Rng.Niche, card)
+                        | RandomEnchantCmd.ApplyEnchantment(
+                            option.Owner,
+                            option.Owner.RunState.Rng.Niche,
+                            card
+                        )
                 )
             )
                 relic.Flash();

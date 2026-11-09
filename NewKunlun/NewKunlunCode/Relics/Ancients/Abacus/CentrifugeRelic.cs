@@ -62,7 +62,7 @@ public partial class CentrifugeRelic : NewKunlunRelic
         foreach (var cardReward in cardRewards)
         {
             var clone = Owner.RunState.CloneCard(cardReward.Card);
-            if (!RandomEnchantCmd.ApplyEnchantment(Owner.PlayerRng.Rewards, clone))
+            if (!RandomEnchantCmd.ApplyEnchantment(Owner, Owner.PlayerRng.Rewards, clone))
                 continue;
 
             cardReward.ModifyCard(clone, this);
