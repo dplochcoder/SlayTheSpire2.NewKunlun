@@ -23,14 +23,15 @@ public class BladeTrooperMonster : BladeTrooperMonsterBase
     protected override IEnumerable<AbstractIntent> DoubleSwingIntent =>
         [new MultiAttackIntent(DoubleSwingDamage, 2)];
 
-    [InitialState]
-    protected override async Task<MoveState> DoubleSwing(IReadOnlyList<Creature> creatures)
+    [InitialMove]
+    protected override async Task<MoveState> DoubleSwing(IReadOnlyList<Creature> targets)
     {
         await DamageCmd
             .Attack(DoubleSwingDamage)
             .FromMonster(this)
             .WithHitCount(2)
             .WithSlashVfx()
+            .TargetingAllOpponents(CombatState)
             .Execute(null);
         return SwingAndBlockMove;
     }
@@ -42,7 +43,8 @@ public class BladeTrooperMonster : BladeTrooperMonsterBase
     protected override IEnumerable<AbstractIntent> SwingAndBlockIntent =>
         [new SingleAttackIntent(SwingAndBlockDamage), new DefendIntent()];
 
-    protected override async Task<MoveState> SwingAndBlock(IReadOnlyList<Creature> creatures)
+    [Move]
+    protected override async Task<MoveState> SwingAndBlock(IReadOnlyList<Creature> targets)
     {
         await DamageCmd.Attack(SwingAndBlockDamage).FromMonster(this).WithSlashVfx().Execute(null);
         await CreatureCmd.GainBlock(Creature, SwingAndBlockBlock, null);
@@ -53,7 +55,8 @@ public class BladeTrooperMonster : BladeTrooperMonsterBase
 
     protected override IEnumerable<AbstractIntent> BuffIntent => [new BuffIntent()];
 
-    protected override async Task<MoveState> Buff(IReadOnlyList<Creature> creatures)
+    [Move]
+    protected override async Task<MoveState> Buff(IReadOnlyList<Creature> targets)
     {
         await PowerCmd.Apply<StrengthPower>(
             new ThrowingPlayerChoiceContext(),
@@ -62,20 +65,26 @@ public class BladeTrooperMonster : BladeTrooperMonsterBase
             Creature,
             null
         );
-        return SwingAndTripMove;
+        return SwingAndStaggerMove;
     }
 
-    private static int SwingAndTripDamage => AscensionLevel.DeadlyEnemies.Get(4, 3);
+    private static int SwingAndStaggerDamage => AscensionLevel.DeadlyEnemies.Get(4, 3);
 
-    protected override IEnumerable<AbstractIntent> SwingAndTripIntent =>
+    protected override IEnumerable<AbstractIntent> SwingAndStaggerIntent =>
         [new SingleAttackIntent(SwingAndBlockDamage), new StatusIntent(1)];
 
-    protected override async Task<MoveState> SwingAndTrip(IReadOnlyList<Creature> creatures)
+    [Move]
+    protected override async Task<MoveState> SwingAndStagger(IReadOnlyList<Creature> targets)
     {
-        await DamageCmd.Attack(SwingAndTripDamage).FromMonster(this).WithSlashVfx().Execute(null);
-        await CardPileCmd.AddToCombatAndPreview<TrippedCard>(
-            creatures,
-            PileType.Hand,
+        await DamageCmd
+            .Attack(SwingAndStaggerDamage)
+            .FromMonster(this)
+            .WithSlashVfx()
+            .TargetingAllOpponents(CombatState)
+            .Execute(null);
+        await CardPileCmd.AddToCombatAndPreview<StaggeredCard>(
+            targets,
+            PileType.Draw,
             1,
             null,
             CardPilePosition.Top

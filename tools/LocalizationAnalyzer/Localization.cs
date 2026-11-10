@@ -6,6 +6,7 @@ namespace CardLocalizationAnalyzer;
 
 public enum LocalizedModelKind
 {
+    Act,
     Affliction,
     Card,
     CardModifier,
@@ -20,6 +21,7 @@ public static class Localization
     private static readonly IReadOnlyDictionary<LocalizedModelKind, string> AttributeNames =
         new Dictionary<LocalizedModelKind, string>
         {
+            [LocalizedModelKind.Act] = "ActLocalization",
             [LocalizedModelKind.Affliction] = "AfflictionLocalization",
             [LocalizedModelKind.Card] = "CardLocalization",
             [LocalizedModelKind.CardModifier] = "CardModifierLocalization",
@@ -33,6 +35,12 @@ public static class Localization
     {
         for (var current = symbol.BaseType; current is not null; current = current.BaseType)
         {
+            if (current.Name == "NewKunlunAct")
+            {
+                kind = LocalizedModelKind.Act;
+                return true;
+            }
+
             if (current.Name == "AfflictionModel")
             {
                 kind = LocalizedModelKind.Affliction;
@@ -103,6 +111,7 @@ public static class Localization
     public static string GetModelName(LocalizedModelKind kind) =>
         kind switch
         {
+            LocalizedModelKind.Act => "NewKunlunAct",
             LocalizedModelKind.Affliction => "AfflictionModel",
             LocalizedModelKind.Card => "NewKunlunCard",
             LocalizedModelKind.CardModifier => "NewKunlunModifier",
@@ -123,6 +132,7 @@ public static class Localization
         skipValidation = false;
         IReadOnlyList<string> requiredParameterNames = kind switch
         {
+            LocalizedModelKind.Act => ["title"],
             LocalizedModelKind.Affliction => ["title", "description"],
             LocalizedModelKind.Card => ["title", "description"],
             LocalizedModelKind.CardModifier => ["title", "description"],

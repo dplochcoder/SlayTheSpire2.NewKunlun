@@ -1,5 +1,4 @@
 ﻿using BaseLib.Abstracts;
-using BaseLib.Patches.Content;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -16,13 +15,8 @@ using LocTable = NewKunlun.NewKunlunCode.Localization.LocTable;
 
 namespace NewKunlun.NewKunlunCode.Rewards;
 
-public partial class TinkerReward : CustomReward
+public partial class TinkerReward(Player player, CardRarity rarity) : CustomReward(player)
 {
-    [CustomEnum]
-    public static RewardType TinkerRewardType;
-
-    private readonly CardRarity _rarity;
-
     private static readonly ImmutableDictionary<CardRarity, CardRarity> NextRarity =
     [
         new(CardRarity.Basic, CardRarity.Common),
@@ -30,11 +24,8 @@ public partial class TinkerReward : CustomReward
         new(CardRarity.Uncommon, CardRarity.Rare),
     ];
 
-    public TinkerReward(Player player, CardRarity rarity)
-        : base(player) => _rarity = rarity;
-
     protected override string? IconPath =>
-        NextRarity[_rarity] switch
+        NextRarity[rarity] switch
         {
             CardRarity.Common => CardReward.RewardIcon,
             CardRarity.Uncommon => CardReward.UncommonRewardIcon,
@@ -82,7 +73,7 @@ public partial class TinkerReward : CustomReward
         return true;
     }
 
-    protected override Task<bool> OnSelect() => Tinker(Player, _rarity);
+    protected override Task<bool> OnSelect() => Tinker(Player, rarity);
 
     public override void MarkContentAsSeen() { }
 
@@ -98,14 +89,14 @@ public partial class TinkerReward : CustomReward
     [CustomLocString(LocTable.CardRewardUi, "Combine two Uncommon cards into a random Rare card.")]
     private static partial LocString UncommonDesc { get; }
 
-    protected override RewardType RewardType => TinkerRewardType;
+    protected override RewardType RewardType => ExtraRewardTypes.TinkerRewardType;
     public override LocString Description =>
-        _rarity switch
+        rarity switch
         {
             CardRarity.Basic => BasicDesc,
             CardRarity.Common => CommonDesc,
             CardRarity.Uncommon => UncommonDesc,
-            _ => throw new ArgumentException($"{_rarity}"),
+            _ => throw new ArgumentException($"{rarity}"),
         };
     public override bool IsPopulated => true;
     public override CreateRewardFromSave<CustomReward> DeserializeMethod => Deserialize;
@@ -118,7 +109,7 @@ public partial class TinkerReward : CustomReward
     ];
 
     public override SerializableReward ToSerializable() =>
-        new() { RewardType = TinkerRewardType, GoldAmount = CodeMap[_rarity] };
+        new() { RewardType = ExtraRewardTypes.TinkerRewardType, GoldAmount = CodeMap[rarity] };
 
     private static TinkerReward Deserialize(SerializableReward save, Player player) =>
         new(player, CodeMap.Inverse[save.GoldAmount]);

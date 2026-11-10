@@ -1,6 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Models;
 using NewKunlun.NewKunlunCode.Relics.Ancients.Abacus;
+using NewKunlun.NewKunlunCode.Relics.Seals;
 
 namespace NewKunlun.NewKunlunCode.Ancients;
 

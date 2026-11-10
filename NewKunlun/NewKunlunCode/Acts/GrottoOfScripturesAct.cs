@@ -1,15 +1,14 @@
 ﻿using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
-using NewKunlun.NewKunlunCode.Ancients;
+using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
+[ActLocalization(title: "Grotto of Scriptures")]
 public class GrottoOfScripturesAct() : NewKunlunAct(actNumber: 3)
 {
     // TODO
     public override IEnumerable<EncounterModel> GenerateAllEncounters() => [];
-
-    public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActThreeAncients;
 
     public override IEnumerable<EventModel> AllEvents => [];
     protected override string CustomMapTopBgPath => ModelDb.Act<Overgrowth>().MapTopBgPath;

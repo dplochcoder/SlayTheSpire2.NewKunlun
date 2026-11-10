@@ -1,4 +1,6 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿using System.Runtime.CompilerServices;
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -24,6 +26,12 @@ public static class AttackCommandExtensions
 
         public AttackCommand WithSweepingBeamVfx(Player attacker) =>
             self.WithAttackerAnim("Cast", 0.5f).BeforeDamage(() => SpawnSweepingBeamVfx(attacker));
+
+        public AttackCommand Crimson()
+        {
+            self.DamageProps |= ExtraValueProps.Crimson;
+            return self;
+        }
     }
 
     private static async Task SpawnSweepingBeamVfx(Player attacker)

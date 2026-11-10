@@ -1,14 +1,14 @@
 ﻿using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
+using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
-public class ResearchInstituteAct() : NewKunlunAct(actNumber: 4)
+[ActLocalization(title: "Research Institute")]
+public class ResearchInstituteAct() : NewKunlunAct(actNumber: -1)
 {
     // TODO
     public override IEnumerable<EncounterModel> GenerateAllEncounters() => [];
-
-    public override IEnumerable<AncientEventModel> AllAncients => [];
 
     public override IEnumerable<EventModel> AllEvents => [];
     protected override string CustomMapTopBgPath => ModelDb.Act<Overgrowth>().MapTopBgPath;

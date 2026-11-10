@@ -20,6 +20,4 @@ public class GoumangBossEncounter() : NewKunlunEncounter<AgriculturalZoneAct>(Ro
             ModelDb.Monster<ShinueMonster>(),
             ModelDb.Monster<ShiqiuMonster>(),
         ];
-
-    public override bool IsValidForAct(ActModel act) => act is AgriculturalZoneAct;
 }

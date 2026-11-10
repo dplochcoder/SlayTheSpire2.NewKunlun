@@ -11,6 +11,7 @@ if (!TryReadArguments(args, out var options))
     Console.Error.WriteLine(
         "Usage: LocalizationTool --source <directory> --localization-dir <directory> "
             + "--cards <directory> --cards-json <cards.json> "
+            + "--acts <directory> --acts-json <acts.json> "
             + "--afflictions <directory> --afflictions-json <afflictions.json> "
             + "--card-modifiers <directory> --card-modifiers-json <card_modifiers.json> "
             + "--powers <directory> --powers-json <powers.json> "
@@ -63,6 +64,13 @@ SortedDictionary<string, string> GetSheet(string jsonPath, bool preserveExisting
     return entries;
 }
 
+ContributeModels(
+    options.ActsDirectory,
+    "NewKunlunAct",
+    "ActLocalization",
+    options.ActsJsonPath,
+    "act"
+);
 ContributeModels(
     options.AfflictionsDirectory,
     "AfflictionModel",
@@ -341,6 +349,8 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
     options = new ToolOptions(
         values.GetValueOrDefault("--source") ?? "",
         values.GetValueOrDefault("--localization-dir") ?? "",
+        values.GetValueOrDefault("--acts") ?? "",
+        values.GetValueOrDefault("--acts-json") ?? "",
         values.GetValueOrDefault("--afflictions") ?? "",
         values.GetValueOrDefault("--afflictions-json") ?? "",
         values.GetValueOrDefault("--cards") ?? "",
@@ -363,6 +373,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
     );
     return Directory.Exists(options.SourceDirectory)
         && Directory.Exists(options.LocalizationDirectory)
+        && Directory.Exists(options.ActsDirectory)
         && Directory.Exists(options.AfflictionsDirectory)
         && Directory.Exists(options.CardsDirectory)
         && Directory.Exists(options.CardModifiersDirectory)
@@ -372,6 +383,7 @@ static bool TryReadArguments(string[] arguments, out ToolOptions options)
         && Directory.Exists(options.RelicsDirectory)
         && Directory.Exists(options.KeywordsDirectory)
         && Directory.Exists(options.StaticHoverTipsDirectory)
+        && !string.IsNullOrWhiteSpace(options.ActsJsonPath)
         && !string.IsNullOrWhiteSpace(options.AfflictionsJsonPath)
         && !string.IsNullOrWhiteSpace(options.CardsJsonPath)
         && !string.IsNullOrWhiteSpace(options.CardModifiersJsonPath)
@@ -413,6 +425,8 @@ namespace LocalizationTool
     internal sealed record ToolOptions(
         string SourceDirectory,
         string LocalizationDirectory,
+        string ActsDirectory,
+        string ActsJsonPath,
         string AfflictionsDirectory,
         string AfflictionsJsonPath,
         string CardsDirectory,

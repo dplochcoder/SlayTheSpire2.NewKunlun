@@ -82,11 +82,12 @@ public partial class NecrocepsRelic : NewKunlunRelic
     private static class Patches
     {
         // Prefer to exhaust Necroceps before Fairy, since Necroceps replenishes.
-        [HarmonyPatch(typeof(FairyInABottle), nameof(FairyInABottle.ShouldDie), MethodType.Getter)]
+        [HarmonyPatch(typeof(FairyInABottle), nameof(FairyInABottle.ShouldDie))]
         [HarmonyPostfix]
         private static void ShouldDie(
             // ReSharper disable once InconsistentNaming
             FairyInABottle __instance,
+            Creature creature,
             // ReSharper disable once InconsistentNaming
             ref bool __result
         )

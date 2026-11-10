@@ -1,0 +1,3 @@
+{
+  "NEW_KUNLUN-CRIMSON_ATTACK_INTENT-CRIMSON_ATTACK_STRING": "The enemy intends to do a [gold]Crimson[/gold] attack for {Damage} damage{Repeat:cond:>1? {Repeat} times|}.\nUnblocked [gold]Crimson[/gold] damage is doubled."
+}

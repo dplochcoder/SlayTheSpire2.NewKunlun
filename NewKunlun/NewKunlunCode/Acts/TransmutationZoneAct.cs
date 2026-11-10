@@ -1,15 +1,14 @@
 ﻿using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
-using NewKunlun.NewKunlunCode.Ancients;
+using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
+[ActLocalization(title: "Transmutation Zone")]
 public class TransmutationZoneAct() : NewKunlunAct(actNumber: 2)
 {
     // TODO
     public override IEnumerable<EncounterModel> GenerateAllEncounters() => [];
-
-    public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActTwoAncients;
 
     public override IEnumerable<EventModel> AllEvents => [];
     protected override string CustomMapTopBgPath => ModelDb.Act<Overgrowth>().MapTopBgPath;

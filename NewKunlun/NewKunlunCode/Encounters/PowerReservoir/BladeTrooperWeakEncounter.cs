@@ -4,8 +4,8 @@ using NewKunlun.NewKunlunCode.Monsters.PowerReservoir;
 
 namespace NewKunlun.NewKunlunCode.Encounters.PowerReservoir;
 
-public class BladeTrooperWeakEncounter(bool autoAdd = true)
-    : SingleMonsterEncounter<PowerReservoirAct, BladeTrooperMonster>(RoomType.Monster, autoAdd)
+public class BladeTrooperWeakEncounter()
+    : SingleMonsterEncounter<PowerReservoirAct, BladeTrooperMonster>(RoomType.Monster)
 {
     public override bool IsWeak => true;
 }

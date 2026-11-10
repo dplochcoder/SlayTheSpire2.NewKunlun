@@ -1,17 +1,16 @@
 ﻿using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
-using NewKunlun.NewKunlunCode.Ancients;
 using NewKunlun.NewKunlunCode.Encounters.PowerReservoir;
+using NewKunlun.NewKunlunCode.Localization;
 
 namespace NewKunlun.NewKunlunCode.Acts;
 
+[ActLocalization(title: "Power Reservoir")]
 public class PowerReservoirAct() : NewKunlunAct(actNumber: 1)
 {
     // TODO
     public override IEnumerable<EncounterModel> GenerateAllEncounters() =>
         [ModelDb.Encounter<BladeTrooperWeakEncounter>()];
-
-    public override IEnumerable<AncientEventModel> AllAncients => NewKunlunAncient.ActOneAncients;
 
     public override IEnumerable<EventModel> AllEvents => [];
 
